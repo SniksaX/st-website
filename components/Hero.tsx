@@ -67,7 +67,7 @@ export default function Hero() {
             <span className="block text-neutral-200">par et pour les minorités.</span>
           </h1>
           <p className="mt-4 text-neutral-200 max-w-xl">
-            On vulgarise la politique sans bullsh*t : Fokus, Hedito, L&aposŒil d&aposAmandine & Lucho, portraits, mini-séries.
+            On vulgarise la politique sans bullsh*t : Fokus, Hedito, L&apos;Œil d&apos;Amandine & Lucho, portraits, mini-séries.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
             <a href="#videos-youtube"><Button className="rounded-2xl font-semibold">Regarder les vidéos <ArrowRight className="ml-2 h-4 w-4" /></Button></a>

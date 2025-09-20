@@ -16,7 +16,7 @@ export default function Contact() {
       </div>
       <div className="grid lg:grid-cols-2 gap-6">
         <Card className="bg-neutral-950 border-neutral-900 rounded-3xl">
-          <CardHeader><CardTitle className="tracking-tight text-white">Écrire à l&aposéquipe</CardTitle></CardHeader>
+          <CardHeader><CardTitle className="tracking-tight text-white">Écrire à l&apos;équipe</CardTitle></CardHeader>
           <CardContent>
             <form className="grid gap-3">
               <Input placeholder="Nom" className="rounded-2xl bg-neutral-900 border-neutral-800 text-white placeholder:text-neutral-500" />

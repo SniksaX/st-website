@@ -3,15 +3,14 @@
 import React, { useEffect } from 'react';
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
-import Formats from '@/components/Formats';
 import VideosYouTube from '@/components/VideosYouTube';
 import VideosTikTok from '@/components/VideosTikTok';
 import Links from '@/components/Links';
 import Footer from '@/components/Footer';
 import { Separator } from '@/components/ui/separator';
+import Formats from 'components/Formats';
 
 export default function Page() {
-  // ✅ le hook est maintenant DANS le composant
   useEffect(() => {
     const required = ['formats', 'videos-youtube', 'videos-tiktok', 'liens', 'contact'];
     const missing = required.filter((id) => !document.getElementById(id));

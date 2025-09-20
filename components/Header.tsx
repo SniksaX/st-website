@@ -26,7 +26,7 @@ export default function Header() {
         </nav>
 
         <a href="https://youtube.com/@SansTransitionMedia" target="_blank" rel="noreferrer">
-          <Button variant="secondary" className="rounded-2xl text-neutral-900 font-bold">S&aposabonner</Button>
+          <Button variant="secondary" className="rounded-2xl text-neutral-900 font-bold">S&apos;abonner</Button>
         </a>
       </Section>
     </header>
