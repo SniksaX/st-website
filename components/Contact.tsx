@@ -32,7 +32,7 @@ export default function Contact() {
           <CardContent className="space-y-3">
             <p className="text-neutral-200 text-sm">Télécharge logo/charte/photos. Soutiens le média si tu peux.</p>
             <div className="flex flex-wrap gap-3">
-              <Button variant="outline" className="rounded-2xl border-neutral-800 text-white">Télécharger le kit</Button>
+              <Button className="rounded-2xl border-neutral-800 text-white">Télécharger le kit</Button>
               <Button className="rounded-2xl font-semibold">Faire un don <HeartHandshake className="ml-2 h-4 w-4" /></Button>
             </div>
             <div className="text-sm text-neutral-300 space-y-1">

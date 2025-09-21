@@ -4,6 +4,8 @@ import Section from './Section';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Camera, MessageSquare, BookOpen, Mic2, Newspaper, PersonStanding } from 'lucide-react';
 import { Landmark, LibraryBig, Venus, Users } from "lucide-react";
+import { ShinyCard } from './ShinyCard';
+import GLI from "@/components/GradientLinkIcon";
 
 export default function Formats() {
   const items = [
@@ -23,11 +25,11 @@ export default function Formats() {
       </div>
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {items.map(({ title, desc, icon: Icon }) => (
-          <Card key={title} className="bg-neutral-950 border-neutral-800 rounded-3xl">
+          <ShinyCard key={title} className="bg-neutral-950 border-neutral-800 rounded-3xl">
             <CardHeader>
               <div className="flex items-center gap-3">
                 <div className="h-9 w-9 grid place-items-center rounded-2xl bg-neutral-900">
-                  <Icon className="h-4 w-4 text-white" /> {/* icône en blanc */}
+                <GLI icon={Icon} className="h-4 w-4" />
                 </div>
                 <CardTitle className="tracking-tight text-white">{title}</CardTitle>
               </div>
@@ -35,7 +37,7 @@ export default function Formats() {
             <CardContent>
               <p className="text-neutral-200 text-sm leading-relaxed">{desc}</p>
             </CardContent>
-          </Card>
+          </ShinyCard>
         ))}
       </div>
     </Section>

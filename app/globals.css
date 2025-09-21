@@ -76,9 +76,41 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+
+  /* ...tes tokens existants... */
+
+  /* Brand accent (violet-magenta punchy) */
+  --brand:        oklch(0.70 0.27 315); /* accent principal */
+  --brand-600:    oklch(0.63 0.25 315);
+  --brand-700:    oklch(0.56 0.23 315);
+  --brand-300:    oklch(0.80 0.20 315);
+
+  /* Gradients tendances (hypercolor) */
+  --grad-1: linear-gradient(135deg,
+              oklch(0.72 0.27 315) 0%,   /* magenta violet */
+              oklch(0.76 0.15 345) 55%,  /* rose framboise (pas de bleu) */
+              oklch(0.82 0.15 25) 100% );
+
+  /* Harmonise Tailwind tokens */
+  --primary: var(--brand-700);
+  --primary-foreground: oklch(0.98 0 0);
+  --accent: var(--brand-300);
+  --accent-foreground: oklch(0.18 0 0);
+}
+
+.gradient-text {
+  color: transparent;
+  background: var(--grad-1);
+  -webkit-background-clip: text;
+          background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .dark {
+  --primary: var(--brand-300);
+  --primary-foreground: oklch(0.16 0 0);
+  --accent: var(--brand-600);
+  --accent-foreground: oklch(0.98 0 0);
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);

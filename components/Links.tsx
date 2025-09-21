@@ -2,8 +2,10 @@
 
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Link as LinkIcon } from "lucide-react";
+import GLI from "@/components/GradientLinkIcon";
+import { Link as LinkIcon } from "lucide-react"
 import Section from "./Section";
+import { ShinyCard } from "@/components/ShinyCard"; // ⬅️
 
 export default function Links() {
   const categories = [
@@ -20,8 +22,8 @@ export default function Links() {
       category: "Cagnottes & soutien",
       links: [
         //{ label: "Faire un don (HelloAsso)", href: "#" },
-        { label: "Aidez Abood", href: "https://gofund.me/6e217b10a" },
-        { label: "Aidez Elodie", href: "https://gofund.me/ed90a35c6" },
+        { label: "🚨 Aidez Abood", href: "https://gofund.me/6e217b10a" },
+        { label: "🚨 Aidez Elodie", href: "https://gofund.me/ed90a35c6" },
       ],
     },
     {
@@ -60,19 +62,27 @@ export default function Links() {
     },
   ];
 
-  return (
+    return (
     <Section id="liens" className="py-14">
       <div className="flex items-end justify-between mb-8">
         <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">Liens utiles</h2>
         <span className="text-xs text-neutral-300">réseaux • cagnottes • ressources</span>
       </div>
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      {/* ⬇️ ajoute items-start pour empêcher le stretch vertical */}
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 items-start">
         {categories.map(({ category, links }) => (
-          <Card key={category} className="bg-neutral-950 border-neutral-900 rounded-3xl">
+          <ShinyCard
+              key={category}
+              className="bg-neutral-950/90 border-neutral-900 transition-shadow hover:shadow-lg/10"
+              // tuning optionnel :
+              strength={0.5}      // discrétion (0.4–0.6)
+              baseAngle={16}      // 12–20 pour rester clean
+            >
             <CardHeader>
               <div className="flex items-center gap-3">
                 <div className="h-9 w-9 grid place-items-center rounded-2xl bg-neutral-900">
-                  <LinkIcon className="h-4 w-4 text-white" />
+                  <GLI icon={LinkIcon} className="h-4 w-4" />
                 </div>
                 <CardTitle className="tracking-tight text-white">{category}</CardTitle>
               </div>
@@ -81,19 +91,14 @@ export default function Links() {
               <ul className="space-y-2 text-sm">
                 {links.map(({ label, href }) => (
                   <li key={label}>
-                    <a
-                      href={href}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="text-white hover:underline"
-                    >
+                    <a href={href} target="_blank" rel="noreferrer" className="text-white hover:underline">
                       {label}
                     </a>
                   </li>
                 ))}
               </ul>
             </CardContent>
-          </Card>
+          </ShinyCard>
         ))}
       </div>
     </Section>

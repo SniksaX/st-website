@@ -1,10 +1,12 @@
-'use client';
+"use client"
+import Link from "next/link"
 import React from 'react';
 import Image from 'next/image';
 import Section from './Section';
 import { motion } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Heart, MessageCircle, Share2, Eye, Volume2, VolumeX, Pause, Play, Repeat, Youtube, Instagram, Twitter } from 'lucide-react';
+import { HoverLift } from "./HoverLift";
 
 export default function Hero() {
   const stats = {
@@ -62,16 +64,32 @@ export default function Hero() {
       <div className="grid lg:grid-cols-2 gap-8 items-center">
         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
           <Image src="/logo-flat.png" alt="Sans Transition" width={420} height={120} priority />
-          <h1 className="mt-4 text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.05] tracking-tight text-white">
+         <h1 className="mt-4 text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.05] tracking-tight text-white">
             Média de lutte
-            <span className="block text-neutral-200">par et pour les minorités.</span>
+            <span
+              className="block text-transparent [background:var(--grad-1)]"
+              style={{
+                WebkitBackgroundClip: "text",
+                backgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}
+            >
+              par et pour les minorités.
+            </span>
           </h1>
           <p className="mt-4 text-neutral-200 max-w-xl">
             On vulgarise la politique sans bullsh*t : Fokus, Hedito, L&apos;Œil d&apos;Amandine & Lucho, portraits, mini-séries.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
-            <a href="#videos-youtube"><Button className="rounded-2xl font-semibold">Regarder les vidéos <ArrowRight className="ml-2 h-4 w-4" /></Button></a>
-            <a href="#videos-tiktok"><Button variant="outline" className="rounded-2xl border-neutral-700 bg-white text-black hover:bg-neutral-200">Vidéos TikTok</Button></a>
+          
+        <HoverLift>
+          <Button asChild variant="brand" className="rounded-2xl font-semibold">
+            <Link href="#videos-youtube">
+              Regarder les vidéos <ArrowRight className="ml-1 h-4 w-4" />
+            </Link>
+          </Button>
+        </HoverLift>
+          <a href="#videos-tiktok"><Button className="rounded-2xl border-neutral-700 bg-white text-black hover:bg-neutral-200">Vidéos TikTok</Button></a>
           </div>
           <div className="mt-6 flex items-center gap-4 text-neutral-300">
             <a href="https://youtube.com/@SansTransitionMedia" target="_blank" rel="noreferrer" className="hover:text-white"><Youtube className="h-5 w-5" /></a>
