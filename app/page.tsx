@@ -9,11 +9,11 @@ import VideosTikTok from '@/components/VideosTikTok';
 import Links from '@/components/Links';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
-import About from '@/components/About'
+import About from '@/components/About';
 import { Separator } from '@/components/ui/separator';
+import { BackdropParallax, Reveal } from '@/components/ScrollFx';
 
 export default function Page() {
-  // ✅ le hook est maintenant DANS le composant
   useEffect(() => {
     const required = ['formats', 'videos-youtube', 'videos-tiktok', 'liens', 'contact'];
     const missing = required.filter((id) => !document.getElementById(id));
@@ -22,18 +22,44 @@ export default function Page() {
 
   return (
     <div className="min-h-screen bg-neutral-950 text-neutral-50 font-sans selection:bg-neutral-800">
+      {/* background animé (asymétrique) */}
+      <BackdropParallax />
+
       <Header />
+
+      {/* Hero sans reveal (il est déjà animé) */}
       <Hero />
+
       <Separator className="bg-neutral-900" />
-      <Links />
+
+      <Reveal index={0}>
+        <Links />
+      </Reveal>
+
       <Separator className="bg-neutral-900" />
-      <VideosYouTube />
+
+      <Reveal index={1}>
+        <VideosYouTube />
+      </Reveal>
+
       <Separator className="bg-neutral-900" />
-      <Formats />
+
+      <Reveal index={2}>
+        <Formats />
+      </Reveal>
+
       <Separator className="bg-neutral-900" />
-      <VideosTikTok />
+
+      <Reveal index={3}>
+        <VideosTikTok />
+      </Reveal>
+
       <Separator className="bg-neutral-900" />
-      <About />
+
+      <Reveal index={4}>
+        <About />
+      </Reveal>
+
       <Footer />
     </div>
   );
