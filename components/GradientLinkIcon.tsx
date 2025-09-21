@@ -1,69 +1,69 @@
-"use client"
-import * as React from "react"
-import type { ComponentType, SVGProps, ReactElement } from "react"
+// components/GradientLinkIcon.tsx
+"use client";
+import * as React from "react";
+import type { ComponentType, SVGProps, ReactElement } from "react";
 
-type Stop = { offset: number | string; color: string; opacity?: number }
+type Stop = { offset: string | number; color: string; opacity?: number };
 
-type GLIProps = {
-  /** Lucide (ou autre) composant d'icône, ex: Link, BookOpen… */
-  icon?: ComponentType<SVGProps<SVGSVGElement>>
-  /** Ou bien un <svg> déjà instancié: <GLI><Link /></GLI> */
-  children?: ReactElement<SVGProps<SVGSVGElement>>
-  className?: string
-  size?: number | string
-  strokeWidth?: number
-  /** "stroke" (par défaut) pour les icônes outline, "fill" pour les icônes pleines */
-  mode?: "stroke" | "fill"
-  /** Orientation du gradient */
-  x1?: string; y1?: string; x2?: string; y2?: string
-  /** Stops perso si tu veux override la palette */
-  stops?: Stop[]
-}
+type Props = {
+  icon?: ComponentType<SVGProps<SVGSVGElement>>;
+  children?: ReactElement<SVGProps<SVGSVGElement>>;
+  className?: string;
+  size?: number | string;
+  mode?: "stroke" | "fill";
+  strokeWidth?: number;
+  stops?: Stop[];
+  gradientProps?: Partial<SVGProps<SVGLinearGradientElement>>;
+  /** réduit légèrement le dessin pour éviter le clipping sur certains pictos */
+  shrink?: number; // 1 = pas de réduction, 0.9 = -10%
+};
 
-/** Gradient Link Icon — applique un gradient à n'importe quel SVG */
-export default function GLI({
+export default function GradientLinkIcon({
   icon: Icon,
   children,
   className,
   size = 16,
-  strokeWidth = 2,
   mode = "stroke",
-  x1 = "0", y1 = "0", x2 = "1", y2 = "1",
+  strokeWidth = 1.75,
   stops,
-}: GLIProps) {
-  const id = React.useId()
-  const gradId = `gli-${id}`
+  gradientProps,
+  shrink = 1,
+}: Props) {
+  const id = React.useId();
+  const gradId = `gli-${id}`;
 
-  // Par défaut, on colle ta palette --grad-1 (approx en hex)
   const defaultStops: Stop[] = [
-    { offset: "0%",   color: "#9E55FF" }, // ≈ oklch(0.72 0.27 315)
-    { offset: "55%",  color: "#FF6FB3" }, // ≈ oklch(0.76 0.15 345)
-    { offset: "100%", color: "#FFB077" }, // ≈ oklch(0.82 0.15 25)
-  ]
-  const S = stops ?? defaultStops
+    { offset: "0%", color: "oklch(0.72 0.27 315)" },
+    { offset: "55%", color: "oklch(0.76 0.15 345)" },
+    { offset: "100%", color: "oklch(0.82 0.15 25)" },
+  ];
+  const S = stops ?? defaultStops;
 
-  // 1) On récupère un <svg> soit via icon, soit via children
   const svgEl: ReactElement<SVGProps<SVGSVGElement>> =
-    Icon ? <Icon /> : (children as ReactElement<SVGProps<SVGSVGElement>>)
+    Icon ? <Icon /> : (children as ReactElement<SVGProps<SVGSVGElement>>);
 
-  // 2) On clone le <svg> pour lui injecter <defs> + stroke/fill url(#id)
+  const paintProps =
+    mode === "stroke"
+      ? { stroke: `url(#${gradId})`, fill: "none", strokeWidth }
+      : { fill: `url(#${gradId})`, stroke: "none" };
+
   const newProps: SVGProps<SVGSVGElement> = {
     ...svgEl.props,
+    width: size,
+    height: size,
     className,
-    width: size, height: size,
-    strokeWidth,
-    // On force le paint server selon le mode
-    ...(mode === "stroke"
-      ? { stroke: `url(#${gradId})`, fill: "none" }
-      : { fill: `url(#${gradId})`, stroke: "none" }),
-    // access
+    ...paintProps,
+    strokeLinecap: "round",
+    strokeLinejoin: "round",
+    overflow: "visible", // attribut SVG – évite le crop au bord du viewBox
+    style: { overflow: "visible", ...(svgEl.props.style || {}) },
     "aria-hidden": svgEl.props["aria-hidden"] ?? true,
     focusable: svgEl.props.focusable ?? "false",
-  }
+  };
 
   const defs = (
     <defs>
-      <linearGradient id={gradId} x1={x1} y1={y1} x2={x2} y2={y2}>
+      <linearGradient id={gradId} x1="0" y1="0" x2="1" y2="1" {...gradientProps}>
         {S.map((st, i) => (
           <stop
             key={i}
@@ -74,15 +74,20 @@ export default function GLI({
         ))}
       </linearGradient>
     </defs>
-  )
+  );
 
-  // On conserve les paths d’origine et on préfixe avec nos defs
-  const childrenWithDefs = (
+  // scale autour du centre (12,12) pour ne pas rogner
+  const wrap = (nodes: React.ReactNode) =>
+    shrink === 1
+      ? nodes
+      : <g transform={`translate(12 12) scale(${shrink}) translate(-12 -12)`}>{nodes}</g>;
+
+  return React.cloneElement(
+    svgEl,
+    newProps,
     <>
       {defs}
-      {svgEl.props.children}
+      {wrap(svgEl.props.children)}
     </>
-  )
-
-  return React.cloneElement(svgEl, newProps, childrenWithDefs)
+  );
 }

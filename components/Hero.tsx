@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { ArrowRight, Heart, MessageCircle, Share2, Eye, Volume2, VolumeX, Pause, Play, Repeat, Youtube, Instagram, Twitter } from 'lucide-react';
 import { HoverLift } from "./HoverLift";
 
+
 export default function Hero() {
   const stats = {
     id: '7493114184964574486',
@@ -81,15 +82,24 @@ export default function Hero() {
             On vulgarise la politique sans bullsh*t : Fokus, Hedito, L&apos;Œil d&apos;Amandine & Lucho, portraits, mini-séries.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
-          
-        <HoverLift>
-          <Button asChild variant="brand" className="rounded-2xl font-semibold">
-            <Link href="#videos-youtube">
-              Regarder les vidéos <ArrowRight className="ml-1 h-4 w-4" />
-            </Link>
-          </Button>
-        </HoverLift>
-          <a href="#videos-tiktok"><Button className="rounded-2xl border-neutral-700 bg-white text-black hover:bg-neutral-200">Vidéos TikTok</Button></a>
+          <HoverLift>
+              <Button
+                variant="brand"
+                size="md"
+                className="rounded-2xl h-11 px-5 text-[15px]"
+              >
+                Regarder les vidéos <ArrowRight className="ml-1 h-4 w-4 shrink-0" />
+              </Button>
+            </HoverLift>
+
+            <Button
+              asChild
+              variant="white"             // ⬅️ maintenant blanc garanti (pas de gradient)
+              size="md"
+              className="rounded-2xl h-11 px-5 text-[15px]"
+            >
+              <Link href="#videos-tiktok">Vidéos TikTok</Link>
+            </Button>
           </div>
           <div className="mt-6 flex items-center gap-4 text-neutral-300">
             <a href="https://youtube.com/@SansTransitionMedia" target="_blank" rel="noreferrer" className="hover:text-white"><Youtube className="h-5 w-5" /></a>

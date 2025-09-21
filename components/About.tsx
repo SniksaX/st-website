@@ -45,6 +45,7 @@ const team: Member[] = [
     alt: 'Portrait d’Amandine',
     bio: "Regard féministe sur l’actu. Analyses qui claquent, ancrées dans le réel.",
     tiktok: 'carpedine',
+    instagram: 'amandine_chbd',
   },
   {
     name: 'Louis',

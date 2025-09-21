@@ -12,7 +12,7 @@ export default function Header() {
             <div className="text-lg font-extrabold text-white" style={{ fontFamily: 'var(--font-barbra)' }}>
               SANS TRANSITION
             </div>
-            <div className="text-xs text-neutral-300 -mt-0.5">média radical • pédagogique • slay</div>
+            <div className="text-xs text-neutral-300 -mt-0.5">média radical • pédagogique • engagé</div>
           </div>
         </div>
 

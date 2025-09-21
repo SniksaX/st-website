@@ -28,8 +28,13 @@ export default function Formats() {
           <ShinyCard key={title} className="bg-neutral-950 border-neutral-800 rounded-3xl">
             <CardHeader>
               <div className="flex items-center gap-3">
-                <div className="h-9 w-9 grid place-items-center rounded-2xl bg-neutral-900">
-                <GLI icon={Icon} className="h-4 w-4" />
+                
+                <div className="h-9 w-9 rounded-2xl bg-neutral-900 grid place-items-center p-[2px]">
+                  <GLI
+                    icon={Icon}
+                    className="h-[18px] w-[18px]"
+                    shrink={Icon === Venus || Icon === Landmark ? 0.9 : 1}
+                  />
                 </div>
                 <CardTitle className="tracking-tight text-white">{title}</CardTitle>
               </div>

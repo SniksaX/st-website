@@ -15,7 +15,11 @@ const buttonVariants = cva(
         secondary: "bg-accent text-accent-foreground hover:opacity-90",
         brand: "text-neutral-950 [background:var(--grad-1)] shadow-sm hover:shadow-md",
         ghost: "hover:bg-neutral-100/5",
-        link: "underline-offset-4 hover:underline text-accent"
+        link: "underline-offset-4 hover:underline text-accent",
+
+        // ⬇️ NEW
+        white: "border border-neutral-700 bg-white text-black hover:bg-neutral-200 hover:text-black",
+        outline: "border border-neutral-700 bg-transparent text-white hover:bg-neutral-900/50"
       },
       size: {
         sm: "h-9 px-4",
@@ -23,7 +27,7 @@ const buttonVariants = cva(
         lg: "h-12 px-6"
       }
     },
-    defaultVariants: { variant: "brand", size: "md" }
+    defaultVariants: { variant: "brand", size: "md" } // ok, on override au cas par cas
   }
 )
 

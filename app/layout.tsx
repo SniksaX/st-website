@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import localFont from "next/font/local";
+import Script from "next/script"; // <--- on ajoute ça
 import "./globals.css";
 
 const geistSans = Geist({
@@ -13,9 +14,15 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const barbra = localFont({
+  src: "/fonts/Barbra-Regular.ttf",
+  display: "swap",
+  variable: "--font-barbra",
+});
+
 export const metadata: Metadata = {
   title: "Sans Transition",
-  description: "slay",
+  description: "ST",
 };
 
 export default function RootLayout({
@@ -24,19 +31,28 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="fr">
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${barbra.variable} antialiased`}
       >
+        {/* Google Analytics */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"
+          strategy="afterInteractive"
+        />
+        <Script id="ga-init" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-JDJCS08NYT', {
+              page_path: window.location.pathname,
+            });
+          `}
+        </Script>
+
         {children}
       </body>
     </html>
   );
 }
-
-const barbra = localFont({
-  src: "/fonts/Barbra-Regular.ttf",
-  display: "swap",
-  variable: "--font-barbra",
-});
-

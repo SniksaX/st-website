@@ -20,6 +20,8 @@ export default function Footer() {
           </div>
           <div className="md:text-right">
             <p className="text-xs">Design: Tailwind + shadcn/ui</p>
+            <p className="text-xs">Fait par Hedi, et ouais mes vies.</p>
+            <p className="text-xs">Merci d&aposetre passé sur le site :))) Bisous!</p>
           </div>
         </div>
       </Section>
