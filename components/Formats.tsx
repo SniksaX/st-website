@@ -61,7 +61,7 @@ export default function Formats() {
         </motion.div>
         {/* ODA shorter height at lg */}
         <motion.div whileHover={{ y: -2 }} className="col-span-6 md:col-span-6 lg:col-span-3">
-          <FormatCard title="L'Œil d'Amandine" desc="Lecture féministe de l'actu…" Icon={Venus} className="lg:h-32" />
+          <FormatCard title="L'Œil d'Amandine" desc="Lecture féministe de l'actu…" Icon={Venus} className="lg:h-40" />
         </motion.div>
       </div>
 
@@ -75,8 +75,8 @@ export default function Formats() {
           <FormatCard title="L'Œil de Lucho" desc="Rappels historiques…" Icon={Landmark} className="lg:h-40" />
         </motion.div>
         {/* Mikro lifted further up with valid Tailwind height class */}
-        <motion.div whileHover={{ y: -2 }} className="col-span-6 md:col-span-6 lg:col-span-2 lg:-mt-8 relative z-[1]">
-          <FormatCard title="Mikro" desc="On tend le Mikro" Icon={Mic2} className="lg:h-48" />
+        <motion.div whileHover={{ y: -2 }} className="col-span-6 md:col-span-6 lg:col-span-2 relative z-[1]">
+          <FormatCard title="Mikro" desc="On tend le Mikro" Icon={Mic2} className="lg:h-40" />
         </motion.div>
       </div>
     </Section>
