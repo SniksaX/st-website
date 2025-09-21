@@ -86,7 +86,7 @@ export default function Hero() {
               <Button
                 variant="brand"
                 size="md"
-                className="rounded-2xl h-11 px-5 text-[15px]"
+                className="rounded-2xl h-11 px-5 text-[15px] text-white"
               >
                 Regarder les vidéos <ArrowRight className="ml-1 h-4 w-4 shrink-0" />
               </Button>

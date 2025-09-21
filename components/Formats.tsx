@@ -34,6 +34,7 @@ export default function Formats() {
                     icon={Icon}
                     className="h-[18px] w-[18px]"
                     shrink={Icon === Venus || Icon === Landmark ? 0.9 : 1}
+                    strokeWidth={Icon === Venus || Icon === Landmark ? 1.6 : 1.75}
                   />
                 </div>
                 <CardTitle className="tracking-tight text-white">{title}</CardTitle>

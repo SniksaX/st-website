@@ -19,9 +19,8 @@ export default function Footer() {
             <a href="#contact" className="underline-offset-4 hover:underline">Contact</a>
           </div>
           <div className="md:text-right">
-            <p className="text-xs">Design: Tailwind + shadcn/ui</p>
             <p className="text-xs">Fait par Hedi, et ouais mes vies.</p>
-            <p className="text-xs">Merci d&aposetre passé sur le site :))) Bisous!</p>
+            <p className="text-xs">Merci d’etre passé sur le site :))) Bisous!</p>
           </div>
         </div>
       </Section>

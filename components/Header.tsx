@@ -12,7 +12,7 @@ export default function Header() {
             <div className="text-lg font-extrabold text-white" style={{ fontFamily: 'var(--font-barbra)' }}>
               SANS TRANSITION
             </div>
-            <div className="text-xs text-neutral-300 -mt-0.5">média radical • pédagogique • engagé</div>
+            <div className="text-xs text-neutral-300 -mt-0.5">média militant • pédagogique • engagé</div>
           </div>
         </div>
 
@@ -26,7 +26,7 @@ export default function Header() {
 
         <Button
           asChild
-          className="rounded-2xl font-bold text-neutral-950 shadow-sm hover:shadow-md
+          className="rounded-2xl font-bold text-white shadow-sm hover:shadow-md
                     focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80
                     focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950
                     [background:var(--grad-1)]"
