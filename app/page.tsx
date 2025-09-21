@@ -7,11 +7,10 @@ import Formats from '@/components/Formats';
 import VideosYouTube from '@/components/VideosYouTube';
 import VideosTikTok from '@/components/VideosTikTok';
 import Links from '@/components/Links';
-import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
 import About from '@/components/About';
 import { Separator } from '@/components/ui/separator';
-import { BackdropParallax, Reveal } from '@/components/ScrollFx';
+import { BackdropParallax } from '@/components/ScrollFx';
 
 export default function Page() {
   useEffect(() => {
@@ -32,33 +31,24 @@ export default function Page() {
 
       <Separator className="bg-neutral-900" />
 
-      <Reveal index={0}>
-        <Links />
-      </Reveal>
+      {/* Sections sans <Reveal> wrappers */}
+      <Links />
 
       <Separator className="bg-neutral-900" />
 
-      <Reveal index={1}>
-        <VideosYouTube />
-      </Reveal>
+      <VideosYouTube />
 
       <Separator className="bg-neutral-900" />
 
-      <Reveal index={2}>
-        <Formats />
-      </Reveal>
+      <Formats />
 
       <Separator className="bg-neutral-900" />
 
-      <Reveal index={3}>
-        <VideosTikTok />
-      </Reveal>
+      <VideosTikTok />
 
       <Separator className="bg-neutral-900" />
 
-      <Reveal index={4}>
-        <About />
-      </Reveal>
+      <About />
 
       <Footer />
     </div>

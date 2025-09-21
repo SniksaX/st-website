@@ -76,7 +76,7 @@ export default function Formats() {
         </motion.div>
         {/* Mikro lifted further up with valid Tailwind height class */}
         <motion.div whileHover={{ y: -2 }} className="col-span-6 md:col-span-6 lg:col-span-2 lg:-mt-8 relative z-[1]">
-          <FormatCard title="Mikro" desc="On tend le Mikro" Icon={Mic2} className="lg:h-52" />
+          <FormatCard title="Mikro" desc="On tend le Mikro" Icon={Mic2} className="lg:h-48" />
         </motion.div>
       </div>
     </Section>
