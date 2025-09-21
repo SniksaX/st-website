@@ -1,8 +1,13 @@
 'use client';
 import React from 'react';
 import Section from './Section';
+import { eraseConsent } from '@/lib/consent';
 
 export default function Footer() {
+  const reopen = () => {
+    eraseConsent(); // ← supprimer le cookie
+    window.dispatchEvent(new CustomEvent('st:consent:reset')); // ré-ouvrir sans reload
+  };
   return (
     <footer className="border-t border-neutral-900 mt-10">
       <Section className="py-8 text-sm text-neutral-300">
@@ -10,6 +15,9 @@ export default function Footer() {
           <div>
             <p className="font-semibold text-neutral-200">Sans Transition</p>
             <p className="text-xs">© {new Date().getFullYear()} — média indépendant. Tous droits réservés.</p>
+            <button onClick={reopen} className="underline underline-offset-4 hover:text-neutral-200">
+              Gérer mes cookies
+            </button>
           </div>
           <div className="flex gap-4">
             <a href="#formats" className="underline-offset-4 hover:underline">Formats</a>
