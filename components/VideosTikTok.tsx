@@ -117,7 +117,7 @@ export default function VideosTikTok() {
         if (!cancelled) {
               const msg = e instanceof Error ? e.message : String(e);
           console.error(e);
-           setError(msg || "Erreur de chargement");
+           setError("");
           setIdList(uniqNormalize((videos as VideoStatsLocal[]).map((v) => v.id)));
         }
       } finally {
