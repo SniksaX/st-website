@@ -19,7 +19,6 @@ type FormatCardProps = {
 };
 
 function FormatCard({ title, desc, Icon, className = '', variant = 'default' }: FormatCardProps) {
-  // styles inspirés de Links
   const variantClass =
     variant === 'subtle'
       ? 'bg-white/5 border-white/10 backdrop-blur-md'
@@ -61,69 +60,12 @@ type Item = {
 };
 
 const ITEMS: Item[] = [
-  // Row 1
-  {
-    key: 'fokus',
-    title: 'Fokus',
-    desc: 'Zoom radical sur une actu ou une figure, avec une structure qui claque, développée sur mesure.',
-    icon: Camera,
-    row: 1,
-    cols: 'col-span-10 md:col-span-6 lg:col-span-5',
-    height: 'lg:h-40',
-    variant: 'featured', // ⭐ en avant
-  },
-  {
-    key: 'hedito',
-    title: 'Hédito',
-    desc: 'Le coup de gueule perso, où les émotions sont au rendez-vous.',
-    icon: MessageSquare,
-    row: 1,
-    cols: 'col-span-6 md:col-span-6 lg:col-span-4',
-    height: 'lg:h-40',
-    variant: 'subtle', // 🫥 transparence comme Links
-  },
-  {
-    key: 'oda',
-    title: "L'Œil d'Amandine",
-    desc: "Lecture féministe de l'actu pointue et intersectionnelle.",
-    icon: Venus,
-    row: 1,
-    cols: 'col-span-6 md:col-span-6 lg:col-span-3',
-    height: 'lg:h-40', // tu peux mettre lg:h-32 si tu veux plus compact
-    variant: 'default',
-  },
-
-  // Row 2
-  {
-    key: 'odl',
-    title: "L'Œil de Lucho",
-    desc: "Voir l'actu à travers une lecture historique.",
-    icon: Landmark,
-    row: 2,
-    cols: 'col-span-6 md:col-span-4 lg:col-span-3',
-    height: 'lg:h-40',
-    variant: 'default',
-  },
-  {
-    key: 'itw',
-    title: 'Interviews',
-    desc: "On se pose et on écoute des personnalités à qui on ne donne pas la parole – pour enfin entendre ce qu'iels ont à dire.",
-    icon: Users,
-    row: 2,
-    cols: 'col-span-12 md:col-span-8 lg:col-span-7',
-    height: 'lg:h-40',
-    variant: 'featured', // ⭐ en avant
-  },
-  {
-    key: 'mikro',
-    title: 'Mikro',
-    desc: 'On tend le Mikro.',
-    icon: Mic2,
-    row: 2,
-    cols: 'col-span-6 md:col-span-6 lg:col-span-2',
-    height: 'lg:h-40',
-    variant: 'subtle', // 🫥 transparence comme Links
-  },
+  { key: 'fokus', title: 'Fokus', desc: 'Zoom radical sur une actu ou une figure, avec une structure qui claque, développée sur mesure.', icon: Camera, row: 1, cols: 'col-span-10 md:col-span-6 lg:col-span-5', height: 'lg:h-40', variant: 'featured' },
+  { key: 'hedito', title: 'Hédito', desc: 'Le coup de gueule perso, où les émotions sont au rendez-vous.', icon: MessageSquare, row: 1, cols: 'col-span-6 md:col-span-6 lg:col-span-4', height: 'lg:h-40', variant: 'subtle' },
+  { key: 'oda', title: "L'Œil d'Amandine", desc: "Lecture féministe de l'actu pointue et intersectionnelle.", icon: Venus, row: 1, cols: 'col-span-6 md:col-span-6 lg:col-span-3', height: 'lg:h-40', variant: 'default' },
+  { key: 'odl', title: "L'Œil de Lucho", desc: "Voir l'actu à travers une lecture historique.", icon: Landmark, row: 2, cols: 'col-span-6 md:col-span-4 lg:col-span-3', height: 'lg:h-40', variant: 'default' },
+  { key: 'itw', title: 'Interviews', desc: "On se pose et on écoute des personnalités à qui on ne donne pas la parole – pour enfin entendre ce qu'iels ont à dire.", icon: Users, row: 2, cols: 'col-span-12 md:col-span-8 lg:col-span-7', height: 'lg:h-40', variant: 'featured' },
+  { key: 'mikro', title: 'Mikro', desc: 'On tend le Mikro.', icon: Mic2, row: 2, cols: 'col-span-6 md:col-span-6 lg:col-span-2', height: 'lg:h-40', variant: 'subtle' },
 ];
 
 export default function Formats() {
@@ -134,26 +76,45 @@ export default function Formats() {
         <span className="text-xs text-neutral-300">structure claire • formats militants</span>
       </div>
 
-      {[1, 2].map((row, idx) => (
-        <div key={row} className={`grid grid-cols-12 gap-5 ${idx === 0 ? 'mb-5' : ''}`}>
-          {ITEMS.filter((it) => it.row === row).map(({ key, title, desc, icon, cols, height, variant }) => {
-            const card = <FormatCard title={title} desc={desc} Icon={icon} className={height} variant={variant} />;
+      {/* Mobile: cartes complètes, une par ligne (pleine largeur du container) */}
+      <div className="md:hidden grid grid-cols-1 gap-4">
+        {ITEMS.map(({ key, title, desc, icon, variant }) => {
+          const card = <FormatCard title={title} desc={desc} Icon={icon} className="h-auto" variant={variant} />;
+          return (
+            <div key={key}>
+              {variant === 'featured' ? (
+                <div className="rounded-3xl p-[1px] bg-gradient-to-br from-pink-600/60 via-fuchsia-600/40 to-indigo-600/60">
+                  {card}
+                </div>
+              ) : (
+                card
+              )}
+            </div>
+          );
+        })}
+      </div>
 
-            // featured → wrapper dégradé (comme Cagnottes de Links)
-            return (
-              <motion.div key={key} whileHover={{ y: -2 }} className={cols}>
-                {variant === 'featured' ? (
-                  <div className="h-full rounded-3xl p-[1px] bg-gradient-to-br from-pink-600/60 via-fuchsia-600/40 to-indigo-600/60">
-                    {card}
-                  </div>
-                ) : (
-                  card
-                )}
-              </motion.div>
-            );
-          })}
-        </div>
-      ))}
+      {/* Tablet / Desktop: layout asymétrique */}
+      <div className="hidden md:block">
+        {[1, 2].map((row, idx) => (
+          <div key={row} className={`grid grid-cols-12 gap-5 ${idx === 0 ? 'mb-5' : ''}`}>
+            {ITEMS.filter((it) => it.row === row).map(({ key, title, desc, icon, cols, height, variant }) => {
+              const card = <FormatCard title={title} desc={desc} Icon={icon} className={height} variant={variant} />;
+              return (
+                <motion.div key={key} whileHover={{ y: -2 }} className={cols}>
+                  {variant === 'featured' ? (
+                    <div className="h-full rounded-3xl p-[1px] bg-gradient-to-br from-pink-600/60 via-fuchsia-600/40 to-indigo-600/60">
+                      {card}
+                    </div>
+                  ) : (
+                    card
+                  )}
+                </motion.div>
+              );
+            })}
+          </div>
+        ))}
+      </div>
     </Section>
   );
 }
