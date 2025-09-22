@@ -52,7 +52,7 @@ type Member = {
 const team: Member[] = [
   {
     name: 'Hedi',
-    role: 'Fondateur · Présentation',
+    role: 'Fondateur · Rédac Chef',
     img: '/hedi.png',
     alt: 'Portrait de Hedi',
     bio: "Créateur de Sans Transition. Ligne claire : radical, pédagogique, zéro bullshit.",
@@ -108,8 +108,8 @@ export default function About() {
         <h2 className="mt-1 text-3xl sm:text-4xl font-extrabold tracking-tight leading-tight text-white">
           À propos
         </h2>
-        <p className="mt-3 text-neutral-300 max-w-prose leading-tight">
-          Sans Transition, c’est une équipe qui mélange exigence éditoriale et sens du beau.
+        <p className="mt-4 text-neutral-300 leading-tight w-full">
+          Sans Transition, c’est une équipe qui veut faire bien et beau, et qui y arrive. Merci à eux, les voici.
         </p>
       </div>
 

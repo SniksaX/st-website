@@ -16,12 +16,13 @@ export default function Header() {
           </div>
         </div>
 
-        {/* nav mis à jour: plus de podcast/newsletter, ajout youtube/tiktok */}
+        {/* nav mis à jour */}
         <nav className="hidden md:flex items-center gap-6 text-sm text-neutral-200">
           <a href="#liens" className="hover:text-white">Liens</a>
           <a href="#videos-youtube" className="hover:text-white">Vidéos YouTube</a>
           <a href="#formats" className="hover:text-white">Formats</a>
           <a href="#videos-tiktok" className="hover:text-white">Vidéos TikTok</a>
+          <a href="#about" className="hover:text-white">À propos</a>
         </nav>
 
         <Button

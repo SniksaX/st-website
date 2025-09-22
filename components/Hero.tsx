@@ -68,37 +68,28 @@ export default function Hero() {
   return (
     <Section className="relative overflow-visible pt-16 pb-10">
       {/* === FULL-PAGE BACKDROP — 1 seul bloc, visible (z-0) === */}
+     {/* === FULL-PAGE BACKDROP — 1 seul bloc, visible (z-0) === */}
       <div aria-hidden className="pointer-events-none fixed inset-0 z-0">
-        {/* couche 1 : gros halo central très diffus */}
-      {/* halo central (subtil, pas énorme) */}
-<motion.div
-  initial={{ scale: 0.9, opacity: 0.08 }}
-  animate={{ scale: 1.05, opacity: 0.12 }}
-  transition={{ duration: 20, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
-  className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 
-             w-[50vw] h-[50vh] rounded-[50%] blur-[160px]"
-  style={{ background: GRADIENT, mixBlendMode: "screen" }}
-/>
+        {/* halo central (statique) */}
+        <div
+          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 
+                    w-[50vw] h-[50vh] rounded-[50%] blur-[160px] opacity-[0.12]"
+          style={{ background: GRADIENT, mixBlendMode: "screen" }}
+        />
 
-{/* halo haut-droite (petit accent) */}
-<motion.div
-  initial={{ scale: 0.95, opacity: 0.12 }}
-  animate={{ scale: 1.1, opacity: 0.16 }}
-  transition={{ duration: 22, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
-  className="absolute right-[5vw] top-[5vh] w-[18vw] h-[18vw] 
-             rounded-[45%] blur-[90px]"
-  style={{ background: GRADIENT, mixBlendMode: "screen" }}
-/>
+        {/* halo haut-droite (statique) */}
+        <div
+          className="absolute right-[5vw] top-[5vh] w-[18vw] h-[18vw] 
+                    rounded-[45%] blur-[90px] opacity-[0.16]"
+          style={{ background: GRADIENT, mixBlendMode: "screen" }}
+        />
 
-{/* halo bas-gauche (petit accent) */}
-<motion.div
-  initial={{ scale: 1, opacity: 0.12 }}
-  animate={{ scale: 1.15, opacity: 0.18 }}
-  transition={{ duration: 24, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
-  className="absolute left-[5vw] bottom-[5vh] w-[20vw] h-[20vw] 
-             rounded-[55%] blur-[100px]"
-  style={{ background: GRADIENT, mixBlendMode: "screen" }}
-/>
+        {/* halo bas-gauche (statique) */}
+        <div
+          className="absolute left-[5vw] bottom-[5vh] w-[20vw] h-[20vw] 
+                    rounded-[55%] blur-[100px] opacity-[0.18]"
+          style={{ background: GRADIENT, mixBlendMode: "screen" }}
+        />
 
         {/* grain doux */}
         <div
@@ -110,6 +101,7 @@ export default function Hero() {
             mixBlendMode: "overlay",
           }}
         />
+
       </div>
 
       {/* === HERO GRID === */}

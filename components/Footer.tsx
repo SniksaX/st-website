@@ -20,11 +20,11 @@ export default function Footer() {
             </button>
           </div>
           <div className="flex gap-4">
-            <a href="#formats" className="underline-offset-4 hover:underline">Formats</a>
-            <a href="#videos-youtube" className="underline-offset-4 hover:underline">Vidéos YouTube</a>
-            <a href="#videos-tiktok" className="underline-offset-4 hover:underline">Vidéos TikTok</a>
             <a href="#liens" className="underline-offset-4 hover:underline">Liens</a>
-            <a href="#contact" className="underline-offset-4 hover:underline">Contact</a>
+            <a href="#videos-youtube" className="underline-offset-4 hover:underline">YouTube</a>
+            <a href="#formats" className="underline-offset-4 hover:underline">Formats</a>
+            <a href="#videos-tiktok" className="underline-offset-4 hover:underline">TikTok</a>
+            <a href="#about" className="underline-offset-4 hover:underline">À propos</a>
           </div>
           <div className="md:text-right">
             <p className="text-xs">Fait par Hedi, et ouais mes vies.</p>
