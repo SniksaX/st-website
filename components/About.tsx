@@ -109,7 +109,7 @@ export default function About() {
           À propos
         </h2>
         <p className="mt-4 text-neutral-300 leading-tight w-full">
-          Sans Transition, c’est une équipe qui veut faire bien et beau, et qui y arrive. Merci à eux, les voici.
+          Sans Transition, c’est une équipe qui aime la simplicité, l’humanité et la vérité.
         </p>
       </div>
 

@@ -106,6 +106,15 @@
   -webkit-text-fill-color: transparent;
 }
 
+.hover\:gradient-text:hover,
+.focus-visible\:gradient-text:focus-visible {
+  color: transparent;
+  background: var(--grad-1);
+  -webkit-background-clip: text;
+          background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 .dark {
   --primary: var(--brand-300);
   --primary-foreground: oklch(0.16 0 0);
@@ -150,5 +159,58 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .text--grad-1 {
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    background: var(--grad-1);
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+}
+/* lien gradient qui fade-in smooth */
+.link-animated {
+  position: relative;
+  display: inline-block;
+  color: #e5e5e5;                 /* ~text-neutral-200 */
+  transition: color .18s ease;
+}
+
+.link-animated::after {
+  content: attr(data-text);       /* réutilise le texte du lien */
+  position: absolute;
+  inset: 0;
+  color: transparent;
+  background: var(--grad-1);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  opacity: 0;
+  transform: translateY(2px);
+  transition: opacity .18s ease, transform .18s ease;
+  pointer-events: none;
+}
+
+/* au hover/focus: on cache le texte normal et on fade le gradient */
+.link-animated:hover,
+.link-animated:focus-visible {
+  color: transparent;
+}
+
+.link-animated:hover::after,
+.link-animated:focus-visible::after {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Respecte prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .link-animated,
+  .link-animated::after {
+    transition: none !important;
+    transform: none !important;
   }
 }
