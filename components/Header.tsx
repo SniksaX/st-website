@@ -50,17 +50,18 @@ export default function Header() {
 
           </nav>
 
-          {/* Message — visible par défaut, se fade/slide quand la nav apparaît */}
+          {/* WELCOME — caché en mobile, visible dès md */}
           <div
             className="
-              absolute inset-0 z-10 flex items-center justify-center
+              hidden md:flex absolute inset-0 z-10 items-center justify-center
               transition-opacity transition-transform duration-150 ease-out transform-gpu
               md:group-hover:opacity-0 md:group-hover:translate-y-1 md:group-hover:pointer-events-none
               md:group-focus-within:opacity-0 md:group-focus-within:translate-y-1 md:group-focus-within:pointer-events-none
               motion-reduce:transition-none motion-reduce:transform-none
             "
           >
-            <span className="font-extrabold tracking-tight text-white text-base sm:text-lg md:text-xl lg:text-2xl">
+            <span className="font-extrabold tracking-tight text-white leading-none whitespace-nowrap
+                            text-2xl sm:text-3xl md:text-2xl lg:text-2xl">
               Bienvenue sur{' '}
               <span
                 className="text-transparent [background:var(--grad-1)]"
@@ -71,6 +72,7 @@ export default function Header() {
               .
             </span>
           </div>
+
 
         </div>
 
