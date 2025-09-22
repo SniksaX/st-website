@@ -68,6 +68,8 @@ const ITEMS: Item[] = [
   { key: 'mikro', title: 'Mikro', desc: 'On tend le Mikro.', icon: Mic2, row: 2, cols: 'col-span-6 md:col-span-6 lg:col-span-2', height: 'lg:h-40', variant: 'subtle' },
 ];
 
+const MOBILE_ORDER: Array<Item['key']> = ['fokus', 'oda', 'odl', 'itw', 'hedito', 'mikro'];
+
 export default function Formats() {
   return (
     <Section id="formats" className="py-14">
@@ -76,22 +78,26 @@ export default function Formats() {
         <span className="text-xs text-neutral-300">structure claire • formats militants</span>
       </div>
 
-      {/* Mobile: cartes complètes, une par ligne (pleine largeur du container) */}
+      {/* Mobile: cartes complètes, 1 par ligne, ordre spécifique */}
       <div className="md:hidden grid grid-cols-1 gap-4">
-        {ITEMS.map(({ key, title, desc, icon, variant }) => {
-          const card = <FormatCard title={title} desc={desc} Icon={icon} className="h-auto" variant={variant} />;
-          return (
-            <div key={key}>
-              {variant === 'featured' ? (
-                <div className="rounded-3xl p-[1px] bg-gradient-to-br from-pink-600/60 via-fuchsia-600/40 to-indigo-600/60">
-                  {card}
-                </div>
-              ) : (
-                card
-              )}
-            </div>
-          );
-        })}
+        {([...ITEMS]
+          .sort((a, b) => MOBILE_ORDER.indexOf(a.key) - MOBILE_ORDER.indexOf(b.key)) as Item[])
+          .map(({ key, title, desc, icon, variant }) => {
+            const card = (
+              <FormatCard title={title} desc={desc} Icon={icon} className="h-auto" variant={variant} />
+            );
+            return (
+              <div key={key}>
+                {variant === 'featured' ? (
+                  <div className="rounded-3xl p-[1px] bg-gradient-to-br from-pink-600/60 via-fuchsia-600/40 to-indigo-600/60">
+                    {card}
+                  </div>
+                ) : (
+                  card
+                )}
+              </div>
+            );
+          })}
       </div>
 
       {/* Tablet / Desktop: layout asymétrique */}
