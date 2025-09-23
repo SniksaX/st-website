@@ -2,18 +2,9 @@
 
 import React from "react";
 import Section from "./Section";
-import videos from "@/data/tiktok.json";
 import { ChevronLeft, ChevronRight, Play, Eye, Heart, Percent, ArrowUpRight } from "lucide-react";
 
 type OEmbed = { thumbnail_url?: string; title?: string; author_name?: string };
-
-type VideoStatsLocal = {
-  id: string;
-  title: string;
-  views: number;
-  likes: number;
-  engagementRate: number; // %
-};
 
 type TikTokApiItem = {
   tiktok_video_id: string;
@@ -25,14 +16,9 @@ type TikTokApiItem = {
   create_time?: string;
 };
 
-const localStatsById: Record<string, VideoStatsLocal> = (videos as VideoStatsLocal[]).reduce((acc, v) => {
-  acc[v.id] = v;
-  return acc;
-}, {} as Record<string, VideoStatsLocal>);
-
 const toNum = (v: unknown) => (v === null || v === undefined || v === "" ? undefined : Number(v));
 
-// normalise un id (retire espaces, garde le plus long groupe de chiffres)
+// garde le plus long groupe de chiffres
 const normalizeId = (v: unknown) => {
   const s = typeof v === "string" ? v : String(v ?? "");
   const m = s.match(/\d{5,}/);
@@ -71,14 +57,18 @@ export default function VideosTikTok() {
 
   const nf = React.useMemo(() => new Intl.NumberFormat("fr-FR", { notation: "compact", compactDisplay: "short" }), []);
 
-  // IDs + stats serveur (avec normalisation + déduplication)
+  // 1) Fetch IDs + stats depuis l'API (plus de fallback fichier)
   React.useEffect(() => {
     let cancelled = false;
     (async () => {
       try {
         setLoading(true);
+        setError(null);
         const res = await fetch("/api/tiktok-ids", { cache: "no-store" });
-        if (!res.ok) throw new Error(`/api/tiktok-ids -> ${res.status}`);
+        if (!res.ok) {
+          const txt = await res.text().catch(() => "");
+          throw new Error(`/api/tiktok-ids -> ${res.status} ${txt}`);
+        }
         const data = await res.json();
 
         const serverStats: Record<string, { title?: string; views?: number; likes?: number; comments?: number; shares?: number }> = {};
@@ -105,20 +95,15 @@ export default function VideosTikTok() {
 
         const uniq = uniqNormalize(rawIds);
         if (!cancelled) {
-          if (!uniq.length) {
-            const fallback = uniqNormalize((videos as VideoStatsLocal[]).map((v) => v.id));
-            setIdList(fallback);
-          } else {
-            setIdList(uniq);
-          }
+          setIdList(uniq);
           setApiStats(serverStats);
         }
       } catch (e: unknown) {
         if (!cancelled) {
-              const msg = e instanceof Error ? e.message : String(e);
-          console.error(e);
-           setError("");
-          setIdList(uniqNormalize((videos as VideoStatsLocal[]).map((v) => v.id)));
+          const msg = e instanceof Error ? e.message : String(e);
+          console.error(msg);
+          setError(msg);
+          setIdList([]); // pas d'IDs si l'API est down
         }
       } finally {
         if (!cancelled) setLoading(false);
@@ -127,7 +112,7 @@ export default function VideosTikTok() {
     return () => { cancelled = true; };
   }, []);
 
-  // oEmbed thumbnails via proxy
+  // 2) oEmbed thumbnails via proxy
   React.useEffect(() => {
     let cancelled = false;
     if (idList.length === 0) return;
@@ -140,6 +125,7 @@ export default function VideosTikTok() {
         const maps = await Promise.all(
           chunk(idList, 25).map(async (part) => {
             const r = await fetch(`/api/tiktok-oembed?ids=${encodeURIComponent(part.join(","))}`, { cache: "no-store" });
+            if (!r.ok) return {};
             const j = await r.json();
             return (j?.map || {}) as Record<string, OEmbed | null>;
           })
@@ -149,7 +135,9 @@ export default function VideosTikTok() {
           maps.forEach((m) => Object.assign(merged, m));
           setThumbs(merged);
         }
-      } catch { /* ignore */ }
+      } catch {
+        // silencieux, on rendra quand même avec titres/stats
+      }
     })();
 
     return () => { cancelled = true; };
@@ -164,23 +152,21 @@ export default function VideosTikTok() {
 
   const getCardMeta = (id: string) => {
     const api = apiStats[id] || {};
-    const local = localStatsById[id];
     const o = thumbs[id] || undefined;
-
-    const title = api.title || local?.title || o?.title || "Vidéo TikTok";
-    const views = api.views ?? local?.views ?? 0;
-    const likes = api.likes ?? local?.likes ?? 0;
+    const title = api.title || o?.title || "Vidéo TikTok";
+    const views = api.views ?? 0;
+    const likes = api.likes ?? 0;
     const er =
       (api.likes !== undefined || api.comments !== undefined || api.shares !== undefined || api.views !== undefined)
         ? erTikTok(api.likes, api.comments, api.shares, api.views)
-        : (typeof local?.engagementRate === "number" ? local.engagementRate : 0);
+        : 0;
 
     return { title, views, likes, engagementRate: er, thumb: o?.thumbnail_url };
   };
 
-  // ajoute une seule tuile "Voir +" en fin de liste
-  const renderList = loading
-    ? Array.from({ length: 8 }).map((_, i) => `skeleton-${i}`)
+  // skeletons corrects (vrais nulls) + Voir +
+  const renderList: (string | null)[] = loading
+    ? Array.from({ length: 8 }).map(() => null)
     : [...idList, "__SEE_MORE__"];
 
   return (
@@ -197,7 +183,7 @@ export default function VideosTikTok() {
         </div>
       </div>
 
-      {error && <p className="text-sm text-red-400 mb-4">{error}</p>}
+      {error && <p className="text-sm text-red-400 mb-4 break-all">{error}</p>}
 
       <div className="relative">
         <div
@@ -205,13 +191,14 @@ export default function VideosTikTok() {
           className="flex gap-4 overflow-x-auto pb-2 snap-x snap-mandatory scroll-smooth
                      [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']"
         >
-          {renderList.map((id) => {
-            const isSkeleton = typeof id !== "string";
+          {renderList.map((id, i) => {
+            const isSkeleton = id === null;
             const isSeeMore = id === "__SEE_MORE__";
+            const key = isSkeleton ? `skeleton-${i}` : (id as string);
             const meta = (!isSkeleton && !isSeeMore) ? getCardMeta(id as string) : undefined;
 
             return (
-              <div key={id} className="flex-shrink-0 w-[250px] md:w-[280px] lg:w-[320px] snap-start">
+              <div key={key} className="flex-shrink-0 w-[250px] md:w-[280px] lg:w-[320px] snap-start">
                 {isSeeMore ? (
                   <a
                     href="https://www.tiktok.com/@sanstransition"
@@ -254,14 +241,16 @@ export default function VideosTikTok() {
                       </div>
                     </button>
 
-                    <div className="mt-2 rounded-xl border border-neutral-800 bg-neutral-900/60 p-3">
-                      <p className="text-[13px] leading-snug text-white line-clamp-2">{meta?.title}</p>
-                      <div className="mt-2 flex items-center justify-between text-[11px] text-white/85">
-                        <span className="inline-flex items-center gap-1.5"><Eye className="h-3.5 w-3.5" />{nf.format(meta?.views ?? 0)}</span>
-                        <span className="inline-flex items-center gap-1.5"><Heart className="h-3.5 w-3.5" />{nf.format(meta?.likes ?? 0)}</span>
-                        <span className="inline-flex items-center gap-1.5"><Percent className="h-3.5 w-3.5" />{(meta?.engagementRate ?? 0).toFixed(1)}%</span>
+                    {!isSkeleton && (
+                      <div className="mt-2 rounded-xl border border-neutral-800 bg-neutral-900/60 p-3">
+                        <p className="text-[13px] leading-snug text-white line-clamp-2">{meta?.title}</p>
+                        <div className="mt-2 flex items-center justify-between text-[11px] text-white/85">
+                          <span className="inline-flex items-center gap-1.5"><Eye className="h-3.5 w-3.5" />{nf.format(meta?.views ?? 0)}</span>
+                          <span className="inline-flex items-center gap-1.5"><Heart className="h-3.5 w-3.5" />{nf.format(meta?.likes ?? 0)}</span>
+                          <span className="inline-flex items-center gap-1.5"><Percent className="h-3.5 w-3.5" />{(meta?.engagementRate ?? 0).toFixed(1)}%</span>
+                        </div>
                       </div>
-                    </div>
+                    )}
                   </>
                 )}
               </div>

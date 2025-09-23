@@ -2,12 +2,17 @@ import { NextRequest, NextResponse } from "next/server";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
-// GET /api/tiktok-oembed?ids=ID1,ID2,...
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const idsParam = searchParams.get("ids");
-  if (!idsParam) return NextResponse.json({ error: "Missing ids" }, { status: 400 });
+  if (!idsParam) {
+    return NextResponse.json(
+      { error: "Missing ids" },
+      { status: 400, headers: { "Cache-Control": "no-store, no-cache, must-revalidate" } }
+    );
+  }
 
   const ids = idsParam.split(",").filter(Boolean).slice(0, 30);
 
@@ -17,6 +22,7 @@ export async function GET(req: NextRequest) {
       try {
         const res = await fetch(oembedUrl, {
           cache: "no-store",
+          next: { revalidate: 0 },
           headers: { "User-Agent": "Mozilla/5.0", "Accept-Language": "fr-FR,fr;q=0.9,en;q=0.8" },
         });
         if (!res.ok) return [id, null] as const;
@@ -28,5 +34,8 @@ export async function GET(req: NextRequest) {
     })
   );
 
-  return NextResponse.json({ map: Object.fromEntries(results) });
+  return new NextResponse(
+    JSON.stringify({ map: Object.fromEntries(results) }),
+    { headers: { "Content-Type": "application/json", "Cache-Control": "no-store, no-cache, must-revalidate" } }
+  );
 }
