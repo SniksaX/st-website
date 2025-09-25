@@ -83,7 +83,7 @@ const team: Member[] = [
     role: 'Chroniqueur · Histoire politique',
     img: '/louis.png',
     alt: 'Portrait de Louis',
-    bio: "Remet les faits dans le temps long pour comprendre le présent.",
+    bio: "Remet les faits dans le temps pour comprendre le présent.",
     tiktok: 'louis_bnh',
     instagram: 'louis_bnh',
     halo: {
