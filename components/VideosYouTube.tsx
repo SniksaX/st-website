@@ -11,6 +11,7 @@ type ApiResponse = { videos?: ApiVideo[] };
 
 function isApiResponse(x: unknown): x is ApiResponse {
   return !!x && typeof x === 'object' && 'videos' in (x as Record<string, unknown>);
+  
 }
 
 /** Normalize to the 11-char YouTube video ID */
