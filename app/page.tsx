@@ -6,7 +6,7 @@ import Hero from '@/components/Hero';
 import Formats from '@/components/Formats';
 import VideosYouTube from '@/components/VideosYouTube';
 import VideosTikTok from '@/components/VideosTikTok';
-import Links from '@/components/Links';
+import Links from '@/components/LinksWithButton';
 import Footer from '@/components/Footer';
 import About from '@/components/About';
 import { Separator } from '@/components/ui/separator';

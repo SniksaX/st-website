@@ -108,7 +108,9 @@ export default function Hero() {
       <div className="relative z-10 grid items-center gap-8 lg:grid-cols-2">
         {/* LEFT: TEXT */}
         <div className="relative">
-          <Image src="/logo-flat.png" alt="Sans Transition" width={420} height={120} priority />
+          <div className="mt-4">
+          <Image  src="/logo-fusee.png" alt="Sans Transition" width={415} height={150} priority />
+          </div>
           <h1 className="mt-4 text-4xl font-extrabold leading-[1.05] tracking-tight text-white sm:text-5xl lg:text-6xl">
             Média de lutte
             <span

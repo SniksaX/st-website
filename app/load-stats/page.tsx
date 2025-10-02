@@ -362,7 +362,7 @@ export default function LoadStatsOfflinePage(): ReactElement {
   // ---------- UI ----------
   return (
     <div className="relative min-h-screen bg-black">
-        <BackgroundBlobs />
+    <BackgroundBlobs />
 
       {/* Header style hero */}
       <div className="relative z-10">

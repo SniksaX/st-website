@@ -84,8 +84,8 @@ export default function Header() {
                      focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950
                      [background:var(--grad-1)]"
         >
-          <a href="https://youtube.com/@SansTransitionMedia" target="_blank" rel="noreferrer">
-            S’abonner
+          <a href="https://www.helloasso.com/associations/sans-transition/formulaires/1" target="_blank" rel="noreferrer">
+            Soutenir
           </a>
         </Button>
       </Section>
