@@ -6,9 +6,11 @@ import Hero from '@/components/Hero';
 import Formats from '@/components/Formats';
 import VideosYouTube from '@/components/VideosYouTube';
 import VideosTikTok from '@/components/VideosTikTok';
-import Links from '@/components/LinksWithButton';
+import Links from '@/components/Links';
 import Footer from '@/components/Footer';
 import About from '@/components/About';
+import Dons from '@/components/Dons';
+import Values from '@/components/Values';
 import { Separator } from '@/components/ui/separator';
 import { BackdropParallax } from '@/components/ScrollFx';
 
@@ -48,7 +50,15 @@ export default function Page() {
 
       <Separator className="bg-neutral-900" />
 
+      <Values />
+
+      <Separator className="bg-neutral-900" />
+
       <About />
+
+      <Separator className="bg-neutral-900" />
+
+      <Dons />
 
       <Footer />
     </div>

@@ -2,7 +2,8 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import Section from "./Section";
+import Section from "./Section"; // Assuming Section is a default export
+import { HoverLift } from "./HoverLift"; // Corrected import for named export
 import {
   Link as LinkIcon,
   Instagram,
@@ -14,8 +15,9 @@ import {
   Newspaper,
   Mail,
   Download,
-  type LucideIcon,
 } from "lucide-react";
+import Image from "next/image";
+
 
 // Reusable TikTok SVG (same glyph as in Hero)
 const TikTokIcon = ({ className = "" }: { className?: string }) => (
@@ -30,8 +32,41 @@ const TikTokIcon = ({ className = "" }: { className?: string }) => (
   </svg>
 );
 
+const DiscordIcon = ({ className = "" }: { className?: string }) => (
+  <Image
+    src="/discord.png"
+    alt="Discord"
+    width={20}
+    height={20}
+    className={`block object-contain ${className}`}
+    priority={false}
+  />
+);
+
+// Twitch icon outlined, in Lucide-like style
+const TwitchIcon = ({ className = "" }: { className?: string }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    className={`block ${className}`}
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M4 3h16v10l-4 4h-4l-3 3v-3H4V3z" />
+    <path d="M14 7v5M10 7v5" />
+  </svg>
+);
+
 // type for networks
-type Net = { label: string; href: string; icon: React.ComponentType<{ className?: string }> };
+type Net = {
+  label: string;
+  href: string;
+  icon: React.ComponentType<{ className?: string }>;
+  iconClass?: string;
+};
 
 export default function Links() {
   const networks: Net[] = [
@@ -39,6 +74,8 @@ export default function Links() {
     { label: "Instagram", href: "https://instagram.com/sanstransition__", icon: Instagram },
     { label: "X (Twitter)", href: "https://x.com/sanstransition_", icon: Twitter },
     { label: "YouTube", href: "https://youtube.com/@SansTransitionMedia", icon: Youtube },
+    { label: "Discord", href: "https://discord.gg/VSgzuhSCnT", icon: DiscordIcon },
+    { label: "Twitch", href: "https://www.twitch.tv/sans_transition", icon: TwitchIcon },
   ];
 
   // Media kit is a dedicated card
@@ -54,6 +91,9 @@ export default function Links() {
     { label: "Politique de confidentialité", href: "/confidentialite" },
   ];
 
+  const GRADIENT =
+    "var(--grad-1, linear-gradient(90deg,#ff4dd8 0%,#8a7bff 50%,#ff4dd8 100%))";
+
   return (
     <Section id="liens" className="py-12">
       <div className="flex items-end justify-between mb-8">
@@ -66,7 +106,7 @@ export default function Links() {
       {/* === Skeleton layout: big left card, two stacked right bars, 4 small bottom cards === */}
       <div className="grid gap-5 lg:grid-cols-12 items-start">
         {/* BIG LEFT (spans 7 cols): Cagnottes & soutien */}
-        <motion.section
+        <motion.section 
           whileHover={{ y: -2 }}
           className="col-span-12 lg:col-span-7 lg:self-stretch rounded-2xl overflow-hidden bg-gradient-to-br from-pink-600 via-fuchsia-600 to-indigo-600 p-[1px] pt-[2px]"
         >
@@ -111,7 +151,7 @@ export default function Links() {
               <LinkIcon className="h-4 w-4 text-neutral-400" />
             </div>
             <div className="flex flex-wrap gap-3">
-              {networks.map(({ label, href, icon: Icon }) => (
+              {networks.map(({ label, href, icon: Icon, iconClass }) => (
                 <motion.a
                   key={label}
                   href={href}
@@ -121,7 +161,7 @@ export default function Links() {
                   whileHover={{ scale: 1.05, y: -1 }}
                   className="h-10 w-10 grid place-items-center rounded-full bg-neutral-900 text-white border border-neutral-800 hover:border-pink-500/60"
                 >
-                  <Icon className="h-5 w-5" />
+                  <Icon className={`h-5 w-5 ${iconClass ?? ""}`} />
                 </motion.a>
               ))}
             </div>
@@ -215,6 +255,56 @@ export default function Links() {
             </ul>
           </section>
         </div>
+
+        
+      <motion.section
+  whileHover={{ y: -2 }}
+  className="col-span-12 rounded-2xl overflow-hidden bg-gradient-to-br from-pink-600 via-fuchsia-600 to-indigo-600 p-[1px] pt-[2px]"
+>
+  <div className="relative rounded-2xl bg-neutral-950/80 backdrop-blur-md border border-white/10 p-4 sm:p-5">
+    {/* grille: banner (1fr) + bouton (auto) */}
+    <div className="grid grid-cols-[1fr_auto] items-center gap-4 sm:gap-5 min-h-[210px]">
+      {/* bannière centrée */}
+      <div className="flex justify-center">
+        <Image
+          src="/banner.png"
+          alt="Soutenez Sans Transition"
+          width={960}
+          height={220}
+          className="w-auto max-h-[170px] object-contain"
+          priority
+        />
+      </div>
+
+      {/* bouton "carte" — même matière que Aidez Abood, plus haut et plus large */}
+      <a
+        href="https://www.helloasso.com/associations/sans-transition/formulaires/1"
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="Faire un don à Sans Transition"
+        className="
+          group relative
+          h-[calc(100%-8px)] sm:h-[calc(100%-10px)]    /* quasi pleine hauteur du bloc */
+          w-[230px] sm:w-[260px]                       /* largeur confortable */
+          rounded-2xl border border-white/10 bg-white/5
+          hover:bg-white/10 transition-colors
+          shadow-[inset_0_1px_0_rgba(255,255,255,.06)]
+          grid place-items-center px-6 text-center
+        "
+      >
+        <span className="text-[15px] sm:text-[17px] font-bold text-white">
+          Faire un don
+        </span>
+
+        {/* subtil anneau interne comme sur tes autres cartes */}
+        <span className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-white/5"></span>
+      </a>
+    </div>
+  </div>
+</motion.section>
+
+  
+
       </div>
     </Section>
   );
