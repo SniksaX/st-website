@@ -125,7 +125,7 @@ export default function StreamCalendar() {
                 </div>
                 {isToday && (
                   <span className="text-[11px] rounded-full border border-white/10 bg-white/10 px-2 py-0.5 text-white/90">
-                    Aujourd'hui
+                    Aujourd&apos;hui
                   </span>
                 )}
               </div>
@@ -179,7 +179,7 @@ export default function StreamCalendar() {
       </div>
 
       <p className="mt-4 text-xs text-white/60">
-        • La TransMatinale (lun–ven, 09:00) — revue de presse. • Aktu (mardi, 20:00) — réaction à l'actu avec Amandine & Lucho. • Ekip (vendredi, 20:00) — live chill avec la commu.
+        • La TransMatinale (lun–ven, 09:00) — revue de presse. • Aktu (mardi, 20:00) — réaction à l&apos;actu avec Amandine & Lucho. • Ekip (vendredi, 20:00) — live chill avec la commu.
       </p>
     </Section>
   );

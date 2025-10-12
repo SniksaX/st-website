@@ -33,27 +33,29 @@ export default function Header() {
           >
             <div className="mx-2 inline-flex rounded-2xl bg-neutral-900/60 px-2 py-1.5 shadow-lg ring-1 ring-white/10 backdrop-blur">
               <ul className="flex items-center justify-center gap-2 flex-row whitespace-nowrap">
-                {[
-                  { id: 'liens', label: 'Liens' },
-                  { id: 'videos-youtube', label: 'YouTube' },
-                  { id: 'formats', label: 'Formats' },
-                  { id: 'videos-tiktok', label: 'TikTok' },
-                  { id: 'valeurs', label: 'Valeurs' },
-                  { id: 'about', label: 'À propos' },
-                  { id: 'stream', label: 'Agenda' },
-                  { id: 'dons', label: 'Dons' },
-                  , // ⚠️ id corrigé pour matcher la section
-                ].map((s) => (
-                  <li key={s.id}>
-                    <a
-                      href={`#${s.id}`}
-                      className="inline-block rounded-xl px-3 py-1.5 text-xs text-neutral-200 transition hover:bg-neutral-800/80 focus:bg-neutral-800/80 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/70"
-                    >
-                      {s.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
+              {(
+                [
+                  { id: "liens", label: "Liens" },
+                  { id: "videos-youtube", label: "YouTube" },
+                  { id: "formats", label: "Formats" },
+                  { id: "videos-tiktok", label: "TikTok" },
+                  { id: "valeurs", label: "Valeurs" },
+                  { id: "about", label: "À propos" },
+                  { id: "stream", label: "Agenda" },
+                  { id: "dons", label: "Dons" },
+                ] as const
+              ).map((s) => (
+                <li key={s.id}>
+                  <a
+                    href={`#${s.id}`}
+                    className="inline-block rounded-xl px-3 py-1.5 text-xs text-neutral-200 transition hover:bg-neutral-800/80 focus:bg-neutral-800/80 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/70"
+                  >
+                    {s.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+
             </div>
           </nav>
 

@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Section from "@/components/Section";
 import { Download, Mail, ExternalLink, FileText, Palette, Image as ImageIcon, Users } from "lucide-react";
+import type { JSX as ReactJSX } from "react";
 
 /* ========================================================================== */
 /* 🧩 MÉTADONNÉES                                                             */
@@ -285,16 +286,19 @@ export default function KitMediaPage() {
         <Section>
           <SectionHeader title="Couleurs" subtitle="Aperçu rapide" />
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {COLOR_VARS.map((c) => (
-              <div key={c.cssVar} className="rounded-2xl border border-white/10 p-4 bg-white/[0.03]">
-                <div
-                  className="h-16 rounded-xl"
-                  style={{ background: c.isGradient ? "var(--grad-1)" : `var(${c.cssVar})` }}
-                />
-                <p className="mt-3 text-sm text-white/85">{c.name}</p>
-                <p className="text-xs text-white/60">{c.isGradient ? "var(--grad-1)" : c.cssVar}</p>
-              </div>
-            ))}
+            {COLOR_VARS.map((c) => {
+              const isGrad = "isGradient" in c && c.isGradient;
+              const bg = isGrad ? "var(--grad-1)" : `var(${c.cssVar})`;
+              const varLabel = isGrad ? "var(--grad-1)" : c.cssVar;
+
+              return (
+                <div key={c.cssVar} className="rounded-2xl border border-white/10 p-4 bg-white/[0.03]">
+                  <div className="h-16 rounded-xl" style={{ background: bg }} />
+                  <p className="mt-3 text-sm text-white/85">{c.name}</p>
+                  <p className="text-xs text-white/60">{varLabel}</p>
+                </div>
+              );
+            })}   
           </div>
         </Section>
       </section>
@@ -404,8 +408,10 @@ export default function KitMediaPage() {
 /* ========================================================================== */
 /* 🧩 COMPOSANTS INTERNES (HELPERS)                                           */
 /* ========================================================================== */
+type HeadingTag = "h1" | "h2" | "h3";
+
 function GradientTitle({ children, level = 2 }: { children: React.ReactNode; level?: 1 | 2 | 3 }) {
-  const Tag = `h${level}` as keyof JSX.IntrinsicElements;
+  const Tag = (`h${level}` as HeadingTag);
   return (
     <Tag className="text-4xl md:text-6xl font-extrabold tracking-tight bg-gradient-to-r from-white via-white to-white/70 bg-clip-text text-transparent">
       {children}
