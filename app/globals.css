@@ -86,10 +86,12 @@
   --brand-300:    oklch(0.80 0.20 315);
 
   /* Gradients tendances (hypercolor) */
-  --grad-1: linear-gradient(135deg,
-              oklch(0.72 0.27 315) 0%,   /* magenta violet */
-              oklch(0.76 0.15 345) 55%,  /* rose framboise (pas de bleu) */
-              oklch(0.82 0.15 25) 100% );
+  --grad-1: linear-gradient(
+    90deg,
+    oklch(0.72 0.27 290) 0%,   /* violet #8c52ff */
+    oklch(0.78 0.22 330) 45%,  /* magenta chaud */
+    oklch(0.85 0.25 40) 100%   /* orange #ff914d */
+  );
 
   /* Harmonise Tailwind tokens */
   --primary: var(--brand-700);

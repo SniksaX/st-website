@@ -6,7 +6,9 @@ import Section from '@/components/Section';
 import { CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Camera, MessageSquare, Mic2, Landmark, Venus, Users, type LucideIcon } from 'lucide-react';
 import { ShinyCard } from '@/components/ShinyCard';
-import GLI from '@/components/GradientLinkIcon';
+
+// Tous les variants mènent au même rendu (transparent + même bordure)
+// et les icônes utilisent la couleur "normale" (currentColor), sans gradient.
 
 type Variant = 'featured' | 'default' | 'subtle';
 
@@ -18,31 +20,23 @@ type FormatCardProps = {
   variant?: Variant;
 };
 
-function FormatCard({ title, desc, Icon, className = '', variant = 'default' }: FormatCardProps) {
-  const variantClass =
-    variant === 'subtle'
-      ? 'bg-white/5 border-white/10 backdrop-blur-md'
-      : variant === 'featured'
-      ? 'bg-neutral-950/90 border-neutral-900'
-      : 'bg-neutral-950/95 border-neutral-800';
+function FormatCard({ title, desc, Icon, className = '' }: FormatCardProps) {
+  // Couleur unifiée + transparent
+  const baseCardClass = 'h-full rounded-3xl bg-transparent border border-white/10';
 
   return (
-    <ShinyCard className={`h-full rounded-3xl ${variantClass} ${className}`}>
+    <ShinyCard className={`${baseCardClass} ${className}`}>
       <CardHeader className="pb-2">
         <div className="flex items-center gap-3">
-          <div className={`h-9 w-9 rounded-2xl grid place-items-center p-[2px] ${variant === 'subtle' ? 'bg-white/10' : 'bg-neutral-900'}`}>
-            <GLI
-              icon={Icon}
-              className="h-[18px] w-[18px]"
-              shrink={Icon === Venus || Icon === Landmark ? 0.9 : 1}
-              strokeWidth={Icon === Venus || Icon === Landmark ? 1.6 : 1.75}
-            />
+          {/* Icône en couleur normale (currentColor), pas de gradient */}
+          <div className="h-9 w-9 rounded-2xl grid place-items-center">
+            <Icon className="h-[18px] w-[18px] text-neutral-200" strokeWidth={1.75} />
           </div>
           <CardTitle className="tracking-tight text-white">{title}</CardTitle>
         </div>
       </CardHeader>
       <CardContent className="pt-0">
-        <p className={`text-sm leading-relaxed ${variant === 'subtle' ? 'text-neutral-300/90' : 'text-neutral-300'}`}>{desc}</p>
+        <p className="text-sm leading-relaxed text-neutral-300">{desc}</p>
       </CardContent>
     </ShinyCard>
   );
@@ -82,20 +76,12 @@ export default function Formats() {
       <div className="md:hidden grid grid-cols-1 gap-4">
         {([...ITEMS]
           .sort((a, b) => MOBILE_ORDER.indexOf(a.key) - MOBILE_ORDER.indexOf(b.key)) as Item[])
-          .map(({ key, title, desc, icon, variant }) => {
+          .map(({ key, title, desc, icon, height }) => {
             const card = (
-              <FormatCard title={title} desc={desc} Icon={icon} className="h-auto" variant={variant} />
+              <FormatCard title={title} desc={desc} Icon={icon} className={height ? height : 'h-auto'} />
             );
             return (
-              <div key={key}>
-                {variant === 'featured' ? (
-                  <div className="rounded-3xl p-[1px] bg-gradient-to-br from-pink-600/60 via-fuchsia-600/40 to-indigo-600/60">
-                    {card}
-                  </div>
-                ) : (
-                  card
-                )}
-              </div>
+              <div key={key}>{card}</div>
             );
           })}
       </div>
@@ -104,17 +90,12 @@ export default function Formats() {
       <div className="hidden md:block">
         {[1, 2].map((row, idx) => (
           <div key={row} className={`grid grid-cols-12 gap-5 ${idx === 0 ? 'mb-5' : ''}`}>
-            {ITEMS.filter((it) => it.row === row).map(({ key, title, desc, icon, cols, height, variant }) => {
-              const card = <FormatCard title={title} desc={desc} Icon={icon} className={height} variant={variant} />;
+            {ITEMS.filter((it) => it.row === row).map(({ key, title, desc, icon, cols, height }) => {
+              const card = <FormatCard title={title} desc={desc} Icon={icon} className={height} />;
               return (
                 <motion.div key={key} whileHover={{ y: -2 }} className={cols}>
-                  {variant === 'featured' ? (
-                    <div className="h-full rounded-3xl p-[1px] bg-gradient-to-br from-pink-600/60 via-fuchsia-600/40 to-indigo-600/60">
-                      {card}
-                    </div>
-                  ) : (
-                    card
-                  )}
+                  {/* Plus de bordures/gradients spéciaux : toutes les cartes sont identiques */}
+                  {card}
                 </motion.div>
               );
             })}

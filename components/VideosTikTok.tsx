@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React from "react";
 import Section from "./Section";
@@ -136,7 +136,7 @@ export default function VideosTikTok() {
           setThumbs(merged);
         }
       } catch {
-        // silencieux, on rendra quand même avec titres/stats
+        // silencieux, on rendra quand mÃªme avec titres/stats
       }
     })();
 
@@ -153,7 +153,7 @@ export default function VideosTikTok() {
   const getCardMeta = (id: string) => {
     const api = apiStats[id] || {};
     const o = thumbs[id] || undefined;
-    const title = api.title || o?.title || "Vidéo TikTok";
+    const title = api.title || o?.title || "VidÃ©o TikTok";
     const views = api.views ?? 0;
     const likes = api.likes ?? 0;
     const er =
@@ -173,7 +173,18 @@ export default function VideosTikTok() {
     <Section id="videos-tiktok" className="py-14">
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">Toutes les vidéos TikTok</h2>
-        <div className="hidden sm:flex gap-2">
+        <div className="hidden sm:flex items-center gap-2">  
+          <a
+            href="https://www.tiktok.com/@sanstransition"
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-3 h-9 text-sm text-white hover:bg-white/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" className="h-4 w-4 fill-white" aria-hidden>
+              <path d="M224 88.4c-23.6 0-42.8-19.2-42.8-42.8V32h-36.6v132.1c0 19.7-16 35.7-35.7 35.7s-35.7-16-35.7-35.7 16-35.7 35.7-35.7c2.4 0 4.7.2 6.9.7V92.6c-2.3-.3-4.6-.5-6.9-.5-39.8 0-72.2 32.4-72.2 72.2S70.4 236.5 110.2 236.5c39.8 0 72.2-32.4 72.2-72.2v-56c12.1 8.7 26.9 13.9 42.8 13.9v-33.8z" />
+            </svg>
+            <span>Suivre sur TikTok</span>
+          </a>
           <button onClick={() => scrollByCards("left")} className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white">
             <ChevronLeft className="h-5 w-5" />
           </button>
@@ -230,7 +241,7 @@ export default function VideosTikTok() {
                           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
                           <div className="absolute inset-0 flex items-end p-3">
                             <p className="text-white/90 text-sm leading-snug line-clamp-3">
-                              {meta?.title || "Vidéo TikTok"}
+                              {meta?.title || "VidÃ©o TikTok"}
                             </p>
                           </div>
                         </div>
@@ -279,7 +290,7 @@ export default function VideosTikTok() {
               className="absolute top-3 right-3 text-white/80 hover:text-white text-2xl"
               aria-label="Fermer"
             >
-              ×
+              Ã—
             </button>
           </div>
         </div>
@@ -287,3 +298,5 @@ export default function VideosTikTok() {
     </Section>
   );
 }
+
+

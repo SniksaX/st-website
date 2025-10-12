@@ -2,8 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import Section from "./Section"; // Assuming Section is a default export
-import { HoverLift } from "./HoverLift"; // Corrected import for named export
+import Section from "./Section";
 import {
   Link as LinkIcon,
   Instagram,
@@ -14,59 +13,40 @@ import {
   FileText,
   Newspaper,
   Mail,
-  Download,
+  ArrowUpRight,
 } from "lucide-react";
 import Image from "next/image";
 
+// Gradient token — used sparingly (borders/accents only)
+const GRADIENT = "var(--grad-1, linear-gradient(90deg,#ff4dd8 0%,#8a7bff 50%,#ff4dd8 100%))";
 
-// Reusable TikTok SVG (same glyph as in Hero)
+// Minimal gradient border wrapper (no inner pills)
+const Button = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
+  <span className={`block rounded-lg p-[1px] ${className}`} style={{ backgroundImage: GRADIENT }}>
+    <span className="block rounded-[7px] bg-neutral-950/70 border border-white/5">{children}</span>
+  </span>
+);
+
+// TikTok SVG (same glyph as in Hero)
 const TikTokIcon = ({ className = "" }: { className?: string }) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 256 256"
-    className={`fill-current ${className}`}
-    aria-hidden="true"
-    focusable="false"
-  >
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" className={`fill-current ${className}`} aria-hidden="true" focusable="false">
     <path d="M224 88.4c-23.6 0-42.8-19.2-42.8-42.8V32h-36.6v132.1c0 19.7-16 35.7-35.7 35.7s-35.7-16-35.7-35.7 16-35.7 35.7-35.7c2.4 0 4.7.2 6.9.7V92.6c-2.3-.3-4.6-.5-6.9-.5-39.8 0-72.2 32.4-72.2 72.2S70.4 236.5 110.2 236.5c39.8 0 72.2-32.4 72.2-72.2v-56c12.1 8.7 26.9 13.9 42.8 13.9v-33.8z" />
   </svg>
 );
 
 const DiscordIcon = ({ className = "" }: { className?: string }) => (
-  <Image
-    src="/discord.png"
-    alt="Discord"
-    width={20}
-    height={20}
-    className={`block object-contain ${className}`}
-    priority={false}
-  />
+  <Image src="/discord.png" alt="Discord" width={20} height={20} className={`block object-contain ${className}`} priority={false} />
 );
 
 // Twitch icon outlined, in Lucide-like style
 const TwitchIcon = ({ className = "" }: { className?: string }) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 24 24"
-    className={`block ${className}`}
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className={`block ${className}`} fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
     <path d="M4 3h16v10l-4 4h-4l-3 3v-3H4V3z" />
     <path d="M14 7v5M10 7v5" />
   </svg>
 );
 
-// type for networks
-type Net = {
-  label: string;
-  href: string;
-  icon: React.ComponentType<{ className?: string }>;
-  iconClass?: string;
-};
+type Net = { label: string; href: string; icon: React.ComponentType<{ className?: string }>; iconClass?: string };
 
 export default function Links() {
   const networks: Net[] = [
@@ -78,149 +58,111 @@ export default function Links() {
     { label: "Twitch", href: "https://www.twitch.tv/sans_transition", icon: TwitchIcon },
   ];
 
-  // Media kit is a dedicated card
-  const mediaKit = {
-    label: "Kit média (PDF)",
-    href: "/Sans Transition – Kit Média Septembre 2025.pdf",
-  };
-
-  // Resources without media kit
   const resources = [
     { label: "Mentions légales", href: "/mentions-legales" },
     { label: "CGU", href: "/cgu" },
     { label: "Politique de confidentialité", href: "/confidentialite" },
   ];
 
-  const GRADIENT =
-    "var(--grad-1, linear-gradient(90deg,#ff4dd8 0%,#8a7bff 50%,#ff4dd8 100%))";
-
   return (
     <Section id="liens" className="py-12">
       <div className="flex items-end justify-between mb-8">
-        <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white">
-          Liens utiles
-        </h2>
+        <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white">Liens utiles</h2>
         <span className="text-sm text-neutral-400">réseaux • cagnottes • ressources</span>
       </div>
 
-      {/* === Skeleton layout: big left card, two stacked right bars, 4 small bottom cards === */}
       <div className="grid gap-5 lg:grid-cols-12 items-start">
-        {/* BIG LEFT (spans 7 cols): Cagnottes & soutien */}
-        <motion.section 
-          whileHover={{ y: -2 }}
-          className="col-span-12 lg:col-span-7 lg:self-stretch rounded-2xl overflow-hidden bg-gradient-to-br from-pink-600 via-fuchsia-600 to-indigo-600 p-[1px] pt-[2px]"
-        >
+        {/* LEFT — Cagnottes & soutien */}
+        <motion.section whileHover={{ y: -2 }} className="col-span-12 lg:col-span-7 lg:self-stretch rounded-2xl overflow-hidden p-[1px]" style={{ backgroundImage: GRADIENT }}>
           <div className="h-full w-full rounded-2xl bg-neutral-950/80 backdrop-blur-md border border-white/10 p-5 flex flex-col">
-            {/* Titre en tête */}
             <div className="flex items-center gap-3 mb-4">
-              <div className="h-9 w-9 grid place-items-center rounded-xl bg-white/10">
-                <Heart className="h-4 w-4 text-white" />
-              </div>
+              <Heart className="h-4 w-4 text-white/90" />
               <h3 className="text-lg font-bold text-white">Cagnottes & soutien</h3>
             </div>
-
-            {/* Deux cartes internes côte à côte (en bas) */}
             <div className="mt-auto grid grid-cols-1 md:grid-cols-2 gap-4">
-              <a
-                href="https://gofund.me/6e217b10a"
-                target="_blank"
-                rel="noreferrer"
-                className="group relative rounded-2xl border border-white/10 bg-white/5 p-5  flex items-end hover:bg-white/10 transition-colors"
-              >
+              <a href="https://gofund.me/6e217b10a" target="_blank" rel="noreferrer" className="group relative rounded-2xl border border-white/10 bg-white/5 p-5 flex items-end hover:bg-white/10 transition-colors">
                 <span className="text-lg font-semibold text-white">🚨 Aidez Abood</span>
               </a>
-
-              <a
-                href="https://gofund.me/ed90a35c6"
-                target="_blank"
-                rel="noreferrer"
-                className="group relative rounded-2xl border border-white/10 bg-white/5 p-5  flex items-end hover:bg-white/10 transition-colors"
-              >
+              <a href="https://gofund.me/ed90a35c6" target="_blank" rel="noreferrer" className="group relative rounded-2xl border border-white/10 bg-white/5 p-5 flex items-end hover:bg-white/10 transition-colors">
                 <span className="text-lg font-semibold text-white">🚨 Aidez Elodie</span>
               </a>
             </div>
           </div>
         </motion.section>
 
-        {/* RIGHT COLUMN (5 cols): two stacked bars */}
+        {/* RIGHT — Réseaux + Contact */}
         <div className="col-span-12 lg:col-span-5 flex flex-col gap-5">
-          {/* Réseaux */}
-          <section className="rounded-2xl bg-neutral-950/80 backdrop-blur-md border border-neutral-800 p-5">
+          <section className="rounded-2xl bg-neutral-950/80 border border-neutral-800 p-5">
             <div className="flex items-center justify-between mb-2">
               <h3 className="text-lg font-bold text-white">Réseaux</h3>
               <LinkIcon className="h-4 w-4 text-neutral-400" />
             </div>
             <div className="flex flex-wrap gap-3">
               {networks.map(({ label, href, icon: Icon, iconClass }) => (
-                <motion.a
-                  key={label}
-                  href={href}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label={label}
-                  whileHover={{ scale: 1.05, y: -1 }}
-                  className="h-10 w-10 grid place-items-center rounded-full bg-neutral-900 text-white border border-neutral-800 hover:border-pink-500/60"
-                >
+                <motion.a key={label} href={href} target="_blank" rel="noreferrer" aria-label={label} whileHover={{ scale: 1.05, y: -1 }} className="h-10 w-10 grid place-items-center rounded-full bg-neutral-900 text-white border border-neutral-800 hover:bg-neutral-800">
                   <Icon className={`h-5 w-5 ${iconClass ?? ""}`} />
                 </motion.a>
               ))}
             </div>
           </section>
 
-          {/* Contact */}
           <section className="rounded-2xl bg-neutral-950/80 border border-neutral-800 p-4 flex items-center justify-between text-sm">
             <span className="flex items-center gap-2 text-white font-semibold">
-              <Mail className="h-4 w-4 text-pink-400" /> Contact
+              <Mail className="h-4 w-4 text-white/80" />
+              Contact
             </span>
-            <a href="mailto:contact@sanstransition.fr" className="text-neutral-300 hover:text-pink-400">
-              contact@sanstransition.fr
-            </a>
+            <a href="mailto:contact@sanstransition.fr" className="text-neutral-300 hover:underline">contact@sanstransition.fr</a>
           </section>
         </div>
 
-        {/* BOTTOM ROW — four equal small cards across full width */}
+        {/* BOTTOM ROW */}
         <div className="col-span-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {/* Formulaires */}
           <section className="rounded-2xl bg-neutral-950/80 border border-neutral-800 p-3">
             <h4 className="flex items-center gap-2 font-semibold text-white mb-2 text-sm">
-              <Send className="h-4 w-4 text-pink-400" /> Formulaires & témoignages
+              <Send className="h-4 w-4 text-white/80" />
+              Formulaires & témoignages
             </h4>
             <a
               href="https://forms.gle/yoHVL6iKBi6Adz8T9"
               target="_blank"
               rel="noreferrer"
-              className="text-xs text-neutral-300 hover:text-pink-400 transition-colors"
+              className="group inline-flex items-center justify-between w-full rounded-lg border border-neutral-800 bg-transparent px-3 py-2 text-xs text-neutral-200 hover:bg-white/5 hover:text-white transition-colors"
             >
-              Proposer un témoignage ou un sujet
+              <span>Proposer un témoignage ou un sujet</span>
             </a>
+
+
+
           </section>
 
-          {/* Kit média — compact */}
+          {/* Kit média */}
           <section className="rounded-2xl bg-neutral-950/80 border border-neutral-800 p-3">
             <h4 className="flex items-center gap-2 font-semibold text-white mb-2 text-sm">
-              <Download className="h-4 w-4 text-pink-400" /> Kit média
+              <ArrowUpRight className="h-4 w-4 text-white/80" />
+              Kit média
             </h4>
             <a
-              href={mediaKit.href}
-              download
-              className="group inline-flex items-center justify-between w-full rounded-lg border border-neutral-700 px-3 py-2 text-xs text-neutral-200 hover:bg-neutral-800"
+              href="https://sanstransition.fr/kit-media"
+              target="_blank"
+              rel="noreferrer"
+              className="group inline-flex items-center justify-between w-full rounded-lg border border-neutral-800 bg-transparent px-3 py-2 text-xs text-neutral-200 hover:bg-white/5 hover:text-white transition-colors"
             >
-              <span>{mediaKit.label}</span>
-              <Download className="h-4 w-4 opacity-80 group-hover:opacity-100" />
+              <span>Voir le kit média</span>
             </a>
+
           </section>
 
-          {/* Ressources — compact */}
+          {/* Ressources */}
           <section className="rounded-2xl bg-neutral-950/80 border border-neutral-800 p-3">
             <h4 className="flex items-center gap-2 font-semibold text-white mb-2 text-sm">
-              <FileText className="h-4 w-4 text-pink-400" /> Ressources & docs
+              <FileText className="h-4 w-4 text-white/80" />
+              Ressources & docs
             </h4>
             <ul className="grid grid-cols-1 gap-1 text-xs text-neutral-300">
               {resources.map((r) => (
                 <li key={r.label}>
-                  <a href={r.href} className="hover:text-pink-400">
-                    {r.label}
-                  </a>
+                  <a href={r.href} className="hover:underline">{r.label}</a>
                 </li>
               ))}
             </ul>
@@ -229,82 +171,41 @@ export default function Links() {
           {/* Presse & apparitions */}
           <section className="rounded-2xl bg-neutral-950/80 border border-neutral-800 p-3">
             <h4 className="flex items-center gap-2 font-semibold text-white mb-2 text-sm">
-              <Newspaper className="h-4 w-4 text-pink-400" /> Presse & apparitions
+              <Newspaper className="h-4 w-4 text-white/80" />
+              Presse & apparitions
             </h4>
             <ul className="space-y-1 text-xs text-neutral-300">
               <li>
-                <a
-                  href="https://www.youtube.com/watch?v=qabhFKNW2xM"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="hover:text-pink-400"
-                >
-                  Oeil de MouMou
-                </a>
+                <a href="https://www.youtube.com/watch?v=qabhFKNW2xM" target="_blank" rel="noreferrer" className="hover:underline">Oeil de MouMou</a>
               </li>
               <li>
-                <a
-                  href="https://www.youtube.com/watch?v=hUI88ZLf8YI"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="hover:text-pink-400"
-                >
-                  Syntaxe Sociale
-                </a>
+                <a href="https://www.youtube.com/watch?v=hUI88ZLf8YI" target="_blank" rel="noreferrer" className="hover:underline">Syntaxe Sociale</a>
               </li>
             </ul>
           </section>
         </div>
 
-        
-      <motion.section
-  whileHover={{ y: -2 }}
-  className="col-span-12 rounded-2xl overflow-hidden bg-gradient-to-br from-pink-600 via-fuchsia-600 to-indigo-600 p-[1px] pt-[2px]"
->
-  <div className="relative rounded-2xl bg-neutral-950/80 backdrop-blur-md border border-white/10 p-4 sm:p-5">
-    {/* grille: banner (1fr) + bouton (auto) */}
-    <div className="grid grid-cols-[1fr_auto] items-center gap-4 sm:gap-5 min-h-[210px]">
-      {/* bannière centrée */}
-      <div className="flex justify-center">
-        <Image
-          src="/banner.png"
-          alt="Soutenez Sans Transition"
-          width={960}
-          height={220}
-          className="w-auto max-h-[170px] object-contain"
-          priority
-        />
-      </div>
+        {/* DON CTA — ribbon with gradient border only */}
+        <motion.section whileHover={{ y: -2 }} className="relative col-span-12 rounded-2xl overflow-hidden p-[1px]" style={{ backgroundImage: GRADIENT }}>
+          <a href="https://www.helloasso.com/associations/sans-transition/formulaires/1" target="_blank" rel="noopener noreferrer" aria-label="Faire un don à Sans Transition" className={`group relative block rounded-2xl overflow-hidden shadow-[0_0_25px_rgba(255,255,255,0.06)] transition-transform duration-500 ease-out hover:scale-[1.02]`}>
+            <div className="relative flex items-center justify-center py-4 sm:py-6 bg-neutral-950/85">
+              <Image src="/banner.png" alt="Soutenez Sans Transition" width={1080} height={220} className="w-auto max-h-[160px] object-contain" priority />
+            </div>
+            <span className="shine pointer-events-none absolute inset-0 rounded-2xl" aria-hidden />
+            <span className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-white/10" aria-hidden />
+          </a>
 
-      {/* bouton "carte" — même matière que Aidez Abood, plus haut et plus large */}
-      <a
-        href="https://www.helloasso.com/associations/sans-transition/formulaires/1"
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Faire un don à Sans Transition"
-        className="
-          group relative
-          h-[calc(100%-8px)] sm:h-[calc(100%-10px)]    /* quasi pleine hauteur du bloc */
-          w-[230px] sm:w-[260px]                       /* largeur confortable */
-          rounded-2xl border border-white/10 bg-white/5
-          hover:bg-white/10 transition-colors
-          shadow-[inset_0_1px_0_rgba(255,255,255,.06)]
-          grid place-items-center px-6 text-center
-        "
-      >
-        <span className="text-[15px] sm:text-[17px] font-bold text-white">
-          Faire un don
-        </span>
-
-        {/* subtil anneau interne comme sur tes autres cartes */}
-        <span className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-white/5"></span>
-      </a>
-    </div>
-  </div>
-</motion.section>
-
-  
-
+          <style jsx>{`
+            .shine { overflow: hidden; mix-blend-mode: screen; }
+            .shine::before {
+              content: ""; position: absolute; top: -30%; bottom: -30%; left: -25%; width: 80%;
+              background: linear-gradient(115deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.12) 35%, rgba(255,255,255,0.45) 50%, rgba(255,255,255,0.12) 65%, rgba(255,255,255,0) 100%);
+              transform: skewX(-20deg) translateX(-250%); animation: sweep 3s linear infinite; will-change: transform;
+            }
+            @keyframes sweep { 0% { transform: skewX(-20deg) translateX(-250%); } 100% { transform: skewX(-20deg) translateX(250%); } }
+            @media (prefers-reduced-motion: reduce) { .shine::before { animation-duration: 6s; opacity: 0.2; } }
+          `}</style>
+        </motion.section>
       </div>
     </Section>
   );

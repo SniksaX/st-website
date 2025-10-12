@@ -1,8 +1,8 @@
-'use client';
+'use client'
 
-import React from 'react';
-import Section from './Section';
-import { Button } from '@/components/ui/button';
+import React from 'react'
+import Section from './Section'
+import { Button } from '@/components/ui/button'
 
 export default function Header() {
   return (
@@ -19,49 +19,49 @@ export default function Header() {
               SANS TRANSITION
             </div>
             <div className="text-xs text-neutral-300 -mt-0.5">
-              média militant • pédagogique • engagé
+              média militant · pédagogique · engagé
             </div>
           </div>
         </div>
 
         {/* Center — wrapper toujours centré */}
-        <div className="justify-self-center relative flex items-center justify-center min-h-[48px]">
-          {/* Nav — n’apparaît qu’au hover/focus (desktop), anim smooth */}
+        <div className="justify-self-center relative flex items-center justify-center min-h-[52px]">
+          {/* NAV — version QuickNav (pill) visible au hover/focus (desktop) */}
           <nav
-              className="
-                hidden md:flex items-center gap-6 text-sm text-neutral-200
-                opacity-0 translate-y-1 pointer-events-none
-                transition-opacity transition-transform duration-150 ease-out transform-gpu
-                md:group-hover:opacity-100 md:group-hover:translate-y-0 md:group-hover:pointer-events-auto
-                md:group-focus-within:opacity-100 md:group-focus-within:translate-y-0 md:group-focus-within:pointer-events-auto
-                motion-reduce:transition-none motion-reduce:transform-none
-                relative z-0
-              "
-            >
-            <nav className="hidden md:flex items-center gap-6 text-sm text-neutral-200">
-              <a href="#liens"          className="link-animated" data-text="Liens">Liens</a>
-              <a href="#videos-youtube" className="link-animated" data-text="Vidéos YouTube">Vidéos YouTube</a>
-              <a href="#formats"        className="link-animated" data-text="Formats">Formats</a>
-              <a href="#videos-tiktok"  className="link-animated" data-text="Vidéos TikTok">Vidéos TikTok</a>
-              <a href="#about"          className="link-animated" data-text="À propos">À propos</a>
-            </nav>
-
-
-
+            aria-label="Navigation principale"
+            className="hidden md:flex absolute inset-0 z-10 items-center justify-center opacity-0 translate-y-1 pointer-events-none transition-opacity transition-transform duration-150 ease-out transform-gpu md:group-hover:opacity-100 md:group-hover:translate-y-0 md:group-hover:pointer-events-auto md:group-focus-within:opacity-100 md:group-focus-within:translate-y-0 md:group-focus-within:pointer-events-auto motion-reduce:transition-none motion-reduce:transform-none"
+          >
+            <div className="mx-2 inline-flex rounded-2xl bg-neutral-900/60 px-2 py-1.5 shadow-lg ring-1 ring-white/10 backdrop-blur">
+              <ul className="flex items-center justify-center gap-2 flex-row whitespace-nowrap">
+                {[
+                  { id: 'liens', label: 'Liens' },
+                  { id: 'videos-youtube', label: 'YouTube' },
+                  { id: 'formats', label: 'Formats' },
+                  { id: 'videos-tiktok', label: 'TikTok' },
+                  { id: 'valeurs', label: 'Valeurs' },
+                  { id: 'about', label: 'À propos' },
+                  { id: 'stream', label: 'Agenda' },
+                  { id: 'dons', label: 'Dons' },
+                  , // ⚠️ id corrigé pour matcher la section
+                ].map((s) => (
+                  <li key={s.id}>
+                    <a
+                      href={`#${s.id}`}
+                      className="inline-block rounded-xl px-3 py-1.5 text-xs text-neutral-200 transition hover:bg-neutral-800/80 focus:bg-neutral-800/80 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/70"
+                    >
+                      {s.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </nav>
 
-          {/* WELCOME — caché en mobile, visible dès md */}
+          {/* WELCOME — visible par défaut, disparaît au hover/focus pour laisser place au QuickNav */}
           <div
-            className="
-              hidden md:flex absolute inset-0 z-10 items-center justify-center
-              transition-opacity transition-transform duration-150 ease-out transform-gpu
-              md:group-hover:opacity-0 md:group-hover:translate-y-1 md:group-hover:pointer-events-none
-              md:group-focus-within:opacity-0 md:group-focus-within:translate-y-1 md:group-focus-within:pointer-events-none
-              motion-reduce:transition-none motion-reduce:transform-none
-            "
+            className="hidden md:flex absolute inset-0 z-0 items-center justify-center transition-opacity transition-transform duration-150 ease-out transform-gpu md:group-hover:opacity-0 md:group-hover:translate-y-1 md:group-hover:pointer-events-none md:group-focus-within:opacity-0 md:group-focus-within:translate-y-1 md:group-focus-within:pointer-events-none motion-reduce:transition-none motion-reduce:transform-none"
           >
-            <span className="font-extrabold tracking-tight text-white leading-none whitespace-nowrap
-                            text-2xl sm:text-3xl md:text-2xl lg:text-2xl">
+            <span className="font-extrabold tracking-tight text-white leading-none whitespace-nowrap text-2xl sm:text-3xl md:text-2xl lg:text-2xl">
               Bienvenue sur{' '}
               <span
                 className="text-transparent [background:var(--grad-1)]"
@@ -72,23 +72,47 @@ export default function Header() {
               .
             </span>
           </div>
-
-
         </div>
 
         {/* Right — CTA */}
         <Button
           asChild
-          className="justify-self-end rounded-2xl font-bold text-white shadow-sm hover:shadow-md
-                     focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80
-                     focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950
-                     [background:var(--grad-1)]"
+          className="justify-self-end rounded-2xl font-bold text-white shadow-sm hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950 [background:var(--grad-1)]"
         >
-          <a href="https://www.helloasso.com/associations/sans-transition/formulaires/1" target="_blank" rel="noreferrer">
+          <a
+            href="https://www.helloasso.com/associations/sans-transition/formulaires/1"
+            target="_blank"
+            rel="noreferrer"
+          >
             Soutenir
           </a>
         </Button>
       </Section>
+
+      {/* Mobile — on garde simple : afficher directement une mini QuickNav scrollable */}
+      <div className="md:hidden border-t border-neutral-800/80 bg-neutral-950/70 backdrop-blur">
+        <nav aria-label="Navigation mobile" className="mx-auto max-w-screen-xl overflow-x-auto px-4 py-2">
+          <ul className="flex items-center justify-center gap-2 flex-row whitespace-nowrap">
+            {[
+              { id: 'liens', label: 'Liens' },
+              { id: 'videos-youtube', label: 'YouTube' },
+              { id: 'formats', label: 'Formats' },
+              { id: 'videos-tiktok', label: 'TikTok' },
+              { id: 'about', label: 'À propos' },
+              { id: 'stream', label: 'Agenda' },
+            ].map((s) => (
+              <li key={s.id} className="shrink-0">
+                <a
+                  href={`#${s.id}`}
+                  className="inline-block rounded-xl bg-neutral-900/60 px-3 py-1.5 text-xs text-neutral-200 ring-1 ring-white/10 transition hover:bg-neutral-800/80 focus:bg-neutral-800/80 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/70"
+                >
+                  {s.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </div>
     </header>
-  );
+  )
 }

@@ -1,7 +1,7 @@
-'use client';
+﻿'use client';
 import React from 'react';
 import Section from './Section';
-import { ChevronLeft, ChevronRight, ArrowUpRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ArrowUpRight, Youtube as YoutubeIcon } from 'lucide-react';
 
 type YtItem = { id: string; title?: string; publishedAt?: string };
 type Item = { kind: 'video'; v: YtItem } | { kind: 'more' };
@@ -11,7 +11,6 @@ type ApiResponse = { videos?: ApiVideo[] };
 
 function isApiResponse(x: unknown): x is ApiResponse {
   return !!x && typeof x === 'object' && 'videos' in (x as Record<string, unknown>);
-  
 }
 
 /** Normalize to the 11-char YouTube video ID */
@@ -64,8 +63,8 @@ export default function VideosYouTube() {
           const msg = e instanceof Error ? e.message : String(e);
           setError(msg);
           setVideos([
-            { id: '6S5YPk-GIng', title: 'Vidéo Sans Transition' },
-            { id: 'V7d_6ePKy6E', title: 'Vidéo Sans Transition' },
+            { id: '6S5YPk-GIng', title: 'VidÃ©o Sans Transition' },
+            { id: 'V7d_6ePKy6E', title: 'VidÃ©o Sans Transition' },
           ]);
           setIdx(0);
         }
@@ -78,7 +77,7 @@ export default function VideosYouTube() {
     };
   }, []);
 
-  // vidéos + carte "voir +"
+  // vidÃ©os + carte "voir +"
   const items: Item[] = [...videos.map((v) => ({ kind: 'video', v } as const)), { kind: 'more' }];
   const N = items.length;
   const at = (i: number) => items[((i % N) + N) % N];
@@ -92,11 +91,20 @@ export default function VideosYouTube() {
     <Section id="videos-youtube" className="py-14 relative z-10 isolate">
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">Vidéos YouTube</h2>
-        <div className="hidden sm:flex gap-2">
+        <div className="hidden sm:flex items-center gap-2">
+          <a
+            href="https://youtube.com/@SansTransitionMedia"
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-3 h-9 text-sm text-white hover:bg-white/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
+          >
+            <YoutubeIcon className="h-4 w-4" />
+            <span>Suivre sur YouTube</span>
+          </a>
           <button
             onClick={prev}
             className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white"
-            aria-label="Précédent"
+            aria-label="PrÃ©cÃ©dent"
           >
             <ChevronLeft className="h-5 w-5" />
           </button>
@@ -156,3 +164,4 @@ export default function VideosYouTube() {
     </Section>
   );
 }
+
