@@ -3,15 +3,16 @@
 import React from "react";
 import Section from "./Section";
 import { Twitch } from "lucide-react";
+import { motion, type Variants } from "framer-motion";
+import { useInView } from "framer-motion";
 
 type StreamItem = {
-  time: string; // 24h, e.g. "08:00"
+  time: string;
   title: string;
   desc: string;
   people?: string;
 };
 
-// Affichage lundi->dimanche, en mappant sur Date.getDay()
 const WEEK = [
   { label: "Lun", day: 1 },
   { label: "Mar", day: 2 },
@@ -24,7 +25,6 @@ const WEEK = [
 
 function dayItems(dayIdx: number): StreamItem[] {
   const items: StreamItem[] = [];
-  // Matinale solo: Lun -> Ven à 09:00
   if (dayIdx >= 1 && dayIdx <= 5) {
     items.push({
       time: "09:00",
@@ -33,7 +33,6 @@ function dayItems(dayIdx: number): StreamItem[] {
       people: "avec Hedji",
     });
   }
-  // Mardi 20:00: Aktu avec Amandine & Lucho
   if (dayIdx === 2) {
     items.push({
       time: "20:00",
@@ -42,7 +41,6 @@ function dayItems(dayIdx: number): StreamItem[] {
       desc: "Réaction à l'actu",
     });
   }
-  // Vendredi 20:00: Ekip
   if (dayIdx === 5) {
     items.push({
       time: "20:00",
@@ -54,10 +52,24 @@ function dayItems(dayIdx: number): StreamItem[] {
   return items;
 }
 
+const gridVariants: Variants = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.08,
+      delayChildren: 0.05,
+    },
+  },
+};
+
+const cardVariants: Variants = {
+  hidden: { opacity: 0, y: 8 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.35, ease: [0, 0, 0.2, 1] } },
+};
+
 export default function StreamCalendar() {
   const [today, setToday] = React.useState<number>(() => new Date().getDay());
   React.useEffect(() => {
-    // Met à jour le jour courant côté client pour l'accent visuel
     const id = window.setInterval(() => setToday(new Date().getDay()), 60_000);
     return () => window.clearInterval(id);
   }, []);
@@ -69,6 +81,9 @@ export default function StreamCalendar() {
     target.setHours(h || 0, m || 0, 0, 0);
     return Math.round((target.getTime() - now.getTime()) / 60000);
   };
+
+  const ref = React.useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-50px" });
 
   return (
     <Section id="streams" className="py-14">
@@ -87,18 +102,23 @@ export default function StreamCalendar() {
         </a>
       </div>
 
-      <div
+      <motion.div
+        ref={ref}
         className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7"
         role="grid"
         aria-label="Calendrier hebdomadaire des lives"
+        variants={gridVariants}
+        initial="hidden"
+        animate={inView ? "show" : "hidden"}
       >
         {WEEK.map(({ label, day }) => {
           const items = dayItems(day);
           const isToday = day === today;
           return (
-            <div
+            <motion.div
               key={label}
               role="row"
+              variants={cardVariants}
               className={
                 "relative rounded-2xl border bg-white/[0.03] border-white/10 " +
                 "shadow-[0_10px_30px_-20px_rgba(0,0,0,.8)] transition-transform duration-200 " +
@@ -135,13 +155,18 @@ export default function StreamCalendar() {
                   <p className="text-sm text-white/60">— Pas de live prévu</p>
                 ) : (
                   items.map((it, i) => {
-                    const soon = isToday && minutesUntil(it.time) >= 0 && minutesUntil(it.time) <= 60;
+                    const soon =
+                      isToday &&
+                      minutesUntil(it.time) >= 0 &&
+                      minutesUntil(it.time) <= 60;
                     return (
                       <div
                         key={`${label}-${i}-${it.time}`}
                         className={
                           "rounded-xl border p-2.5 backdrop-blur " +
-                          (soon ? "border-white/20 bg-white/10" : "border-white/10 bg-black/40")
+                          (soon
+                            ? "border-white/20 bg-white/10"
+                            : "border-white/10 bg-black/40")
                         }
                       >
                         <div className="flex flex-col gap-1.5">
@@ -173,10 +198,10 @@ export default function StreamCalendar() {
                   })
                 )}
               </div>
-            </div>
+            </motion.div>
           );
         })}
-      </div>
+      </motion.div>
 
       <p className="mt-4 text-xs text-white/60">
         • La TransMatinale (lun–ven, 09:00) — revue de presse. • Aktu (mardi, 20:00) — réaction à l&apos;actu avec Amandine & Lucho. • Ekip (vendredi, 20:00) — live chill avec la commu.

@@ -125,8 +125,18 @@ export default function Hero() {
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
             <HoverLift>
-              <Button variant="brand" size="md" className="h-11 rounded-2xl px-5 text-[15px] text-white">
-                Regarder les vidéos <ArrowRight className="ml-1 h-4 w-4 shrink-0" />
+              <Button
+                variant="brand"
+                size="md"
+                className="h-11 rounded-2xl px-5 text-[15px] text-white"
+              >
+                <Link
+                  href="#videos-youtube"
+                  className="inline-flex items-center gap-1"
+                >
+                  Regarder les vidéos
+                  <ArrowRight className="h-4 w-4 shrink-0" />
+                </Link>
               </Button>
             </HoverLift>
             <Button asChild variant="white" size="md" className="h-11 rounded-2xl px-5 text-[15px]">
