@@ -41,7 +41,7 @@ export default function DonPage() {
       <section className="relative border-b border-border backdrop-blur">
         {/* Mosaïque en arrière-plan */}
         <div aria-hidden className="absolute inset-0 z-0 pointer-events-none">
-          <div className="absolute left-0 right-0 top-24 md:top-1/2 md:-translate-y-1/2">
+          <div className="absolute left-0 right-0 top-20 -translate-y-[2px] md:top-1/2 md:-translate-y-1/2">
             <div className="mx-auto max-w-6xl opacity-30">
               <FacesMosaic fileUrl="/json_don.txt" variant="background" />
             </div>
