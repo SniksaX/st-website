@@ -265,7 +265,7 @@ export default function DonPage() {
 
           <div className="text-center mt-8">
             <Button asChild variant="outline" className="rounded-full">
-              <Link href="#finances">Voir « Finances & indépendance »</Link>
+              <a href="#finances">Voir « Finances & indépendance »</a>
             </Button>
           </div>
         </div>
@@ -589,9 +589,9 @@ function DonHeader() {
             size="sm"
             className="whitespace-nowrap rounded-full bg-gradient-to-r from-fuchsia-600 to-orange-500 hover:from-fuchsia-500 hover:to-orange-400 text-white font-semibold px-3 sm:px-4 h-9 text-xs sm:text-sm shadow-[0_8px_20px_rgba(168,85,247,0.25)]"
           >
-            <Link href={HELLOASSO_URL} target="_blank" rel="noreferrer">
+            <a href={HELLOASSO_URL} target="_blank" rel="noreferrer">
               Rejoindre la Transition
-            </Link>
+            </a>
           </Button>
         </div>
       </div>
