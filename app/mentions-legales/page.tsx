@@ -1,4 +1,4 @@
-import Link from "next/link";
+
 
 export const metadata = {
   title: "Mentions légales | Sans Transition",

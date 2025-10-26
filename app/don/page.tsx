@@ -18,6 +18,8 @@ import {
   Users,
 } from "lucide-react";
 import { MotionDiv } from "@/components/ClientMotion";
+import FacesMosaic from "@/components/FacesMosaic";
+import DonProgress from "@/components/DonProgress";
 
 export const metadata = {
   title: "Soutenir Sans Transition — Don",
@@ -27,6 +29,7 @@ export const metadata = {
 
 const HELLOASSO_URL =
   "https://www.helloasso.com/beta/associations/sans-transition/formulaires/1";
+const HELLOASSO_ONE_TIME_URL = HELLOASSO_URL; // TODO: remplacer par le lien don ponctuel dédié si différent
 
 export default function DonPage() {
   return (
@@ -36,7 +39,19 @@ export default function DonPage() {
 
       {/* HERO — dark remix */}
       <section className="relative border-b border-border backdrop-blur">
-        <Section className="relative pt-28 pb-18">
+        {/* Mosaïque en arrière-plan */}
+        <div aria-hidden className="absolute inset-0 z-0 pointer-events-none">
+          <div className="absolute left-0 right-0 top-24 md:top-1/2 md:-translate-y-1/2">
+            <div className="mx-auto max-w-6xl opacity-30">
+              <FacesMosaic fileUrl="/json_don.txt" variant="background" />
+            </div>
+          </div>
+          {/* masques pour garder la lisibilité du Hero */}
+          <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background" />
+          <div className="absolute inset-0 bg-gradient-to-r from-background via-transparent to-background" />
+        </div>
+
+        <Section className="relative z-10 pt-28 pb-18">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             {/* Left: Main message */}
             <MotionDiv
@@ -48,14 +63,18 @@ export default function DonPage() {
                 <Sparkles className="h-3.5 w-3.5" /> Campagne de soutien
               </div>
 
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.05] mb-5">
-                <span className="bg-clip-text text-transparent bg-gradient-to-br from-neutral-900 to-neutral-600 dark:from-white dark:to-neutral-300">
-                  Un média pour les minorités.
-                </span>{" "}
-                <span className="text-muted-foreground">Pas pour les milliardaires.</span>
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.05] mb-4">
+                <span className="text-foreground">La Transition — </span>
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-neutral-100 dark:from-white dark:via-white dark:to-neutral-100 drop-shadow-[0_2px_10px_rgba(0,0,0,0.35)]">
+                  l’indépendance ou rien.
+                </span>
               </h1>
 
-              <p className="text-base sm:text-lg text-muted-foreground leading-relaxed max-w-xl mb-8">
+              <p className="text-base sm:text-lg text-foreground/95 leading-relaxed max-w-xl mb-6 italic">
+                « 1 000 personnes à 2 €/mois = un média libre et stable. »
+              </p>
+
+              <p className="text-base sm:text-lg text-foreground/90 leading-relaxed max-w-xl mb-8">
                 Sans Transition est un média indépendant, construit par et pour les minorités.
                 Notre mission : faire exister les voix qu’on n’écoute jamais, raconter les luttes
                 avec justesse et proposer des analyses radicalement différentes.
@@ -68,10 +87,19 @@ export default function DonPage() {
                   className="rounded-2xl bg-gradient-to-r from-fuchsia-600 to-orange-500 hover:from-fuchsia-500 hover:to-orange-400 text-white font-semibold h-14 px-8 text-base shadow-[0_10px_30px_rgba(168,85,247,0.25)]"
                 >
                   <a href={HELLOASSO_URL} target="_blank" rel="noreferrer">
-                    Donner 2 € / mois <ArrowRight className="ml-2 h-5 w-5" />
+                    Je rejoins la Transition <ArrowRight className="ml-2 h-5 w-5" />
                   </a>
                 </Button>
-                {/* Bouton Don ponctuel supprimé */}
+                <Button
+                  asChild
+                  variant="outline"
+                  size="lg"
+                  className="rounded-2xl border-border bg-card hover:bg-muted text-foreground h-14 px-8 text-base"
+                >
+                  <a href={HELLOASSO_ONE_TIME_URL} target="_blank" rel="noreferrer">
+                    Faire un don ponctuel
+                  </a>
+                </Button>
               </div>
 
               <p className="text-sm text-muted-foreground mb-2">
@@ -80,9 +108,8 @@ export default function DonPage() {
               </p>
 
               <p className="mt-4 text-xs text-muted-foreground">
-                Sans Transition est une <strong>association loi 1901</strong>. Si vous êtes imposable en
-                France, vos dons peuvent ouvrir droit à une <strong>réduction d’impôt de 66&nbsp;%</strong>
-                (art. 200 du CGI), dans la limite de 20&nbsp;% du revenu imposable. Un reçu fiscal vous est délivré.
+                Sans Transition est une <strong>association loi 1901</strong>. Vos dons financent directement nos contenus
+                et notre développement.
               </p>
             </MotionDiv>
 
@@ -98,7 +125,7 @@ export default function DonPage() {
                 </CardHeader>
                 <CardContent className="space-y-4 text-muted-foreground">
                   <TrustBadge icon={ShieldCheck} text="Association loi 1901" />
-                  <TrustBadge icon={Euro} text="Dons déductibles des impôts à 66 %" />
+                  <TrustBadge icon={Euro} text="Financement 100 % citoyen" />
                   <TrustBadge icon={HeartHandshake} text="Pas de pubs, pas d’actionnaires" />
                   <TrustBadge icon={Target} text="Indépendance par la communauté" />
                   <div className="pt-4 border-t border-border">
@@ -113,6 +140,205 @@ export default function DonPage() {
           </div>
         </Section>
       </section>
+
+      
+
+      
+
+      {/* Sections ajoutées — structure demandée */}
+      {/* Pourquoi La Transition ? */}
+      <Section className="py-16">
+        <div className="max-w-5xl mx-auto">
+          <MotionDiv
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="text-center mb-10"
+          >
+            <h2 className="text-4xl sm:text-5xl font-bold text-foreground mb-4">Pourquoi La Transition ?</h2>
+            <p className="text-lg text-muted-foreground">
+              Parce qu’on ne peut pas être libres sans moyens.
+            </p>
+          </MotionDiv>
+        </div>
+      </Section>
+
+      {/* Les paliers */}
+      <Section className="py-16">
+        <div className="max-w-5xl mx-auto">
+          <MotionDiv
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="text-center mb-10"
+          >
+            <h2 className="text-4xl font-bold text-foreground mb-4">Les paliers</h2>
+            <p className="text-muted-foreground">Écho • Signal • Fracture • Transition</p>
+          </MotionDiv>
+
+          <div className="grid md:grid-cols-4 gap-6">
+            {[
+              {
+                name: "Écho",
+                amount: "2 €/mois",
+                desc: "Tu fais entendre nos voix. Le début du mouvement.",
+              },
+              {
+                name: "Signal",
+                amount: "5 €/mois",
+                desc: "Tu amplifies le signal. Tu fais vibrer les luttes.",
+              },
+              {
+                name: "Fracture",
+                amount: "10 €/mois",
+                desc: "Tu casses le cadre médiatique dominant.",
+              },
+              {
+                name: "Transition",
+                amount: "20 €/mois",
+                desc: "Tu rends possible la bascule. L’indépendance ou rien.",
+              },
+            ].map((p) => (
+              <Card key={p.name} className="rounded-3xl border border-border bg-card/70 ring-1 ring-border h-full">
+                <CardHeader className="pb-2">
+                  <CardTitle className="text-xl font-bold text-foreground">{p.name}</CardTitle>
+                  <p className="text-sm text-muted-foreground mt-1">{p.amount}</p>
+                </CardHeader>
+                <CardContent className="text-muted-foreground">{p.desc}</CardContent>
+              </Card>
+            ))}
+          </div>
+
+          {/* Progression vers l'objectif */}
+          <DonProgress goal={1000} />
+
+          <div className="text-center mt-8">
+            <Button
+              asChild
+              size="lg"
+              className="rounded-2xl bg-gradient-to-r from-fuchsia-600 to-orange-500 hover:from-fuchsia-500 hover:to-orange-400 text-white font-semibold h-14 px-8 text-base shadow-[0_10px_30px_rgba(168,85,247,0.25)]"
+            >
+              <a href={HELLOASSO_URL} target="_blank" rel="noreferrer">
+                Je rejoins la Transition
+              </a>
+            </Button>
+          </div>
+        </div>
+      </Section>
+
+      {/* Transparence */}
+      <Section className="py-16">
+        <div className="max-w-5xl mx-auto">
+          <MotionDiv
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="mb-10 text-center"
+          >
+            <h2 className="text-4xl font-bold text-foreground mb-4">Transparence</h2>
+            <p className="text-muted-foreground text-lg">Budgets socle et ambition, gouvernance et indépendance.</p>
+          </MotionDiv>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            <Card className="rounded-3xl border border-border bg-card/70 ring-1 ring-border">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-2xl font-bold text-foreground">Budget socle</CardTitle>
+              </CardHeader>
+              <CardContent className="text-muted-foreground space-y-3">
+                <p>Salaires dignes, frais de tournage, hébergement, outils.</p>
+                <p>Objectif: stabiliser la production et l’équipe.</p>
+              </CardContent>
+            </Card>
+            <Card className="rounded-3xl border border-border bg-card/70 ring-1 ring-border">
+              <CardHeader className="pb-3">
+                <CardTitle className="text-2xl font-bold text-foreground">Budget ambition</CardTitle>
+              </CardHeader>
+              <CardContent className="text-muted-foreground space-y-3">
+                <p>Grandes enquêtes, formats pédagogiques, documentation et événements.</p>
+                <p>Objectif: accélérer l’impact et l’accessibilité.</p>
+              </CardContent>
+            </Card>
+          </div>
+
+          <div className="text-center mt-8">
+            <Button asChild variant="outline" className="rounded-full">
+              <Link href="#finances">Voir « Finances & indépendance »</Link>
+            </Button>
+          </div>
+        </div>
+      </Section>
+
+      {/* Les visages de ST — mosaïque de vidéos */}
+      <Section className="py-16">
+        <div className="max-w-5xl mx-auto">
+          <MotionDiv
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="text-center mb-10"
+          >
+            <h2 className="text-4xl font-bold text-foreground mb-4">Les visages de ST</h2>
+            <p className="text-muted-foreground">Extraits vidéo depuis notre TikTok</p>
+          </MotionDiv>
+
+          <FacesMosaic fileUrl="/json_don.txt" variant="static" />
+        </div>
+      </Section>
+
+      
+
+      {/* Ancre interne pour Transparence */}
+      <Section id="finances" className="py-12">
+        <div className="max-w-4xl mx-auto">
+          <MotionDiv
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
+            <h3 className="text-2xl font-bold text-foreground mb-3">Finances & indépendance</h3>
+            <p className="text-muted-foreground">
+              Nous publierons ici un suivi synthétique de nos budgets (socle/ambition), sources de financement et
+              principes d’indépendance. En attendant, vos questions sont les bienvenues.
+            </p>
+          </MotionDiv>
+        </div>
+      </Section>
+
+      {/* FAQ (déplacée en fin de page pour conclure) */}
+      <Section className="py-16">
+        <div className="max-w-4xl mx-auto">
+          <MotionDiv
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="text-center mb-10"
+          >
+            <h2 className="text-4xl font-bold text-foreground mb-4">FAQ</h2>
+            <p className="text-muted-foreground">Sécurité, RGPD, résiliation</p>
+          </MotionDiv>
+
+          <div className="space-y-6 text-muted-foreground">
+            <div>
+              <p className="text-foreground font-semibold mb-1">Paiement sécurisé ?</p>
+              <p>Les dons sont traités par HelloAsso (HTTPS, 3-D Secure). Nous ne stockons pas vos données bancaires.</p>
+            </div>
+            <div>
+              <p className="text-foreground font-semibold mb-1">RGPD et données personnelles</p>
+              <p>Nous collectons le minimum nécessaire pour les reçus fiscaux et la gestion des dons, conformément au RGPD.</p>
+            </div>
+            <div>
+              <p className="text-foreground font-semibold mb-1">Résilier un don mensuel</p>
+              <p>Vous pouvez modifier ou arrêter votre soutien à tout moment via votre espace HelloAsso.</p>
+            </div>
+          </div>
+        </div>
+      </Section>
 
       {/* Pourquoi on existe */}
       <Section className="py-20">
@@ -197,9 +423,7 @@ export default function DonPage() {
                   </Button>
                 </div>
 
-                <p className="text-xs text-muted-foreground pt-1">
-                  Exemple : un don de 10&nbsp;€ revient à 3,40&nbsp;€ après impôts.
-                </p>
+                
               </CardContent>
             </Card>
           </MotionDiv>
@@ -362,12 +586,11 @@ function DonHeader() {
           <ThemeToggle />
           <Button
             asChild
-            variant="outline"
             size="sm"
-            className="rounded-full border border-border bg-card hover:bg-muted text-foreground"
+            className="rounded-full bg-gradient-to-r from-fuchsia-600 to-orange-500 hover:from-fuchsia-500 hover:to-orange-400 text-white font-semibold px-4 h-9 shadow-[0_8px_20px_rgba(168,85,247,0.25)]"
           >
-            <Link href="/">
-              Aller sur le site
+            <Link href={HELLOASSO_URL} target="_blank" rel="noreferrer">
+              Rejoindre la Transition
             </Link>
           </Button>
         </div>

@@ -1,0 +1,222 @@
+﻿[
+  {
+    "id": "7558533598307978498",
+    "title": "#fokus sur Lecornu, le Premier Ministre le plus éphémère de France. #SansTransition #politiquefrancaise #politique #actu",
+    "views": 7643,
+    "likes": 1792,
+    "comments": 27,
+    "shares": 130,
+    "engagementRate": 25.500457935365695,
+    "date": "2025-10-07T17:30:44.000Z"
+  },
+  {
+    "id": "7556713824343035158",
+    "title": "#fokus sur Milei, bienvenue à Diego sur Sans Transition. Suivez son compte @surveillantincompetent. #SansTransition #politiquefrancaise #politique #actu #argentine",
+    "views": 123230,
+    "likes": 17236,
+    "comments": 789,
+    "shares": 592,
+    "engagementRate": 15.107522518867158,
+    "date": "2025-10-02T19:49:06.000Z"
+  },
+  {
+    "id": "7556285172577078550",
+    "title": "@deputee_obono nous livre une #itw exclusive. #SansTransition #fokus #politiquefrancaise #politique #actu",
+    "views": 4922,
+    "likes": 349,
+    "comments": 186,
+    "shares": 9,
+    "engagementRate": 11.052417716375457,
+    "date": "2025-10-01T16:05:45.000Z"
+  },
+  {
+    "id": "7552634896087256342",
+    "title": "@guetteclemence sur le programme, sa radicalité et son écologie. Des bloopers et du matériel à edits. #Mikro #SansTransition #politiquefrancaise #fetedelhuma #actu",
+    "views": 16453,
+    "likes": 1076,
+    "comments": 93,
+    "shares": 21,
+    "engagementRate": 7.232723515468304,
+    "date": "2025-09-21T20:00:47.000Z"
+  },
+  {
+    "id": "7552240035635023126",
+    "title": "L'extreme droite : l'assurance vie de la Macronie ? @mathildepanot au #Mikro de #SansTransition. #politiquefrancaise #fetedelhuma #actu",
+    "views": 1870,
+    "likes": 315,
+    "comments": 21,
+    "shares": 3,
+    "engagementRate": 18.128342245989305,
+    "date": "2025-09-20T18:28:32.000Z"
+  },
+  {
+    "id": "7551328902040374550",
+    "title": "@manuelbompard vous envoie en manif aujourd'hui, allez-y!! #Mikro #SansTransition #politiquefrancaise #fetedelhuma",
+    "views": 1704,
+    "likes": 281,
+    "comments": 25,
+    "shares": 6,
+    "engagementRate": 18.30985915492958,
+    "date": "2025-09-18T07:32:58.000Z"
+  },
+  {
+    "id": "7550373765104798998",
+    "title": "@Alma Dufour part pour Gaza. Elle s’explique sur son départ pour #SansTransition. #itw #politiquefrancaise ",
+    "views": 17944,
+    "likes": 2034,
+    "comments": 321,
+    "shares": 75,
+    "engagementRate": 13.542131074453856,
+    "date": "2025-09-15T17:46:27.000Z"
+  },
+  {
+    "id": "7549455128848387350",
+    "title": "Quand la santé est en jeu, @sandrousseau s'en t*pe de la rentabilité des agriculteurs. Et elle a bien raison. Elle s'explique sur #SansTransition",
+    "views": 1233,
+    "likes": 189,
+    "comments": 10,
+    "shares": 4,
+    "engagementRate": 16.463909164639094,
+    "date": "2025-09-13T06:21:52.000Z"
+  },
+  {
+    "id": "7547675578866912534",
+    "title": "period. @aleaument",
+    "views": 12910,
+    "likes": 1942,
+    "comments": 190,
+    "shares": 40,
+    "engagementRate": 16.824167312161116,
+    "date": "2025-09-08T11:16:09.000Z"
+  },
+  {
+    "id": "7533281087792106774",
+    "title": "#OeilDeLucho par @louis_bnh sur la famine actuelle et d'autres exemples comme le Bengale ou l'Irlande. #SansTransition",
+    "views": 16904,
+    "likes": 6336,
+    "comments": 227,
+    "shares": 737,
+    "engagementRate": 43.18504495977283,
+    "date": "2025-07-31T16:18:09.000Z"
+  },
+  {
+    "id": "7531448180790086934",
+    "title": "#OeilDAmandine sur Élodie et son histoire boulversante. Suivez @donaadone @la.meuf.au.plaid @stonemarten @nikita.minaccia @siduzl @maevabjr @iambeeella, les Femmes responsables du sauvetage d'Élodie. Suivez aussi @carpedine. Merci à tous. #SansTransition",
+    "views": 258938,
+    "likes": 59080,
+    "comments": 6643,
+    "shares": 5594,
+    "engagementRate": 27.54211432852652,
+    "date": "2025-07-26T17:45:32.000Z"
+  },
+  {
+    "id": "7529565958445288726",
+    "title": "#fokus par @grandebavardeuse sur le cimetière qu'est la Mediterranée et sur la fausse compassion. #SansTransition",
+    "views": 77173,
+    "likes": 21989,
+    "comments": 71,
+    "shares": 279,
+    "engagementRate": 28.946652326590904,
+    "date": "2025-07-21T16:01:33.000Z"
+  },
+  {
+    "id": "7528810888753597718",
+    "title": "@ianbrossatsenateur s'exprime sur ses liens avec la Palestine. #itw #SansTransition",
+    "views": 68479,
+    "likes": 7712,
+    "comments": 679,
+    "shares": 1740,
+    "engagementRate": 14.794316505790094,
+    "date": "2025-07-19T16:00:00.000Z"
+  },
+  {
+    "id": "7528474111220256022",
+    "title": "@raphael_arnault sur la fiche S, vous voulez l'#itw complète? #SansTransition #politiquefrancaise",
+    "views": 47272,
+    "likes": 3907,
+    "comments": 502,
+    "shares": 61,
+    "engagementRate": 9.4559147063801,
+    "date": "2025-07-18T17:24:37.000Z"
+  },
+  {
+    "id": "7527630069041253654",
+    "title": "#fokus sur l'habit par @alexandre_salutlasociete. #SansTransition #politiquefrancaise",
+    "views": 10503,
+    "likes": 3117,
+    "comments": 42,
+    "shares": 105,
+    "engagementRate": 31.07683518994573,
+    "date": "2025-07-16T18:00:00.000Z"
+  },
+  {
+    "id": "7524744306905648406",
+    "title": "#itw de @rexachjose sur ce qu'est etre un reporter terrain. #SansTransition",
+    "views": 1712,
+    "likes": 152,
+    "comments": 5,
+    "shares": 2,
+    "engagementRate": 9.287383177570094,
+    "date": "2025-07-08T16:11:05.000Z"
+  },
+  {
+    "id": "7520234967922724118",
+    "title": "A notre #Mikro, @anasserp et Elsa Marcel sur la criminalisation du soutien envers la Palestine.",
+    "views": 7929,
+    "likes": 1804,
+    "comments": 53,
+    "shares": 47,
+    "engagementRate": 24.013116408122084,
+    "date": "2025-06-26T12:32:32.000Z"
+  },
+  {
+    "id": "7515522406220418326",
+    "title": "On a couvert le retour de Rima Hassan pour notre premier #Mikro. @david_guiraud @raphael_arnault @deputee_obono #SansTransition #FreedomFlotilla #StopGenocide #politiquefrancaise",
+    "views": 12263,
+    "likes": 1873,
+    "comments": 291,
+    "shares": 57,
+    "engagementRate": 18.111391992171573,
+    "date": "2025-06-13T19:45:24.000Z"
+  },
+  {
+    "id": "7508370226652646678",
+    "title": "#SansTransition exceptionnel avec @mourad.guichard, journaliste critique media sur @lemediatv et son rapport aux \"minorités\".",
+    "views": 3566,
+    "likes": 684,
+    "comments": 40,
+    "shares": 15,
+    "engagementRate": 20.723499719573752,
+    "date": "2025-05-25T13:11:16.000Z"
+  },
+  {
+    "id": "7505076487595314454",
+    "title": "#SansTransition avec @loyiseclair. Fokus sur les Gens du Voyage",
+    "views": 146522,
+    "likes": 31314,
+    "comments": 186,
+    "shares": 673,
+    "engagementRate": 21.957794733896616,
+    "date": "2025-05-16T16:09:53.000Z"
+  },
+  {
+    "id": "7501393587767086358",
+    "title": "#SansTransition avec @lydroppedthemic. (@lysterique) Rappeur et queer",
+    "views": 22761,
+    "likes": 6822,
+    "comments": 90,
+    "shares": 51,
+    "engagementRate": 30.59180176617899,
+    "date": "2025-05-06T17:58:20.000Z"
+  },
+  {
+    "id": "7499136578275626262",
+    "title": "#SansTransition avec @ibtihl8l. Fokus sur son experience avec le lesbianisme et la religion musulmane. Tu veux temoigner comme Ibti? D'autres voix sont les bienvenues. DM nous!",
+    "views": 849998,
+    "likes": 90908,
+    "comments": 1075,
+    "shares": 16026,
+    "engagementRate": 12.70697107522606,
+    "date": "2025-04-30T16:00:03.000Z"
+  }
+]

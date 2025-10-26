@@ -20,13 +20,6 @@ import Image from "next/image";
 // Gradient token — used sparingly (borders/accents only)
 const GRADIENT = "var(--grad-1, linear-gradient(90deg,#ff4dd8 0%,#8a7bff 50%,#ff4dd8 100%))";
 
-// Minimal gradient border wrapper (no inner pills)
-const Button = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
-  <span className={`block rounded-lg p-[1px] ${className}`} style={{ backgroundImage: GRADIENT }}>
-    <span className="block rounded-[7px] bg-card/70 border border-border">{children}</span>
-  </span>
-);
-
 // TikTok SVG (same glyph as in Hero)
 const TikTokIcon = ({ className = "" }: { className?: string }) => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" className={`fill-current ${className}`} aria-hidden="true" focusable="false">

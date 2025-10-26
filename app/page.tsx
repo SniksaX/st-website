@@ -106,28 +106,7 @@ function SkipLink() {
   )
 }
 
-function FloatingCTA() {
-  const [visible, setVisible] = useState(false)
-  useEffect(() => {
-    const onScroll = () => setVisible(window.scrollY > 900)
-    window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
-  return (
-    <motion.a
-      href="https://www.helloasso.com/associations/sans-transition/formulaires/1"
-      target="_blank"
-      rel="noreferrer"
-      className={`fixed bottom-6 left-6 z-[60] rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-500 px-4 py-2 text-sm font-semibold shadow-lg backdrop-blur-md text-primary-foreground transition-all ${
-        visible ? 'opacity-100' : 'opacity-0 pointer-events-none'
-      }`}
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
-    >
-      Soutenir Sans Transition
-    </motion.a>
-  )
-}
+// FloatingCTA suppressed (unused)
 
 export default function Page() {
   useEffect(() => {

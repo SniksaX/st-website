@@ -1,5 +1,4 @@
-﻿import Section from "@/components/Section";
-import { Separator } from "@/components/ui/separator";
+﻿
 import Header from "./components/Header";
 import Hero from "./components/Hero";
 import Presentation from "./components/Presentation";

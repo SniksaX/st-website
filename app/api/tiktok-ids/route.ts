@@ -53,5 +53,8 @@ if (!apiKey) {
     }
     await sleep(250 * (i + 1));
   }
-
+  return NextResponse.json(
+    { ids: [], from: "fallback", status: last?.status ?? 0 },
+    { headers: { "Cache-Control": "no-store, no-cache, must-revalidate" }, status: 200 }
+  );
 }

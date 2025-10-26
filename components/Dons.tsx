@@ -44,7 +44,7 @@ export default function Dons() {
           className="origin-left mt-2 h-0.5 w-24 bg-pink-500/70"
         />
         <p className="mt-3 text-pink-400 font-semibold text-sm sm:text-base uppercase tracking-[.3em]">
-          Média par et pour les minorités — Asso Loi 1901 — dons défiscalisés
+          Média par et pour les minorités — Asso Loi 1901 — 100 % indépendant
         </p>
       </motion.div>
 
