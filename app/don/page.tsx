@@ -582,15 +582,14 @@ function DonHeader() {
         </Link>
         <div className="flex items-center gap-2">
           <ThemeToggle />
-          <Button
-            asChild
-            size="sm"
-            className="whitespace-nowrap rounded-full bg-gradient-to-r from-fuchsia-600 to-orange-500 hover:from-fuchsia-500 hover:to-orange-400 text-white font-semibold px-3 sm:px-4 h-9 text-xs sm:text-sm shadow-[0_8px_20px_rgba(168,85,247,0.25)]"
+          <a
+            href={HELLOASSO_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center justify-center whitespace-nowrap rounded-full text-white font-semibold px-3 sm:px-4 h-9 text-xs sm:text-sm shadow-[0_8px_20px_rgba(168,85,247,0.25)] bg-[image:var(--grad-1)] hover:brightness-110 transition"
           >
-            <a href={HELLOASSO_URL} target="_blank" rel="noreferrer">
-              Rejoindre la Transition
-            </a>
-          </Button>
+            Rejoindre la Transition
+          </a>
         </div>
       </div>
     </header>
