@@ -41,7 +41,7 @@ export default function DonPage() {
       <section className="relative border-b border-border backdrop-blur">
         {/* Mosaïque en arrière-plan */}
         <div aria-hidden className="absolute inset-0 z-0 pointer-events-none">
-          <div className="absolute left-0 right-0 top-20 -translate-y-[2px] md:top-1/2 md:-translate-y-1/2">
+          <div className="absolute left-0 right-0 top-36 md:top-1/2 md:-translate-y-1/2">
             <div className="mx-auto max-w-6xl opacity-30">
               <FacesMosaic fileUrl="/json_don.txt" variant="background" />
             </div>
@@ -587,7 +587,7 @@ function DonHeader() {
           <Button
             asChild
             size="sm"
-            className="rounded-full bg-gradient-to-r from-fuchsia-600 to-orange-500 hover:from-fuchsia-500 hover:to-orange-400 text-white font-semibold px-4 h-9 shadow-[0_8px_20px_rgba(168,85,247,0.25)]"
+            className="whitespace-nowrap rounded-full bg-gradient-to-r from-fuchsia-600 to-orange-500 hover:from-fuchsia-500 hover:to-orange-400 text-white font-semibold px-3 sm:px-4 h-9 text-xs sm:text-sm shadow-[0_8px_20px_rgba(168,85,247,0.25)]"
           >
             <Link href={HELLOASSO_URL} target="_blank" rel="noreferrer">
               Rejoindre la Transition
