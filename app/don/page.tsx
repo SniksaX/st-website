@@ -215,15 +215,14 @@ export default function DonPage() {
           <DonProgress goal={1000} />
 
           <div className="text-center mt-8">
-            <Button
-              asChild
-              size="lg"
-              className="rounded-2xl bg-gradient-to-r from-fuchsia-600 to-orange-500 hover:from-fuchsia-500 hover:to-orange-400 text-white font-semibold h-14 px-8 text-base shadow-[0_10px_30px_rgba(168,85,247,0.25)]"
+            <a
+              href={HELLOASSO_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center justify-center rounded-2xl text-white font-semibold h-14 px-8 text-base shadow-[0_10px_30px_rgba(168,85,247,0.25)] bg-[image:var(--grad-1)] hover:brightness-110 transition"
             >
-              <a href={HELLOASSO_URL} target="_blank" rel="noreferrer">
-                Je rejoins la Transition
-              </a>
-            </Button>
+              Je rejoins la Transition
+            </a>
           </div>
         </div>
       </Section>
@@ -412,15 +411,14 @@ export default function DonPage() {
                 </ul>
 
                 <div className="pt-2">
-                  <Button
-                    asChild
-                    size="lg"
-                    className="w-full rounded-2xl bg-gradient-to-r from-fuchsia-600 to-orange-500 hover:from-fuchsia-500 hover:to-orange-400 text-white font-semibold h-14 text-base shadow-[0_10px_30px_rgba(249,115,22,0.25)]"
+                  <a
+                    href={HELLOASSO_URL}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex w-full items-center justify-center rounded-2xl text-white font-semibold h-14 text-base shadow-[0_10px_30px_rgba(168,85,247,0.25)] bg-[image:var(--grad-1)] hover:brightness-110 transition"
                   >
-                    <a href={HELLOASSO_URL} target="_blank" rel="noreferrer">
-                      Je soutiens maintenant
-                    </a>
-                  </Button>
+                    Je soutiens maintenant
+                  </a>
                 </div>
 
                 
