@@ -104,11 +104,11 @@ export default function About() {
     >
       {/* Header */}
       <div className="mb-8">
-        <p className="text-[11px] uppercase tracking-[0.18em] text-neutral-400">L’équipe</p>
-        <h2 className="mt-1 text-3xl sm:text-4xl font-extrabold tracking-tight leading-tight text-white">
+        <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">L’équipe</p>
+        <h2 className="mt-1 text-3xl sm:text-4xl font-extrabold tracking-tight leading-tight text-foreground">
           À propos
         </h2>
-        <p className="mt-4 text-neutral-300 leading-tight w-full">
+        <p className="mt-4 text-muted-foreground leading-tight w-full">
           Sans Transition, c’est une équipe qui aime la simplicité, l’humanité et la vérité.
         </p>
       </div>
@@ -118,12 +118,12 @@ export default function About() {
         {team.map((m) => (
           <HoverLift key={m.name} lift={-3}>
             {/* overflow-visible pour laisser le halo déborder */}
-            <article className="relative overflow-visible rounded-2xl border border-neutral-800 bg-neutral-900 p-5 transition-shadow hover:shadow-lg/10">
+            <article className="relative overflow-visible rounded-2xl border border-border bg-card p-5 transition-shadow hover:shadow-lg/10">
               {/* HALO EXTERNE : en arrière-plan du contenu de la carte */}
               <Halo c1={m.halo.c1} c2={m.halo.c2} c3={m.halo.c3} />
 
               {/* Image (au-dessus du halo) */}
-              <div className="relative z-10 aspect-[4/5] w-full overflow-hidden rounded-xl border border-neutral-800 bg-black">
+              <div className="relative z-10 aspect-[4/5] w-full overflow-hidden rounded-xl border border-border bg-muted">
                 <Image
                   src={m.img}
                   alt={m.alt ?? m.name}
@@ -138,7 +138,7 @@ export default function About() {
               <div className="mt-4 z-10 relative">
                 {/* Nom + logos à droite */}
                 <div className="flex items-center justify-between">
-                  <h3 className="text-xl font-bold tracking-tight text-white">{m.name}</h3>
+                  <h3 className="text-xl font-bold tracking-tight text-foreground">{m.name}</h3>
                   <div className="flex items-center gap-2">
                     {m.tiktok && (
                       <a
@@ -165,10 +165,10 @@ export default function About() {
                   </div>
                 </div>
 
-                <p className="text-sm text-neutral-400">{m.role}</p>
+                <p className="text-sm text-muted-foreground">{m.role}</p>
 
                 {m.bio && (
-                  <p className="mt-3 text-sm text-neutral-300 leading-tight max-w-prose">
+                  <p className="mt-3 text-sm text-muted-foreground leading-tight max-w-prose">
                     {m.bio}
                   </p>
                 )}

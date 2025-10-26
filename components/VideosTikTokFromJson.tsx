@@ -215,23 +215,23 @@ export default function VideosTikTok() {
   return (
     <Section id="videos-tiktok" className="py-14">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">Toutes les vidéos TikTok</h2>
+        <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">Toutes les vidéos TikTok</h2>
         <div className="hidden sm:flex items-center gap-2">
           <a
             href="https://www.tiktok.com/@sanstransition"
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-3 h-9 text-sm text-white hover:bg-white/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
+            className="inline-flex items-center gap-2 rounded-full border border-border bg-muted px-3 h-9 text-sm text-foreground hover:bg-muted/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" className="h-4 w-4 fill-white" aria-hidden>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" className="h-4 w-4 fill-current" aria-hidden>
               <path d="M224 88.4c-23.6 0-42.8-19.2-42.8-42.8V32h-36.6v132.1c0 19.7-16 35.7-35.7 35.7s-35.7-16-35.7-35.7 16-35.7 35.7-35.7c2.4 0 4.7.2 6.9.7V92.6c-2.3-.3-4.6-.5-6.9-.5-39.8 0-72.2 32.4-72.2 72.2S70.4 236.5 110.2 236.5c39.8 0 72.2-32.4 72.2-72.2v-56c12.1 8.7 26.9 13.9 42.8 13.9v-33.8z" />
             </svg>
             <span>Suivre sur TikTok</span>
           </a>
-          <button onClick={() => scrollByCards('left')} className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white">
+          <button onClick={() => scrollByCards('left')} className="p-2 rounded-full bg-muted hover:bg-muted/80 text-foreground">
             <ChevronLeft className="h-5 w-5" />
           </button>
-          <button onClick={() => scrollByCards('right')} className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white">
+          <button onClick={() => scrollByCards('right')} className="p-2 rounded-full bg-muted hover:bg-muted/80 text-foreground">
             <ChevronRight className="h-5 w-5" />
           </button>
         </div>
@@ -257,12 +257,12 @@ export default function VideosTikTok() {
                     href="https://www.tiktok.com/@sanstransition"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group relative block aspect-[9/16] w-full rounded-2xl overflow-hidden border border-neutral-800 bg-neutral-900"
+                    className="group relative block aspect-[9/16] w-full rounded-2xl overflow-hidden border border-border bg-muted shadow-[0_10px_30px_rgba(0,0,0,0.15)] hover:shadow-[0_14px_34px_rgba(0,0,0,0.2)] transition-shadow"
                     aria-label="Voir plus sur TikTok"
                   >
-                    <div className="w-full h-full bg-neutral-800" />
+                    <div className="w-full h-full bg-muted" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-                    <div className="absolute inset-0 flex flex-col items-center justify-center text-white">
+                    <div className="absolute inset-0 flex flex-col items-center justify-center text-foreground">
                       <span className="text-2xl font-semibold tracking-tight">Voir +</span>
                       <ArrowUpRight className="mt-2 h-6 w-6 opacity-80 group-hover:opacity-100 transition" />
                     </div>
@@ -271,18 +271,18 @@ export default function VideosTikTok() {
                   <>
                     <button
                       onClick={() => !isSkeleton && setOpenId(id as string)}
-                      className="group relative block aspect-[9/16] w-full rounded-2xl overflow-hidden border border-neutral-800 bg-neutral-900"
+                      className="group relative block aspect-[9/16] w-full rounded-2xl overflow-hidden border border-border bg-card shadow-[0_10px_30px_rgba(0,0,0,0.15)] hover:shadow-[0_14px_34px_rgba(0,0,0,0.2)] transition-shadow"
                       disabled={isSkeleton}
                     >
                       {isSkeleton ? (
-                        <div className="w-full h-full animate-pulse bg-neutral-800" />
+                        <div className="w-full h-full animate-pulse bg-muted" />
                       ) : meta?.thumb ? (
                         <img src={meta.thumb} alt={meta.title} className="w-full h-full object-cover" loading="lazy" decoding="async" />
                       ) : (
-                        <div className="w-full h-full bg-neutral-800">
+                        <div className="w-full h-full bg-muted">
                           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
                           <div className="absolute inset-0 flex items-end p-3">
-                            <p className="text-white/90 text-sm leading-snug line-clamp-3">
+                            <p className="text-foreground text-sm leading-snug line-clamp-3">
                               {meta?.title || 'Vidéo TikTok'}
                             </p>
                           </div>
@@ -295,9 +295,9 @@ export default function VideosTikTok() {
                     </button>
 
                     {!isSkeleton && (
-                      <div className="mt-2 rounded-xl border border-neutral-800 bg-neutral-900/60 p-3">
-                        <p className="text-[13px] leading-snug text-white line-clamp-2">{meta?.title}</p>
-                        <div className="mt-2 flex items-center justify-between text-[11px] text-white/85">
+                      <div className="mt-2 rounded-xl border border-border bg-card p-3">
+                        <p className="text-[13px] leading-snug text-foreground line-clamp-2">{meta?.title}</p>
+                        <div className="mt-2 flex items-center justify-between text-[11px] text-muted-foreground">
                           <span className="inline-flex items-center gap-1.5">
                             <Eye className="h-3.5 w-3.5" />
                             {nf.format(meta?.views ?? 0)}
@@ -323,22 +323,22 @@ export default function VideosTikTok() {
 
       {openId && (
         <div
-          className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center"
+          className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center"
           onClick={() => setOpenId(null)}
         >
-          <div
-            className="relative w-[min(92vw,420px)] max-h-[88vh] rounded-3xl overflow-hidden border border-neutral-800 bg-black"
+            <div
+            className="relative w-[min(92vw,420px)] max-h-[88vh] rounded-3xl overflow-hidden border border-border bg-card shadow-[0_20px_60px_rgba(0,0,0,0.5)]"
             onClick={(e) => e.stopPropagation()}
           >
             <iframe
               src={`https://www.tiktok.com/embed/v2/${openId}?autoplay=1&muted=1`}
               allow="autoplay; fullscreen; encrypted-media; picture-in-picture; clipboard-write"
               allowFullScreen
-              className="w-full h-[min(80vh,720px)] aspect-[9/16] bg-black"
+              className="w-full h-[min(80vh,720px)] aspect-[9/16] bg-card"
             />
             <button
               onClick={() => setOpenId(null)}
-              className="absolute top-3 right-3 text-white/80 hover:text-white text-2xl"
+              className="absolute top-3 right-3 text-muted-foreground hover:text-foreground text-2xl"
               aria-label="Fermer"
             >
               ×

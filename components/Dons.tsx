@@ -32,7 +32,7 @@ export default function Dons() {
         transition={{ duration: 0.5, ease: [0, 0, 0.2, 1] }}
         className="mb-14 text-left"
       >
-        <h2 className="text-3xl sm:text-3xl font-bold tracking-[.03em] text-white capitalize">
+        <h2 className="text-3xl sm:text-3xl font-bold tracking-[.03em] text-foreground capitalize">
           Soutenir Sans Transition
         </h2>
         {/* soulignement discret */}
@@ -56,22 +56,22 @@ export default function Dons() {
         viewport={{ once: true, amount: 0.35 }}
         className="max-w-4xl mx-auto"
       >
-        <div className="text-center text-lg md:text-xl leading-loose md:leading-[2.25rem] text-neutral-300 space-y-6 uppercase tracking-[.08em]">
-          <motion.p variants={item} className="text-neutral-100 font-medium">
+        <div className="text-center text-lg md:text-xl leading-loose md:leading-[2.25rem] text-muted-foreground space-y-6 uppercase tracking-[.08em]">
+          <motion.p variants={item} className="text-foreground font-medium">
             NOUS SOMMES UN MÉDIA RADICAL, INDÉPENDANT, QUEER & FÉMINISTE.
           </motion.p>
 
           <motion.p variants={item}>
-            <strong className="text-white">OBJECTIF :</strong> RENDRE VISIBLES LES VOIX INVISIBILISÉES ET RECRÉER DU COLLECTIF.
+            <strong className="text-foreground">OBJECTIF :</strong> RENDRE VISIBLES LES VOIX INVISIBILISÉES ET RECRÉER DU COLLECTIF.
           </motion.p>
 
           <motion.p variants={item}>
-            CHAQUE EURO <span className="font-semibold text-white">PROTÈGE UNE PAROLE LIBRE</span> : VOUS FINANCEZ
-            <span className="font-semibold text-white"> TOURNAGE, MONTAGE, DIFFUSION</span>. SANS VOUS, CES VOIX DISPARAISSENT.
+            CHAQUE EURO <span className="font-semibold text-foreground">PROTÈGE UNE PAROLE LIBRE</span> : VOUS FINANCEZ
+            <span className="font-semibold text-foreground"> TOURNAGE, MONTAGE, DIFFUSION</span>. SANS VOUS, CES VOIX DISPARAISSENT.
           </motion.p>
 
-          <motion.blockquote variants={item} className="text-neutral-100 italic">
-            « SOUTENIR ST, CE N’EST PAS “DONNER” : C’EST <span className="font-semibold text-white not-italic">PRENDRE PARTI</span>. SI VOUS
+          <motion.blockquote variants={item} className="text-foreground italic">
+            « SOUTENIR ST, CE N’EST PAS “DONNER” : C’EST <span className="font-semibold text-foreground not-italic">PRENDRE PARTI</span>. SI VOUS
             VOULEZ QUE CETTE PAROLE EXISTE DEMAIN, AIDEZ-NOUS AUJOURD’HUI. »
           </motion.blockquote>
         </div>
@@ -92,19 +92,19 @@ export default function Dons() {
               height={600}
               sizes="(max-width: 1024px) 100vw, 900px"
               priority
-              className="w-full h-auto object-contain transition-transform duration-500 ease-out group-hover:scale-[1.02] group-hover:rotate-[.25deg]"
+              className="w-full h-auto object-contain invert dark:invert-0 transition-transform duration-500 ease-out group-hover:scale-[1.02] group-hover:rotate-[.25deg]"
             />
             {/* reflet léger */}
             <span className="shine pointer-events-none absolute inset-0 rounded-2xl" aria-hidden />
             {/* anneau subtil */}
-            <span className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-white/10" aria-hidden />
+            <span className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-border" aria-hidden />
           </a>
           <motion.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true, amount: 0.6 }}
             transition={{ delay: 0.2, duration: 0.4 }}
-            className="mt-4 text-center text-neutral-300 text-xs uppercase tracking-[.2em]"
+            className="mt-4 text-center text-muted-foreground text-xs uppercase tracking-[.2em]"
           >
             CHAQUE DON COMPTE — MÊME 2 €
           </motion.p>

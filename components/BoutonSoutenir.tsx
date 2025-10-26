@@ -25,7 +25,7 @@ export default function BoutonSoutenir() {
             alt="Soutenez Sans Transition"
             width={1080}
             height={220}
-            className="w-auto max-h-[200px] object-contain"
+            className="w-auto max-h-[200px] object-contain invert dark:invert-0"
             priority
           />
         </div>
@@ -38,7 +38,7 @@ export default function BoutonSoutenir() {
 
         {/* === Contour et halo === */}
         <span
-          className="pointer-events-none absolute inset-0 rounded-3xl ring-1 ring-white/10 shadow-[0_0_25px_rgba(140,82,255,0.35)]"
+          className="pointer-events-none absolute inset-0 rounded-3xl ring-1 ring-border shadow-[0_0_25px_rgba(140,82,255,0.35)]"
           aria-hidden
         />
 

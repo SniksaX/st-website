@@ -14,10 +14,10 @@ export default function Header() {
   ];
 
   return (
-    <header className="sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-neutral-950/60 border-b border-white/10">
+    <header className="sticky top-0 z-40 backdrop-blur supports-[backdrop-filter]:bg-background/70 border-b border-border">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-14 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2 font-semibold tracking-tight">
-          <span className="relative inline-flex h-5 w-5 overflow-hidden rounded-md ring-1 ring-white/20">
+          <span className="relative inline-flex h-5 w-5 overflow-hidden rounded-md ring-1 ring-border">
             <Image src="/logo.png" alt="Sans Transition" fill className="object-contain" />
           </span>
           <span className="hidden sm:inline">Sans Transition</span>
@@ -27,7 +27,7 @@ export default function Header() {
             <a
               key={href}
               href={href}
-              className="text-sm text-white/80 hover:text-white px-3 py-1.5 rounded-lg hover:bg-white/5 transition"
+              className="text-sm text-foreground/80 hover:text-foreground px-3 py-1.5 rounded-lg hover:bg-muted transition"
             >
               {label}
             </a>
@@ -45,7 +45,7 @@ export default function Header() {
           </Link>
           <a
             href="mailto:contact@sanstransition.fr"
-            className="inline-flex items-center gap-2 rounded-xl border border-white/15 bg-white/5 px-3 h-9 font-medium hover:bg-white/10"
+            className="inline-flex items-center gap-2 rounded-xl border border-border bg-card px-3 h-9 font-medium hover:bg-muted"
           >
             <Mail className="size-4" />
             <span className="hidden sm:inline">Contacter</span>

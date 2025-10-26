@@ -10,7 +10,7 @@ export default function SectionDivider({
   const y = size === "sm" ? "my-6" : size === "md" ? "my-8" : "my-12";
   return (
     <div className={`mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 ${y}`}>
-      <Separator className={`bg-neutral-900 ${className}`} />
+      <Separator className={`bg-border ${className}`} />
     </div>
   );
 }

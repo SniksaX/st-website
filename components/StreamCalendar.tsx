@@ -88,14 +88,14 @@ export default function StreamCalendar() {
   return (
     <Section id="streams" className="py-14">
       <div className="mb-6 flex items-center justify-between gap-4">
-        <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">
+        <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
           Calendrier des streams
         </h2>
         <a
           href="https://twitch.tv/sans_transition"
           target="_blank"
           rel="noreferrer"
-          className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-3 h-9 text-sm text-white hover:bg-white/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
+          className="inline-flex items-center gap-2 rounded-full border border-border bg-muted px-3 h-9 text-sm text-foreground hover:bg-muted/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
         >
           <Twitch className="h-4 w-4" />
           <span>Suivre sur Twitch</span>
@@ -120,11 +120,10 @@ export default function StreamCalendar() {
               role="row"
               variants={cardVariants}
               className={
-                "relative rounded-2xl border bg-white/[0.03] border-white/10 " +
-                "shadow-[0_10px_30px_-20px_rgba(0,0,0,.8)] transition-transform duration-200 " +
+                "relative rounded-2xl border bg-card/70 backdrop-blur-sm border-border shadow-[0_10px_30px_-20px_rgba(0,0,0,.08)] transition-transform duration-200 " +
                 (isToday
-                  ? "ring-2 ring-white/30 bg-white/[0.06] scale-[1.01]"
-                  : "hover:ring-1 hover:ring-white/10")
+                  ? "ring-2 ring-ring/50 scale-[1.01]"
+                  : "hover:ring-1 hover:ring-border")
               }
             >
               {isToday && (
@@ -139,12 +138,12 @@ export default function StreamCalendar() {
                     aria-hidden
                     className="h-5 w-[3px] rounded-full [background:var(--grad-1)]"
                   />
-                  <h3 className="text-sm font-semibold tracking-tight text-white">
+                  <h3 className="text-sm font-semibold tracking-tight text-foreground">
                     {label}
                   </h3>
                 </div>
                 {isToday && (
-                  <span className="text-[11px] rounded-full border border-white/10 bg-white/10 px-2 py-0.5 text-white/90">
+                  <span className="text-[11px] rounded-full border border-border bg-muted px-2 py-0.5 text-foreground/90">
                     Aujourd&apos;hui
                   </span>
                 )}
@@ -152,7 +151,7 @@ export default function StreamCalendar() {
 
               <div className="px-4 pb-4 pt-3 space-y-2">
                 {items.length === 0 ? (
-                  <p className="text-sm text-white/60">— Pas de live prévu</p>
+                  <p className="text-sm text-muted-foreground">— Pas de live prévu</p>
                 ) : (
                   items.map((it, i) => {
                     const soon =
@@ -165,32 +164,32 @@ export default function StreamCalendar() {
                         className={
                           "rounded-xl border p-2.5 backdrop-blur " +
                           (soon
-                            ? "border-white/20 bg-white/10"
-                            : "border-white/10 bg-black/40")
+                            ? "border-border bg-muted"
+                            : "border-border bg-transparent")
                         }
                       >
                         <div className="flex flex-col gap-1.5">
                           <time
                             dateTime={it.time}
-                            className="self-start inline-flex h-7 items-center justify-center whitespace-nowrap rounded-full border border-white/10 bg-white/10 px-2 text-[11px] font-semibold text-white/90"
+                            className="self-start inline-flex h-7 items-center justify-center whitespace-nowrap rounded-full border border-border bg-muted px-2 text-[11px] font-semibold text-foreground/90"
                             aria-label={`Heure du live ${it.time}`}
                           >
                             {it.time}
                           </time>
                           <div>
-                            <p className="text-[12px] font-semibold text-white">
+                            <p className="text-[12px] font-semibold text-foreground">
                               {it.title}
                             </p>
                             {soon && (
-                              <span className="mt-0.5 inline-flex items-center gap-1 rounded-full border border-white/20 bg-white/15 px-2 py-0.5 text-[10px] text-white/90">
-                                <span className="inline-block h-1.5 w-1.5 rounded-full bg-white" aria-hidden />
+                              <span className="mt-0.5 inline-flex items-center gap-1 rounded-full border border-border bg-muted px-2 py-0.5 text-[10px] text-foreground/90">
+                                <span className="inline-block h-1.5 w-1.5 rounded-full bg-foreground" aria-hidden />
                                 En direct bientôt
                               </span>
                             )}
                             {it.people && (
-                              <p className="mt-1 text-[10px] text-white/75 italic">{it.people}</p>
+                              <p className="mt-1 text-[10px] text-muted-foreground italic">{it.people}</p>
                             )}
-                            <p className="mt-1 text-[11px] text-white/80">{it.desc}</p>
+                            <p className="mt-1 text-[11px] text-muted-foreground">{it.desc}</p>
                           </div>
                         </div>
                       </div>
@@ -203,7 +202,7 @@ export default function StreamCalendar() {
         })}
       </motion.div>
 
-      <p className="mt-4 text-xs text-white/60">
+      <p className="mt-4 text-xs text-muted-foreground">
         • La TransMatinale (lun–ven, 09:00) — revue de presse. • Aktu (mardi, 20:00) — réaction à l&apos;actu avec Amandine & Lucho. • Ekip (vendredi, 20:00) — live chill avec la commu.
       </p>
     </Section>

@@ -22,7 +22,7 @@ type FormatCardProps = {
 
 function FormatCard({ title, desc, Icon, className = '' }: FormatCardProps) {
   // Couleur unifiée + transparent
-  const baseCardClass = 'h-full rounded-3xl bg-transparent border border-white/10';
+  const baseCardClass = 'h-full rounded-3xl bg-transparent border border-border';
 
   return (
     <ShinyCard className={`${baseCardClass} ${className}`}>
@@ -30,13 +30,13 @@ function FormatCard({ title, desc, Icon, className = '' }: FormatCardProps) {
         <div className="flex items-center gap-3">
           {/* Icône en couleur normale (currentColor), pas de gradient */}
           <div className="h-9 w-9 rounded-2xl grid place-items-center">
-            <Icon className="h-[18px] w-[18px] text-neutral-200" strokeWidth={1.75} />
+            <Icon className="h-[18px] w-[18px] text-foreground" strokeWidth={1.75} />
           </div>
-          <CardTitle className="tracking-tight text-white">{title}</CardTitle>
+          <CardTitle className="tracking-tight text-foreground">{title}</CardTitle>
         </div>
       </CardHeader>
       <CardContent className="pt-0">
-        <p className="text-sm leading-relaxed text-neutral-300">{desc}</p>
+        <p className="text-sm leading-relaxed text-muted-foreground">{desc}</p>
       </CardContent>
     </ShinyCard>
   );
@@ -68,8 +68,8 @@ export default function Formats() {
   return (
     <Section id="formats" className="py-14">
       <div className="flex items-end justify-between mb-8">
-        <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">Nos formats</h2>
-        <span className="text-xs text-neutral-300">structure claire • formats militants</span>
+        <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">Nos formats</h2>
+        <span className="text-xs text-muted-foreground">structure claire • formats militants</span>
       </div>
 
       {/* Mobile: cartes complètes, 1 par ligne, ordre spécifique */}

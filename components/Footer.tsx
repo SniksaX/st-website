@@ -10,18 +10,18 @@ export default function Footer() {
   };
 
   return (
-    <footer className="border-t border-neutral-900 mt-10">
-      <Section className="py-8 text-sm text-neutral-300">
+    <footer className="border-t border-border mt-10">
+      <Section className="py-8 text-sm text-muted-foreground">
         <div className="grid md:grid-cols-3 gap-6 items-center">
           {/* Left — identité */}
           <div>
-            <p className="font-semibold text-neutral-200">Sans Transition</p>
+            <p className="font-semibold text-foreground">Sans Transition</p>
             <p className="text-xs">
               © {new Date().getFullYear()} — média militant, indépendant et engagé.
             </p>
             <button
               onClick={reopen}
-              className="underline underline-offset-4 hover:text-neutral-200"
+              className="underline underline-offset-4 hover:text-foreground"
             >
               Gérer mes cookies
             </button>
@@ -42,10 +42,10 @@ export default function Footer() {
 
           {/* Right — signature */}
           <div className="md:text-right space-y-1">
-            <p className="text-xs text-neutral-400">
-              Fait par <span className="text-neutral-200 font-semibold">Hedi</span>, et ouais mes vies.
+            <p className="text-xs text-muted-foreground">
+              Fait par <span className="text-foreground font-semibold">Hedi</span>, et ouais mes vies.
             </p>
-            <p className="text-xs text-neutral-400">
+            <p className="text-xs text-muted-foreground">
               Merci d’être passé·e sur le site :)) Bisous!
             </p>
           </div>

@@ -23,7 +23,7 @@ const GRADIENT = "var(--grad-1, linear-gradient(90deg,#ff4dd8 0%,#8a7bff 50%,#ff
 // Minimal gradient border wrapper (no inner pills)
 const Button = ({ children, className = "" }: { children: React.ReactNode; className?: string }) => (
   <span className={`block rounded-lg p-[1px] ${className}`} style={{ backgroundImage: GRADIENT }}>
-    <span className="block rounded-[7px] bg-neutral-950/70 border border-white/5">{children}</span>
+    <span className="block rounded-[7px] bg-card/70 border border-border">{children}</span>
   </span>
 );
 
@@ -67,24 +67,24 @@ export default function Links() {
   return (
     <Section id="liens" className="py-12">
       <div className="flex items-end justify-between mb-8">
-        <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-white">Liens utiles</h2>
-        <span className="text-sm text-neutral-400">réseaux • cagnottes • ressources</span>
+        <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-foreground">Liens utiles</h2>
+        <span className="text-sm text-muted-foreground">réseaux • cagnottes • ressources</span>
       </div>
 
       <div className="grid gap-5 lg:grid-cols-12 items-start">
         {/* LEFT — Cagnottes & soutien */}
         <motion.section whileHover={{ y: -2 }} className="col-span-12 lg:col-span-7 lg:self-stretch rounded-2xl overflow-hidden p-[1px]" style={{ backgroundImage: GRADIENT }}>
-          <div className="h-full w-full rounded-2xl bg-neutral-950/80 backdrop-blur-md border border-white/10 p-5 flex flex-col">
+          <div className="h-full w-full rounded-2xl bg-card/80 backdrop-blur-md border border-border p-5 flex flex-col">
             <div className="flex items-center gap-3 mb-4">
-              <Heart className="h-4 w-4 text-white/90" />
-              <h3 className="text-lg font-bold text-white">Cagnottes & soutien</h3>
+              <Heart className="h-4 w-4 text-foreground" />
+              <h3 className="text-lg font-bold text-foreground">Cagnottes & soutien</h3>
             </div>
             <div className="mt-auto grid grid-cols-1 md:grid-cols-2 gap-4">
-              <a href="https://gofund.me/6e217b10a" target="_blank" rel="noreferrer" className="group relative rounded-2xl border border-white/10 bg-white/5 p-5 flex items-end hover:bg-white/10 transition-colors">
-                <span className="text-lg font-semibold text-white">🚨 Aidez Abood</span>
+              <a href="https://gofund.me/6e217b10a" target="_blank" rel="noreferrer" className="group relative rounded-2xl border border-border bg-muted p-5 flex items-end hover:bg-muted/80 transition-colors">
+                <span className="text-lg font-semibold text-foreground">🚨 Aidez Abood</span>
               </a>
-              <a href="https://gofund.me/ed90a35c6" target="_blank" rel="noreferrer" className="group relative rounded-2xl border border-white/10 bg-white/5 p-5 flex items-end hover:bg-white/10 transition-colors">
-                <span className="text-lg font-semibold text-white">🚨 Aidez Elodie</span>
+              <a href="https://gofund.me/ed90a35c6" target="_blank" rel="noreferrer" className="group relative rounded-2xl border border-border bg-muted p-5 flex items-end hover:bg-muted/80 transition-colors">
+                <span className="text-lg font-semibold text-foreground">🚨 Aidez Elodie</span>
               </a>
             </div>
           </div>
@@ -92,23 +92,23 @@ export default function Links() {
 
         {/* RIGHT — Réseaux + Contact */}
         <div className="col-span-12 lg:col-span-5 flex flex-col gap-5">
-          <section className="rounded-2xl bg-neutral-950/80 border border-neutral-800 p-5">
+          <section className="rounded-2xl bg-card border border-border p-5">
             <div className="flex items-center justify-between mb-2">
-              <h3 className="text-lg font-bold text-white">Réseaux</h3>
-              <LinkIcon className="h-4 w-4 text-neutral-400" />
+              <h3 className="text-lg font-bold text-foreground">Réseaux</h3>
+              <LinkIcon className="h-4 w-4 text-muted-foreground" />
             </div>
             <div className="flex flex-wrap gap-3">
               {networks.map(({ label, href, icon: Icon, iconClass }) => (
-                <motion.a key={label} href={href} target="_blank" rel="noreferrer" aria-label={label} whileHover={{ scale: 1.05, y: -1 }} className="h-10 w-10 grid place-items-center rounded-full bg-neutral-900 text-white border border-neutral-800 hover:bg-neutral-800">
+                <motion.a key={label} href={href} target="_blank" rel="noreferrer" aria-label={label} whileHover={{ scale: 1.05, y: -1 }} className="h-10 w-10 grid place-items-center rounded-full bg-card text-foreground border border-border hover:bg-muted">
                   <Icon className={`h-5 w-5 ${iconClass ?? ""}`} />
                 </motion.a>
               ))}
             </div>
           </section>
 
-          <section className="rounded-2xl bg-neutral-950/80 border border-neutral-800 p-4 flex items-center justify-between text-sm">
-            <span className="flex items-center gap-2 text-white font-semibold">
-              <Mail className="h-4 w-4 text-white/80" />
+          <section className="rounded-2xl bg-card border border-border p-4 flex items-center justify-between text-sm">
+            <span className="flex items-center gap-2 text-foreground font-semibold">
+              <Mail className="h-4 w-4 text-muted-foreground" />
               Contact
             </span>
             <a href="mailto:contact@sanstransition.fr" className="text-neutral-300 hover:underline">contact@sanstransition.fr</a>
@@ -118,16 +118,16 @@ export default function Links() {
         {/* BOTTOM ROW */}
         <div className="col-span-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {/* Formulaires */}
-          <section className="rounded-2xl bg-neutral-950/80 border border-neutral-800 p-3">
-            <h4 className="flex items-center gap-2 font-semibold text-white mb-2 text-sm">
-              <Send className="h-4 w-4 text-white/80" />
+          <section className="rounded-2xl bg-card border border-border p-3">
+            <h4 className="flex items-center gap-2 font-semibold text-foreground mb-2 text-sm">
+              <Send className="h-4 w-4 text-muted-foreground" />
               Formulaires & témoignages
             </h4>
             <a
               href="https://forms.gle/yoHVL6iKBi6Adz8T9"
               target="_blank"
               rel="noreferrer"
-              className="group inline-flex items-center justify-between w-full rounded-lg border border-neutral-800 bg-transparent px-3 py-2 text-xs text-neutral-200 hover:bg-white/5 hover:text-white transition-colors"
+              className="group inline-flex items-center justify-between w-full rounded-lg border border-border bg-transparent px-3 py-2 text-xs text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
             >
               <span>Proposer un témoignage ou un sujet</span>
             </a>
@@ -137,16 +137,16 @@ export default function Links() {
           </section>
 
           {/* Kit média */}
-          <section className="rounded-2xl bg-neutral-950/80 border border-neutral-800 p-3">
-            <h4 className="flex items-center gap-2 font-semibold text-white mb-2 text-sm">
-              <ArrowUpRight className="h-4 w-4 text-white/80" />
+          <section className="rounded-2xl bg-card border border-border p-3">
+            <h4 className="flex items-center gap-2 font-semibold text-foreground mb-2 text-sm">
+              <ArrowUpRight className="h-4 w-4 text-muted-foreground" />
               Kit média
             </h4>
             <a
               href="https://sanstransition.fr/kit-media"
               target="_blank"
               rel="noreferrer"
-              className="group inline-flex items-center justify-between w-full rounded-lg border border-neutral-800 bg-transparent px-3 py-2 text-xs text-neutral-200 hover:bg-white/5 hover:text-white transition-colors"
+              className="group inline-flex items-center justify-between w-full rounded-lg border border-border bg-transparent px-3 py-2 text-xs text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
             >
               <span>Voir le kit média</span>
             </a>
@@ -154,12 +154,12 @@ export default function Links() {
           </section>
 
           {/* Ressources */}
-          <section className="rounded-2xl bg-neutral-950/80 border border-neutral-800 p-3">
-            <h4 className="flex items-center gap-2 font-semibold text-white mb-2 text-sm">
-              <FileText className="h-4 w-4 text-white/80" />
+          <section className="rounded-2xl bg-card border border-border p-3">
+            <h4 className="flex items-center gap-2 font-semibold text-foreground mb-2 text-sm">
+              <FileText className="h-4 w-4 text-muted-foreground" />
               Ressources & docs
             </h4>
-            <ul className="grid grid-cols-1 gap-1 text-xs text-neutral-300">
+            <ul className="grid grid-cols-1 gap-1 text-xs text-muted-foreground">
               {resources.map((r) => (
                 <li key={r.label}>
                   <a href={r.href} className="hover:underline">{r.label}</a>
@@ -169,12 +169,12 @@ export default function Links() {
           </section>
 
           {/* Presse & apparitions */}
-          <section className="rounded-2xl bg-neutral-950/80 border border-neutral-800 p-3">
-            <h4 className="flex items-center gap-2 font-semibold text-white mb-2 text-sm">
-              <Newspaper className="h-4 w-4 text-white/80" />
+          <section className="rounded-2xl bg-card border border-border p-3">
+            <h4 className="flex items-center gap-2 font-semibold text-foreground mb-2 text-sm">
+              <Newspaper className="h-4 w-4 text-muted-foreground" />
               Presse & apparitions
             </h4>
-            <ul className="space-y-1 text-xs text-neutral-300">
+            <ul className="space-y-1 text-xs text-muted-foreground">
               <li>
                 <a href="https://www.youtube.com/watch?v=qabhFKNW2xM" target="_blank" rel="noreferrer" className="hover:underline">Oeil de MouMou</a>
               </li>
@@ -185,14 +185,15 @@ export default function Links() {
           </section>
         </div>
 
-        {/* DON CTA — ribbon with gradient border only */}
+        {/* DON CTA — gradient background in light mode, card in dark */}
         <motion.section whileHover={{ y: -2 }} className="relative col-span-12 rounded-2xl overflow-hidden p-[1px]" style={{ backgroundImage: GRADIENT }}>
           <a href="https://www.helloasso.com/associations/sans-transition/formulaires/1" target="_blank" rel="noopener noreferrer" aria-label="Faire un don à Sans Transition" className={`group relative block rounded-2xl overflow-hidden shadow-[0_0_25px_rgba(255,255,255,0.06)] transition-transform duration-500 ease-out hover:scale-[1.02]`}>
-            <div className="relative flex items-center justify-center py-4 sm:py-6 bg-neutral-950/85">
-              <Image src="/banner.png" alt="Soutenez Sans Transition" width={1080} height={220} className="w-auto max-h-[160px] object-contain" priority />
+            <div className="relative flex items-center justify-center py-4 sm:py-6 [background:var(--grad-1)] text-primary-foreground">
+              <span aria-hidden className="pointer-events-none absolute inset-0 z-0 bg-white/60 dark:bg-black/50 backdrop-blur-sm" />
+              <Image src="/banner.png" alt="Soutenez Sans Transition" width={1080} height={220} className="relative z-10 w-auto max-h-[160px] object-contain invert dark:invert-0" priority />
             </div>
             <span className="shine pointer-events-none absolute inset-0 rounded-2xl" aria-hidden />
-            <span className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-white/10" aria-hidden />
+            <span className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-border" aria-hidden />
           </a>
 
           <style jsx>{`

@@ -90,27 +90,27 @@ export default function VideosYouTube() {
   return (
     <Section id="videos-youtube" className="py-14 relative z-10 isolate">
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">Vidéos YouTube</h2>
+        <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">Vidéos YouTube</h2>
         <div className="hidden sm:flex items-center gap-2">
           <a
             href="https://youtube.com/@SansTransitionMedia"
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-3 h-9 text-sm text-white hover:bg-white/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/60"
+            className="inline-flex items-center gap-2 rounded-full border border-border bg-muted px-3 h-9 text-sm text-foreground hover:bg-muted/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
           >
             <YoutubeIcon className="h-4 w-4" />
             <span>Suivre sur YouTube</span>
           </a>
           <button
             onClick={prev}
-            className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white"
+            className="p-2 rounded-full bg-muted hover:bg-muted/80 text-foreground"
             aria-label="PrÃ©cÃ©dent"
           >
             <ChevronLeft className="h-5 w-5" />
           </button>
           <button
             onClick={next}
-            className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white"
+            className="p-2 rounded-full bg-muted hover:bg-muted/80 text-foreground"
             aria-label="Suivant"
           >
             <ChevronRight className="h-5 w-5" />
@@ -123,15 +123,15 @@ export default function VideosYouTube() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {loading ? (
           <>
-            <div className="aspect-video w-full animate-pulse bg-neutral-800 rounded-2xl" />
-            <div className="aspect-video w-full animate-pulse bg-neutral-800 rounded-2xl" />
+            <div className="aspect-video w-full animate-pulse bg-muted rounded-2xl" />
+            <div className="aspect-video w-full animate-pulse bg-muted rounded-2xl" />
           </>
         ) : (
           visible.map((item, k) =>
             item.kind === 'video' ? (
               <div
                 key={`${item.v.id}-${k}`}
-                className="relative aspect-video w-full rounded-2xl overflow-hidden border border-neutral-800 bg-black"
+                className="relative aspect-video w-full rounded-2xl overflow-hidden border border-border bg-card"
               >
                 <iframe
                   className="absolute inset-0 h-full w-full"
@@ -147,12 +147,12 @@ export default function VideosYouTube() {
                 href="https://youtube.com/@SansTransitionMedia/videos"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group relative aspect-video w-full rounded-2xl overflow-hidden border border-neutral-800 bg-neutral-900"
+                className="group relative aspect-video w-full rounded-2xl overflow-hidden border border-border bg-muted"
                 aria-label="Voir plus sur YouTube"
               >
-                <div className="w-full h-full bg-neutral-800" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-                <div className="absolute inset-0 flex flex-col items-center justify-center text-white">
+                <div className="w-full h-full bg-muted" />
+                <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/40 to-transparent" />
+                <div className="absolute inset-0 flex flex-col items-center justify-center text-foreground">
                   <span className="text-2xl font-semibold tracking-tight">Voir +</span>
                   <ArrowUpRight className="mt-2 h-6 w-6 opacity-80 group-hover:opacity-100 transition" />
                 </div>
@@ -164,4 +164,3 @@ export default function VideosYouTube() {
     </Section>
   );
 }
-

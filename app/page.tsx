@@ -43,8 +43,8 @@ function BackToTop() {
   return (
     <button
       onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-      className={`fixed bottom-6 right-6 z-[60] rounded-2xl px-4 py-3 text-sm font-medium shadow-xl backdrop-blur-md transition-all focus:outline-none focus:ring-2 focus:ring-emerald-400/70 focus:ring-offset-2 focus:ring-offset-neutral-950 ${
-        visible ? 'pointer-events-auto opacity-100 bg-neutral-800/70 hover:bg-neutral-700/70' : 'pointer-events-none opacity-0'
+      className={`fixed bottom-6 right-6 z-[60] rounded-2xl px-4 py-3 text-sm font-medium shadow-xl backdrop-blur-md transition-all focus:outline-none focus:ring-2 focus:ring-ring/50 focus:ring-offset-2 focus:ring-offset-background ${
+        visible ? 'pointer-events-auto opacity-100 bg-muted/90 text-foreground hover:bg-muted' : 'pointer-events-none opacity-0'
       }`}
       aria-label="Remonter en haut"
     >
@@ -99,7 +99,7 @@ function SkipLink() {
   return (
     <a
       href="#main"
-      className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[70] focus:rounded-xl focus:bg-neutral-900 focus:px-4 focus:py-2 focus:text-neutral-50 focus:shadow-lg"
+      className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[70] focus:rounded-xl focus:bg-foreground focus:px-4 focus:py-2 focus:text-background focus:shadow-lg"
     >
       Aller au contenu
     </a>
@@ -118,7 +118,7 @@ function FloatingCTA() {
       href="https://www.helloasso.com/associations/sans-transition/formulaires/1"
       target="_blank"
       rel="noreferrer"
-      className={`fixed bottom-6 left-6 z-[60] rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-500 px-4 py-2 text-sm font-semibold shadow-lg backdrop-blur-md text-white transition-all ${
+      className={`fixed bottom-6 left-6 z-[60] rounded-xl bg-gradient-to-r from-violet-600 to-fuchsia-500 px-4 py-2 text-sm font-semibold shadow-lg backdrop-blur-md text-primary-foreground transition-all ${
         visible ? 'opacity-100' : 'opacity-0 pointer-events-none'
       }`}
       whileHover={{ scale: 1.05 }}
@@ -137,7 +137,7 @@ export default function Page() {
   }, [])
 
   return (
-    <div className="min-h-screen bg-neutral-950 text-neutral-50 font-sans selection:bg-neutral-800">
+    <div className="min-h-screen bg-background text-foreground font-sans selection:bg-muted">
       <SkipLink />
       <ScrollProgress />
       <AmbientGlow />
@@ -151,50 +151,50 @@ export default function Page() {
       <main id="main" className="relative z-10">
         <Hero />
 
-        <Separator className="bg-neutral-900" />
+        <Separator className="bg-border" />
 
         {/* Sections avec motion + ids pour la smoke test */}
         <MotionSection id="liens">
           <Links />
         </MotionSection>
 
-        <Separator className="bg-neutral-900" />
+        <Separator className="bg-border" />
 
         <MotionSection id="videos-youtube">
           <VideosYouTube />
         </MotionSection>
 
-        <Separator className="bg-neutral-900" />
+        <Separator className="bg-border" />
 
         <MotionSection id="formats">
           <Formats />
         </MotionSection>
 
-        <Separator className="bg-neutral-900" />
+        <Separator className="bg-border" />
 
         <MotionSection id="videos-tiktok">
           <VideosTikTok />
         </MotionSection>
 
-        <Separator className="bg-neutral-900" />
+        <Separator className="bg-border" />
 
         <MotionSection id="valeurs">
           <Values />
         </MotionSection>
 
-        <Separator className="bg-neutral-900" />
+        <Separator className="bg-border" />
 
         <MotionSection id="about">
           <About />
         </MotionSection>
 
-        <Separator className="bg-neutral-900" />
+        <Separator className="bg-border" />
 
         <MotionSection id="stream">
           <StreamCalendar />
         </MotionSection>
 
-        <Separator className="bg-neutral-900" />
+        <Separator className="bg-border" />
 
         <MotionSection id="contact">
           <Dons />

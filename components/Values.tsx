@@ -37,9 +37,9 @@ export default function Values() {
   return (
     <Section id="valeurs" className="py-12">
       <header className="mb-8">
-        <p className="text-[11px] uppercase tracking-[0.18em] text-neutral-400">Notre boussole</p>
-        <h2 className="mt-1 text-3xl sm:text-4xl font-extrabold tracking-tight text-white">Nos valeurs</h2>
-        <p className="mt-3 text-neutral-300 max-w-prose">
+        <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">Notre boussole</p>
+        <h2 className="mt-1 text-3xl sm:text-4xl font-extrabold tracking-tight text-foreground">Nos valeurs</h2>
+        <p className="mt-3 text-muted-foreground max-w-prose">
           Ce qui guide Sans Transition au quotidien : une ligne claire, utile et fidèle à nos engagements.
         </p>
       </header>
@@ -48,16 +48,16 @@ export default function Values() {
         {values.map(({ title, desc, icon: Icon }) => (
           <article
             key={title}
-            className="relative rounded-2xl bg-transparent border border-neutral-800 p-5 shadow-[inset_0_1px_0_rgba(255,255,255,.04)]"
+            className="relative rounded-2xl bg-transparent border border-border p-5 shadow-[inset_0_1px_0_rgba(0,0,0,.02)]"
           >
             <div className="flex items-center gap-3 mb-3">
-              <div className="h-9 w-9 grid place-items-center rounded-xl bg-white/10 text-white">
+              <div className="h-9 w-9 grid place-items-center rounded-xl bg-muted text-foreground">
                 <Icon className="h-4 w-4" />
               </div>
-              <h3 className="text-lg font-bold text-white">{title}</h3>
+              <h3 className="text-lg font-bold text-foreground">{title}</h3>
             </div>
-            <p className="text-sm leading-snug text-neutral-300">{desc}</p>
-            <span className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-white/5" aria-hidden="true" />
+            <p className="text-sm leading-snug text-muted-foreground">{desc}</p>
+            <span className="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-border/50" aria-hidden="true" />
           </article>
         ))}
       </div>

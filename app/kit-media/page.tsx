@@ -17,7 +17,7 @@ export const metadata = {
 
 export default function KitMediaPage() {
   return (
-    <main className="min-h-screen bg-neutral-950 text-neutral-50 selection:bg-white/10">
+    <main className="min-h-screen bg-background text-foreground selection:bg-muted">
       <Header />
       <div className="mb-10">
         <Hero />

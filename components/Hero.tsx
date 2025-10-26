@@ -109,9 +109,17 @@ export default function Hero() {
         {/* LEFT: TEXT */}
         <div className="relative">
           <div className="mt-4">
-          <Image  src="/logo-fusee.png" alt="Sans Transition" width={415} height={150} priority />
+            {/* Invert logo only in light mode for contrast */}
+            <Image
+              src="/logo-fusee.png"
+              alt="Sans Transition"
+              width={415}
+              height={150}
+              priority
+              className="invert dark:invert-0"
+            />
           </div>
-          <h1 className="mt-4 text-4xl font-extrabold leading-[1.05] tracking-tight text-white sm:text-5xl lg:text-6xl">
+          <h1 className="mt-4 text-4xl font-extrabold leading-[1.05] tracking-tight text-foreground sm:text-5xl lg:text-6xl">
             Média de lutte
             <span
               className="block text-transparent [background:var(--grad-1)]"
@@ -120,7 +128,7 @@ export default function Hero() {
               par et pour les minorités.
             </span>
           </h1>
-          <p className="mt-4 max-w-xl text-neutral-200">
+          <p className="mt-4 max-w-xl text-muted-foreground">
             On vulgarise la politique sans bullsh*t : Fokus, Hedito, L&apos;Œil d&apos;Amandine & Lucho, portraits, mini-séries.
           </p>
           <div className="mt-6 flex flex-wrap gap-3">
@@ -143,12 +151,12 @@ export default function Hero() {
               <Link href="#videos-tiktok">Vidéos TikTok</Link>
             </Button>
           </div>
-          <div className="mt-6 flex items-center gap-4 text-neutral-300">
-            <a href="https://youtube.com/@SansTransitionMedia" target="_blank" rel="noreferrer" className="hover:text-white"><Youtube className="h-5 w-5" /></a>
-            <a href="https://instagram.com/sanstransition__" target="_blank" rel="noreferrer" className="hover:text-white"><Instagram className="h-5 w-5" /></a>
-            <a href="https://x.com/sanstransition_" target="_blank" rel="noreferrer" className="hover:text-white"><Twitter className="h-5 w-5" /></a>
+          <div className="mt-6 flex items-center gap-4 text-muted-foreground">
+            <a href="https://youtube.com/@SansTransitionMedia" target="_blank" rel="noreferrer" className="hover:text-foreground"><Youtube className="h-5 w-5" /></a>
+            <a href="https://instagram.com/sanstransition__" target="_blank" rel="noreferrer" className="hover:text-foreground"><Instagram className="h-5 w-5" /></a>
+            <a href="https://x.com/sanstransition_" target="_blank" rel="noreferrer" className="hover:text-foreground"><Twitter className="h-5 w-5" /></a>
             <a aria-label="TikTok" href="https://tiktok.com/@sanstransition" target="_blank" rel="noreferrer" className="hover:opacity-80">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" className="h-5 w-5 fill-white">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" className="h-5 w-5 fill-current text-muted-foreground hover:text-foreground">
                 <path d="M224 88.4c-23.6 0-42.8-19.2-42.8-42.8V32h-36.6v132.1c0 19.7-16 35.7-35.7 35.7s-35.7-16-35.7-35.7 16-35.7 35.7-35.7c2.4 0 4.7.2 6.9.7V92.6c-2.3-.3-4.6-.5-6.9-.5-39.8 0-72.2 32.4-72.2 72.2S70.4 236.5 110.2 236.5c39.8 0 72.2-32.4 72.2-72.2v-56c12.1 8.7 26.9 13.9 42.8 13.9v-33.8z" />
               </svg>
             </a>
@@ -157,7 +165,7 @@ export default function Hero() {
 
         {/* RIGHT: VIDEO */}
         <motion.div initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.6, delay: 0.05 }} className="relative">
-          <div className="relative h-full w-full overflow-hidden rounded-3xl border border-neutral-900 bg-black">
+          <div className="relative h-full w-full overflow-hidden rounded-3xl border border-border bg-card">
             <video
               ref={videoRef}
               src="/videos/hero.mp4"

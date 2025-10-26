@@ -82,10 +82,10 @@ export default function CookieBanner() {
 
   return (
     <div className="fixed inset-x-0 bottom-0 z-50">
-      <div className="mx-auto max-w-4xl rounded-t-2xl border border-neutral-800 bg-neutral-900/95 backdrop-blur p-4 sm:p-5 shadow-2xl">
+      <div className="mx-auto max-w-4xl rounded-t-2xl border border-border bg-card/95 backdrop-blur p-4 sm:p-5 shadow-2xl">
         <div className="flex flex-col gap-3">
-          <h2 className="text-lg text-white font-semibold">Cookies & respect de ta vie privée</h2>
-          <p className="text-sm text-neutral-300">
+          <h2 className="text-lg text-foreground font-semibold">Cookies & respect de ta vie privée</h2>
+          <p className="text-sm text-muted-foreground">
             On utilise des cookies nécessaires au fonctionnement du site. Avec ton accord, on active aussi
             des cookies d’<strong>analytics</strong> pour comprendre notre audience et des cookies de <strong>marketing</strong> pour nos campagnes.
             Par défaut, <em>tout est désactivé</em>.
@@ -94,19 +94,19 @@ export default function CookieBanner() {
           {!custom ? (
             <div className="flex flex-wrap gap-2">
               <button
-                className="rounded-xl bg-neutral-100 text-neutral-900 px-4 py-2 font-medium hover:bg-white"
+                className="rounded-xl bg-muted text-foreground px-4 py-2 font-medium hover:bg-muted/80"
                 onClick={() => applyConsent('granted','granted')}
               >
                 Tout accepter
               </button>
               <button
-                className="rounded-xl bg-neutral-800 px-4 py-2 font-medium hover:bg-neutral-700 text-white"
+                className="rounded-xl bg-muted px-4 py-2 font-medium hover:bg-muted/80 text-foreground"
                 onClick={() => applyConsent('denied','denied')}
               >
                 Tout refuser
               </button>
               <button
-                className="rounded-xl border border-neutral-700 px-4 py-2 font-medium hover:bg-neutral-800 text-white"
+                className="rounded-xl border border-border px-4 py-2 font-medium hover:bg-muted text-foreground"
                 onClick={() => setCustom(true)}
               >
                 Personnaliser
@@ -115,7 +115,7 @@ export default function CookieBanner() {
           ) : (
             <div className="space-y-3">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <label className="flex items-center gap-3 rounded-xl border border-neutral-800 p-3">
+                <label className="flex items-center gap-3 rounded-xl border border-border p-3">
                   <input
                     type="checkbox"
                     className="size-4"
@@ -123,12 +123,12 @@ export default function CookieBanner() {
                     onChange={(e) => setAnalytics(e.target.checked ? 'granted' : 'denied')}
                   />
                   <div>
-                    <div className="font-medium text-white">Analytics</div>
-                    <div className="text-sm text-neutral-400">Mesure d’audience anonyme.</div>
+                    <div className="font-medium text-foreground">Analytics</div>
+                    <div className="text-sm text-muted-foreground">Mesure d’audience anonyme.</div>
                   </div>
                 </label>
 
-                <label className="flex items-center gap-3 rounded-xl border border-neutral-800 p-3">
+                <label className="flex items-center gap-3 rounded-xl border border-border p-3">
                   <input
                     type="checkbox"
                     className="size-4"
@@ -136,27 +136,27 @@ export default function CookieBanner() {
                     onChange={(e) => setMarketing(e.target.checked ? 'granted' : 'denied')}
                   />
                   <div>
-                    <div className="font-medium text-white">Marketing</div>
-                    <div className="text-sm text-neutral-400">Publicité & retargeting.</div>
+                    <div className="font-medium text-foreground">Marketing</div>
+                    <div className="text-sm text-muted-foreground">Publicité & retargeting.</div>
                   </div>
                 </label>
               </div>
 
               <div className="flex flex-wrap gap-2">
                 <button
-                  className="rounded-xl bg-neutral-100 text-neutral-900 px-4 py-2 font-medium hover:bg-white"
+                  className="rounded-xl bg-muted text-foreground px-4 py-2 font-medium hover:bg-muted/80"
                   onClick={() => applyConsent(analytics, marketing)}
                 >
                   Enregistrer
                 </button>
                 <button
-                  className="rounded-xl bg-neutral-800 px-4 py-2 font-medium hover:bg-neutral-700 text-white"
+                  className="rounded-xl bg-muted px-4 py-2 font-medium hover:bg-muted/80 text-foreground"
                   onClick={() => setCustom(false)}
                 >
                   Retour
                 </button>
                 <button
-                  className="ml-auto text-sm underline underline-offset-4 text-neutral-400 hover:text-neutral-200"
+                  className="ml-auto text-sm underline underline-offset-4 text-muted-foreground hover:text-foreground"
                   onClick={() => applyConsent('denied','denied')}
                 >
                   Refuser tout
@@ -165,7 +165,7 @@ export default function CookieBanner() {
             </div>
           )}
 
-          <p className="text-xs text-neutral-500">
+          <p className="text-xs text-muted-foreground">
             Tu peux changer d’avis à tout moment via « Gérer mes cookies » en bas de page.
           </p>
         </div>
