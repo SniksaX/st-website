@@ -11,7 +11,7 @@ import VideosTikTok from '@/components/VideosTikTokFromJson'
 import Links from '@/components/Links'
 import Footer from '@/components/Footer'
 import About from '@/components/About'
-import Dons from '@/components/Dons'
+import Campaign from '@/components/Campaign'
 import { Separator } from '@/components/ui/separator'
 import { BackdropParallax } from '@/components/ScrollFx'
 import StreamCalendar from '@/components/StreamCalendar'
@@ -140,6 +140,8 @@ export default function Page() {
           <AboutIntro />
         </MotionSection>
 
+        <Separator className="bg-border" />
+
         {/* Sections avec motion + ids pour la smoke test */}
         <MotionSection id="liens">
           <Links />
@@ -178,7 +180,7 @@ export default function Page() {
         <Separator className="bg-border" />
 
         <MotionSection id="contact">
-          <Dons />
+          <Campaign />
         </MotionSection>
 
         <Footer />

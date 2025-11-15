@@ -9,47 +9,39 @@ export default function Footer() {
     window.dispatchEvent(new CustomEvent('st:consent:reset'));
   };
 
+  const links = [
+    { id: 'about', label: 'À propos' },
+    { id: 'liens', label: 'Liens' },
+    { id: 'videos-youtube', label: 'YouTube' },
+    { id: 'formats', label: 'Formats' },
+    { id: 'videos-tiktok', label: 'TikTok' },
+    { id: 'founders', label: 'Fondateurs' },
+    { id: 'stream', label: 'Agenda' },
+    { id: 'campaign', label: 'Campaign' },
+  ]
+
   return (
     <footer className="border-t border-border mt-10">
-      <Section className="py-8 text-sm text-muted-foreground">
-        <div className="grid md:grid-cols-3 gap-6 items-center">
-          {/* Left — identité */}
-          <div>
-            <p className="font-semibold text-foreground">Sans Transition</p>
-            <p className="text-xs">
-              © {new Date().getFullYear()} — média militant, indépendant et engagé.
-            </p>
-            <button
-              onClick={reopen}
-              className="underline underline-offset-4 hover:text-foreground"
-            >
-              Gérer mes cookies
-            </button>
-          </div>
-
-         {/* Center — navigation */}
-        <div className="mx-auto max-w-5xl flex flex-nowrap justify-center gap-4 text-xs md:text-sm overflow-x-auto whitespace-nowrap no-scrollbar px-4">
-          <a href="#liens" className="underline-offset-4 hover:underline">Liens</a>
-          <a href="#videos-youtube" className="underline-offset-4 hover:underline">YouTube</a>
-          <a href="#formats" className="underline-offset-4 hover:underline">Formats</a>
-          <a href="#videos-tiktok" className="underline-offset-4 hover:underline">TikTok</a>
-          <a href="#valeurs" className="underline-offset-4 hover:underline">Valeurs</a>
-          <a href="#about" className="underline-offset-4 hover:underline">À propos</a>
-          <a href="#founders" className="underline-offset-4 hover:underline">Fondateurs</a>
-          <a href="#stream" className="underline-offset-4 hover:underline">Agenda</a>
-          <a href="#contact" className="underline-offset-4 hover:underline">Contact</a>
+      <Section className="py-8 text-sm text-muted-foreground flex flex-col gap-6">
+        <div className="flex flex-col gap-2">
+          <p className="font-semibold text-foreground">Sans Transition</p>
+          <p className="text-xs">© {new Date().getFullYear()} — média militant, indépendant et engagé.</p>
+          <button onClick={reopen} className="underline underline-offset-4 hover:text-foreground text-xs">
+            Gérer mes cookies
+          </button>
         </div>
-
-
-          {/* Right — signature */}
-          <div className="md:text-right space-y-1">
-            <p className="text-xs text-muted-foreground">
-              Fait par <span className="text-foreground font-semibold">Hedi</span>, et ouais mes vies.
-            </p>
-            <p className="text-xs text-muted-foreground">
-              Merci d’être passé·e sur le site :)) Bisous!
-            </p>
-          </div>
+        <div className="flex flex-wrap gap-4 text-xs md:text-sm text-muted-foreground">
+          {links.map((link) => (
+            <a key={link.id} href={`#${link.id}`} className="underline-offset-4 hover:underline">
+              {link.label}
+            </a>
+          ))}
+        </div>
+        <div className="text-xs text-muted-foreground md:text-right">
+          <p>
+            Fait par <span className="text-foreground font-semibold">Hedi</span>, et ouais mes vies.
+          </p>
+          <p>Merci d’être passé·e sur le site :)) Bisous!</p>
         </div>
       </Section>
     </footer>
