@@ -40,8 +40,8 @@ export default function Header() {
                   { id: "videos-youtube", label: "YouTube" },
                   { id: "formats", label: "Formats" },
                   { id: "videos-tiktok", label: "TikTok" },
-                  { id: "valeurs", label: "Valeurs" },
                   { id: "about", label: "À propos" },
+                  { id: "founders", label: "Fondateurs" },
                   { id: "stream", label: "Agenda" },
                   { id: "dons", label: "Dons" },
                 ] as const
@@ -105,6 +105,7 @@ export default function Header() {
               { id: 'formats', label: 'Formats' },
               { id: 'videos-tiktok', label: 'TikTok' },
               { id: 'about', label: 'À propos' },
+              { id: 'founders', label: 'Fondateurs' },
               { id: 'stream', label: 'Agenda' },
             ].map((s) => (
               <li key={s.id} className="shrink-0">

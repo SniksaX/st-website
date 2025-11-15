@@ -126,7 +126,7 @@ export default function FacesMosaic({ fileUrl = '/json_don.txt', variant = 'defa
     if (variant === 'static') return; // pas d'animation pour la version statique
     let raf = 0;
     let last: number | null = null;
-    const speed = variant === 'background' ? 0.03 : 0.2; // px/ms (visible en arrière-plan)
+    const speed = variant === 'background' ? 0.012 : 0.12; // px/ms plus lent pour plus de confort visuel
 
     const tick = (t: number) => {
       if (last == null) last = t;

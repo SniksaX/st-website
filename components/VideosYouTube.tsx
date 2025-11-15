@@ -1,7 +1,9 @@
-﻿'use client';
+'use client';
+
 import React from 'react';
 import Section from './Section';
-import { ChevronLeft, ChevronRight, ArrowUpRight, Youtube as YoutubeIcon } from 'lucide-react';
+import { ArrowUpRight, Youtube as YoutubeIcon } from 'lucide-react';
+import SectionHeading from '@/components/SectionHeading';
 
 type YtItem = { id: string; title?: string; publishedAt?: string };
 type Item = { kind: 'video'; v: YtItem } | { kind: 'more' };
@@ -27,7 +29,6 @@ export default function VideosYouTube() {
   const [videos, setVideos] = React.useState<YtItem[]>([]);
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState<string | null>(null);
-  const [idx, setIdx] = React.useState(0); // index de la 1re carte visible
 
   React.useEffect(() => {
     let cancelled = false;
@@ -54,19 +55,15 @@ export default function VideosYouTube() {
           .filter((v) => v.id && v.id.length === 11)
           .slice(0, 10);
 
-        if (!cancelled) {
-          setVideos(mapped);
-          setIdx(0);
-        }
+        if (!cancelled) setVideos(mapped);
       } catch (e) {
         if (!cancelled) {
           const msg = e instanceof Error ? e.message : String(e);
           setError(msg);
           setVideos([
-            { id: '6S5YPk-GIng', title: 'VidÃ©o Sans Transition' },
-            { id: 'V7d_6ePKy6E', title: 'VidÃ©o Sans Transition' },
+            { id: '6S5YPk-GIng', title: 'Vidéo Sans Transition' },
+            { id: 'V7d_6ePKy6E', title: 'Vidéo Sans Transition' },
           ]);
-          setIdx(0);
         }
       } finally {
         if (!cancelled) setLoading(false);
@@ -77,20 +74,14 @@ export default function VideosYouTube() {
     };
   }, []);
 
-  // vidÃ©os + carte "voir +"
+  // vidéos + carte "voir +"
   const items: Item[] = [...videos.map((v) => ({ kind: 'video', v } as const)), { kind: 'more' }];
-  const N = items.length;
-  const at = (i: number) => items[((i % N) + N) % N];
-  const next = () => setIdx((i) => (i + 1) % N);
-  const prev = () => setIdx((i) => (i - 1 + N) % N);
-
-  // Deux cartes visibles : [idx] et [idx+1] (wrap)
-  const visible: Item[] = [at(idx), at(idx + 1)];
+  const placeholders = Array.from({ length: 4 });
 
   return (
     <Section id="videos-youtube" className="py-14 relative z-10 isolate">
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">Vidéos YouTube</h2>
+      <div className="mb-6 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+        <SectionHeading kicker="Dernières sorties" title="Vidéos YouTube" className="mb-0" />
         <div className="hidden sm:flex items-center gap-2">
           <a
             href="https://youtube.com/@SansTransitionMedia"
@@ -101,33 +92,18 @@ export default function VideosYouTube() {
             <YoutubeIcon className="h-4 w-4" />
             <span>Suivre sur YouTube</span>
           </a>
-          <button
-            onClick={prev}
-            className="p-2 rounded-full bg-muted hover:bg-muted/80 text-foreground"
-            aria-label="PrÃ©cÃ©dent"
-          >
-            <ChevronLeft className="h-5 w-5" />
-          </button>
-          <button
-            onClick={next}
-            className="p-2 rounded-full bg-muted hover:bg-muted/80 text-foreground"
-            aria-label="Suivant"
-          >
-            <ChevronRight className="h-5 w-5" />
-          </button>
         </div>
       </div>
 
       {error && <p className="text-sm text-amber-300 mb-4 break-all">{error}</p>}
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {loading ? (
-          <>
-            <div className="aspect-video w-full animate-pulse bg-muted rounded-2xl" />
-            <div className="aspect-video w-full animate-pulse bg-muted rounded-2xl" />
-          </>
+          placeholders.map((_, idx) => (
+            <div key={`skeleton-${idx}`} className="aspect-video w-full animate-pulse bg-muted rounded-2xl" />
+          ))
         ) : (
-          visible.map((item, k) =>
+          items.map((item, k) =>
             item.kind === 'video' ? (
               <div
                 key={`${item.v.id}-${k}`}

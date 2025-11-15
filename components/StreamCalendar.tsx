@@ -2,6 +2,7 @@
 
 import React from "react";
 import Section from "./Section";
+import SectionHeading from "@/components/SectionHeading";
 import { Twitch } from "lucide-react";
 import { motion, type Variants } from "framer-motion";
 import { useInView } from "framer-motion";
@@ -87,10 +88,8 @@ export default function StreamCalendar() {
 
   return (
     <Section id="streams" className="py-14">
-      <div className="mb-6 flex items-center justify-between gap-4">
-        <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
-          Calendrier des streams
-        </h2>
+      <div className="mb-6 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+        <SectionHeading kicker="Agenda" title="Calendrier des streams" className="mb-0" />
         <a
           href="https://twitch.tv/sans_transition"
           target="_blank"

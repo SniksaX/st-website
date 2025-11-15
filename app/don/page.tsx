@@ -1,25 +1,32 @@
+﻿// ✅ Version corrigée et complète avec accents UTF-8
+
+
+
+// ✅ Version corrigée et complète avec accents UTF-8
+
 import type React from "react";
-import Link from "next/link";
 import Section from "@/components/Section";
-import ThemeToggle from "@/components/ThemeToggle";
 import BoutonSoutenir from "@/components/BoutonSoutenir";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  HeartHandshake,
-  ArrowRight,
-  CheckCircle2,
-  ShieldCheck,
-  Target,
-  Sparkles,
-  HandHeart,
-  Euro,
-  Users,
-} from "lucide-react";
+import { ArrowRight, Sparkles, Users, HandHeart } from "lucide-react";
 import { MotionDiv } from "@/components/ClientMotion";
 import FacesMosaic from "@/components/FacesMosaic";
 import DonProgress from "@/components/DonProgress";
+import DonHeader from "@/components/don/DonHeader";
+import ImpactCard from "@/components/don/ImpactCard";
+import DonGradientBG from "@/components/don/GradientBG";
+import DonTrustBadge from "@/components/don/TrustBadge";
+import DonListItem from "@/components/don/ListItem";
+import DonTextBlock from "@/components/don/TextBlock";
+import HelloAssoWidget from "@/components/HelloAssoWidget";
+
+// Local alias to keep existing JSX unchanged
+const Impact = ImpactCard;
+const TrustBadge = DonTrustBadge;
+const ListItem = DonListItem;
+const TextBlock = DonTextBlock;
 
 export const metadata = {
   title: "Soutenir Sans Transition — Don",
@@ -34,8 +41,8 @@ const HELLOASSO_ONE_TIME_URL = HELLOASSO_URL; // TODO: remplacer par le lien don
 export default function DonPage() {
   return (
     <main id="don" className="relative z-10 min-h-screen bg-background text-foreground">
-      <GradientBG />
-      <DonHeader />
+      <DonGradientBG />
+      <DonHeader helloassoUrl={HELLOASSO_URL} />
 
       {/* HERO — dark remix */}
       <section className="relative border-b border-border backdrop-blur">
@@ -71,7 +78,7 @@ export default function DonPage() {
               </h1>
 
               <p className="text-base sm:text-lg text-foreground/95 leading-relaxed max-w-xl mb-6 italic">
-                « 1 000 personnes à 2 €/mois = un média libre et stable. »
+                1 000 personnes × 2 €/mois = un média libre et stable.
               </p>
 
               <p className="text-base sm:text-lg text-foreground/90 leading-relaxed max-w-xl mb-8">
@@ -79,88 +86,137 @@ export default function DonPage() {
                 Notre mission : faire exister les voix qu’on n’écoute jamais, raconter les luttes
                 avec justesse et proposer des analyses radicalement différentes.
               </p>
-
-              <div className="flex flex-col sm:flex-row gap-4 mb-6">
-                <Button
-                  asChild
-                  size="lg"
-                  className="rounded-2xl bg-gradient-to-r from-fuchsia-600 to-orange-500 hover:from-fuchsia-500 hover:to-orange-400 text-white font-semibold h-14 px-8 text-base shadow-[0_10px_30px_rgba(168,85,247,0.25)]"
-                >
-                  <a href={HELLOASSO_URL} target="_blank" rel="noreferrer">
-                    Je rejoins la Transition <ArrowRight className="ml-2 h-5 w-5" />
-                  </a>
-                </Button>
-                <Button
-                  asChild
-                  variant="outline"
-                  size="lg"
-                  className="rounded-2xl border-border bg-card hover:bg-muted text-foreground h-14 px-8 text-base"
-                >
-                  <a href={HELLOASSO_ONE_TIME_URL} target="_blank" rel="noreferrer">
-                    Faire un don ponctuel
-                  </a>
-                </Button>
+              <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5">
+                <TrustBadge icon="shield" text="Association loi 1901" />
+                <TrustBadge icon="euro" text="Financement 100 % citoyen" />
+                <TrustBadge icon="heartHandshake" text="Pas de pubs, pas d’actionnaires" />
+                <TrustBadge icon="target" text="Indépendance par la communauté" />
               </div>
 
-              <p className="text-sm text-muted-foreground mb-2">
-                Objectif : <strong className="text-foreground">1000 personnes à 2 € / mois</strong> pour
-                financer durablement le média.
-              </p>
-
-              <p className="mt-4 text-xs text-muted-foreground">
-                Sans Transition est une <strong>association loi 1901</strong>. Vos dons financent directement nos contenus
-                et notre développement.
-              </p>
+              <div className="flex flex-col sm:flex-row gap-4 mt-8">
+                <MotionDiv
+                  whileHover={{ y: -2, scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  transition={{ type: 'spring', stiffness: 500, damping: 28, mass: 0.6 }}
+                  className="w-full sm:w-auto"
+                >
+                  <Button
+                    asChild
+                    size="lg"
+                    className="rounded-2xl bg-gradient-to-r from-fuchsia-600 to-orange-500 hover:from-fuchsia-500 hover:to-orange-400 text-white font-semibold h-14 px-8 text-base shadow-[0_10px_30px_rgba(168,85,247,0.25)]"
+                  >
+                    <a href={HELLOASSO_URL} target="_blank" rel="noreferrer">
+                      Je rejoins la Transition <ArrowRight className="ml-2 h-5 w-5" />
+                    </a>
+                  </Button>
+                </MotionDiv>
+                <MotionDiv
+                  whileHover={{ y: -2, scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  transition={{ type: 'spring', stiffness: 500, damping: 28, mass: 0.6 }}
+                  className="w-full sm:w-auto"
+                >
+                  <Button
+                    asChild
+                    variant="outline"
+                    size="lg"
+                    className="rounded-2xl border-border bg-card hover:bg-muted text-foreground h-14 px-8 text-base"
+                  >
+                    <a href={HELLOASSO_ONE_TIME_URL} target="_blank" rel="noreferrer">
+                      Faire un don ponctuel
+                    </a>
+                  </Button>
+                </MotionDiv>
+              </div>
             </MotionDiv>
-
-            {/* Right: Trust Card */}
+            {/* Right: HelloAsso */}
             <MotionDiv
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.15 }}
             >
-              <Card className="rounded-3xl border border-border bg-card/70 ring-1 ring-border shadow-2xl">
-                <CardHeader className="pb-4">
-                  <CardTitle className="text-2xl font-bold text-foreground">Pourquoi nous soutenir ?</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4 text-muted-foreground">
-                  <TrustBadge icon={ShieldCheck} text="Association loi 1901" />
-                  <TrustBadge icon={Euro} text="Financement 100 % citoyen" />
-                  <TrustBadge icon={HeartHandshake} text="Pas de pubs, pas d’actionnaires" />
-                  <TrustBadge icon={Target} text="Indépendance par la communauté" />
-                  <div className="pt-4 border-t border-border">
-                    <p className="text-xs text-muted-foreground leading-relaxed">
-                      Vos dons financent directement nos reportages, analyses et formats pédagogiques — sans pubs,
-                      sans actionnaires, sans compromis.
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
+              <div className="mx-auto w-full max-w-md rounded-2xl border border-border bg-card/70 p-4 shadow-md md:sticky md:top-28">
+                <HelloAssoWidget className="mx-auto" />
+                <p className="mt-3 text-xs text-muted-foreground">Paiement sécurisé via HelloAsso. Aucune donnée bancaire stockée par Sans Transition.</p>
+              </div>
             </MotionDiv>
           </div>
         </Section>
       </section>
 
       
-
-      
-
-      {/* Sections ajoutées — structure demandée */}
       {/* Pourquoi La Transition ? */}
-      <Section className="py-16">
+      <Section className="py-20 relative">
         <div className="max-w-5xl mx-auto">
           <MotionDiv
             initial={{ opacity: 0, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="text-center mb-10"
+            className="text-center mb-12"
           >
-            <h2 className="text-4xl sm:text-5xl font-bold text-foreground mb-4">Pourquoi La Transition ?</h2>
-            <p className="text-lg text-muted-foreground">
+            <div className="inline-flex items-center gap-2 rounded-full border border-fuchsia-500/20 bg-fuchsia-500/10 px-4 py-1.5 text-xs font-medium uppercase tracking-wider text-fuchsia-700 dark:text-fuchsia-200 mb-4">
+              <Sparkles className="h-3.5 w-3.5" /> Pourquoi maintenant
+            </div>
+            <h2 className="text-4xl sm:text-6xl font-extrabold leading-tight mb-4">
+              <span className="text-foreground">Pourquoi </span>
+              <span className="bg-clip-text text-transparent bg-gradient-to-r from-fuchsia-400 via-pink-300 to-orange-300">La Transition ?</span>
+            </h2>
+            <div className="mx-auto h-1 w-24 bg-gradient-to-r from-fuchsia-500 to-orange-500 rounded-full" />
+            <p className="mt-6 text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto">
               Parce qu’on ne peut pas être libres sans moyens.
             </p>
           </MotionDiv>
+
+          {/* bandeau de valeurs (auto-scroll) */}
+          <div className="relative overflow-hidden">
+            <div className="flex gap-8 min-w-max py-3 px-6 text-sm sm:text-base font-semibold tracking-wide text-foreground/90 whitespace-nowrap animate-scroll-x">
+              {/* DUPLICATED CONTENT FOR INFINITE LOOP */}
+              {[
+                "INDÉPENDANCE",
+                "COMMUNAUTÉ",
+                "JUSTICE SOCIALE",
+                "FÉMINISME",
+                "ANTIRACISME",
+                "ACCESSIBILITÉ",
+                "ÉDUC POP",
+                "INDÉPENDANCE",
+                "COMMUNAUTÉ",
+                "JUSTICE SOCIALE",
+                "FÉMINISME",
+                "ANTIRACISME",
+                "ACCESSIBILITÉ",
+                "ÉDUC POP",
+                // loop copy
+                "INDÉPENDANCE",
+                "COMMUNAUTÉ",
+                "JUSTICE SOCIALE",
+                "FÉMINISME",
+                "ANTIRACISME",
+                "ACCESSIBILITÉ",
+                "ÉDUC POP",
+                "INDÉPENDANCE",
+                "COMMUNAUTÉ",
+                "JUSTICE SOCIALE",
+                "FÉMINISME",
+                "ANTIRACISME",
+                "ACCESSIBILITÉ",
+                "ÉDUC POP",
+              ].map((txt, i) => (
+                <span
+                  key={i}
+                  className={
+                    txt === "INDÉPENDANCE"
+                      ? "text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 to-pink-400"
+                      : ""
+                  }
+                >
+                  {txt}
+                </span>
+              ))}
+            </div>
+          </div>
+
         </div>
       </Section>
 
@@ -181,27 +237,34 @@ export default function DonPage() {
           <div className="grid md:grid-cols-4 gap-6">
             {[
               {
-                name: "Écho",
-                amount: "2 €/mois",
-                desc: "Tu fais entendre nos voix. Le début du mouvement.",
+              name: "Écho",
+              amount: "2 €/mois",
+              desc: "Tu fais entendre nos voix. Le début du mouvement.",
+              hover: "hover:bg-yellow-500/20 hover:border-yellow-500",
               },
               {
-                name: "Signal",
-                amount: "5 €/mois",
-                desc: "Tu amplifies le signal. Tu fais vibrer les luttes.",
+              name: "Signal",
+              amount: "5 €/mois",
+              desc: "Tu amplifies le signal. Tu fais vibrer les luttes.",
+              hover: "hover:bg-orange-500/20 hover:border-orange-500",
               },
               {
-                name: "Fracture",
-                amount: "10 €/mois",
-                desc: "Tu casses le cadre médiatique dominant.",
+              name: "Fracture",
+              amount: "10 €/mois",
+              desc: "Tu casses le cadre médiatique dominant.",
+              hover: "hover:bg-pink-500/20 hover:border-pink-500",
               },
               {
-                name: "Transition",
-                amount: "20 €/mois",
-                desc: "Tu rends possible la bascule. L’indépendance ou rien.",
+              name: "Transition",
+              amount: "20 €/mois",
+              desc: "Tu rends possible la bascule. L’indépendance ou rien.",
+              hover: "hover:bg-violet-500/20 hover:border-violet-500",
               },
             ].map((p) => (
-              <Card key={p.name} className="rounded-3xl border border-border bg-card/70 ring-1 ring-border h-full">
+              <Card
+                key={p.name}
+                className={`rounded-3xl border border-border bg-card/70 ring-1 ring-border h-full transition-all duration-300 ${p.hover}`}
+              >
                 <CardHeader className="pb-2">
                   <CardTitle className="text-xl font-bold text-foreground">{p.name}</CardTitle>
                   <p className="text-sm text-muted-foreground mt-1">{p.amount}</p>
@@ -211,7 +274,6 @@ export default function DonPage() {
             ))}
           </div>
 
-          {/* Progression vers l'objectif */}
           <DonProgress goal={1000} />
 
           <div className="text-center mt-8">
@@ -226,6 +288,7 @@ export default function DonPage() {
           </div>
         </div>
       </Section>
+
 
       {/* Transparence */}
       <Section className="py-16">
@@ -248,7 +311,7 @@ export default function DonPage() {
               </CardHeader>
               <CardContent className="text-muted-foreground space-y-3">
                 <p>Salaires dignes, frais de tournage, hébergement, outils.</p>
-                <p>Objectif: stabiliser la production et l’équipe.</p>
+                <p>Objectif: stabiliser la production et l’equipe.</p>
               </CardContent>
             </Card>
             <Card className="rounded-3xl border border-border bg-card/70 ring-1 ring-border">
@@ -257,7 +320,7 @@ export default function DonPage() {
               </CardHeader>
               <CardContent className="text-muted-foreground space-y-3">
                 <p>Grandes enquêtes, formats pédagogiques, documentation et événements.</p>
-                <p>Objectif: accélérer l’impact et l’accessibilité.</p>
+                <p>Objectif : accélérer l’impact et l’accessibilite.</p>
               </CardContent>
             </Card>
           </div>
@@ -287,8 +350,6 @@ export default function DonPage() {
           <FacesMosaic fileUrl="/json_don.txt" variant="static" />
         </div>
       </Section>
-
-      
 
       {/* Ancre interne pour Transparence */}
       <Section id="finances" className="py-12">
@@ -420,8 +481,6 @@ export default function DonPage() {
                     Je soutiens maintenant
                   </a>
                 </div>
-
-                
               </CardContent>
             </Card>
           </MotionDiv>
@@ -496,7 +555,6 @@ export default function DonPage() {
                   Rejoindre les 1000 <ArrowRight className="ml-2 h-5 w-5" />
                 </a>
               </Button>
-              {/* Bouton Retour à l’accueil supprimé */}
             </div>
           </MotionDiv>
         </div>
@@ -520,7 +578,7 @@ export default function DonPage() {
             </div>
 
             <h2 className="text-4xl sm:text-5xl font-bold text-foreground mb-6">
-              L’Invitation à Coconstruire
+              L’Invitation à coconstruire
             </h2>
 
             <div className="prose prose-lg max-w-none mx-auto space-y-6 mb-10">
@@ -562,124 +620,18 @@ export default function DonPage() {
           <BoutonSoutenir />
         </div>
       </Section>
-
     </main>
   );
 }
 
 /* ---------- Header spécial /don ---------- */
-function DonHeader() {
-  return (
-    <header className="fixed top-0 left-0 right-0 z-50 border-b border-border bg-background/80 backdrop-blur-xl">
-      <div className="mx-auto flex items-center justify-between px-8 lg:px-12 py-4 w-full max-w-7xl">
-        <Link href="/" className="flex items-center gap-3 group">
-          <span
-            className="text-xl font-extrabold tracking-tight text-foreground uppercase"
-            style={{ fontFamily: 'var(--font-barbra)' }}
-          >
-            SANS TRANSITION
-          </span>
-        </Link>
-        <div className="flex items-center gap-2">
-          <ThemeToggle />
-          <a
-            href={HELLOASSO_URL}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center justify-center whitespace-nowrap rounded-full text-white font-semibold px-3 sm:px-4 h-9 text-xs sm:text-sm shadow-[0_8px_20px_rgba(168,85,247,0.25)] bg-[image:var(--grad-1)] hover:brightness-110 transition"
-          >
-            Rejoindre la Transition
-          </a>
-        </div>
-      </div>
-    </header>
-  );
-}
+// (legacy DonHeader removed – now imported from components)
 
-/* ---------- Small building blocks ---------- */
-function TrustBadge({ icon: Icon, text }: { icon: React.ElementType; text: string }) {
-  return (
-    <MotionDiv
-      whileHover={{ y: -2, scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
-      transition={{ type: "spring", stiffness: 500, damping: 28, mass: 0.6 }}
-      className="group"
-    >
-      <div className="relative flex items-center gap-3 p-3 rounded-2xl bg-card/60 border border-border overflow-hidden">
-        {/* Glow overlay on hover */}
-        <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-gradient-to-r from-fuchsia-500/10 via-transparent to-orange-500/10" />
 
-        <div className="relative p-2 bg-card rounded-xl border border-border group-hover:border-border transition-colors">
-          <Icon className="h-5 w-5 text-fuchsia-300" />
-        </div>
-        <span className="relative text-sm text-muted-foreground">{text}</span>
-      </div>
-    </MotionDiv>
-  );
-}
 
-function Impact({ amount, desc, delay }: { amount: string; desc: string; delay: number }) {
-  return (
-    <MotionDiv
-      initial={{ opacity: 0, y: 12 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5, delay }}
-    >
-      <Card className="group h-full rounded-3xl border border-border bg-card/70 hover:border-fuchsia-500/30 hover:shadow-[0_12px_36px_rgba(168,85,247,0.15)] transition-all duration-300">
-        <CardHeader className="pb-4">
-          <div className="p-3 bg-fuchsia-500/15 rounded-2xl w-fit mb-3 group-hover:bg-fuchsia-500/25 transition-colors">
-            <Target className="h-6 w-6 text-fuchsia-300" />
-          </div>
-          <CardTitle className="text-xl font-bold text-foreground">{amount}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="text-muted-foreground leading-relaxed">{desc}</p>
-        </CardContent>
-      </Card>
-    </MotionDiv>
-  );
-}
 
-function ListItem({ children }: { children: React.ReactNode }) {
-  return (
-    <li className="flex gap-3">
-      <CheckCircle2 className="h-5 w-5 mt-0.5 text-fuchsia-400 flex-shrink-0" />
-      <span className="text-muted-foreground leading-relaxed">{children}</span>
-    </li>
-  );
-}
 
-function TextBlock({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
-  return (
-    <MotionDiv
-      initial={{ opacity: 0, y: 12 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.5, delay }}
-    >
-      <div className="prose max-w-none text-muted-foreground leading-relaxed">{children}</div>
-    </MotionDiv>
-  );
-}
 
-function GradientBG() {
-  return (
-    <div
-      aria-hidden
-      className="pointer-events-none fixed inset-0 z-0 select-none overflow-hidden"
-    >
-      {/* motif discret — inversé en light mode */}
-      <div className="absolute inset-0 bg-[radial-gradient(transparent_1px,rgba(255,255,255,0.4)_1px)] dark:bg-[radial-gradient(transparent_1px,rgba(0,0,0,0.4)_1px)] [background-size:16px_16px] opacity-[0.12]" />
 
-      {/* halo fuchsia */}
-      <div className="absolute top-[-10rem] left-[-10rem] h-[55rem] w-[55rem] rounded-full bg-fuchsia-500/15 blur-[140px]" />
 
-      {/* halo orange */}
-      <div className="absolute bottom-[-10rem] right-[-10rem] h-[50rem] w-[50rem] rounded-full bg-orange-500/15 blur-[140px]" />
 
-      {/* léger fondu noir */}
-      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-neutral-950 to-transparent" />
-    </div>
-  );
-}

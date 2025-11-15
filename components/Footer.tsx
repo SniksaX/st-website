@@ -35,6 +35,7 @@ export default function Footer() {
           <a href="#videos-tiktok" className="underline-offset-4 hover:underline">TikTok</a>
           <a href="#valeurs" className="underline-offset-4 hover:underline">Valeurs</a>
           <a href="#about" className="underline-offset-4 hover:underline">À propos</a>
+          <a href="#founders" className="underline-offset-4 hover:underline">Fondateurs</a>
           <a href="#stream" className="underline-offset-4 hover:underline">Agenda</a>
           <a href="#contact" className="underline-offset-4 hover:underline">Contact</a>
         </div>

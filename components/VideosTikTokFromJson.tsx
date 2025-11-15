@@ -3,6 +3,7 @@
 import React from 'react';
 import Section from './Section';
 import { ChevronLeft, ChevronRight, Play, Eye, Heart, Percent, ArrowUpRight } from 'lucide-react';
+import SectionHeading from '@/components/SectionHeading';
 
 type OEmbed = { thumbnail_url?: string; title?: string; author_name?: string };
 
@@ -214,8 +215,8 @@ export default function VideosTikTok() {
 
   return (
     <Section id="videos-tiktok" className="py-14">
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">Toutes les vidéos TikTok</h2>
+      <div className="mb-6 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+        <SectionHeading kicker="Communauté" title="Toutes les vidéos TikTok" className="mb-0" />
         <div className="hidden sm:flex items-center gap-2">
           <a
             href="https://www.tiktok.com/@sanstransition"

@@ -1,4 +1,4 @@
-'use client'
+﻿'use client'
 
 import React, { useEffect, useState, useRef } from 'react'
 import { motion, useScroll, useSpring, useReducedMotion } from 'framer-motion'
@@ -12,10 +12,11 @@ import Links from '@/components/Links'
 import Footer from '@/components/Footer'
 import About from '@/components/About'
 import Dons from '@/components/Dons'
-import Values from '@/components/Values'
 import { Separator } from '@/components/ui/separator'
 import { BackdropParallax } from '@/components/ScrollFx'
 import StreamCalendar from '@/components/StreamCalendar'
+import HelloAssoWidget from '@/components/HelloAssoWidget'
+import AboutIntro from '@/components/AboutIntro'
 
 // -- UI Enhancers ------------------------------------------------------------
 function ScrollProgress() {
@@ -48,7 +49,10 @@ function BackToTop() {
       }`}
       aria-label="Remonter en haut"
     >
-      ↑ Haut
+      <span className="flex items-center gap-1">
+        <span aria-hidden>↑</span>
+        <span>Haut</span>
+      </span>
     </button>
   )
 }
@@ -121,16 +125,20 @@ export default function Page() {
       <ScrollProgress />
       <AmbientGlow />
 
-      {/* background animé (asymétrique) */}
+      {/* background animÃ© (asymÃ©trique) */}
       <BackdropParallax />
 
       <Header />
 
-      {/* Hero sans reveal (il est déjà animé) */}
+      {/* Hero sans reveal (il est dÃ©jÃ  animÃ©) */}
       <main id="main" className="relative z-10">
         <Hero />
 
         <Separator className="bg-border" />
+
+        <MotionSection id="about">
+          <AboutIntro />
+        </MotionSection>
 
         {/* Sections avec motion + ids pour la smoke test */}
         <MotionSection id="liens">
@@ -157,13 +165,7 @@ export default function Page() {
 
         <Separator className="bg-border" />
 
-        <MotionSection id="valeurs">
-          <Values />
-        </MotionSection>
-
-        <Separator className="bg-border" />
-
-        <MotionSection id="about">
+        <MotionSection id="founders">
           <About />
         </MotionSection>
 
@@ -186,3 +188,5 @@ export default function Page() {
     </div>
   )
 }
+
+

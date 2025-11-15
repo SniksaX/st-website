@@ -4,6 +4,7 @@ import Image from 'next/image';
 import { HoverLift } from "@/components/HoverLift";
 import { Instagram } from "lucide-react";
 import GLI from "@/components/GradientLinkIcon";
+import SectionHeading from "@/components/SectionHeading";
 
 // ---- Halo externe (radial gradient), dépasse la carte, couleurs par membre ----
 function Halo({
@@ -99,23 +100,19 @@ const team: Member[] = [
 export default function About() {
   return (
     <section
-      id="about"
+      id="founders"
       className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 md:py-16"
     >
-      {/* Header */}
-      <div className="mb-8">
-        <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">L’équipe</p>
-        <h2 className="mt-1 text-3xl sm:text-4xl font-extrabold tracking-tight leading-tight text-foreground">
-          À propos
-        </h2>
-        <p className="mt-4 text-muted-foreground leading-tight w-full">
-          Sans Transition, c’est une équipe qui aime la simplicité, l’humanité et la vérité.
-        </p>
-      </div>
+      <SectionHeading
+        kicker="Fondateurs"
+        title="Personnes & visages"
+        description="Celles et ceux qui portent Sans Transition au quotidien."
+        className="mb-8"
+      />
 
       {/* Grid */}
       <div className="grid gap-6 items-start sm:grid-cols-2 lg:grid-cols-3">
-        {team.map((m) => (
+        {team.map((m, idx) => (
           <HoverLift key={m.name} lift={-3}>
             {/* overflow-visible pour laisser le halo déborder */}
             <article className="relative overflow-visible rounded-2xl border border-border bg-card p-5 transition-shadow hover:shadow-lg/10">
@@ -128,9 +125,10 @@ export default function About() {
                   src={m.img}
                   alt={m.alt ?? m.name}
                   fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  sizes="(max-width: 640px) 80vw, (max-width: 1024px) 40vw, 22vw"
                   className="object-cover"
-                  priority
+                  priority={idx === 0}
+                  loading={idx === 0 ? 'eager' : 'lazy'}
                 />
               </div>
 
