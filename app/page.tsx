@@ -1,7 +1,7 @@
 ﻿'use client'
 
-import React, { useEffect, useState, useRef } from 'react'
-import { motion, useScroll, useSpring, useReducedMotion } from 'framer-motion'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { motion, useScroll, useSpring } from 'framer-motion'
 
 import Header from '@/components/Header'
 import Hero from '@/components/Hero'
@@ -15,7 +15,6 @@ import Campaign from '@/components/Campaign'
 import { Separator } from '@/components/ui/separator'
 import { BackdropParallax } from '@/components/ScrollFx'
 import StreamCalendar from '@/components/StreamCalendar'
-import HelloAssoWidget from '@/components/HelloAssoWidget'
 import AboutIntro from '@/components/AboutIntro'
 
 // -- UI Enhancers ------------------------------------------------------------
@@ -79,25 +78,6 @@ function AmbientGlow() {
   )
 }
 
-// Motion section wrapper (respects reduced motion)
-function MotionSection({ id, children }: { id: string; children: React.ReactNode }) {
-  const prefersReducedMotion = useReducedMotion()
-  const ref = useRef<HTMLDivElement | null>(null)
-  return (
-    <motion.section
-      id={id}
-      ref={ref}
-      initial={prefersReducedMotion ? false : { opacity: 0, y: 24, scale: 0.98 }}
-      whileInView={prefersReducedMotion ? {} : { opacity: 1, y: 0, scale: 1 }}
-      viewport={{ once: true, margin: '-10% 0px -10% 0px' }}
-      transition={{ duration: 0.6, ease: 'easeOut' }}
-      className="scroll-mt-24"
-    >
-      {children}
-    </motion.section>
-  )
-}
-
 // Skip link for accessibility
 function SkipLink() {
   return (
@@ -112,12 +92,71 @@ function SkipLink() {
 
 // FloatingCTA suppressed (unused)
 
+type SectionConfig = {
+  id: string
+  label: string
+  content: React.ReactNode
+}
+
 export default function Page() {
+  const sections = useMemo<SectionConfig[]>(
+    () => [
+      { id: 'about', label: 'A propos', content: <AboutIntro /> },
+      { id: 'liens', label: 'Liens', content: <Links /> },
+      { id: 'videos-youtube', label: 'YouTube', content: <VideosYouTube /> },
+      { id: 'formats', label: 'Formats', content: <Formats /> },
+      { id: 'videos-tiktok', label: 'TikTok', content: <VideosTikTok /> },
+      { id: 'founders', label: 'Fondateurs', content: <About /> },
+      { id: 'stream', label: 'Agenda', content: <StreamCalendar /> },
+      { id: 'campaign', label: 'Campagne', content: <Campaign /> },
+    ],
+    []
+  )
+  const [activeSection, setActiveSection] = useState(sections[0]?.id ?? 'about')
+  const switcherRef = useRef<HTMLDivElement | null>(null)
+
   useEffect(() => {
-    const required = ['formats', 'videos-youtube', 'videos-tiktok', 'liens', 'contact']
-    const missing = required.filter((id) => !document.getElementById(id))
+    const required = ['formats', 'videos-youtube', 'videos-tiktok', 'liens', 'campaign']
+    const missing = required.filter((id) => !sections.some((section) => section.id === id))
     if (missing.length) console.error('Smoke test failed: missing sections:', missing)
-  }, [])
+  }, [sections])
+
+  const handleSectionChange = useCallback(
+    (id: string, options?: { updateHash?: boolean }) => {
+      setActiveSection(id)
+
+      if (options?.updateHash !== false && typeof window !== 'undefined') {
+        const targetHash = `#${id}`
+        if (window.location.hash !== targetHash) {
+          window.history.replaceState(null, '', targetHash)
+        }
+      }
+
+      requestAnimationFrame(() => {
+        switcherRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      })
+    },
+    []
+  )
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+
+    const syncFromHash = () => {
+      const target = window.location.hash.replace('#', '')
+      if (!target) return
+      const hasSection = sections.some((section) => section.id === target)
+      if (hasSection) {
+        handleSectionChange(target, { updateHash: false })
+      }
+    }
+
+    syncFromHash()
+    window.addEventListener('hashchange', syncFromHash)
+    return () => window.removeEventListener('hashchange', syncFromHash)
+  }, [sections, handleSectionChange])
+
+  const activeSectionData = sections.find((section) => section.id === activeSection) ?? sections[0]
 
   return (
     <div className="min-h-screen bg-background text-foreground font-sans selection:bg-muted">
@@ -136,52 +175,45 @@ export default function Page() {
 
         <Separator className="bg-border" />
 
-        <MotionSection id="about">
-          <AboutIntro />
-        </MotionSection>
+        <section
+          id="section-switcher"
+          ref={switcherRef}
+          className="sticky top-[62px] z-40 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80"
+        >
+          <div className="mx-auto flex max-w-5xl flex-wrap gap-2 px-3 py-3 text-xs sm:text-sm">
+            {sections.map((section, index) => {
+              const isActive = section.id === activeSection
+              return (
+                <button
+                  key={section.id}
+                  type="button"
+                  onClick={() => handleSectionChange(section.id)}
+                  className={`flex items-center gap-1.5 rounded-2xl border px-3 py-1.5 font-medium transition focus:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 ${
+                    isActive
+                      ? 'border-foreground bg-foreground text-background shadow-lg'
+                      : 'border-border bg-muted/40 text-muted-foreground hover:bg-muted/70'
+                  }`}
+                >
+                  <span className="text-[0.65rem] uppercase tracking-[0.18em] text-muted-foreground">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                  {section.label}
+                </button>
+              )
+            })}
+          </div>
+        </section>
 
-        <Separator className="bg-border" />
-
-        {/* Sections avec motion + ids pour la smoke test */}
-        <MotionSection id="liens">
-          <Links />
-        </MotionSection>
-
-        <Separator className="bg-border" />
-
-        <MotionSection id="videos-youtube">
-          <VideosYouTube />
-        </MotionSection>
-
-        <Separator className="bg-border" />
-
-        <MotionSection id="formats">
-          <Formats />
-        </MotionSection>
-
-        <Separator className="bg-border" />
-
-        <MotionSection id="videos-tiktok">
-          <VideosTikTok />
-        </MotionSection>
-
-        <Separator className="bg-border" />
-
-        <MotionSection id="founders">
-          <About />
-        </MotionSection>
-
-        <Separator className="bg-border" />
-
-        <MotionSection id="stream">
-          <StreamCalendar />
-        </MotionSection>
-
-        <Separator className="bg-border" />
-
-        <MotionSection id="contact">
-          <Campaign />
-        </MotionSection>
+        <div id="sections-hub" className="relative">
+          {activeSectionData && (
+            <>
+              <Separator className="bg-border" />
+              <section id={activeSection} className="scroll-mt-24">
+                {activeSectionData.content}
+              </section>
+            </>
+          )}
+        </div>
 
         <Footer />
       </main>

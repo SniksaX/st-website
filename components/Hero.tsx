@@ -14,7 +14,7 @@ export default function HeroFontsBarbraOrbitron() {
   }, []);
 
   return (
-    <section className="relative flex min-h-[90vh] flex-col justify-end overflow-hidden pl-6 pr-6 sm:px-20 lg:px-32 xl:px-48 pb-12">
+    <section className="relative flex min-h-[80vh] sm:min-h-[85vh] lg:min-h-[90vh] flex-col justify-end overflow-hidden px-6 sm:px-20 lg:px-32 xl:px-48 pb-12 pt-10 sm:pt-16">
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 0.5, scale: 1 }}
@@ -23,7 +23,7 @@ export default function HeroFontsBarbraOrbitron() {
       />
 
       <div aria-hidden className="absolute inset-0 -z-10 select-none">
-        <div className="h-full w-full origin-center scale-[2] md:scale-[1.2] translate-y-[60%] md:translate-y-[15%] transition-transform duration-500">
+        <div className="h-full w-full origin-center scale-[1.15] md:scale-[1.2] translate-y-[10%] sm:translate-y-[5%] lg:translate-y-[10%] transition-transform duration-500">
           <FacesMosaic fileUrl="/json_don.txt" variant="background" />
         </div>
         <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background" />
