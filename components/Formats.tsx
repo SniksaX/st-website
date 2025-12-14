@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Section from '@/components/Section';
 import SectionHeading from '@/components/SectionHeading';
 
@@ -149,9 +149,11 @@ export default function ConstellationFormats() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [hoveredNode, setHoveredNode] = useState<Node | null>(null);
+  const [selectedNode, setSelectedNode] = useState<Node | null>(null);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const animationRef = useRef<number>(0);
   const hoveredNodeRef = useRef<Node | null>(null);
+  const [isMobileViewport, setIsMobileViewport] = useState(false);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -285,15 +287,21 @@ export default function ConstellationFormats() {
     };
   }, []);
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const updateViewport = () => setIsMobileViewport(window.innerWidth < 768);
+    updateViewport();
+    window.addEventListener('resize', updateViewport);
+    return () => window.removeEventListener('resize', updateViewport);
+  }, []);
+
+  const findNodeAtPosition = useCallback((clientX: number, clientY: number) => {
     const container = containerRef.current;
-    if (!container) return;
+    if (!container) return null;
 
     const rect = container.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-
-    setMousePos({ x, y });
+    const x = clientX - rect.left;
+    const y = clientY - rect.top;
 
     let found: Node | null = null;
     for (const node of NODES) {
@@ -307,14 +315,48 @@ export default function ConstellationFormats() {
       }
     }
 
-    setHoveredNode(found);
-    hoveredNodeRef.current = found;
+    return { node: found, x, y };
+  }, []);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const result = findNodeAtPosition(e.clientX, e.clientY);
+    if (!result) return;
+
+    setMousePos({ x: result.x, y: result.y });
+    setHoveredNode(result.node);
+    hoveredNodeRef.current = result.node;
+  };
+
+  const handleNodeSelect = useCallback(
+    (clientX: number, clientY: number) => {
+      const result = findNodeAtPosition(clientX, clientY);
+      const node = result?.node ?? null;
+      setSelectedNode(node);
+
+      if (isMobileViewport) {
+        setHoveredNode(node);
+        hoveredNodeRef.current = node;
+      }
+    },
+    [findNodeAtPosition, isMobileViewport]
+  );
+
+  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    handleNodeSelect(e.clientX, e.clientY);
+  };
+
+  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    const touch = e.touches[0];
+    if (!touch) return;
+    handleNodeSelect(touch.clientX, touch.clientY);
   };
 
   const handleMouseLeave = () => {
     setHoveredNode(null);
     hoveredNodeRef.current = null;
   };
+
+  const showTooltip = Boolean(hoveredNode) && !isMobileViewport;
 
   return (
     <Section id="formats" className="py-16 md:py-20">
@@ -331,11 +373,13 @@ export default function ConstellationFormats() {
         className="relative w-full h-[420px] md:h-[480px] rounded-[2rem] border border-border/60 bg-[radial-gradient(circle_at_15%_0%,rgba(249,115,22,0.12),transparent_60%),radial-gradient(circle_at_85%_100%,rgba(168,85,247,0.16),transparent_60%),radial-gradient(circle_at_50%_50%,rgba(236,72,153,0.08),transparent_65%)] overflow-hidden"
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
+        onClick={handleClick}
+        onTouchStart={handleTouchStart}
       >
         <canvas ref={canvasRef} className="w-full h-full" />
 
         {/* Tooltip */}
-        {hoveredNode && (
+        {showTooltip && hoveredNode && (
           <div
             className="absolute z-30 pointer-events-none"
             style={{
@@ -392,6 +436,35 @@ export default function ConstellationFormats() {
           </div>
         </div>
       </div>
+
+      {selectedNode && (
+        <div className="mt-5 md:hidden">
+          <div
+            className="rounded-2xl border px-4 py-4 bg-background/95 backdrop-blur-xl shadow-2xl"
+            style={{
+              borderColor: `${selectedNode.color}66`,
+              boxShadow: `0 10px 35px ${selectedNode.color}33`,
+            }}
+          >
+            <div className="flex items-center gap-3 mb-2">
+              <span
+                className="inline-flex h-3 w-3 rounded-full"
+                style={{
+                  backgroundColor: selectedNode.color,
+                  boxShadow: `0 0 12px ${selectedNode.color}`,
+                }}
+              />
+              <div>
+                <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground/70">
+                  {selectedNode.type === 'format' ? 'Format' : 'Valeur'}
+                </p>
+                <h3 className="text-base font-semibold text-foreground">{selectedNode.label}</h3>
+              </div>
+            </div>
+            <p className="text-sm text-muted-foreground leading-relaxed">{selectedNode.description}</p>
+          </div>
+        </div>
+      )}
     </Section>
   );
 }

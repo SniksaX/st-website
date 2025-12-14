@@ -113,13 +113,23 @@ export default function Page() {
     []
   )
   const [activeSection, setActiveSection] = useState(sections[0]?.id ?? 'about')
+  const [isMobileViewport, setIsMobileViewport] = useState(false)
   const switcherRef = useRef<HTMLDivElement | null>(null)
+  const sectionsHubRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
     const required = ['formats', 'videos-youtube', 'videos-tiktok', 'liens', 'campaign']
     const missing = required.filter((id) => !sections.some((section) => section.id === id))
     if (missing.length) console.error('Smoke test failed: missing sections:', missing)
   }, [sections])
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const handleResize = () => setIsMobileViewport(window.innerWidth < 768)
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
   const handleSectionChange = useCallback(
     (id: string, options?: { updateHash?: boolean }) => {
@@ -133,10 +143,27 @@ export default function Page() {
       }
 
       requestAnimationFrame(() => {
-        switcherRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        if (typeof window === 'undefined') return
+        if (isMobileViewport) {
+          const targetSection = document.getElementById(id)
+          const fallback = sectionsHubRef.current ?? switcherRef.current
+          const destination = targetSection ?? fallback
+          if (!destination) return
+
+          const headerEl = document.querySelector('header')
+          const headerHeight = headerEl instanceof HTMLElement ? headerEl.offsetHeight : 0
+          const menuHeight = switcherRef.current?.offsetHeight ?? 0
+          const totalOffset = headerHeight + menuHeight + 8
+
+          const { top } = destination.getBoundingClientRect()
+          const offsetTop = Math.max(window.scrollY + top - totalOffset, 0)
+          window.scrollTo({ top: offsetTop, behavior: 'smooth' })
+        } else {
+          switcherRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        }
       })
     },
-    []
+    [isMobileViewport]
   )
 
   useEffect(() => {
@@ -204,7 +231,7 @@ export default function Page() {
           </div>
         </section>
 
-        <div id="sections-hub" className="relative">
+        <div id="sections-hub" ref={sectionsHubRef} className="relative">
           {activeSectionData && (
             <>
               <Separator className="bg-border" />
