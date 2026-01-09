@@ -12,6 +12,7 @@ import Links from '@/components/Links'
 import Footer from '@/components/Footer'
 import About from '@/components/About'
 import Campaign from '@/components/Campaign'
+import LesComploteurs from '@/components/LesComploteurs'
 import { Separator } from '@/components/ui/separator'
 import { BackdropParallax } from '@/components/ScrollFx'
 import StreamCalendar from '@/components/StreamCalendar'
@@ -109,6 +110,7 @@ export default function Page() {
       { id: 'founders', label: 'Fondateurs', content: <About /> },
       { id: 'stream', label: 'Agenda', content: <StreamCalendar /> },
       { id: 'campaign', label: 'Campagne', content: <Campaign /> },
+      { id: 'les-comploteurs', label: 'Les Comploteurs', content: <LesComploteurs /> },
     ],
     []
   )
@@ -207,27 +209,29 @@ export default function Page() {
           ref={switcherRef}
           className="sticky top-[62px] z-40 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80"
         >
-          <div className="mx-auto flex max-w-5xl flex-wrap gap-2 px-3 py-3 text-xs sm:text-sm">
-            {sections.map((section, index) => {
-              const isActive = section.id === activeSection
-              return (
-                <button
-                  key={section.id}
-                  type="button"
-                  onClick={() => handleSectionChange(section.id)}
-                  className={`flex items-center gap-1.5 rounded-2xl border px-3 py-1.5 font-medium transition focus:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 ${
-                    isActive
-                      ? 'border-foreground bg-foreground text-background shadow-lg'
-                      : 'border-border bg-muted/40 text-muted-foreground hover:bg-muted/70'
-                  }`}
-                >
-                  <span className="text-[0.65rem] uppercase tracking-[0.18em] text-muted-foreground">
-                    {String(index + 1).padStart(2, '0')}
-                  </span>
-                  {section.label}
-                </button>
-              )
-            })}
+          <div className="mx-auto w-full max-w-[90rem] px-3 py-3">
+            <div className="flex flex-nowrap justify-center gap-2 text-xs sm:text-sm">
+              {sections.map((section, index) => {
+                const isActive = section.id === activeSection
+                return (
+                  <button
+                    key={section.id}
+                    type="button"
+                    onClick={() => handleSectionChange(section.id)}
+                    className={`flex items-center gap-1.5 rounded-2xl border px-3 py-1.5 font-medium transition focus:outline-none focus-visible:ring-2 focus-visible:ring-ring/50 whitespace-nowrap ${
+                      isActive
+                        ? 'border-foreground bg-foreground text-background shadow-lg'
+                        : 'border-border bg-muted/40 text-muted-foreground hover:bg-muted/70'
+                    }`}
+                  >
+                    <span className="text-[0.65rem] uppercase tracking-[0.18em] text-muted-foreground">
+                      {String(index + 1).padStart(2, '0')}
+                    </span>
+                    {section.label}
+                  </button>
+                )
+              })}
+            </div>
           </div>
         </section>
 
