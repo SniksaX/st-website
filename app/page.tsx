@@ -210,7 +210,7 @@ export default function Page() {
           className="sticky top-[62px] z-40 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/80"
         >
           <div className="mx-auto w-full max-w-[90rem] px-3 py-3">
-            <div className="flex flex-nowrap justify-center gap-2 text-xs sm:text-sm">
+            <div className="flex flex-wrap justify-center gap-2 text-xs sm:text-sm md:flex-nowrap">
               {sections.map((section, index) => {
                 const isActive = section.id === activeSection
                 return (
