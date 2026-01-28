@@ -9,23 +9,17 @@ import Section from "@/components/Section";
 import BoutonSoutenir from "@/components/BoutonSoutenir";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowRight, Sparkles, Users, HandHeart } from "lucide-react";
+import { ArrowRight, Sparkles, Users } from "lucide-react";
 import { MotionDiv } from "@/components/ClientMotion";
 import FacesMosaic from "@/components/FacesMosaic";
-import DonProgress from "@/components/DonProgress";
 import DonHeader from "@/components/don/DonHeader";
-import ImpactCard from "@/components/don/ImpactCard";
 import DonGradientBG from "@/components/don/GradientBG";
 import DonTrustBadge from "@/components/don/TrustBadge";
-import DonListItem from "@/components/don/ListItem";
 import DonTextBlock from "@/components/don/TextBlock";
 import HelloAssoWidget from "@/components/HelloAssoWidget";
 
 // Local alias to keep existing JSX unchanged
-const Impact = ImpactCard;
 const TrustBadge = DonTrustBadge;
-const ListItem = DonListItem;
 const TextBlock = DonTextBlock;
 
 export const metadata = {
@@ -40,598 +34,395 @@ const HELLOASSO_ONE_TIME_URL = HELLOASSO_URL; // TODO: remplacer par le lien don
 
 export default function DonPage() {
   return (
-    <main id="don" className="relative z-10 min-h-screen bg-background text-foreground">
+    <main id="don" className="relative z-10 min-h-screen bg-background text-foreground overflow-x-clip">
       <DonGradientBG />
       <DonHeader helloassoUrl={HELLOASSO_URL} />
 
-      {/* HERO — dark remix */}
-      <section className="relative border-b border-border backdrop-blur">
-        {/* Mosaïque en arrière-plan */}
-        <div aria-hidden className="absolute inset-0 z-0 pointer-events-none">
-          <div className="absolute left-0 right-0 top-36 md:top-1/2 md:-translate-y-1/2">
-            <div className="mx-auto max-w-6xl opacity-30">
-              <FacesMosaic fileUrl="/json_don.txt" variant="background" />
-            </div>
-          </div>
-          {/* masques pour garder la lisibilité du Hero */}
-          <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background" />
-          <div className="absolute inset-0 bg-gradient-to-r from-background via-transparent to-background" />
-        </div>
-
-        <Section className="relative z-10 pt-28 pb-18">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Left: Main message */}
-            <MotionDiv
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-            >
-              <div className="inline-flex items-center gap-2 rounded-full border border-fuchsia-500/20 bg-fuchsia-500/10 px-4 py-1.5 text-xs font-medium uppercase tracking-wider text-fuchsia-700 dark:text-fuchsia-200 mb-6">
-                <Sparkles className="h-3.5 w-3.5" /> Campagne de soutien
-              </div>
-
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.05] mb-4">
-                <span className="text-foreground">La Transition — </span>
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-neutral-100 dark:from-white dark:via-white dark:to-neutral-100 drop-shadow-[0_2px_10px_rgba(0,0,0,0.35)]">
-                  l’indépendance ou rien.
-                </span>
-              </h1>
-
-              <p className="text-base sm:text-lg text-foreground/95 leading-relaxed max-w-xl mb-6 italic">
-                1 000 personnes × 2 €/mois = un média libre et stable.
-              </p>
-
-              <p className="text-base sm:text-lg text-foreground/90 leading-relaxed max-w-xl mb-8">
-                Sans Transition est un média indépendant, construit par et pour les minorités.
-                Notre mission : faire exister les voix qu’on n’écoute jamais, raconter les luttes
-                avec justesse et proposer des analyses radicalement différentes.
-              </p>
-              <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5">
-                <TrustBadge icon="shield" text="Association loi 1901" />
-                <TrustBadge icon="euro" text="Financement 100 % citoyen" />
-                <TrustBadge icon="heartHandshake" text="Pas de pubs, pas d’actionnaires" />
-                <TrustBadge icon="target" text="Indépendance par la communauté" />
-              </div>
-
-              <div className="flex flex-col sm:flex-row gap-4 mt-8">
-                <MotionDiv
-                  whileHover={{ y: -2, scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  transition={{ type: 'spring', stiffness: 500, damping: 28, mass: 0.6 }}
-                  className="w-full sm:w-auto"
-                >
-                  <Button
-                    asChild
-                    size="lg"
-                    className="rounded-2xl bg-gradient-to-r from-fuchsia-600 to-orange-500 hover:from-fuchsia-500 hover:to-orange-400 text-white font-semibold h-14 px-8 text-base shadow-[0_10px_30px_rgba(168,85,247,0.25)]"
+      {/* Page-wide grid with sticky sidebar */}
+      <div className="relative isolate">
+        <div className="mx-auto max-w-[1400px] px-6 lg:px-8">
+          <div className="grid lg:grid-cols-[1fr_380px] gap-12">
+            {/* Left: Main Content Column */}
+            <div className="min-w-0">
+              {/* HERO — dark remix - Full width background */}
+              <section className="relative">
+                {/* Hero content */}
+                <div className="relative z-10 pt-32 pb-20 min-w-0">
+                  <MotionDiv
+                    initial={{ opacity: 0, scale: 0.92 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.5, delay: 0.05 }}
                   >
-                    <a href={HELLOASSO_URL} target="_blank" rel="noreferrer">
-                      Je rejoins la Transition <ArrowRight className="ml-2 h-5 w-5" />
-                    </a>
-                  </Button>
-                </MotionDiv>
-                <MotionDiv
-                  whileHover={{ y: -2, scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  transition={{ type: 'spring', stiffness: 500, damping: 28, mass: 0.6 }}
-                  className="w-full sm:w-auto"
-                >
-                  <Button
-                    asChild
-                    variant="outline"
-                    size="lg"
-                    className="rounded-2xl border-border bg-card hover:bg-muted text-foreground h-14 px-8 text-base"
+                    <div className="inline-flex items-center gap-2 rounded-full border border-fuchsia-500/20 bg-fuchsia-500/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-fuchsia-700 dark:text-fuchsia-200 mb-6">
+                      <Sparkles className="h-3.5 w-3.5" /> Campagne de soutien
+                    </div>
+                  </MotionDiv>
+
+                  <MotionDiv
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.7, delay: 0.2 }}
                   >
-                    <a href={HELLOASSO_ONE_TIME_URL} target="_blank" rel="noreferrer">
-                      Faire un don ponctuel
-                    </a>
-                  </Button>
-                </MotionDiv>
-              </div>
-            </MotionDiv>
-            {/* Right: HelloAsso */}
-            <MotionDiv
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.15 }}
-            >
-              <div className="mx-auto w-full max-w-md rounded-2xl border border-border bg-card/70 p-4 shadow-md md:sticky md:top-28">
-                <HelloAssoWidget className="mx-auto" />
-                <p className="mt-3 text-xs text-muted-foreground">Paiement sécurisé via HelloAsso. Aucune donnée bancaire stockée par Sans Transition.</p>
-              </div>
-            </MotionDiv>
-          </div>
-        </Section>
-      </section>
+                    <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.02] mb-4">
+                      <span className="text-foreground">La Transition — </span>
+                      <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-neutral-100 dark:from-white dark:via-white dark:to-neutral-100 drop-shadow-[0_2px_10px_rgba(0,0,0,0.35)]">
+                        l'indépendance ou rien.
+                      </span>
+                    </h1>
+                  </MotionDiv>
 
-      
-      {/* Pourquoi La Transition ? */}
-      <Section className="py-20 relative">
-        <div className="max-w-5xl mx-auto">
-          <MotionDiv
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="text-center mb-12"
-          >
-            <div className="inline-flex items-center gap-2 rounded-full border border-fuchsia-500/20 bg-fuchsia-500/10 px-4 py-1.5 text-xs font-medium uppercase tracking-wider text-fuchsia-700 dark:text-fuchsia-200 mb-4">
-              <Sparkles className="h-3.5 w-3.5" /> Pourquoi maintenant
-            </div>
-            <h2 className="text-4xl sm:text-6xl font-extrabold leading-tight mb-4">
-              <span className="text-foreground">Pourquoi </span>
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-fuchsia-400 via-pink-300 to-orange-300">La Transition ?</span>
-            </h2>
-            <div className="mx-auto h-1 w-24 bg-gradient-to-r from-fuchsia-500 to-orange-500 rounded-full" />
-            <p className="mt-6 text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto">
-              Parce qu’on ne peut pas être libres sans moyens.
-            </p>
-          </MotionDiv>
+                  <MotionDiv
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.6, delay: 0.4 }}
+                  >
+                    <p className="text-lg sm:text-xl text-foreground/95 leading-relaxed max-w-xl mb-8">
+                      1 000 personnes × 2 €/mois = un média libre et stable. Sans Transition est un média
+                      indépendant, construit par et pour les minorités. Notre mission : faire exister
+                      les voix qu'on n'écoute jamais, raconter les luttes avec justesse et proposer des
+                      analyses radicalement différentes.
+                    </p>
+                  </MotionDiv>
 
-          {/* bandeau de valeurs (auto-scroll) */}
-          <div className="relative overflow-hidden">
-            <div className="flex gap-8 min-w-max py-3 px-6 text-sm sm:text-base font-semibold tracking-wide text-foreground/90 whitespace-nowrap animate-scroll-x">
-              {/* DUPLICATED CONTENT FOR INFINITE LOOP */}
-              {[
-                "INDÉPENDANCE",
-                "COMMUNAUTÉ",
-                "JUSTICE SOCIALE",
-                "FÉMINISME",
-                "ANTIRACISME",
-                "ACCESSIBILITÉ",
-                "ÉDUC POP",
-                "INDÉPENDANCE",
-                "COMMUNAUTÉ",
-                "JUSTICE SOCIALE",
-                "FÉMINISME",
-                "ANTIRACISME",
-                "ACCESSIBILITÉ",
-                "ÉDUC POP",
-                // loop copy
-                "INDÉPENDANCE",
-                "COMMUNAUTÉ",
-                "JUSTICE SOCIALE",
-                "FÉMINISME",
-                "ANTIRACISME",
-                "ACCESSIBILITÉ",
-                "ÉDUC POP",
-                "INDÉPENDANCE",
-                "COMMUNAUTÉ",
-                "JUSTICE SOCIALE",
-                "FÉMINISME",
-                "ANTIRACISME",
-                "ACCESSIBILITÉ",
-                "ÉDUC POP",
-              ].map((txt, i) => (
-                <span
-                  key={i}
-                  className={
-                    txt === "INDÉPENDANCE"
-                      ? "text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 to-pink-400"
-                      : ""
-                  }
-                >
-                  {txt}
-                </span>
-              ))}
-            </div>
-          </div>
-
-        </div>
-      </Section>
-
-      {/* Les paliers */}
-      <Section className="py-16">
-        <div className="max-w-5xl mx-auto">
-          <MotionDiv
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="text-center mb-10"
-          >
-            <h2 className="text-4xl font-bold text-foreground mb-4">Les paliers</h2>
-            <p className="text-muted-foreground">Écho • Signal • Fracture • Transition</p>
-          </MotionDiv>
-
-          <div className="grid md:grid-cols-4 gap-6">
-            {[
-              {
-              name: "Écho",
-              amount: "2 €/mois",
-              desc: "Tu fais entendre nos voix. Le début du mouvement.",
-              hover: "hover:bg-yellow-500/20 hover:border-yellow-500",
-              },
-              {
-              name: "Signal",
-              amount: "5 €/mois",
-              desc: "Tu amplifies le signal. Tu fais vibrer les luttes.",
-              hover: "hover:bg-orange-500/20 hover:border-orange-500",
-              },
-              {
-              name: "Fracture",
-              amount: "10 €/mois",
-              desc: "Tu casses le cadre médiatique dominant.",
-              hover: "hover:bg-pink-500/20 hover:border-pink-500",
-              },
-              {
-              name: "Transition",
-              amount: "20 €/mois",
-              desc: "Tu rends possible la bascule. L’indépendance ou rien.",
-              hover: "hover:bg-violet-500/20 hover:border-violet-500",
-              },
-            ].map((p) => (
-              <Card
-                key={p.name}
-                className={`rounded-3xl border border-border bg-card/70 ring-1 ring-border h-full transition-all duration-300 ${p.hover}`}
-              >
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-xl font-bold text-foreground">{p.name}</CardTitle>
-                  <p className="text-sm text-muted-foreground mt-1">{p.amount}</p>
-                </CardHeader>
-                <CardContent className="text-muted-foreground">{p.desc}</CardContent>
-              </Card>
-            ))}
-          </div>
-
-          <DonProgress goal={1000} />
-
-          <div className="text-center mt-8">
-            <a
-              href={HELLOASSO_URL}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center justify-center rounded-2xl text-white font-semibold h-14 px-8 text-base shadow-[0_10px_30px_rgba(168,85,247,0.25)] bg-[image:var(--grad-1)] hover:brightness-110 transition"
-            >
-              Je rejoins la Transition
-            </a>
-          </div>
-        </div>
-      </Section>
-
-
-      {/* Transparence */}
-      <Section className="py-16">
-        <div className="max-w-5xl mx-auto">
-          <MotionDiv
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="mb-10 text-center"
-          >
-            <h2 className="text-4xl font-bold text-foreground mb-4">Transparence</h2>
-            <p className="text-muted-foreground text-lg">Budgets socle et ambition, gouvernance et indépendance.</p>
-          </MotionDiv>
-
-          <div className="grid md:grid-cols-2 gap-6">
-            <Card className="rounded-3xl border border-border bg-card/70 ring-1 ring-border">
-              <CardHeader className="pb-3">
-                <CardTitle className="text-2xl font-bold text-foreground">Budget socle</CardTitle>
-              </CardHeader>
-              <CardContent className="text-muted-foreground space-y-3">
-                <p>Salaires dignes, frais de tournage, hébergement, outils.</p>
-                <p>Objectif: stabiliser la production et l’equipe.</p>
-              </CardContent>
-            </Card>
-            <Card className="rounded-3xl border border-border bg-card/70 ring-1 ring-border">
-              <CardHeader className="pb-3">
-                <CardTitle className="text-2xl font-bold text-foreground">Budget ambition</CardTitle>
-              </CardHeader>
-              <CardContent className="text-muted-foreground space-y-3">
-                <p>Grandes enquêtes, formats pédagogiques, documentation et événements.</p>
-                <p>Objectif : accélérer l’impact et l’accessibilite.</p>
-              </CardContent>
-            </Card>
-          </div>
-
-          <div className="text-center mt-8">
-            <Button asChild variant="outline" className="rounded-full">
-              <a href="#finances">Voir « Finances & indépendance »</a>
-            </Button>
-          </div>
-        </div>
-      </Section>
-
-      {/* Les visages de ST — mosaïque de vidéos */}
-      <Section className="py-16">
-        <div className="max-w-5xl mx-auto">
-          <MotionDiv
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="text-center mb-10"
-          >
-            <h2 className="text-4xl font-bold text-foreground mb-4">Les visages de ST</h2>
-            <p className="text-muted-foreground">Extraits vidéo depuis notre TikTok</p>
-          </MotionDiv>
-
-          <FacesMosaic fileUrl="/json_don.txt" variant="static" />
-        </div>
-      </Section>
-
-      {/* Ancre interne pour Transparence */}
-      <Section id="finances" className="py-12">
-        <div className="max-w-4xl mx-auto">
-          <MotionDiv
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-          >
-            <h3 className="text-2xl font-bold text-foreground mb-3">Finances & indépendance</h3>
-            <p className="text-muted-foreground">
-              Nous publierons ici un suivi synthétique de nos budgets (socle/ambition), sources de financement et
-              principes d’indépendance. En attendant, vos questions sont les bienvenues.
-            </p>
-          </MotionDiv>
-        </div>
-      </Section>
-
-      {/* FAQ (déplacée en fin de page pour conclure) */}
-      <Section className="py-16">
-        <div className="max-w-4xl mx-auto">
-          <MotionDiv
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="text-center mb-10"
-          >
-            <h2 className="text-4xl font-bold text-foreground mb-4">FAQ</h2>
-            <p className="text-muted-foreground">Sécurité, RGPD, résiliation</p>
-          </MotionDiv>
-
-          <div className="space-y-6 text-muted-foreground">
-            <div>
-              <p className="text-foreground font-semibold mb-1">Paiement sécurisé ?</p>
-              <p>Les dons sont traités par HelloAsso (HTTPS, 3-D Secure). Nous ne stockons pas vos données bancaires.</p>
-            </div>
-            <div>
-              <p className="text-foreground font-semibold mb-1">RGPD et données personnelles</p>
-              <p>Nous collectons le minimum nécessaire pour les reçus fiscaux et la gestion des dons, conformément au RGPD.</p>
-            </div>
-            <div>
-              <p className="text-foreground font-semibold mb-1">Résilier un don mensuel</p>
-              <p>Vous pouvez modifier ou arrêter votre soutien à tout moment via votre espace HelloAsso.</p>
-            </div>
-          </div>
-        </div>
-      </Section>
-
-      {/* Pourquoi on existe */}
-      <Section className="py-20">
-        <div className="max-w-5xl mx-auto">
-          <MotionDiv
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="text-center mb-14"
-          >
-            <h2 className="text-4xl sm:text-5xl font-bold text-foreground mb-5">Pourquoi on existe</h2>
-            <div className="w-20 h-1 bg-gradient-to-r from-fuchsia-500 to-orange-500 mx-auto rounded-full" />
-          </MotionDiv>
-
-          <div className="grid md:grid-cols-2 gap-10">
-            <TextBlock delay={0.05}>
-              Sans Transition, c’est des invité·es, des analyses féministes, anticoloniales, historiques.
-              C’est du terrain, des micros tendus à celles et ceux qu’on n’écoute jamais. C’est un média
-              qui relie la rage et la tendresse, la lutte et la réflexion.
-            </TextBlock>
-            <TextBlock delay={0.1}>
-              En 2026, on veut aller plus loin :{" "}
-              <strong className="text-foreground">
-                lancer un grand projet de reportages, libres et populaires, avec des associations et des
-                figures de la gauche
-              </strong>
-              , pour raconter les luttes de l’intérieur et montrer les nouvelles formes d’organisation
-              politique dans les quartiers populaires.
-            </TextBlock>
-          </div>
-        </div>
-      </Section>
-
-      {/* Indépendance */}
-      <Section className="py-20">
-        <div className="max-w-3xl mx-auto">
-          <MotionDiv
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-          >
-            <Card className="relative rounded-3xl border border-border bg-card/70 ring-1 ring-border shadow-xl overflow-hidden">
-              <div className="absolute -top-10 -right-10 h-64 w-64 bg-fuchsia-500/10 rounded-full blur-3xl" />
-              <div className="absolute -bottom-16 -left-12 h-64 w-64 bg-orange-500/10 rounded-full blur-3xl" />
-
-              <CardHeader className="relative pb-6">
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="p-3 rounded-2xl bg-gradient-to-br from-fuchsia-500/15 to-orange-500/15 ring-1 ring-border">
-                    <HandHeart className="h-6 w-6 text-fuchsia-300" />
+                  <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5">
+                    {[
+                      { icon: "shield" as const, text: "Association loi 1901", delay: 0.5 },
+                      { icon: "euro" as const, text: "Financement 100 % citoyen", delay: 0.6 },
+                      { icon: "heartHandshake" as const, text: "Pas de pubs, pas d'actionnaires", delay: 0.7 },
+                      { icon: "target" as const, text: "Indépendance par la communauté", delay: 0.8 },
+                    ].map((badge) => (
+                      <MotionDiv
+                        key={badge.text}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.5, delay: badge.delay }}
+                      >
+                        <TrustBadge icon={badge.icon} text={badge.text} />
+                      </MotionDiv>
+                    ))}
                   </div>
-                  <CardTitle className="text-3xl font-bold text-foreground">L’indépendance ou rien</CardTitle>
+
+                  <div className="flex flex-col sm:flex-row gap-4 mt-8">
+                    <MotionDiv
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.5, delay: 0.9 }}
+                      whileHover={{ y: -2, scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      className="w-full sm:w-auto"
+                    >
+                      <Button
+                        asChild
+                        size="lg"
+                        className="rounded-2xl bg-gradient-to-r from-fuchsia-600 to-orange-500 hover:from-fuchsia-500 hover:to-orange-400 text-white font-semibold h-14 px-10 text-base shadow-[0_16px_36px_rgba(168,85,247,0.35)]"
+                      >
+                        <a href={HELLOASSO_URL} target="_blank" rel="noreferrer">
+                          Je rejoins la Transition <ArrowRight className="ml-2 h-5 w-5" />
+                        </a>
+                      </Button>
+                    </MotionDiv>
+                    <MotionDiv
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.5, delay: 1 }}
+                      whileHover={{ y: -2, scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      className="w-full sm:w-auto"
+                    >
+                      <Button
+                        asChild
+                        variant="outline"
+                        size="lg"
+                        className="rounded-2xl border-border/60 bg-card/70 hover:bg-muted text-foreground h-14 px-8 text-base"
+                      >
+                        <a href={HELLOASSO_ONE_TIME_URL} target="_blank" rel="noreferrer">
+                          Faire un don ponctuel
+                        </a>
+                      </Button>
+                    </MotionDiv>
+                  </div>
                 </div>
-              </CardHeader>
+              </section>
 
-              <CardContent className="relative space-y-6 text-muted-foreground">
-                <p className="leading-relaxed text-lg">
-                  Construire un média radicalement indépendant dans un paysage hostile, ça a un coût.
-                  Notre précarité n’est pas une honte : c’est la preuve de notre intégrité. On ne veut pas
-                  de pubs, pas d’actionnaires, pas de milliardaires. On veut tenir grâce à vous.
-                </p>
-
-                <ul className="space-y-3">
-                  <ListItem>
-                    Si <strong>1000 personnes donnent 2 € par mois</strong>, on devient indépendants.
-                  </ListItem>
-                  <ListItem>
-                    Une communauté qui finance <em>son</em> média : juste nous, ensemble.
-                  </ListItem>
-                </ul>
-
-                <div className="pt-2">
-                  <a
-                    href={HELLOASSO_URL}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex w-full items-center justify-center rounded-2xl text-white font-semibold h-14 text-base shadow-[0_10px_30px_rgba(168,85,247,0.25)] bg-[image:var(--grad-1)] hover:brightness-110 transition"
+              {/* Pourquoi La Transition ? */}
+              <Section className="py-20 relative">
+                <div className="max-w-5xl mx-auto">
+                  <MotionDiv
+                    initial={{ opacity: 0, y: 12 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5 }}
+                    className="text-center mb-12"
                   >
-                    Je soutiens maintenant
-                  </a>
+                    <div className="inline-flex items-center gap-2 rounded-full border border-fuchsia-500/20 bg-fuchsia-500/10 px-4 py-1.5 text-xs font-medium uppercase tracking-wider text-fuchsia-700 dark:text-fuchsia-200 mb-4">
+                      <Sparkles className="h-3.5 w-3.5" /> Pourquoi maintenant
+                    </div>
+                    <h2 className="text-4xl sm:text-6xl font-extrabold leading-tight mb-4">
+                      <span className="text-foreground">Pourquoi </span>
+                      <span className="bg-clip-text text-transparent bg-gradient-to-r from-fuchsia-400 via-pink-300 to-orange-300">La Transition ?</span>
+                    </h2>
+                    <div className="mx-auto h-1 w-24 bg-gradient-to-r from-fuchsia-500 to-orange-500 rounded-full" />
+                    <p className="mt-6 text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto">
+                      Parce qu’on ne peut pas être libres sans moyens.
+                    </p>
+                  </MotionDiv>
+
+                  {/* bandeau de valeurs (auto-scroll) - Enhanced with animations */}
+                  <MotionDiv
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.7, delay: 0.8 }}
+                  >
+                    <div className="relative overflow-hidden rounded-2xl border border-border/50 bg-card/30 backdrop-blur-sm p-2">
+                      <div className="flex gap-8 min-w-max py-3 px-6 text-sm sm:text-base font-semibold tracking-wide text-foreground/90 whitespace-nowrap animate-scroll-x">
+                        {/* DUPLICATED CONTENT FOR INFINITE LOOP */}
+                        {[
+                          "INDÉPENDANCE",
+                          "COMMUNAUTÉ",
+                          "JUSTICE SOCIALE",
+                          "FÉMINISME",
+                          "ANTIRACISME",
+                          "ACCESSIBILITÉ",
+                          "ÉDUC POP",
+                          "INDÉPENDANCE",
+                          "COMMUNAUTÉ",
+                          "JUSTICE SOCIALE",
+                          "FÉMINISME",
+                          "ANTIRACISME",
+                          "ACCESSIBILITÉ",
+                          "ÉDUC POP",
+                          // loop copy
+                          "INDÉPENDANCE",
+                          "COMMUNAUTÉ",
+                          "JUSTICE SOCIALE",
+                          "FÉMINISME",
+                          "ANTIRACISME",
+                          "ACCESSIBILITÉ",
+                          "ÉDUC POP",
+                          "INDÉPENDANCE",
+                          "COMMUNAUTÉ",
+                          "JUSTICE SOCIALE",
+                          "FÉMINISME",
+                          "ANTIRACISME",
+                          "ACCESSIBILITÉ",
+                          "ÉDUC POP",
+                        ].map((txt, i) => (
+                          <span
+                            key={i}
+                            className={
+                              txt === "INDÉPENDANCE"
+                                ? "text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 to-pink-400 font-extrabold"
+                                : ""
+                            }
+                          >
+                            {txt}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </MotionDiv>
+
                 </div>
-              </CardContent>
-            </Card>
-          </MotionDiv>
-        </div>
-      </Section>
+              </Section>
 
-      {/* Impact */}
-      <Section className="py-20">
-        <div className="max-w-5xl mx-auto">
-          <MotionDiv
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="text-center mb-12"
-          >
-            <h2 className="text-4xl font-bold text-foreground mb-4">Votre impact concret</h2>
-            <p className="text-muted-foreground text-lg">Chaque euro compte et finance directement notre travail</p>
-          </MotionDiv>
+              {/* Pourquoi on existe */}
+              <Section className="py-20">
+                <div className="max-w-5xl mx-auto">
+                  <MotionDiv
+                    initial={{ opacity: 0, y: 12 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5 }}
+                    className="text-center mb-14"
+                  >
+                    <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-5">Pourquoi on existe</h2>
+                    <div className="w-20 h-1 bg-gradient-to-r from-fuchsia-500 to-orange-500 mx-auto rounded-full" />
+                  </MotionDiv>
 
-          <div className="grid md:grid-cols-3 gap-6">
-            <Impact amount="10 dons de 5 €" desc="financent une journée de reportage sur le terrain." delay={0.1} />
-            <Impact
-              amount="Chaque 100 €"
-              desc="permet de produire une analyse vidéo approfondie sous un angle minoritaire."
-              delay={0.2}
-            />
-            <Impact
-              amount="Avec 2000 €"
-              desc="on lance un nouveau format d’enquête ou on invite des figures engagées."
-              delay={0.3}
-            />
-          </div>
-        </div>
-      </Section>
+                  <div className="grid md:grid-cols-2 gap-10">
+                    <TextBlock delay={0.05}>
+                      Sans Transition, c’est des invité·es, des analyses féministes, anticoloniales, historiques.
+                      C’est du terrain, des micros tendus à celles et ceux qu’on n’écoute jamais. C’est un média
+                      qui relie la rage et la tendresse, la lutte et la réflexion.
+                    </TextBlock>
+                    <TextBlock delay={0.1}>
+                      En 2026, on veut aller plus loin :{" "}
+                      <strong className="text-foreground">
+                        lancer un grand projet de reportages, libres et populaires, avec des associations et des
+                        figures de la gauche
+                      </strong>
+                      , pour raconter les luttes de l’intérieur et montrer les nouvelles formes d’organisation
+                      politique dans les quartiers populaires.
+                    </TextBlock>
+                  </div>
+                </div>
+              </Section>
 
-      <div className="max-w-5xl mx-auto px-6 lg:px-8">
-        <Separator className="bg-border" />
-      </div>
+              {/* Pourquoi on a besoin de vous */}
+              <Section className="py-20">
+                <div className="max-w-3xl mx-auto">
+                  <MotionDiv
+                    initial={{ opacity: 0, y: 12 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-8">Pourquoi on a besoin de vous</h2>
 
-      {/* Pourquoi on a besoin de vous */}
-      <Section className="py-20">
-        <div className="max-w-3xl mx-auto">
-          <MotionDiv
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-          >
-            <h2 className="text-4xl sm:text-5xl font-bold text-foreground mb-8">Pourquoi on a besoin de vous</h2>
+                    <div className="prose prose-lg max-w-none space-y-6">
+                      <p className="text-muted-foreground leading-relaxed">
+                        En septembre, avec la monétisation TikTok, on a gagné <strong className="text-foreground">20 €</strong>.
+                        Vingt euros pour un mois de tournages, d’interviews, de montages, de nuits blanches. Ce n’est pas
+                        assez pour vivre. Pas assez pour continuer.
+                      </p>
+                      <p className="text-muted-foreground leading-relaxed">
+                        Au centre de ce média, il y a moi, Hedji. Si ce contenu est gratuit, il n’en est pas moins coûteux.
+                        Et pourtant je continue. Parce que j’y crois. Parce que Sans Transition, ce n’est pas juste un média :
+                        c’est une manière de faire de la politique autrement.
+                      </p>
+                    </div>
 
-            <div className="prose prose-lg max-w-none space-y-6">
-              <p className="text-muted-foreground leading-relaxed">
-                En septembre, avec la monétisation TikTok, on a gagné <strong className="text-foreground">20 €</strong>.
-                Vingt euros pour un mois de tournages, d’interviews, de montages, de nuits blanches. Ce n’est pas
-                assez pour vivre. Pas assez pour continuer.
-              </p>
-              <p className="text-muted-foreground leading-relaxed">
-                Au centre de ce média, il y a moi, Hedji. Si ce contenu est gratuit, il n’en est pas moins coûteux.
-                Et pourtant je continue. Parce que j’y crois. Parce que Sans Transition, ce n’est pas juste un média :
-                c’est une manière de faire de la politique autrement.
-              </p>
+                  </MotionDiv>
+                </div>
+              </Section>
+
+              <div className="max-w-5xl mx-auto px-6 lg:px-8">
+                <Separator className="bg-border" />
+              </div>
+
+              {/* Invitation */}
+              <Section className="py-20">
+                <div className="max-w-3xl mx-auto text-center">
+                  <MotionDiv
+                    initial={{ opacity: 0, y: 12 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <div className="inline-flex items-center gap-2 rounded-full border border-orange-500/20 bg-orange-500/10 px-4 py-1.5 text-xs font-medium uppercase tracking-wider text-orange-700 dark:text-orange-200 mb-6">
+                      <Users className="h-3.5 w-3.5" /> Rejoignez la communauté
+                    </div>
+
+                    <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-6">
+                      L’Invitation à coconstruire
+                    </h2>
+
+                    <div className="prose prose-lg max-w-none mx-auto space-y-6 mb-10">
+                      <p className="text-muted-foreground leading-relaxed">
+                        Parce que Sans Transition, ce n’est pas « mon » média. C’est le nôtre. Chaque don, chaque partage,
+                        chaque geste fait partie d’un projet collectif. Notre travail restera en accès libre. À vous de voir
+                        s’il mérite salaire.
+                      </p>
+                      <p className="text-foreground font-semibold text-xl leading-relaxed">
+                        Devenez l’une des 1000 personnes qui feront la différence. Soutenez notre développement, investissez
+                        dans Sans Transition maintenant.
+                      </p>
+                      <p className="text-muted-foreground leading-relaxed">
+                        Rejoignez la communauté qui construit activement l’avenir du média sur{" "}
+                        <strong className="text-foreground">sanstransition.fr</strong>.
+                      </p>
+                    </div>
+
+                    <p className="text-muted-foreground text-sm mt-8 italic">
+                      Toi aussi, transitionne. C’était Hedji pour ST. Bisous mes vies.
+                    </p>
+                  </MotionDiv>
+                </div>
+              </Section>
+
+              {/* FAQ (déplacée en fin de page pour conclure) */}
+              <Section className="py-20">
+                <div className="max-w-4xl mx-auto">
+                  <MotionDiv
+                    initial={{ opacity: 0, y: 12 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5 }}
+                    className="text-center mb-10"
+                  >
+                    <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">FAQ</h2>
+                    <p className="text-muted-foreground">Sécurité, RGPD, résiliation</p>
+                  </MotionDiv>
+
+                  <div className="space-y-6 text-muted-foreground">
+                    <div>
+                      <p className="text-foreground font-semibold mb-1">Paiement sécurisé ?</p>
+                      <p>Les dons sont traités par HelloAsso (HTTPS, 3-D Secure). Nous ne stockons pas vos données bancaires.</p>
+                    </div>
+                    <div>
+                      <p className="text-foreground font-semibold mb-1">RGPD et données personnelles</p>
+                      <p>Nous collectons le minimum nécessaire pour les reçus fiscaux et la gestion des dons, conformément au RGPD.</p>
+                    </div>
+                    <div>
+                      <p className="text-foreground font-semibold mb-1">Résilier un don mensuel</p>
+                      <p>Vous pouvez modifier ou arrêter votre soutien à tout moment via votre espace HelloAsso.</p>
+                    </div>
+                  </div>
+                </div>
+              </Section>
+
+              {/* Les visages de ST — mosaïque de vidéos */}
+              <Section className="py-20">
+                <div className="max-w-5xl mx-auto">
+                  <MotionDiv
+                    initial={{ opacity: 0, y: 12 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5 }}
+                    className="text-center mb-10"
+                  >
+                    <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">Les visages de ST</h2>
+                    <p className="text-muted-foreground">Extraits vidéo depuis notre TikTok</p>
+                  </MotionDiv>
+
+                  <MotionDiv
+                    initial={{ opacity: 0, scale: 0.9, rotateY: -15 }}
+                    whileInView={{ opacity: 1, scale: 1, rotateY: 0 }}
+                    viewport={{ once: true, amount: 0.2 }}
+                    transition={{
+                      duration: 1,
+                      type: "spring",
+                      stiffness: 50
+                    }}
+                    whileHover={{
+                      scale: 1.02,
+                      rotateY: 2,
+                      transition: { duration: 0.3 }
+                    }}
+                    style={{ perspective: 1200 }}
+                  >
+                    <FacesMosaic fileUrl="/json_don.txt" variant="static" />
+                  </MotionDiv>
+                </div>
+              </Section>
+
             </div>
+            {/* Close: Left Main Content Column */}
 
-            <div className="flex flex-col sm:flex-row gap-4 mt-10">
-              <Button
-                asChild
-                size="lg"
-                className="rounded-2xl bg-gradient-to-r from-fuchsia-600 to-orange-500 hover:from-fuchsia-500 hover:to-orange-400 text-white font-semibold h-14 px-8 text-base shadow-[0_10px_30px_rgba(168,85,247,0.25)]"
-              >
-                <a href={HELLOASSO_URL} target="_blank" rel="noreferrer">
-                  Rejoindre les 1000 <ArrowRight className="ml-2 h-5 w-5" />
-                </a>
-              </Button>
-            </div>
-          </MotionDiv>
-        </div>
-      </Section>
-
-      <div className="max-w-5xl mx-auto px-6 lg:px-8">
-        <Separator className="bg-border" />
-      </div>
-
-      {/* Invitation */}
-      <Section className="py-20">
-        <div className="max-w-3xl mx-auto text-center">
-          <MotionDiv
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-          >
-            <div className="inline-flex items-center gap-2 rounded-full border border-orange-500/20 bg-orange-500/10 px-4 py-1.5 text-xs font-medium uppercase tracking-wider text-orange-700 dark:text-orange-200 mb-6">
-              <Users className="h-3.5 w-3.5" /> Rejoignez la communauté
-            </div>
-
-            <h2 className="text-4xl sm:text-5xl font-bold text-foreground mb-6">
-              L’Invitation à coconstruire
-            </h2>
-
-            <div className="prose prose-lg max-w-none mx-auto space-y-6 mb-10">
-              <p className="text-muted-foreground leading-relaxed">
-                Parce que Sans Transition, ce n’est pas « mon » média. C’est le nôtre. Chaque don, chaque partage,
-                chaque geste fait partie d’un projet collectif. Notre travail restera en accès libre. À vous de voir
-                s’il mérite salaire.
-              </p>
-              <p className="text-foreground font-semibold text-xl leading-relaxed">
-                Devenez l’une des 1000 personnes qui feront la différence. Soutenez notre développement, investissez
-                dans Sans Transition maintenant.
-              </p>
-              <p className="text-muted-foreground leading-relaxed">
-                Rejoignez la communauté qui construit activement l’avenir du média sur{" "}
-                <strong className="text-foreground">sanstransition.fr</strong>.
-              </p>
-            </div>
-
-            <Button
-              asChild
-              size="lg"
-              className="rounded-2xl bg-gradient-to-r from-fuchsia-600 to-orange-500 hover:from-fuchsia-500 hover:to-orange-400 text-white font-bold h-16 px-12 text-lg shadow-[0_12px_36px_rgba(249,115,22,0.35)]"
+            {/* Right: Sticky Sidebar - Persists through entire page */}
+            <MotionDiv
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.3 }}
+              className="hidden lg:block relative z-10"
             >
-              <a href={HELLOASSO_URL} target="_blank" rel="noreferrer">
-                Faire un don maintenant
-              </a>
-            </Button>
-
-            <p className="text-muted-foreground text-sm mt-8 italic">
-              Toi aussi, transitionne. C’était Hedji pour ST. Bisous mes vies.
-            </p>
-          </MotionDiv>
+              <div className="sticky top-28 h-fit pt-0">
+                <div className="w-full rounded-2xl border border-border bg-card/80 backdrop-blur-md p-4 shadow-2xl ring-1 ring-border">
+                  <HelloAssoWidget className="mx-auto" />
+                  <p className="mt-4 text-xs text-center text-muted-foreground">
+                    Paiement sécurisé via HelloAsso. Aucune donnée bancaire stockée par Sans Transition.
+                  </p>
+                </div>
+              </div>
+            </MotionDiv>
+          </div>
+          {/* Close: grid */}
         </div>
-      </Section>
+        {/* Close: max-w container */}
+      </div >
+      {/* Close: page-wide wrapper */}
 
-      {/* CTA bannière */}
-      <Section className="py-8">
-        <div className="max-w-3xl mx-auto">
-          <BoutonSoutenir />
-        </div>
-      </Section>
-    </main>
+    </main >
   );
 }
-
-/* ---------- Header spécial /don ---------- */
-// (legacy DonHeader removed – now imported from components)
-
-
-
-
-
-
-
-
-
