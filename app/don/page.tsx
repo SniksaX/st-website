@@ -66,7 +66,7 @@ export default function DonPage() {
                     <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.02] mb-4">
                       <span className="text-foreground">La Transition — </span>
                       <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-neutral-100 dark:from-white dark:via-white dark:to-neutral-100 drop-shadow-[0_2px_10px_rgba(0,0,0,0.35)]">
-                        l'indépendance ou rien.
+                        l&aposindépendance ou rien.
                       </span>
                     </h1>
                   </MotionDiv>
@@ -79,7 +79,7 @@ export default function DonPage() {
                     <p className="text-lg sm:text-xl text-foreground/95 leading-relaxed max-w-xl mb-8">
                       1 000 personnes × 2 €/mois = un média libre et stable. Sans Transition est un média
                       indépendant, construit par et pour les minorités. Notre mission : faire exister
-                      les voix qu'on n'écoute jamais, raconter les luttes avec justesse et proposer des
+                      les voix qu&aposon n&aposécoute jamais, raconter les luttes avec justesse et proposer des
                       analyses radicalement différentes.
                     </p>
                   </MotionDiv>
