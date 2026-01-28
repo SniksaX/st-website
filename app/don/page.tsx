@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { ArrowRight, Sparkles, Users } from "lucide-react";
 import { MotionDiv } from "@/components/ClientMotion";
+import DonProgress from "@/components/DonProgress";
 import FacesMosaic from "@/components/FacesMosaic";
 import DonHeader from "@/components/don/DonHeader";
 import DonGradientBG from "@/components/don/GradientBG";
@@ -129,16 +130,6 @@ export default function DonPage() {
                       whileTap={{ scale: 0.98 }}
                       className="w-full sm:w-auto"
                     >
-                      <Button
-                        asChild
-                        variant="outline"
-                        size="lg"
-                        className="rounded-2xl border-border/60 bg-card/70 hover:bg-muted text-foreground h-14 px-8 text-base"
-                      >
-                        <a href={HELLOASSO_ONE_TIME_URL} target="_blank" rel="noreferrer">
-                          Faire un don ponctuel
-                        </a>
-                      </Button>
                     </MotionDiv>
                   </div>
                 </div>
@@ -223,6 +214,16 @@ export default function DonPage() {
                     </div>
                   </MotionDiv>
 
+                  <MotionDiv
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, delay: 0.2 }}
+                    className="mt-8"
+                  >
+                    <DonProgress goal={1000} />
+                  </MotionDiv>
+
                 </div>
               </Section>
 
@@ -236,7 +237,7 @@ export default function DonPage() {
                     transition={{ duration: 0.5 }}
                     className="text-center mb-14"
                   >
-                    <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-5">Pourquoi on existe</h2>
+                    <h2 className="text-3xl sm:text-5xl font-extrabold text-foreground mb-4">Pourquoi on existe</h2>
                     <div className="w-20 h-1 bg-gradient-to-r from-fuchsia-500 to-orange-500 mx-auto rounded-full" />
                   </MotionDiv>
 
@@ -261,16 +262,17 @@ export default function DonPage() {
 
               {/* Pourquoi on a besoin de vous */}
               <Section className="py-20">
-                <div className="max-w-3xl mx-auto">
+                <div className="max-w-3xl mx-auto text-center">
                   <MotionDiv
                     initial={{ opacity: 0, y: 12 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.5 }}
                   >
-                    <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-8">Pourquoi on a besoin de vous</h2>
+                    <h2 className="text-3xl sm:text-5xl font-extrabold text-foreground mb-4">Pourquoi on a besoin de vous</h2>
+                    <div className="w-20 h-1 bg-gradient-to-r from-fuchsia-500 to-orange-500 mx-auto rounded-full mb-8" />
 
-                    <div className="prose prose-lg max-w-none space-y-6">
+                    <div className="prose prose-lg max-w-none space-y-6 text-center">
                       <p className="text-muted-foreground leading-relaxed">
                         En septembre, avec la monétisation TikTok, on a gagné <strong className="text-foreground">20 €</strong>.
                         Vingt euros pour un mois de tournages, d’interviews, de montages, de nuits blanches. Ce n’est pas
@@ -304,15 +306,15 @@ export default function DonPage() {
                       <Users className="h-3.5 w-3.5" /> Rejoignez la communauté
                     </div>
 
-                    <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-6">
+                    <h2 className="text-3xl sm:text-5xl font-extrabold text-foreground mb-4">
                       L’Invitation à coconstruire
                     </h2>
+                    <div className="w-20 h-1 bg-gradient-to-r from-fuchsia-500 to-orange-500 mx-auto rounded-full mb-8" />
 
                     <div className="prose prose-lg max-w-none mx-auto space-y-6 mb-10">
                       <p className="text-muted-foreground leading-relaxed">
                         Parce que Sans Transition, ce n’est pas « mon » média. C’est le nôtre. Chaque don, chaque partage,
-                        chaque geste fait partie d’un projet collectif. Notre travail restera en accès libre. À vous de voir
-                        s’il mérite salaire.
+                        chaque geste fait partie d’un projet collectif. Notre travail restera en accès libre.
                       </p>
                       <p className="text-foreground font-semibold text-xl leading-relaxed">
                         Devenez l’une des 1000 personnes qui feront la différence. Soutenez notre développement, investissez
@@ -341,7 +343,8 @@ export default function DonPage() {
                     transition={{ duration: 0.5 }}
                     className="text-center mb-10"
                   >
-                    <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">FAQ</h2>
+                    <h2 className="text-3xl sm:text-5xl font-extrabold text-foreground mb-4">FAQ</h2>
+                    <div className="w-20 h-1 bg-gradient-to-r from-fuchsia-500 to-orange-500 mx-auto rounded-full mb-3" />
                     <p className="text-muted-foreground">Sécurité, RGPD, résiliation</p>
                   </MotionDiv>
 
@@ -372,7 +375,8 @@ export default function DonPage() {
                     transition={{ duration: 0.5 }}
                     className="text-center mb-10"
                   >
-                    <h2 className="text-3xl sm:text-4xl font-bold text-foreground mb-4">Les visages de ST</h2>
+                    <h2 className="text-3xl sm:text-5xl font-extrabold text-foreground mb-4">Les visages de ST</h2>
+                    <div className="w-20 h-1 bg-gradient-to-r from-fuchsia-500 to-orange-500 mx-auto rounded-full mb-3" />
                     <p className="text-muted-foreground">Extraits vidéo depuis notre TikTok</p>
                   </MotionDiv>
 
