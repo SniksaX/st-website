@@ -16,7 +16,7 @@ const BOOK_URL =
   'https://www.placedeslibraires.fr/livre/9782488666008-les-comploteurs-antton-rouget-ramses-kefi/'
 
 const MEDIAPART_CONTEXT_URL =
-  'https://blogs.mediapart.fr/edition/les-collabs-de-mediapart/article/011225/laffaire-du-chantage-la-sextape-saint-etienne'
+  'https://www.mediapart.fr/journal/france/dossier/saint-etienne-le-maire-la-sextape-et-le-chantage-politique'
 const BOOK_SITE_URL = 'https://lescomploteurs.com/'
 
 const YT_URL = 'https://www.youtube.com/watch?v=Jlw544x4T5Q&t=1s'
