@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { motion } from 'framer-motion'
+import { motion, type Variants } from 'framer-motion'
 import { Instagram, Youtube, Twitter, Mail, Heart, MessageSquare, Globe, ArrowUpRight, HandHeart, ChevronDown } from 'lucide-react'
 import HelloAssoWidget from '@/components/HelloAssoWidget'
 
@@ -22,14 +22,14 @@ const socials = [
 const baseButton =
   'group flex items-center justify-between rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3 text-sm font-semibold text-white/90 shadow-[0_18px_40px_rgba(0,0,0,0.25)] backdrop-blur transition hover:-translate-y-0.5 hover:bg-white/[0.07] hover:shadow-[0_24px_48px_rgba(0,0,0,0.35)]'
 
-const containerMotion = {
+const containerMotion: Variants = {
   hidden: { opacity: 0, y: 24 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: 'easeOut', staggerChildren: 0.08 } },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1], staggerChildren: 0.08 } },
 }
 
-const itemMotion = {
+const itemMotion: Variants = {
   hidden: { opacity: 0, y: 16 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.45, ease: 'easeOut' } },
+  show: { opacity: 1, y: 0, transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] } },
 }
 
 export default function LiensClient() {
