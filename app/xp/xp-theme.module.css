@@ -1,0 +1,43 @@
+/* XP Era Colors */
+.xp-desktop {
+  --xp-blue: #245DDA;
+  --xp-blue-dark: #123CB4;
+  --xp-green: #3C8D0D;
+  --xp-green-light: #4BA614;
+  --xp-orange: #E55C00;
+  --xp-beige: #ECE9D8;
+  --xp-border: #003C74;
+  --xp-taskbar-start: #1F4EBF;
+  --xp-taskbar-end: #225AD3;
+  --chrome-grey: #B2B2B2;
+  --chrome-tab-active: #FFFFFF;
+  --chrome-tab-inactive: #D0D0D0;
+}
+
+/* Utils */
+.bevel-up {
+  box-shadow: inset 1px 1px 0px rgba(255, 255, 255, 0.7), inset -1px -1px 0px rgba(0, 0, 0, 0.2);
+}
+
+.bevel-down {
+  box-shadow: inset 1px 1px 0px rgba(0, 0, 0, 0.2), inset -1px -1px 0px rgba(255, 255, 255, 0.7);
+}
+
+/* Bliss Background */
+.desktop-bg {
+  /* Use a reliable high-res source or fallback */
+  background-color: #5895E8;
+  /* Fallback blue */
+  background-image: url('https://upload.wikimedia.org/wikipedia/en/2/27/Bliss_%28Windows_XP%29.png');
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+/* Font Smoothing */
+.xp-font {
+  font-family: 'Tahoma', 'Verdana', sans-serif;
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: grayscale;
+}
