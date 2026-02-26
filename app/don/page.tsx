@@ -135,6 +135,16 @@ export default function DonPage() {
                 </div>
               </section>
 
+              {/* HAW mobile (HelloAsso Widget) */}
+              <section className="lg:hidden pb-16">
+                <div className="w-full rounded-2xl border border-border bg-card/80 backdrop-blur-md p-4 shadow-2xl ring-1 ring-border">
+                  <HelloAssoWidget className="mx-auto" />
+                  <p className="mt-4 text-xs text-center text-muted-foreground">
+                    Paiement sécurisé via HelloAsso. Aucune donnée bancaire stockée par Sans Transition.
+                  </p>
+                </div>
+              </section>
+
               {/* Pourquoi La Transition ? */}
               <Section className="py-20 relative">
                 <div className="max-w-5xl mx-auto">

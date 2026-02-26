@@ -5,7 +5,11 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "mailing-list:stats": "node scripts/mailing-list.js stats",
+    "mailing-list:export": "node scripts/mailing-list.js export",
+    "mailing-list:send": "node scripts/mailing-list.js send",
+    "mailing-list:send-scheduled": "node scripts/mailing-list.js send-scheduled"
   },
   "dependencies": {
     "@radix-ui/react-separator": "^1.1.7",
@@ -16,6 +20,7 @@
     "framer-motion": "^12.23.16",
     "lucide-react": "^0.544.0",
     "next": "^15.5.9",
+    "nodemailer": "^8.0.1",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "tailwind-merge": "^3.3.1",

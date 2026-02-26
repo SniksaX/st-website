@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Newsletter Sans Transition</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background: #08080d;
+        font-family: 'Segoe UI', Arial, sans-serif;
+        color: #f6f7fb;
+      }
+      .wrap {
+        width: 100%;
+        background: radial-gradient(circle at 15% 10%, #3f1f73 0%, #08080d 50%);
+        padding: 32px 12px;
+      }
+      .card {
+        max-width: 620px;
+        margin: 0 auto;
+        border-radius: 22px;
+        overflow: hidden;
+        border: 1px solid #2d2e3d;
+        background: #12131a;
+      }
+      .topline {
+        background: linear-gradient(90deg, #8c52ff 0%, #ff5aa8 45%, #ff914d 100%);
+        color: #111114;
+        text-align: center;
+        font-weight: 800;
+        letter-spacing: 0.18em;
+        font-size: 11px;
+        padding: 12px 16px;
+      }
+      .content {
+        padding: 30px 24px 14px;
+      }
+      .kicker {
+        display: inline-block;
+        border: 1px solid #3c3f57;
+        border-radius: 999px;
+        color: #cbd0ff;
+        font-size: 12px;
+        padding: 6px 11px;
+        margin-bottom: 16px;
+      }
+      h1 {
+        margin: 0 0 14px;
+        line-height: 1.2;
+        font-size: 30px;
+        color: #ffffff;
+      }
+      .lead {
+        margin: 0 0 20px;
+        color: #c9cce0;
+        font-size: 16px;
+        line-height: 1.62;
+      }
+      .panel {
+        border: 1px solid #2f3142;
+        border-radius: 16px;
+        padding: 16px;
+        background: #151725;
+        margin: 0 0 14px;
+      }
+      .panel h2 {
+        margin: 0 0 10px;
+        font-size: 18px;
+        color: #ffffff;
+      }
+      .panel p {
+        margin: 0;
+        color: #c9cce0;
+        font-size: 15px;
+        line-height: 1.62;
+      }
+      .cta-row {
+        padding: 8px 24px 30px;
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .cta {
+        display: inline-block;
+        text-decoration: none;
+        color: #0f1021;
+        background: linear-gradient(90deg, #8c52ff 0%, #ff5aa8 45%, #ff914d 100%);
+        font-weight: 800;
+        font-size: 14px;
+        border-radius: 999px;
+        padding: 13px 20px;
+      }
+      .cta-secondary {
+        display: inline-block;
+        text-decoration: none;
+        color: #f5f6ff;
+        border: 1px solid #4a4d66;
+        background: #1b1d2b;
+        font-weight: 700;
+        font-size: 14px;
+        border-radius: 999px;
+        padding: 13px 20px;
+      }
+      .small {
+        color: #8d92b0;
+        font-size: 12px;
+        line-height: 1.6;
+      }
+      .footer {
+        border-top: 1px solid #2a2c3c;
+        padding: 18px 24px 24px;
+      }
+      .footer a {
+        color: #b8beff;
+      }
+      .unsub-wrap {
+        padding-top: 14px;
+      }
+      .unsub-btn {
+        display: inline-block;
+        text-decoration: none;
+        color: #d3d7f9;
+        border: 1px solid #444863;
+        border-radius: 999px;
+        padding: 8px 14px;
+        font-size: 12px;
+      }
+      @media (max-width: 520px) {
+        h1 {
+          font-size: 25px;
+        }
+        .content {
+          padding: 24px 18px 10px;
+        }
+        .cta-row {
+          padding: 8px 18px 24px;
+        }
+        .footer {
+          padding: 16px 18px 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="card">
+        <div class="topline">SANS TRANSITION</div>
+
+        <div class="content">
+          <span class="kicker">NEWSLETTER</span>
+          <h1>Des recits utiles, des outils concrets, zero langue de bois.</h1>
+          <p class="lead">
+            Salut, voici les nouvelles du media cette semaine: nos formats, nos prochaines dates et ce
+            qu'on construit pour garder un media libre.
+          </p>
+
+          <div class="panel">
+            <h2>Ce qu'on a publie</h2>
+            <p>
+              - Nouveau format court sur les recits invisibilises.<br />
+              - Extrait long format en ligne.<br />
+              - Ressources et liens pour aller plus loin.
+            </p>
+          </div>
+
+          <div class="panel">
+            <h2>Prochaine etape</h2>
+            <p>
+              Cette semaine on prepare la suite de la campagne et un nouveau calendrier de lives.
+              Si tu veux nous aider, partage ce mail ou notre lien public.
+            </p>
+          </div>
+        </div>
+
+        <div class="cta-row">
+          <a class="cta" href="https://sanstransition.fr/don">Faire un don</a>
+          <a class="cta-secondary" href="https://sanstransition.fr">Voir les contenus</a>
+        </div>
+
+        <div class="footer">
+          <p class="small">
+            Sans Transition - media indep.<br />
+            Si tu ne veux plus recevoir ces emails, utilise le bouton ci-dessous.
+          </p>
+          <div class="unsub-wrap">
+            <a class="unsub-btn" href="{{unsubscribe_url}}">Se desinscrire</a>
+          </div>
+          <p class="small" style="margin-top: 10px;">
+            Si le bouton ne fonctionne pas, colle ce lien dans ton navigateur:<br />
+            <a href="{{unsubscribe_url}}">{{unsubscribe_url}}</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

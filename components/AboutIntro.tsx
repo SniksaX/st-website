@@ -97,13 +97,13 @@ const platforms: Platform[] = [
   },
   {
     name: "Instagram",
-    followers: "2.5k+",
+    followers: "3k+",
     url: "https://www.instagram.com/sanstransition__",
     icon: InstagramLogo,
   },
   {
     name: "YouTube",
-    followers: "300+",
+    followers: "1k+",
     url: "https://www.youtube.com/@SansTransitionMedia",
     icon: YoutubeLogo,
   },

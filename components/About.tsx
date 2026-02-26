@@ -93,6 +93,31 @@ const team: Member[] = [
       c3: 'oklch(0.62 0.20 250)',  // bleu plus foncé
     },
   },
+  {
+    name: 'Diego',
+    role: 'Chroniqueur',
+    img: '/diego.png',
+    alt: 'Portrait de Diego',
+    bio: 'Amérique latine, sociologie.',
+    halo: {
+      c1: 'oklch(0.86 0.18 340)',  // rose clair
+      c2: 'oklch(0.78 0.20 340)',  // rose medium
+      c3: 'oklch(0.70 0.22 340)',  // rose fonce
+    },
+  },
+  {
+    name: 'Gappy',
+    role: 'Monteur Vidéo',
+    img: '/gappy.png',
+    alt: 'Portrait de Gappy',
+    bio: 'Sait s’adapter aux différentes plateformes.',
+    halo: {
+      c1: 'oklch(0.96 0.06 75)',   // blanc casse tres chaud clair
+      c2: 'oklch(0.92 0.07 75)',   // blanc casse tres chaud medium
+      c3: 'oklch(0.86 0.08 75)',   // blanc casse tres chaud fonce
+    },
+  },
+
 ];
 
 
@@ -178,3 +203,5 @@ export default function About() {
     </section>
   );
 }
+
+

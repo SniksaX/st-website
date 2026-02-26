@@ -1,5 +1,6 @@
 'use client'
 
+import React from 'react'
 import Section from '@/components/Section'
 import SectionHeading from '@/components/SectionHeading'
 import {
@@ -10,6 +11,7 @@ import {
   Camera,
   Flame,
   ScrollText,
+  Play,
 } from 'lucide-react'
 
 const BOOK_URL =
@@ -70,7 +72,93 @@ const stAngle = [
 
 const chips = ['Antton Rouget', 'Ramsès Kefi', 'Mediapart', 'Enquête', 'Pouvoir local']
 
+type VideoSE = {
+  tiktok_video_id: string
+  title?: string
+  create_time?: string
+  views?: number
+  likes?: number
+  comments?: number
+  shares?: number
+  engagement_rate?: number
+}
+
+type OEmbed = { thumbnail_url?: string }
+
 export default function LesComploteurs() {
+  const [videos, setVideos] = React.useState<VideoSE[]>([])
+  const [thumbs, setThumbs] = React.useState<Record<string, OEmbed | null>>({})
+  const [loading, setLoading] = React.useState(true)
+  const [error, setError] = React.useState<string | null>(null)
+
+  React.useEffect(() => {
+    let cancelled = false
+    ;(async () => {
+      try {
+        setLoading(true)
+        setError(null)
+        const res = await fetch('/videos_se.json', { cache: 'no-store' })
+        if (!res.ok) {
+          const txt = await res.text().catch(() => '')
+          throw new Error(`/videos_se.json -> ${res.status} ${txt}`)
+        }
+        const data = (await res.json()) as VideoSE[]
+        const sorted = Array.isArray(data)
+          ? data.slice().sort((a, b) => {
+              const da = a?.create_time ? new Date(a.create_time).getTime() : 0
+              const db = b?.create_time ? new Date(b.create_time).getTime() : 0
+              return db - da
+            })
+          : []
+        if (!cancelled) setVideos(sorted)
+      } catch (e: unknown) {
+        if (!cancelled) {
+          const msg = e instanceof Error ? e.message : String(e)
+          console.error(msg)
+          setError(msg)
+          setVideos([])
+        }
+      } finally {
+        if (!cancelled) setLoading(false)
+      }
+    })()
+    return () => {
+      cancelled = true
+    }
+  }, [])
+
+  React.useEffect(() => {
+    let cancelled = false
+    const ids = videos.map((v) => v.tiktok_video_id).filter(Boolean)
+    if (ids.length === 0) return
+    const chunk = <T,>(arr: T[], size: number) =>
+      Array.from({ length: Math.ceil(arr.length / size) }, (_, i) => arr.slice(i * size, i * size + size))
+    ;(async () => {
+      try {
+        const maps = await Promise.all(
+          chunk(ids, 25).map(async (part) => {
+            const r = await fetch(`/api/tiktok-oembed?ids=${encodeURIComponent(part.join(','))}`, {
+              cache: 'no-store',
+            })
+            if (!r.ok) return {}
+            const j = await r.json()
+            return (j?.map || {}) as Record<string, OEmbed | null>
+          })
+        )
+        if (!cancelled) {
+          const merged: Record<string, OEmbed | null> = {}
+          maps.forEach((m) => Object.assign(merged, m))
+          setThumbs(merged)
+        }
+      } catch {
+        // silencieux
+      }
+    })()
+    return () => {
+      cancelled = true
+    }
+  }, [videos])
+
   return (
     <Section id="les-comploteurs" className="py-16">
       {/* Full width container */}
@@ -178,6 +266,7 @@ export default function LesComploteurs() {
                   <ArrowUpRight className="h-4 w-4" aria-hidden />
                 </a>
               </div>
+
             </div>
 
             {/* RIGHT */}
@@ -261,6 +350,69 @@ export default function LesComploteurs() {
                 </p>
               </div>
             </div>
+          </div>
+        </div>
+
+        <div className="mt-10 w-full px-4 sm:px-8 lg:px-14">
+          {error && <p className="text-xs text-red-400 break-all">{error}</p>}
+
+          <div className="mx-auto grid max-w-[1400px] items-start gap-0 sm:grid-cols-2 lg:grid-cols-4">
+            {(loading ? Array.from({ length: 4 }).map(() => null) : videos).map((item, idx) => {
+              if (item === null) {
+                return (
+                  <div
+                    key={`skeleton-${idx}`}
+                    className="w-full max-w-[220px] rounded-2xl border border-white/10 bg-white/[0.03] p-3"
+                  >
+                    <div className="aspect-[9/16] w-full rounded-xl bg-muted animate-pulse" />
+                    <div className="mt-3 h-3 w-3/4 rounded bg-muted/60 animate-pulse" />
+                    <div className="mt-2 h-3 w-1/2 rounded bg-muted/50 animate-pulse" />
+                  </div>
+                )
+              }
+
+              const id = item.tiktok_video_id
+              const thumb = thumbs[id]?.thumbnail_url
+              const dateLabel = item.create_time
+                ? new Date(item.create_time).toLocaleDateString('fr-FR', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                  })
+                : undefined
+
+              return (
+                <a
+                  key={id}
+                  href={`https://www.tiktok.com/@sanstransition/video/${id}`}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="group w-full max-w-[220px] rounded-2xl border border-white/10 bg-white/[0.03] p-3 transition hover:bg-white/[0.06]"
+                >
+                  <div className="relative aspect-[9/16] w-full overflow-hidden rounded-xl bg-muted">
+                    {thumb ? (
+                      <img
+                        src={thumb}
+                        alt={item.title || 'Vidéo TikTok'}
+                        className="h-full w-full object-cover"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    ) : (
+                      <div className="h-full w-full bg-muted" />
+                    )}
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 transition group-hover:opacity-100">
+                      <Play className="h-10 w-10 text-white" />
+                    </div>
+                  </div>
+
+                  <p className="mt-3 text-xs text-foreground line-clamp-2">{item.title || 'Vidéo TikTok'}</p>
+                  {dateLabel && (
+                    <p className="mt-2 text-[11px] text-muted-foreground/80">{dateLabel}</p>
+                  )}
+                </a>
+              )
+            })}
           </div>
         </div>
       </div>

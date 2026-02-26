@@ -1,0 +1,12 @@
+{
+  "campaigns": [
+    {
+      "id": "2026-03-01-news",
+      "subject": "Actu Sans Transition",
+      "textFile": "data/campaigns/template.txt",
+      "sendAt": "2099-01-01T09:00:00.000Z",
+      "status": "pending",
+      "disabled": false
+    }
+  ]
+}

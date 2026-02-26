@@ -1,0 +1,31 @@
+# Sans Transition - Edition Test
+
+Salut,
+
+Bienvenue dans ce test de newsletter en **Markdown**.
+
+## Cette semaine
+:::card A la une
+- Nouveau format video publie
+- Live prevu vendredi 20h
+- Ressources utiles en description
+[btn:Voir les contenus](https://sanstransition.fr)
+:::
+
+## Liens utiles
+:::card Rester connecte
+- Site: https://sanstransition.fr
+- Rejoindre les liens: [Toutes nos plateformes](https://sanstransition.fr/liens)
+:::
+
+:::card Soutenir le media
+Un media indep a besoin d'une base solide.
+[button:Faire un don](https://sanstransition.fr/don)
+:::
+
+---
+
+Merci pour le soutien.
+
+Se desinscrire:
+{{unsubscribe_url}}
