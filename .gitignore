@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# mailing list data
+data/mailing-list-subscribers.json
+data/mailing-list-campaigns.json
