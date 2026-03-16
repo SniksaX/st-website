@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { motion, type Variants } from 'framer-motion'
-import { Instagram, Youtube, Twitter, Mail, Heart, MessageSquare, Globe, ArrowUpRight, HandHeart, ChevronDown } from 'lucide-react'
+import { Instagram, Youtube, Twitter, Mail, Heart, MessageSquare, Globe, ArrowUpRight, HandHeart, ChevronDown, BookOpen } from 'lucide-react'
 import HelloAssoWidget from '@/components/HelloAssoWidget'
 
 const TikTokIcon = ({ className = '' }: { className?: string }) => (
@@ -84,6 +84,20 @@ export default function LiensClient() {
             className="h-4 w-4 text-white/60 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
             aria-hidden
           />
+          </Link>
+        </motion.div>
+
+        {/* Ligne 1b: Kit du Révolutionnaire */}
+        <motion.div variants={itemMotion}>
+          <Link href="/kit-revolutionnaire" className={baseButton}>
+            <span className="flex items-center gap-2">
+              <BookOpen className="h-4 w-4 text-white/60" aria-hidden />
+              Kit du Révolutionnaire
+            </span>
+            <ArrowUpRight
+              className="h-4 w-4 text-white/60 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+              aria-hidden
+            />
           </Link>
         </motion.div>
 

@@ -25,7 +25,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {`
             try {
               const stored = localStorage.getItem('theme');
-              const wantsDark = stored === 'dark';
+              const wantsDark = stored !== 'light';
               document.documentElement.classList.toggle('dark', wantsDark);
             } catch (_) { /* no-op */ }
           `}
