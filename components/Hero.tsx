@@ -50,8 +50,8 @@ export default function HeroFontsBarbraOrbitron() {
           >
             Sans Transition
           </span>
-          <span className="block font-[Orbitron] uppercase text-base sm:text-2xl lg:text-3xl font-semibold text-foreground tracking-[0.25em]">
-            media par et pour les minorites.
+          <span className="block uppercase text-base sm:text-2xl lg:text-3xl font-semibold text-foreground tracking-[0.25em]" style={{ fontFamily: "var(--font-orbitron)" }}>
+            média par et pour les minorités.
           </span>
         </motion.h1>
       </div>

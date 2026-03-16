@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import Section from "./Section";
 import ThemeToggle from "@/components/ThemeToggle";
 import { Button } from "@/components/ui/button";
@@ -14,12 +15,13 @@ export default function Header() {
         </div>
 
         <div className="flex w-full items-center justify-between md:hidden">
-          <p
-            className="text-xl font-extrabold tracking-[0.05em] text-foreground"
+          <Link
+            href="/"
+            className="text-xl font-extrabold tracking-[0.05em] text-foreground hover:opacity-80 transition-opacity"
             style={{ fontFamily: "var(--font-barbra)" }}
           >
             SANS TRANSITION
-          </p>
+          </Link>
           <div className="flex items-center gap-2">
             <ThemeToggle />
             <Button
@@ -35,12 +37,13 @@ export default function Header() {
         </div>
 
         <div className="hidden items-center justify-center gap-3 md:flex">
-          <p
-            className="text-[2rem] font-extrabold tracking-[0.05em] text-foreground"
+          <Link
+            href="/"
+            className="text-[2rem] font-extrabold tracking-[0.05em] text-foreground hover:opacity-80 transition-opacity"
             style={{ fontFamily: "var(--font-barbra)" }}
           >
             SANS TRANSITION
-          </p>
+          </Link>
         </div>
 
         <div className="hidden items-center justify-end gap-2 md:flex">

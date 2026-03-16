@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React from "react";
 import Link from "next/link";
@@ -21,20 +21,20 @@ export default function Campaign() {
           transition={{ duration: 0.5, ease: [0, 0, 0.2, 1] }}
           className="space-y-6"
         >
-          <p className="text-xs sm:text-sm uppercase tracking-[0.25em] text-pink-400/80">
+          <p className="text-xs sm:text-sm uppercase tracking-[0.25em] text-pink-500 dark:text-pink-400/80">
             Campagne de soutien
           </p>
-          <h2 className="text-3xl sm:text-[2.6rem] font-extrabold tracking-tight text-white leading-[1.05]">
+          <h2 className="text-3xl sm:text-[2.6rem] font-extrabold tracking-tight text-foreground leading-[1.05]">
             La Transition — l&apos;indépendance ou rien.
           </h2>
-          <p className="text-base sm:text-lg font-semibold text-pink-300/90 uppercase tracking-[0.2em]">
+          <p className="text-base sm:text-lg font-semibold text-pink-600 dark:text-pink-300/90 uppercase tracking-[0.2em]">
             1 000 personnes à 2 €/mois = un média qui ne doit rien à personne.
           </p>
-          <p className="text-base sm:text-lg leading-relaxed text-neutral-200 max-w-2xl">
+          <p className="text-base sm:text-lg leading-relaxed text-muted-foreground max-w-2xl">
             Il y a des médias pour les patrons, d&apos;autres pour les fachos. Sans Transition, c&apos;est un média par
             et pour les minorités — né à Paris en 2025 pour celles et ceux qu&apos;on laisse hors-champ.
           </p>
-          <div className="flex flex-wrap gap-2.5 pt-1 text-[13px] text-neutral-100">
+          <div className="flex flex-wrap gap-2.5 pt-1 text-[13px] text-foreground">
             {[
               "Association loi 1901",
               "Financement 100 % citoyen",
@@ -43,16 +43,16 @@ export default function Campaign() {
             ].map((label) => (
               <span
                 key={label}
-                className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-4 py-1.5"
+                className="inline-flex items-center gap-1.5 rounded-full border border-border bg-muted/40 px-4 py-1.5"
               >
                 <span className="h-1.5 w-1.5 rounded-full bg-pink-400" aria-hidden />
                 {label}
               </span>
             ))}
           </div>
-          <div className="mt-4 space-y-4 text-base sm:text-lg text-neutral-300 max-w-2xl">
+          <div className="mt-4 space-y-4 text-base sm:text-lg text-muted-foreground max-w-2xl">
             <p>
-              En septembre, la monétisation TikTok = <span className="font-semibold text-white">20 €</span>. Vingt euros
+              En septembre, la monétisation TikTok = <span className="font-semibold text-foreground">20 €</span>. Vingt euros
               pour un mois de tournages, d&apos;interviews, de montages, de nuits blanches. Ce n&apos;est pas un modèle
               viable.
             </p>
@@ -76,12 +76,12 @@ export default function Campaign() {
             </motion.a>
             <Link
               href="/don"
-              className="inline-flex items-center gap-2 rounded-2xl border border-white/15 bg-white/5 px-5 py-2.5 text-neutral-100 hover:bg-white/10"
+              className="inline-flex items-center gap-2 rounded-2xl border border-border bg-muted/40 px-5 py-2.5 text-foreground hover:bg-muted/70"
             >
               Faire un don ponctuel
             </Link>
           </div>
-          <p className="mt-6 text-sm sm:text-base text-neutral-400 max-w-2xl">
+          <p className="mt-6 text-sm sm:text-base text-muted-foreground max-w-2xl">
             Soutenir Sans Transition, ce n&apos;est pas « donner » : c&apos;est prendre parti. Chaque euro protège une
             parole libre et permet au contenu de rester en accès libre.
           </p>
@@ -94,71 +94,71 @@ export default function Campaign() {
           transition={{ duration: 0.6, ease: [0, 0, 0.2, 1] }}
           className="space-y-5"
         >
-          <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 shadow-[0_14px_45px_-28px_rgba(0,0,0,0.9)]">
-            <p className="text-xs uppercase tracking-[0.18em] text-neutral-400 mb-2">
+          <div className="rounded-2xl border border-border bg-card/60 p-6 shadow-[0_14px_45px_-28px_rgba(0,0,0,0.3)]">
+            <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground mb-2">
               Pourquoi Sans Transition a besoin de toi
             </p>
-            <dl className="space-y-4 text-sm sm:text-base text-neutral-100">
+            <dl className="space-y-4 text-sm sm:text-base text-foreground">
               <div className="flex gap-3">
-                <div className="mt-1 flex h-9 w-9 items-center justify-center rounded-xl bg-pink-500/15 text-pink-300">
+                <div className="mt-1 flex h-9 w-9 items-center justify-center rounded-xl bg-pink-500/15 text-pink-500 dark:text-pink-300">
                   <Shield className="h-4 w-4" />
                 </div>
                 <div>
                   <dt className="font-semibold">Production radicale</dt>
-                  <dd className="text-xs sm:text-sm text-neutral-300">
+                  <dd className="text-xs sm:text-sm text-muted-foreground">
                     Tu finances tournages, montages, reportages, pour raconter les luttes depuis l&apos;intérieur, pas
                     depuis les plateaux télé.
                   </dd>
                 </div>
               </div>
               <div className="flex gap-3">
-                <div className="mt-1 flex h-9 w-9 items-center justify-center rounded-xl bg-violet-500/15 text-violet-300">
+                <div className="mt-1 flex h-9 w-9 items-center justify-center rounded-xl bg-violet-500/15 text-violet-500 dark:text-violet-300">
                   <Users className="h-4 w-4" />
                 </div>
                 <div>
                   <dt className="font-semibold">Communauté organisée</dt>
-                  <dd className="text-xs sm:text-sm text-neutral-300">
+                  <dd className="text-xs sm:text-sm text-muted-foreground">
                     Modération, espaces sûrs, outils pédagogiques, Discord et ressources pour tenir sur la durée. De
                     « merci l&apos;algo » à merci la commu.
                   </dd>
                 </div>
               </div>
               <div className="flex gap-3">
-                <div className="mt-1 flex h-9 w-9 items-center justify-center rounded-xl bg-orange-500/15 text-orange-300">
+                <div className="mt-1 flex h-9 w-9 items-center justify-center rounded-xl bg-orange-500/15 text-orange-500 dark:text-orange-300">
                   <LockKeyhole className="h-4 w-4" />
                 </div>
                 <div>
                   <dt className="font-semibold">Autonomie totale</dt>
-                  <dd className="text-xs sm:text-sm text-neutral-300">
+                  <dd className="text-xs sm:text-sm text-muted-foreground">
                     Salaires dignes, charges, matériel, sécurité numérique. L&apos;indépendance se finance, sinon elle
                     n&apos;existe pas.
                   </dd>
                 </div>
               </div>
             </dl>
-            <p className="mt-4 text-[12px] text-neutral-400">
+            <p className="mt-4 text-[12px] text-muted-foreground">
               La Transition, c&apos;est le passage collectif de la survie à l&apos;indépendance.{" "}
-              <span className="font-semibold text-neutral-100">1 000 personnes à 2 €/mois</span>, et on ne doit rien à
+              <span className="font-semibold text-foreground">1 000 personnes à 2 €/mois</span>, et on ne doit rien à
               aucun milliardaire.
             </p>
           </div>
-          <div className="rounded-2xl border border-neutral-800 bg-neutral-950/80 px-5 py-5 space-y-3">
-            <p className="text-[11px] uppercase tracking-[0.18em] text-neutral-400">
+          <div className="rounded-2xl border border-border bg-muted/30 px-5 py-5 space-y-3">
+            <p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
               Rejoindre les 1000
             </p>
-            <p className="text-base text-neutral-200">
+            <p className="text-base text-foreground">
               On vit une époque où soit tu te tais, soit tu t&apos;organises. Nous, on a choisi : on
               s&apos;organise. Deviens l&apos;une des 1 000 personnes qui feront la différence.
             </p>
             <Link
               href="/don"
-              className="inline-flex items-center gap-1 text-sm font-semibold text-neutral-50 link-animated"
+              className="inline-flex items-center gap-1 text-sm font-semibold text-foreground link-animated"
               data-text="Voir la page dons complète"
             >
               <span>Voir la page dons complète </span>
               <ArrowRight className="h-4 w-4 inline-block align-middle" />
             </Link>
-            <p className="text-[11px] text-neutral-500 italic">
+            <p className="text-[11px] text-muted-foreground italic">
               &quot;Soutenir Sans Transition, ce n&apos;est pas donner : c&apos;est prendre parti. C&apos;était Hedji
               pour ST. Bisous mes vies.&quot;
             </p>

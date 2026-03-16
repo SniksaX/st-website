@@ -239,9 +239,16 @@ export default function Page() {
           {activeSectionData && (
             <>
               <Separator className="bg-border" />
-              <section id={activeSection} className="scroll-mt-24">
+              <motion.section
+                key={activeSection}
+                id={activeSection}
+                className="scroll-mt-24"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.25, ease: [0, 0, 0.2, 1] }}
+              >
                 {activeSectionData.content}
-              </section>
+              </motion.section>
             </>
           )}
         </div>
