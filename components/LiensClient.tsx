@@ -121,7 +121,7 @@ export default function LiensClient() {
           ))}
         </motion.div>
 
-        {/* Ligne 3: Abood / Elodie */}
+        {/* Ligne 3: Abood / Elodie / Violences policières */}
         <motion.div variants={itemMotion} className="grid grid-cols-2 gap-3">
           <a href="https://gofund.me/6e217b10a" target="_blank" rel="noreferrer" className={baseButton}>
             <span className="flex items-center gap-2">
@@ -143,6 +143,24 @@ export default function LiensClient() {
               aria-hidden
             />
           </a>
+        </motion.div>
+        <motion.div variants={itemMotion}>
+          <div className="rounded-2xl p-px bg-gradient-to-r from-rose-500/40 via-fuchsia-500/25 to-rose-400/40">
+            <a href="https://www.leetchi.com/fr/c/1-euro-contre-les-violences-policieres-7316945" target="_blank" rel="noreferrer" className={`${baseButton} rounded-[calc(1rem-1px)] bg-white/[0.05] hover:bg-white/[0.09]`}>
+              <span className="flex items-center gap-2">
+                <Heart className="h-4 w-4 text-rose-400/80" aria-hidden />
+                <span>1€ contre les violences policières</span>
+                <span className="flex items-center gap-1 text-[9px] font-mono uppercase tracking-[0.15em] text-rose-400/70 border border-rose-500/25 rounded-full px-2 py-0.5">
+                  <span className="h-1.5 w-1.5 rounded-full bg-rose-400 animate-pulse" aria-hidden />
+                  En cours
+                </span>
+              </span>
+              <ArrowUpRight
+                className="h-4 w-4 text-white/50 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                aria-hidden
+              />
+            </a>
+          </div>
         </motion.div>
 
         {/* Ligne 4: Proposer un sujet */}
