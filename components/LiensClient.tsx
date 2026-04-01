@@ -187,7 +187,7 @@ export default function LiensClient() {
           <a href="https://forms.gle/yoHVL6iKBi6Adz8T9" target="_blank" rel="noreferrer" className={baseButton}>
             <span className="flex items-center gap-2">
               <MessageSquare className="h-4 w-4 text-white/60" aria-hidden />
-              Proposer un sujet
+              Proposer un sujet ou témoigner
             </span>
             <ArrowUpRight
               className="h-4 w-4 text-white/60 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
