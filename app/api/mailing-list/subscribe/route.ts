@@ -82,16 +82,19 @@ export async function POST(request: Request) {
       userAgent: userAgent === 'unknown' ? null : userAgent,
     })
 
-    // Persist to Sanity — fire-and-forget, errors don't block the subscription
-    upsertSanityMailingListSubscriber({
-      email,
-      source: '/00',
-      subscribedAt: new Date().toISOString(),
-      ip: forwardedFor === 'unknown' ? null : forwardedFor,
-      userAgent: userAgent === 'unknown' ? null : userAgent,
-    }).catch((err: unknown) => {
+    // Persist to Sanity (awaited — primary store in serverless environments)
+    try {
+      await upsertSanityMailingListSubscriber({
+        email,
+        source: '/00',
+        subscribedAt: new Date().toISOString(),
+        ip: forwardedFor === 'unknown' ? null : forwardedFor,
+        userAgent: userAgent === 'unknown' ? null : userAgent,
+      })
+    } catch (err) {
+      // Log but don't block — local store may have already captured the data
       console.error('[Sanity] Failed to upsert subscriber:', err)
-    })
+    }
 
     if (storageResult.status === 'existing') {
       return NextResponse.json({ ok: true, alreadySubscribed: true }, { status: 200 })

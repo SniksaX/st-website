@@ -110,10 +110,20 @@ async function readStore() {
 }
 
 async function writeStore(store: MailingListStore) {
-  await fs.mkdir(path.dirname(STORE_FILE), { recursive: true })
-  const tempFile = `${STORE_FILE}.tmp`
-  await fs.writeFile(tempFile, `${JSON.stringify(store, null, 2)}\n`, { encoding: 'utf8', mode: 0o600 })
-  await fs.rename(tempFile, STORE_FILE)
+  try {
+    await fs.mkdir(path.dirname(STORE_FILE), { recursive: true })
+    const tempFile = `${STORE_FILE}.tmp`
+    await fs.writeFile(tempFile, `${JSON.stringify(store, null, 2)}\n`, { encoding: 'utf8', mode: 0o600 })
+    await fs.rename(tempFile, STORE_FILE)
+  } catch (error) {
+    const code = (error as NodeJS.ErrnoException).code
+    // Read-only filesystem (e.g. Vercel serverless) — Sanity is the source of truth in prod
+    if (code === 'EROFS' || code === 'EACCES') {
+      console.warn('[mailingListStore] Filesystem is read-only, skipping local write. Sanity will persist the data.')
+      return
+    }
+    throw error
+  }
 }
 
 export async function upsertMailingListSubscriber(input: UpsertInput): Promise<UpsertResult> {
