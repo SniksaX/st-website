@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 import nodemailer from 'nodemailer'
 import { createUnsubscribeToken, upsertMailingListSubscriber } from '@/lib/mailingListStore'
+import { upsertSanityMailingListSubscriber } from '@/lib/sanity'
 
 export const runtime = 'nodejs'
 
@@ -79,6 +80,17 @@ export async function POST(request: Request) {
       source: '/00',
       ip: forwardedFor === 'unknown' ? null : forwardedFor,
       userAgent: userAgent === 'unknown' ? null : userAgent,
+    })
+
+    // Persist to Sanity — fire-and-forget, errors don't block the subscription
+    upsertSanityMailingListSubscriber({
+      email,
+      source: '/00',
+      subscribedAt: new Date().toISOString(),
+      ip: forwardedFor === 'unknown' ? null : forwardedFor,
+      userAgent: userAgent === 'unknown' ? null : userAgent,
+    }).catch((err: unknown) => {
+      console.error('[Sanity] Failed to upsert subscriber:', err)
     })
 
     if (storageResult.status === 'existing') {
