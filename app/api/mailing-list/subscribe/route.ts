@@ -86,6 +86,7 @@ export async function POST(request: Request) {
     try {
       await upsertSanityMailingListSubscriber({
         email,
+        emailHash: storageResult.emailHash,
         source: '/00',
         subscribedAt: new Date().toISOString(),
         ip: forwardedFor === 'unknown' ? null : forwardedFor,

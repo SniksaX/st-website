@@ -2,9 +2,10 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { motion, type Variants } from 'framer-motion'
-import { Instagram, Youtube, Twitter, Mail, Heart, MessageSquare, Globe, ArrowUpRight, HandHeart, ChevronDown, BookOpen, ScrollText } from 'lucide-react'
+import { motion, AnimatePresence, type Variants } from 'framer-motion'
+import { Instagram, Youtube, Twitter, Mail, Heart, MessageSquare, Globe, ArrowUpRight, HandHeart, ChevronDown, BookOpen, ScrollText, Bell, X, Send, Check } from 'lucide-react'
 import HelloAssoWidget from '@/components/HelloAssoWidget'
+import { useState, type FormEvent } from 'react'
 
 const TikTokIcon = ({ className = '' }: { className?: string }) => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" className={`fill-current ${className}`} aria-hidden>
@@ -32,7 +33,129 @@ const itemMotion: Variants = {
   show: { opacity: 1, y: 0, transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] } },
 }
 
+type FormState = 'idle' | 'loading' | 'success' | 'error' | 'existing'
+
+function NewsletterModal({ onClose }: { onClose: () => void }) {
+  const [email, setEmail] = useState('')
+  const [state, setState] = useState<FormState>('idle')
+  const [message, setMessage] = useState('')
+
+  async function handleSubmit(e: FormEvent) {
+    e.preventDefault()
+    if (!email.trim()) { setMessage('Entre une adresse email.'); setState('error'); return }
+    setState('loading')
+    try {
+      const res = await fetch('/api/mailing-list/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      })
+      const data = await res.json()
+      if (!res.ok) { setState('error'); setMessage(data.error ?? 'Une erreur est survenue.'); return }
+      if (data.alreadySubscribed) { setState('existing'); setMessage('Tu es déjà inscrit(e) !'); return }
+      setState('success')
+      setMessage('Tu es inscrit(e) à la newsletter.')
+    } catch {
+      setState('error')
+      setMessage('Impossible de contacter le serveur.')
+    }
+  }
+
+  return (
+    <motion.div
+      className="fixed inset-0 z-50 flex items-end justify-center sm:items-center"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
+      {/* Overlay */}
+      <motion.div
+        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+        onClick={onClose}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+      />
+
+      {/* Panel */}
+      <motion.div
+        className="relative z-10 w-full max-w-md rounded-t-3xl sm:rounded-3xl bg-[#0f0f1a] border border-white/10 p-6 shadow-[0_-24px_80px_rgba(168,85,247,0.2)]"
+        initial={{ y: 60, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        exit={{ y: 60, opacity: 0 }}
+        transition={{ type: 'spring', damping: 22, stiffness: 260 }}
+      >
+        {/* Gradient top bar */}
+        <div className="absolute top-0 left-6 right-6 h-px bg-gradient-to-r from-transparent via-fuchsia-500/60 to-transparent rounded-full" />
+
+        <button
+          onClick={onClose}
+          className="absolute right-4 top-4 rounded-full p-1.5 text-white/40 transition hover:bg-white/10 hover:text-white"
+          aria-label="Fermer"
+        >
+          <X className="h-4 w-4" />
+        </button>
+
+        <div className="mb-4 flex items-center gap-3">
+          <span className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-fuchsia-500 to-purple-600 shadow-[0_8px_24px_rgba(168,85,247,0.4)]">
+            <Bell className="h-4 w-4 text-white" />
+          </span>
+          <div>
+            <h2 className="text-base font-bold text-white">Newsletter Sans Transition</h2>
+            <p className="text-xs text-white/50">Reçois nos prochaines infos directement.</p>
+          </div>
+        </div>
+
+        {state === 'success' || state === 'existing' ? (
+          <div className="flex flex-col items-center gap-3 py-4 text-center">
+            <span className="flex h-12 w-12 items-center justify-center rounded-full bg-fuchsia-500/15 text-fuchsia-400">
+              <Check className="h-6 w-6" />
+            </span>
+            <p className="text-sm font-medium text-white">{message}</p>
+            <button
+              onClick={onClose}
+              className="mt-1 rounded-full bg-white/10 px-5 py-2 text-xs font-semibold text-white transition hover:bg-white/20"
+            >
+              Fermer
+            </button>
+          </div>
+        ) : (
+          <form onSubmit={handleSubmit} className="space-y-3">
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="email@exemple.com"
+              aria-label="Adresse email"
+              disabled={state === 'loading'}
+              className="w-full rounded-xl border border-white/10 bg-white/[0.05] px-4 py-3 text-sm text-white placeholder-white/30 outline-none transition focus:border-fuchsia-500/50 focus:ring-2 focus:ring-fuchsia-500/20 disabled:opacity-50"
+            />
+            {state === 'error' && (
+              <p className="text-xs text-rose-400">{message}</p>
+            )}
+            <button
+              type="submit"
+              disabled={state === 'loading'}
+              className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-fuchsia-500 via-purple-500 to-orange-400 px-4 py-3 text-sm font-bold text-white shadow-[0_8px_24px_rgba(168,85,247,0.35)] transition hover:-translate-y-0.5 hover:shadow-[0_12px_32px_rgba(168,85,247,0.5)] disabled:opacity-60 disabled:hover:translate-y-0"
+            >
+              {state === 'loading' ? (
+                <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+              ) : (
+                <Send className="h-4 w-4" />
+              )}
+              {state === 'loading' ? 'Envoi…' : "S'inscrire"}
+            </button>
+            <p className="text-center text-[10px] text-white/30">Pas de spam. Désinscription en un clic.</p>
+          </form>
+        )}
+      </motion.div>
+    </motion.div>
+  )
+}
+
 export default function LiensClient() {
+  const [showNewsletter, setShowNewsletter] = useState(false)
+
   return (
     <>
       <div aria-hidden className="pointer-events-none absolute inset-0">
@@ -85,6 +208,17 @@ export default function LiensClient() {
             aria-hidden
           />
           </Link>
+        </motion.div>
+
+        {/* Vidéo YouTube */}
+        <motion.div variants={itemMotion}>
+          <a href="https://www.youtube.com/watch?v=3-pBA4tpqVE" target="_blank" rel="noreferrer" className={baseButton}>
+            <span className="flex items-center gap-2">
+              <Youtube className="h-4 w-4 text-red-400/80" aria-hidden />
+              Regarder notre dernière vidéo
+            </span>
+            <ArrowUpRight className="h-4 w-4 text-white/60 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" aria-hidden />
+          </a>
         </motion.div>
 
         {/* Ligne 1b: Kit du Révolutionnaire */}
@@ -196,6 +330,17 @@ export default function LiensClient() {
           </a>
         </motion.div>
 
+        {/* Newsletter */}
+        <motion.div variants={itemMotion}>
+          <button onClick={() => setShowNewsletter(true)} className={`${baseButton} w-full`}>
+            <span className="flex items-center gap-2">
+              <Bell className="h-4 w-4 text-fuchsia-400/80" aria-hidden />
+              S&apos;inscrire à la newsletter
+            </span>
+            <ArrowUpRight className="h-4 w-4 text-white/60 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" aria-hidden />
+          </button>
+        </motion.div>
+
         {/* Ligne 5: Mail */}
         <motion.div variants={itemMotion}>
           <a href="mailto:contact@sanstransition.fr" className={baseButton}>
@@ -229,6 +374,10 @@ export default function LiensClient() {
           </details>
         </motion.div>
       </motion.div>
+
+      <AnimatePresence>
+        {showNewsletter && <NewsletterModal onClose={() => setShowNewsletter(false)} />}
+      </AnimatePresence>
     </>
   )
 }

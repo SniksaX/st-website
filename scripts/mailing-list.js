@@ -7,9 +7,9 @@ const crypto = require('crypto')
 const nodemailer = require('nodemailer')
 
 const ROOT = path.join(__dirname, '..')
-const STORE_FILE = path.join(ROOT, 'data', 'mailing-list-subscribers.json')
 const DEFAULT_QUEUE_FILE = path.join(ROOT, 'data', 'mailing-list-campaigns.json')
 const DERIVE_SALT = Buffer.from('sans-transition-mailing-list', 'utf8')
+const SANITY_API_VERSION = '2024-01-01'
 
 function parseArgs(argv) {
   const args = {}
@@ -94,49 +94,39 @@ function hashValue(value, key) {
   return crypto.createHmac('sha256', key).update(value).digest('hex')
 }
 
-function decryptValue(payload, key) {
-  const [ivB64, tagB64, encryptedB64] = String(payload).split(':')
-  if (!ivB64 || !tagB64 || !encryptedB64) {
-    throw new Error('Invalid encrypted payload format.')
+
+async function querySanity(groq) {
+  const projectId = readRequiredEnv('SANITY_PROJECT_ID')
+  const dataset = process.env.SANITY_DATASET?.trim() || 'production'
+  const token = readRequiredEnv('SANITY_API_TOKEN')
+  const url = `https://${projectId}.api.sanity.io/v${SANITY_API_VERSION}/data/query/${dataset}?query=${encodeURIComponent(groq)}`
+  const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` } })
+  if (!res.ok) {
+    const text = await res.text().catch(() => res.statusText)
+    throw new Error(`Sanity query failed (${res.status}): ${text}`)
   }
-
-  const iv = Buffer.from(ivB64, 'base64')
-  const tag = Buffer.from(tagB64, 'base64')
-  const encrypted = Buffer.from(encryptedB64, 'base64')
-
-  const decipher = crypto.createDecipheriv('aes-256-gcm', key, iv)
-  decipher.setAuthTag(tag)
-  const clear = Buffer.concat([decipher.update(encrypted), decipher.final()])
-  return clear.toString('utf8')
-}
-
-async function readSubscribers() {
-  const raw = await fsp.readFile(STORE_FILE, 'utf8')
-  const parsed = JSON.parse(raw)
-  return Array.isArray(parsed?.subscribers) ? parsed.subscribers : []
+  const json = await res.json()
+  return json.result
 }
 
 async function readActiveRecipients() {
-  const secret = readRequiredEnv('MAILING_LIST_SECRET_KEY')
-  if (secret.length < 24) {
-    throw new Error('MAILING_LIST_SECRET_KEY is too short (min 24 chars).')
-  }
-  const encryptionKey = deriveKey(secret, 'encryption:v1')
-
-  const subscribers = await readSubscribers()
-  const recipients = []
+  const rows = await querySanity(
+    '*[_type == "mailingListSubscriber" && unsubscribedAt == null]{ email, emailHash }'
+  )
+  if (!Array.isArray(rows)) return []
   const seen = new Set()
-  for (const item of subscribers) {
-    if (!item || item.unsubscribedAt) continue
-    if (!item.emailEncrypted) continue
-    if (!/^[a-f0-9]{64}$/i.test(String(item.emailHash || ''))) continue
-    const email = decryptValue(item.emailEncrypted, encryptionKey).trim().toLowerCase()
-    const emailHash = String(item.emailHash).toLowerCase()
-    if (!email || seen.has(emailHash)) continue
-    seen.add(emailHash)
-    recipients.push({ email, emailHash })
-  }
-  return recipients
+  return rows.filter((item) => {
+    if (!item?.email || !item?.emailHash) return false
+    if (seen.has(item.emailHash)) return false
+    seen.add(item.emailHash)
+    return true
+  })
+}
+
+async function readSubscriberStats() {
+  return querySanity(
+    '{ "total": count(*[_type == "mailingListSubscriber"]), "active": count(*[_type == "mailingListSubscriber" && unsubscribedAt == null]) }'
+  )
 }
 
 function maskEmail(email) {
@@ -486,9 +476,7 @@ async function sendCampaign(campaign, options = {}) {
 }
 
 async function runStats() {
-  const subscribers = await readSubscribers()
-  const total = subscribers.length
-  const active = subscribers.filter((x) => !x.unsubscribedAt).length
+  const { total, active } = await readSubscriberStats()
   const inactive = total - active
   console.log(`Subscribers total: ${total}`)
   console.log(`Subscribers active: ${active}`)
@@ -496,7 +484,8 @@ async function runStats() {
 }
 
 async function runExport(args) {
-  const emails = (await readActiveRecipients()).map((item) => item.email)
+  const recipients = await readActiveRecipients()
+  const emails = recipients.map((item) => item.email)
   const outRel = args.out || 'data/mailing-list-emails.csv'
   const outFile = resolveFilePath(outRel)
   await fsp.mkdir(path.dirname(outFile), { recursive: true })
@@ -615,10 +604,6 @@ async function main() {
   if (!command || command === 'help' || command === '--help') {
     printHelp()
     return
-  }
-
-  if (!fs.existsSync(STORE_FILE)) {
-    throw new Error(`Store file not found: ${STORE_FILE}`)
   }
 
   if (command === 'stats') {

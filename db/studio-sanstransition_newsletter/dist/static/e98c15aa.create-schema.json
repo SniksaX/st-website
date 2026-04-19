@@ -1,0 +1,43 @@
+[
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "level": "error",
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ]
+          }
+        ],
+        "name": "email",
+        "type": "string"
+      },
+      {
+        "description": "Page depuis laquelle la personne s'est inscrite (ex: /00)",
+        "name": "source",
+        "type": "string"
+      },
+      {
+        "name": "subscribedAt",
+        "type": "datetime",
+        "title": "Date d'inscription"
+      },
+      {
+        "name": "ip",
+        "type": "string",
+        "title": "Adresse IP"
+      },
+      {
+        "name": "userAgent",
+        "type": "string"
+      }
+    ],
+    "name": "mailingListSubscriber",
+    "type": "document",
+    "title": "Abonnés Newsletter"
+  }
+]

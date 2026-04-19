@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { unsubscribeMailingListSubscriber, verifyUnsubscribeToken } from '@/lib/mailingListStore'
+import { unsubscribeSanitySubscriber } from '@/lib/sanity'
 
 function htmlPage(title: string, message: string, status = 200) {
   return new NextResponse(
@@ -46,6 +47,12 @@ export async function GET(request: Request) {
     }
 
     const result = await unsubscribeMailingListSubscriber(emailHash)
+
+    // Mirror unsubscribe in Sanity (fire-and-forget — local result is authoritative)
+    unsubscribeSanitySubscriber(emailHash).catch((err: unknown) => {
+      console.error('[Sanity] Failed to unsubscribe:', err)
+    })
+
     if (result === 'not_found') {
       return htmlPage(
         'Desinscription prise en compte',
