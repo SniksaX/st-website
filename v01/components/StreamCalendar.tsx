@@ -1,0 +1,209 @@
+"use client";
+
+import React from "react";
+import Section from "./Section";
+import SectionHeading from "@/components/SectionHeading";
+import { Twitch } from "lucide-react";
+import { motion, type Variants } from "framer-motion";
+import { useInView } from "framer-motion";
+
+type StreamItem = {
+  time: string;
+  title: string;
+  desc: string;
+  people?: string;
+};
+
+const WEEK = [
+  { label: "Lun", day: 1 },
+  { label: "Mar", day: 2 },
+  { label: "Mer", day: 3 },
+  { label: "Jeu", day: 4 },
+  { label: "Ven", day: 5 },
+  { label: "Sam", day: 6 },
+  { label: "Dim", day: 0 },
+] as const;
+
+function dayItems(dayIdx: number): StreamItem[] {
+  const items: StreamItem[] = [];
+  if (dayIdx >= 1 && dayIdx <= 5) {
+    items.push({
+      time: "09:00",
+      title: "La TransMatinale",
+      desc: "Revue de presse",
+      people: "avec Hedji",
+    });
+  }
+  if (dayIdx === 2) {
+    items.push({
+      time: "20:00",
+      title: "Aktu",
+      people: "avec Hedji, Amandine & Lucho",
+      desc: "Réaction à l'actu",
+    });
+  }
+  if (dayIdx === 5) {
+    items.push({
+      time: "20:00",
+      title: "Ekip",
+      desc: "Live chill, discussions, échanges avec la commu",
+      people: "avec Hedji & l’équipe",
+    });
+  }
+  return items;
+}
+
+const gridVariants: Variants = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.08,
+      delayChildren: 0.05,
+    },
+  },
+};
+
+const cardVariants: Variants = {
+  hidden: { opacity: 0, y: 8 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.35, ease: [0, 0, 0.2, 1] } },
+};
+
+export default function StreamCalendar() {
+  const [today, setToday] = React.useState<number>(() => new Date().getDay());
+  React.useEffect(() => {
+    const id = window.setInterval(() => setToday(new Date().getDay()), 60_000);
+    return () => window.clearInterval(id);
+  }, []);
+
+  const minutesUntil = (time: string) => {
+    const [h, m] = time.split(":").map((x) => parseInt(x, 10));
+    const now = new Date();
+    const target = new Date();
+    target.setHours(h || 0, m || 0, 0, 0);
+    return Math.round((target.getTime() - now.getTime()) / 60000);
+  };
+
+  const ref = React.useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-50px" });
+
+  return (
+    <Section id="streams" className="py-14">
+      <div className="mb-6 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+        <SectionHeading kicker="Agenda" title="Calendrier des streams" className="mb-0" />
+        <a
+          href="https://twitch.tv/sans_transition"
+          target="_blank"
+          rel="noreferrer"
+          className="inline-flex items-center gap-2 rounded-full border border-border bg-muted px-3 h-9 text-sm text-foreground hover:bg-muted/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
+        >
+          <Twitch className="h-4 w-4" />
+          <span>Suivre sur Twitch</span>
+        </a>
+      </div>
+
+      <motion.div
+        ref={ref}
+        className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7"
+        role="grid"
+        aria-label="Calendrier hebdomadaire des lives"
+        variants={gridVariants}
+        initial="hidden"
+        animate={inView ? "show" : "hidden"}
+      >
+        {WEEK.map(({ label, day }) => {
+          const items = dayItems(day);
+          const isToday = day === today;
+          return (
+            <motion.div
+              key={label}
+              role="row"
+              variants={cardVariants}
+              className={
+                "relative rounded-2xl border bg-card/70 backdrop-blur-sm border-border shadow-[0_10px_30px_-20px_rgba(0,0,0,.08)] transition-transform duration-200 " +
+                (isToday
+                  ? "ring-2 ring-ring/50 scale-[1.01]"
+                  : "hover:ring-1 hover:ring-border")
+              }
+            >
+              {isToday && (
+                <div
+                  className="absolute left-[6px] right-[6px] -top-[2px] h-[2px] [background:var(--grad-1)] rounded-t-2xl pointer-events-none"
+                  aria-hidden
+                />
+              )}
+              <div className="flex items-center justify-between px-4 pt-4">
+                <div className="flex items-center gap-2">
+                  <span
+                    aria-hidden
+                    className="h-5 w-[3px] rounded-full [background:var(--grad-1)]"
+                  />
+                  <h3 className="text-sm font-semibold tracking-tight text-foreground">
+                    {label}
+                  </h3>
+                </div>
+                {isToday && (
+                  <span className="text-[11px] rounded-full border border-border bg-muted px-2 py-0.5 text-foreground/90">
+                    Aujourd&apos;hui
+                  </span>
+                )}
+              </div>
+
+              <div className="px-4 pb-4 pt-3 space-y-2">
+                {items.length === 0 ? (
+                  <p className="text-sm text-muted-foreground">— Pas de live prévu</p>
+                ) : (
+                  items.map((it, i) => {
+                    const soon =
+                      isToday &&
+                      minutesUntil(it.time) >= 0 &&
+                      minutesUntil(it.time) <= 60;
+                    return (
+                      <div
+                        key={`${label}-${i}-${it.time}`}
+                        className={
+                          "rounded-xl border p-2.5 backdrop-blur " +
+                          (soon
+                            ? "border-border bg-muted"
+                            : "border-border bg-transparent")
+                        }
+                      >
+                        <div className="flex flex-col gap-1.5">
+                          <time
+                            dateTime={it.time}
+                            className="self-start inline-flex h-7 items-center justify-center whitespace-nowrap rounded-full border border-border bg-muted px-2 text-[11px] font-semibold text-foreground/90"
+                            aria-label={`Heure du live ${it.time}`}
+                          >
+                            {it.time}
+                          </time>
+                          <div>
+                            <p className="text-[12px] font-semibold text-foreground">
+                              {it.title}
+                            </p>
+                            {soon && (
+                              <span className="mt-0.5 inline-flex items-center gap-1 rounded-full border border-border bg-muted px-2 py-0.5 text-[10px] text-foreground/90">
+                                <span className="inline-block h-1.5 w-1.5 rounded-full bg-foreground" aria-hidden />
+                                En direct bientôt
+                              </span>
+                            )}
+                            {it.people && (
+                              <p className="mt-1 text-[10px] text-muted-foreground italic">{it.people}</p>
+                            )}
+                            <p className="mt-1 text-[11px] text-muted-foreground">{it.desc}</p>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })
+                )}
+              </div>
+            </motion.div>
+          );
+        })}
+      </motion.div>
+
+      <p className="mt-4 text-xs text-muted-foreground">
+        • La TransMatinale (lun–ven, 09:00) — revue de presse. • Aktu (mardi, 20:00) — réaction à l&apos;actu avec Amandine & Lucho. • Ekip (vendredi, 20:00) — live chill avec la commu.
+      </p>
+    </Section>
+  );
+}

@@ -1,345 +1,396 @@
-﻿'use client';
+'use client'
 
-import React from 'react';
-import Section from './Section';
-import { ChevronLeft, ChevronRight, Play, Eye, Heart, Percent, ArrowUpRight } from 'lucide-react';
-import SectionHeading from '@/components/SectionHeading';
+import React from 'react'
 
-type OEmbed = { thumbnail_url?: string; title?: string; author_name?: string };
+/* ── Types ─────────────────────────────────────────────── */
 
 type JsonItem = {
-  id: string;
-  title?: string;
-  views?: number;
-  likes?: number;
-  comments?: number;
-  shares?: number;
-  engagementRate?: number;
-  date?: string; // ISO
-};
+  tiktok_video_id: string
+  title?: string
+  create_time?: string
+  views?: number
+  likes?: number
+  comments?: number
+  shares?: number
+  viewsGained?: number
+  likesGained?: number
+  velocity?: number
+  engagement_rate?: number
+}
 
-// chemin du fichier dans /public
-const FILE_URL = '/json.txt';
+type OEmbed = { thumbnail_url?: string; title?: string }
 
-const toNum = (v: unknown) =>
-  v === null || v === undefined || v === '' ? undefined : Number(v);
+const DEFAULT_SRC = '/json.txt'
 
-// garde le plus long groupe de chiffres (sécurise les IDs TikTok)
-const normalizeId = (v: unknown) => {
-  const s = typeof v === 'string' ? v : String(v ?? '');
-  const m = s.match(/\d{5,}/);
-  return (m ? m[0] : s).trim();
-};
+/* ── Icons ─────────────────────────────────────────────── */
 
-const uniqNormalize = (arr: unknown[]) => {
-  const seen = new Set<string>();
-  const out: string[] = [];
-  for (const raw of arr) {
-    const id = normalizeId(raw);
-    if (!id || seen.has(id)) continue;
-    seen.add(id);
-    out.push(id);
-  }
-  return out;
-};
+function IcoTikTok() {
+  return (
+    <svg width={14} height={14} viewBox="0 0 256 256" fill="currentColor" aria-hidden>
+      <path d="M224 88.4c-23.6 0-42.8-19.2-42.8-42.8V32h-36.6v132.1c0 19.7-16 35.7-35.7 35.7s-35.7-16-35.7-35.7 16-35.7 35.7-35.7c2.4 0 4.7.2 6.9.7V92.6c-2.3-.3-4.6-.5-6.9-.5-39.8 0-72.2 32.4-72.2 72.2s32.4 72.2 72.2 72.2 72.2-32.4 72.2-72.2v-56c12.1 8.7 26.9 13.9 42.8 13.9v-33.8z" />
+    </svg>
+  )
+}
+function ArrowIcon() {
+  return (
+    <svg width={12} height={12} viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden>
+      <path d="M3 8h10M9 4l4 4-4 4" />
+    </svg>
+  )
+}
+function ChevLeft() {
+  return (
+    <svg width={18} height={18} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden>
+      <path d="M15 6l-6 6 6 6" />
+    </svg>
+  )
+}
+function ChevRight() {
+  return (
+    <svg width={18} height={18} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden>
+      <path d="M9 6l6 6-6 6" />
+    </svg>
+  )
+}
+function PlayIcon() {
+  return (
+    <svg width={36} height={36} viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+      <path d="M8 5v14l11-7z" />
+    </svg>
+  )
+}
 
-const erTikTok = (likes?: number, comments?: number, shares?: number, views?: number) => {
-  const L = Number(likes ?? 0),
-    C = Number(comments ?? 0),
-    S = Number(shares ?? 0),
-    V = Number(views ?? 0);
-  if (!Number.isFinite(V) || V <= 0) return 0;
-  return ((L + C + S) / V) * 100;
-};
+/* ── Helpers ───────────────────────────────────────────── */
 
-export default function VideosTikTok() {
-  const railRef = React.useRef<HTMLDivElement | null>(null);
+const nfCompact = new Intl.NumberFormat('fr-FR', { notation: 'compact', compactDisplay: 'short' })
 
-  const [idList, setIdList] = React.useState<string[]>([]);
-  const [thumbs, setThumbs] = React.useState<Record<string, OEmbed | null>>({});
-  const [apiStats, setApiStats] = React.useState<
-    Record<string, { title?: string; views?: number; likes?: number; comments?: number; shares?: number; er?: number }>
-  >({});
-  const [openId, setOpenId] = React.useState<string | null>(null);
-  const [loading, setLoading] = React.useState(true);
-  const [error, setError] = React.useState<string | null>(null);
+function fmt(n: number | undefined) {
+  return n != null && n > 0 ? nfCompact.format(n) : '—'
+}
 
-  const nf = React.useMemo(
-    () => new Intl.NumberFormat('fr-FR', { notation: 'compact', compactDisplay: 'short' }),
-    []
-  );
+/* ── Component ─────────────────────────────────────────── */
 
-  // 1) Lire les données depuis /public/json.txt
+export default function VideosTikTok({ src = DEFAULT_SRC }: { src?: string }) {
+  const railRef = React.useRef<HTMLDivElement | null>(null)
+
+  const [items,   setItems]   = React.useState<JsonItem[]>([])
+  const [thumbs,  setThumbs]  = React.useState<Record<string, OEmbed | null>>({})
+  const [openId,  setOpenId]  = React.useState<string | null>(null)
+  const [loading, setLoading] = React.useState(true)
+  const [error,   setError]   = React.useState<string | null>(null)
+
+  /* 1 — Load JSON */
   React.useEffect(() => {
-    let cancelled = false;
-    (async () => {
+    let cancelled = false
+    setItems([])
+    setThumbs({})
+    ;(async () => {
       try {
-        setLoading(true);
-        setError(null);
+        setLoading(true)
+        setError(null)
+        const res = await fetch(src, { cache: 'no-store' })
+        if (!res.ok) throw new Error(`${src} → ${res.status}`)
+        const text = await res.text()
+        const data = JSON.parse(text.trim()) as JsonItem[]
+        if (!Array.isArray(data)) throw new Error('Tableau JSON invalide')
 
-        const res = await fetch(FILE_URL, { cache: 'no-store' });
-        if (!res.ok) {
-          const txt = await res.text().catch(() => '');
-          throw new Error(`${FILE_URL} -> ${res.status} ${txt}`);
-        }
+        const sorted = data
+          .filter((it) => !!it?.tiktok_video_id)
+          .sort((a, b) => {
+            const da = a.create_time ? new Date(a.create_time).getTime() : 0
+            const db = b.create_time ? new Date(b.create_time).getTime() : 0
+            return db - da
+          })
 
-        // support .txt contenant du JSON
-        const text = await res.text();
-        let data: unknown;
-        try {
-          data = JSON.parse(text);
-        } catch {
-          // si jamais le txt a un BOM/garbage, on tente un trim
-          data = JSON.parse(text.trim());
-        }
-
-        if (!Array.isArray(data)) {
-          throw new Error('Le fichier ne contient pas un tableau JSON valide.');
-        }
-
-        // on trie par date décroissante si dispo
-        const items = (data as JsonItem[]).slice().sort((a, b) => {
-          const da = a?.date ? new Date(a.date).getTime() : 0;
-          const db = b?.date ? new Date(b.date).getTime() : 0;
-          return db - da;
-        });
-
-        const stats: Record<
-          string,
-          { title?: string; views?: number; likes?: number; comments?: number; shares?: number; er?: number }
-        > = {};
-        const rawIds: string[] = [];
-
-        for (const it of items) {
-          const nid = normalizeId(it?.id);
-          if (!nid) continue;
-          rawIds.push(nid);
-          const views = toNum(it?.views);
-          const likes = toNum(it?.likes);
-          const comments = toNum(it?.comments);
-          const shares = toNum(it?.shares);
-          const er =
-            typeof it?.engagementRate === 'number'
-              ? it.engagementRate
-              : erTikTok(likes, comments, shares, views);
-
-          stats[nid] = {
-            title: it?.title,
-            views,
-            likes,
-            comments,
-            shares,
-            er,
-          };
-        }
-
-        const uniq = uniqNormalize(rawIds);
-
-        if (!cancelled) {
-          setIdList(uniq);
-          setApiStats(stats);
-        }
+        if (!cancelled) setItems(sorted)
       } catch (e: unknown) {
         if (!cancelled) {
-          const msg = e instanceof Error ? e.message : String(e);
-          console.error(msg);
-          setError(msg);
-          setIdList([]); // pas d'IDs si lecture KO
+          setError(e instanceof Error ? e.message : String(e))
+          setItems([])
         }
       } finally {
-        if (!cancelled) setLoading(false);
+        if (!cancelled) setLoading(false)
       }
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, []);
+    })()
+    return () => { cancelled = true }
+  }, [])
 
-  // 2) oEmbed thumbnails via proxy (on conserve le mécanisme)
+  /* 2 — oEmbed thumbnails */
   React.useEffect(() => {
-    let cancelled = false;
-    if (idList.length === 0) return;
+    let cancelled = false
+    const ids = items.map((it) => it.tiktok_video_id)
+    if (ids.length === 0) return
 
     const chunk = <T,>(arr: T[], size: number) =>
-      Array.from({ length: Math.ceil(arr.length / size) }, (_, i) => arr.slice(i * size, i * size + size));
+      Array.from({ length: Math.ceil(arr.length / size) }, (_, i) => arr.slice(i * size, i * size + size))
 
-    (async () => {
+    ;(async () => {
       try {
         const maps = await Promise.all(
-          chunk(idList, 25).map(async (part) => {
-            const r = await fetch(`/api/tiktok-oembed?ids=${encodeURIComponent(part.join(','))}`, {
-              cache: 'no-store',
-            });
-            if (!r.ok) return {};
-            const j = await r.json();
-            return (j?.map || {}) as Record<string, OEmbed | null>;
+          chunk(ids, 25).map(async (part) => {
+            const r = await fetch(`/api/tiktok-oembed?ids=${encodeURIComponent(part.join(','))}`, { cache: 'no-store' })
+            if (!r.ok) return {}
+            const j = await r.json()
+            return (j?.map || {}) as Record<string, OEmbed | null>
           })
-        );
+        )
         if (!cancelled) {
-          const merged: Record<string, OEmbed | null> = {};
-          maps.forEach((m) => Object.assign(merged, m));
-          setThumbs(merged);
+          const merged: Record<string, OEmbed | null> = {}
+          maps.forEach((m) => Object.assign(merged, m))
+          setThumbs(merged)
         }
-      } catch {
-        // silencieux, on rendra quand même avec titres/stats
-      }
-    })();
+      } catch { /* silencieux */ }
+    })()
+    return () => { cancelled = true }
+  }, [items, src])
 
-    return () => {
-      cancelled = true;
-    };
-  }, [idList]);
+  const scroll = (dir: 'left' | 'right') => {
+    const rail = railRef.current
+    if (!rail) return
+    rail.scrollBy({ left: Math.round(rail.clientWidth * 0.85) * (dir === 'left' ? -1 : 1), behavior: 'smooth' })
+  }
 
-  const scrollByCards = (dir: 'left' | 'right') => {
-    const rail = railRef.current;
-    if (!rail) return;
-    const delta = Math.round(rail.clientWidth * 0.9) * (dir === 'left' ? -1 : 1);
-    rail.scrollBy({ left: delta, behavior: 'smooth' });
-  };
-
-  const getCardMeta = (id: string) => {
-    const api = apiStats[id] || {};
-    const o = thumbs[id] || undefined;
-    const title = api.title || o?.title || 'Vidéo TikTok';
-    const views = api.views ?? 0;
-    const likes = api.likes ?? 0;
-    const er =
-      typeof api.er === 'number'
-        ? api.er
-        : erTikTok(api.likes, api.comments, api.shares, api.views);
-
-    return { title, views, likes, engagementRate: er, thumb: o?.thumbnail_url };
-  };
-
-  const renderList: (string | null)[] = loading ? Array.from({ length: 8 }).map(() => null) : [...idList, '__SEE_MORE__'];
+  /* Render list: real items + "see more" card at end */
+  const renderList = loading
+    ? (Array.from({ length: 8 }, () => null) as null[])
+    : [...items, '__MORE__' as const]
 
   return (
-    <Section id="videos-tiktok" className="py-14">
-      <div className="mb-6 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-        <SectionHeading kicker="Communauté" title="Toutes les vidéos TikTok" className="mb-0" />
-        <div className="hidden sm:flex items-center gap-2">
+    <div>
+      {/* Sub-header */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24 }}>
+        <p style={{ fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.28em', color: 'var(--muted)' }}>
+          TikTok · {loading ? '…' : `${items.length} vidéos`}
+        </p>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <a
             href="https://www.tiktok.com/@sanstransition"
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-2 rounded-full border border-border bg-muted px-3 h-9 text-sm text-foreground hover:bg-muted/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
+            className="btn-outline-st"
+            style={{ padding: '7px 14px', fontSize: 10 }}
           >
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" className="h-4 w-4 fill-current" aria-hidden>
-              <path d="M224 88.4c-23.6 0-42.8-19.2-42.8-42.8V32h-36.6v132.1c0 19.7-16 35.7-35.7 35.7s-35.7-16-35.7-35.7 16-35.7 35.7-35.7c2.4 0 4.7.2 6.9.7V92.6c-2.3-.3-4.6-.5-6.9-.5-39.8 0-72.2 32.4-72.2 72.2S70.4 236.5 110.2 236.5c39.8 0 72.2-32.4 72.2-72.2v-56c12.1 8.7 26.9 13.9 42.8 13.9v-33.8z" />
-            </svg>
-            <span>Suivre sur TikTok</span>
+            <IcoTikTok /> Suivre <ArrowIcon />
           </a>
-          <button onClick={() => scrollByCards('left')} className="p-2 rounded-full bg-muted hover:bg-muted/80 text-foreground">
-            <ChevronLeft className="h-5 w-5" />
-          </button>
-          <button onClick={() => scrollByCards('right')} className="p-2 rounded-full bg-muted hover:bg-muted/80 text-foreground">
-            <ChevronRight className="h-5 w-5" />
-          </button>
+          {(['left', 'right'] as const).map((dir) => (
+            <button
+              key={dir}
+              onClick={() => scroll(dir)}
+              aria-label={dir === 'left' ? 'Défiler à gauche' : 'Défiler à droite'}
+              style={{
+                background: 'none',
+                border: '1px solid var(--border2)',
+                borderRadius: 2,
+                padding: 6,
+                cursor: 'pointer',
+                color: 'var(--muted)',
+                display: 'flex',
+                alignItems: 'center',
+              }}
+            >
+              {dir === 'left' ? <ChevLeft /> : <ChevRight />}
+            </button>
+          ))}
         </div>
       </div>
 
-      {error && <p className="text-sm text-red-400 mb-4 break-all">{error}</p>}
+      {error && (
+        <p style={{ fontSize: 12, color: '#ef4444', marginBottom: 16, wordBreak: 'break-all' }}>{error}</p>
+      )}
 
-      <div className="relative">
-        <div
-          ref={railRef}
-          className="flex gap-4 overflow-x-auto pb-2 snap-x snap-mandatory scroll-smooth [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']"
-        >
-          {renderList.map((id, i) => {
-            const isSkeleton = id === null;
-            const isSeeMore = id === '__SEE_MORE__';
-            const key = isSkeleton ? `skeleton-${i}` : (id as string);
-            const meta = !isSkeleton && !isSeeMore ? getCardMeta(id as string) : undefined;
-
+      {/* Scrollable rail */}
+      <div
+        ref={railRef}
+        style={{
+          display: 'flex',
+          gap: 1,
+          overflowX: 'auto',
+          scrollSnapType: 'x mandatory',
+          scrollBehavior: 'smooth',
+          scrollbarWidth: 'none',
+          msOverflowStyle: 'none',
+          background: 'var(--border)',
+          border: '1px solid var(--border)',
+          borderRadius: 3,
+        }}
+      >
+        {renderList.map((item, i) => {
+          /* skeleton */
+          if (item === null) {
             return (
-              <div key={key} className="flex-shrink-0 w-[250px] md:w-[280px] lg:w-[320px] snap-start">
-                {isSeeMore ? (
-                  <a
-                    href="https://www.tiktok.com/@sanstransition"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group relative block aspect-[9/16] w-full rounded-2xl overflow-hidden border border-border bg-muted shadow-[0_10px_30px_rgba(0,0,0,0.15)] hover:shadow-[0_14px_34px_rgba(0,0,0,0.2)] transition-shadow"
-                    aria-label="Voir plus sur TikTok"
-                  >
-                    <div className="w-full h-full bg-muted" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-                    <div className="absolute inset-0 flex flex-col items-center justify-center text-foreground">
-                      <span className="text-2xl font-semibold tracking-tight">Voir +</span>
-                      <ArrowUpRight className="mt-2 h-6 w-6 opacity-80 group-hover:opacity-100 transition" />
-                    </div>
-                  </a>
-                ) : (
-                  <>
-                    <button
-                      onClick={() => !isSkeleton && setOpenId(id as string)}
-                      className="group relative block aspect-[9/16] w-full rounded-2xl overflow-hidden border border-border bg-card shadow-[0_10px_30px_rgba(0,0,0,0.15)] hover:shadow-[0_14px_34px_rgba(0,0,0,0.2)] transition-shadow"
-                      disabled={isSkeleton}
-                    >
-                      {isSkeleton ? (
-                        <div className="w-full h-full animate-pulse bg-muted" />
-                      ) : meta?.thumb ? (
-                        <img src={meta.thumb} alt={meta.title} className="w-full h-full object-cover" loading="lazy" decoding="async" />
-                      ) : (
-                        <div className="w-full h-full bg-muted">
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                          <div className="absolute inset-0 flex items-end p-3">
-                            <p className="text-foreground text-sm leading-snug line-clamp-3">
-                              {meta?.title || 'Vidéo TikTok'}
-                            </p>
-                          </div>
-                        </div>
-                      )}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
-                      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                        <Play className="h-12 w-12 text-white/80 group-hover:text-white transition" />
-                      </div>
-                    </button>
+              <div
+                key={`sk-${i}`}
+                style={{
+                  flexShrink: 0,
+                  width: 200,
+                  scrollSnapAlign: 'start',
+                  background: 'var(--surface)',
+                  aspectRatio: '9/16',
+                }}
+              />
+            )
+          }
 
-                    {!isSkeleton && (
-                      <div className="mt-2 rounded-xl border border-border bg-card p-3">
-                        <p className="text-[13px] leading-snug text-foreground line-clamp-2">{meta?.title}</p>
-                        <div className="mt-2 flex items-center justify-between text-[11px] text-muted-foreground">
-                          <span className="inline-flex items-center gap-1.5">
-                            <Eye className="h-3.5 w-3.5" />
-                            {nf.format(meta?.views ?? 0)}
-                          </span>
-                          <span className="inline-flex items-center gap-1.5">
-                            <Heart className="h-3.5 w-3.5" />
-                            {nf.format(meta?.likes ?? 0)}
-                          </span>
-                          <span className="inline-flex items-center gap-1.5">
-                            <Percent className="h-3.5 w-3.5" />
-                            {(meta?.engagementRate ?? 0).toFixed(1)}%
-                          </span>
-                        </div>
-                      </div>
-                    )}
-                  </>
+          /* see-more */
+          if (item === '__MORE__') {
+            return (
+              <a
+                key="more"
+                href="https://www.tiktok.com/@sanstransition"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  flexShrink: 0,
+                  width: 200,
+                  scrollSnapAlign: 'start',
+                  background: 'var(--surface)',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  textDecoration: 'none',
+                  gap: 8,
+                  aspectRatio: '9/16',
+                }}
+              >
+                <span style={{ fontSize: 22, fontWeight: 700, color: 'var(--fg)' }}>Voir +</span>
+                <ArrowIcon />
+              </a>
+            )
+          }
+
+          /* video card */
+          const id    = item.tiktok_video_id
+          const thumb = thumbs[id]?.thumbnail_url
+          const title = item.title || thumbs[id]?.title || 'Vidéo TikTok'
+          const dateLabel = item.create_time
+            ? new Date(item.create_time).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' })
+            : undefined
+
+          return (
+            <div
+              key={id}
+              style={{
+                flexShrink: 0,
+                width: 200,
+                scrollSnapAlign: 'start',
+                background: 'var(--bg)',
+                display: 'flex',
+                flexDirection: 'column',
+              }}
+            >
+              {/* Thumbnail */}
+              <button
+                onClick={() => setOpenId(id)}
+                style={{
+                  display: 'block',
+                  width: '100%',
+                  aspectRatio: '9/16',
+                  position: 'relative',
+                  background: 'var(--surface2)',
+                  border: 'none',
+                  cursor: 'pointer',
+                  padding: 0,
+                  overflow: 'hidden',
+                }}
+              >
+                {thumb && (
+                  <img
+                    src={thumb}
+                    alt={title}
+                    style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                )}
+                <div style={{
+                  position: 'absolute', inset: 0,
+                  background: 'linear-gradient(to top, rgba(0,0,0,0.72) 0%, transparent 55%)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                }}>
+                  <span style={{ color: 'rgba(255,255,255,0.65)' }}><PlayIcon /></span>
+                </div>
+              </button>
+
+              {/* Meta */}
+              <div style={{ padding: '10px 12px', borderTop: '1px solid var(--border)', flex: 1, display: 'flex', flexDirection: 'column', gap: 6 }}>
+                <p style={{
+                  fontSize: 11,
+                  color: 'var(--fg)',
+                  lineHeight: 1.4,
+                  display: '-webkit-box',
+                  WebkitLineClamp: 2,
+                  WebkitBoxOrient: 'vertical',
+                  overflow: 'hidden',
+                }}>
+                  {title}
+                </p>
+
+                {/* Stats row */}
+                <div style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  fontSize: 10,
+                  color: 'var(--muted)',
+                  fontVariantNumeric: 'tabular-nums',
+                  marginTop: 'auto',
+                }}>
+                  <span title="Vues">{fmt(item.views)} vues</span>
+                  <span title="Taux d'engagement">{item.engagement_rate != null ? `${item.engagement_rate.toFixed(1)}% ER` : '—'}</span>
+                </div>
+
+                {dateLabel && (
+                  <p style={{ fontSize: 9, color: 'var(--border2)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+                    {dateLabel}
+                  </p>
                 )}
               </div>
-            );
-          })}
-        </div>
+            </div>
+          )
+        })}
       </div>
 
+      {/* Modal */}
       {openId && (
         <div
-          className="fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center"
           onClick={() => setOpenId(null)}
+          style={{
+            position: 'fixed', inset: 0, zIndex: 50,
+            background: 'rgba(0,0,0,0.75)',
+            backdropFilter: 'blur(8px)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+          }}
         >
-            <div
-            className="relative w-[min(92vw,420px)] max-h-[88vh] rounded-3xl overflow-hidden border border-border bg-card shadow-[0_20px_60px_rgba(0,0,0,0.5)]"
+          <div
             onClick={(e) => e.stopPropagation()}
+            style={{
+              position: 'relative',
+              width: 'min(92vw, 400px)',
+              borderRadius: 3,
+              overflow: 'hidden',
+              border: '1px solid var(--border)',
+              background: 'var(--bg)',
+            }}
           >
             <iframe
               src={`https://www.tiktok.com/embed/v2/${openId}?autoplay=1&muted=1`}
               allow="autoplay; fullscreen; encrypted-media; picture-in-picture; clipboard-write"
               allowFullScreen
-              className="w-full h-[min(80vh,720px)] aspect-[9/16] bg-card"
+              style={{ width: '100%', aspectRatio: '9/16', maxHeight: '80vh', border: 'none', display: 'block' }}
             />
             <button
               onClick={() => setOpenId(null)}
-              className="absolute top-3 right-3 text-muted-foreground hover:text-foreground text-2xl"
+              style={{
+                position: 'absolute', top: 8, right: 8,
+                background: 'rgba(0,0,0,0.65)',
+                border: '1px solid var(--border)',
+                borderRadius: 2,
+                color: 'var(--fg)',
+                cursor: 'pointer',
+                fontSize: 18,
+                lineHeight: 1,
+                padding: '2px 8px',
+              }}
               aria-label="Fermer"
             >
               ×
@@ -347,6 +398,6 @@ export default function VideosTikTok() {
           </div>
         </div>
       )}
-    </Section>
-  );
+    </div>
+  )
 }

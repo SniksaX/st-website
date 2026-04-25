@@ -1,0 +1,38 @@
+/* XP Scrollbar */
+.scrollbar-xp::-webkit-scrollbar {
+    width: 17px;
+    height: 17px;
+    background-color: #FFFFFF;
+}
+
+.scrollbar-xp::-webkit-scrollbar-track {
+    background-color: #F1F1F1;
+    /* Track color */
+    border-left: 1px solid #E0E0E0;
+    box-shadow: inset 1px -1px 0px white, inset -1px 1px 0px #E0E0E0;
+}
+
+.scrollbar-xp::-webkit-scrollbar-thumb {
+    background-color: #C2D5FC;
+    /* Blueish thumnb */
+    border: 1px solid #7F9DB9;
+    border-radius: 0px;
+    box-shadow: inset 1px 1px 0px white;
+}
+
+.scrollbar-xp::-webkit-scrollbar-thumb:hover {
+    background-color: #9CB7F5;
+}
+
+.scrollbar-xp::-webkit-scrollbar-button {
+    background-color: #F1F1F1;
+    width: 17px;
+    height: 17px;
+    border: 1px solid #E0E0E0;
+    box-shadow: inset 1px 1px 0px white, inset -1px -1px 0px #A0A0A0;
+    display: block;
+}
+
+/* Arrows approximation with background images or pure CSS shapes if possible, 
+   but for now just default buttons styled to look a bit "raised" 
+*/

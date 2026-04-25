@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "subscribers": [
+    {
+      "emailHash": "e34034f73c6e4b77b7623fd0fd81a26ebc3ccc77ad76a779502058a6f4548a77",
+      "emailEncrypted": "+kThopOWel4YSAIL:SgRtBteT8S+4A9uxicDoWw==:smvDLX++8qaOkEgU4wtU6g==",
+      "source": "/00",
+      "consentAt": "2026-02-26T09:39:51.422Z",
+      "lastSubmittedAt": "2026-04-13T08:59:05.509Z",
+      "unsubscribedAt": null,
+      "ipHash": "c06b1e7f54bafbd55fe52a37f76d1ee003252498f57ba838087688b562ca06b6",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36"
+    },
+    {
+      "emailHash": "16443e8bb90c1ce667fde5c229e58c0466c70489aa92cc1b8fb1d2a11530b245",
+      "emailEncrypted": "N840Q5Eh88zfTwm1:3+FFEVAyts6rg4yfg+nBuw==:YcIyRJ0XMuxcHPnLIxthhx1q5LjH/Os=",
+      "source": "/00",
+      "consentAt": "2026-04-11T12:14:18.061Z",
+      "lastSubmittedAt": "2026-04-11T12:14:18.061Z",
+      "unsubscribedAt": null,
+      "ipHash": "c06b1e7f54bafbd55fe52a37f76d1ee003252498f57ba838087688b562ca06b6",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36"
+    },
+    {
+      "emailHash": "fd87084572816da90b08d4bd9399d353d88a4c362c533a8ad3e909dd9bfae232",
+      "emailEncrypted": "w0aAcJ4JcsrwDTlA:XDSdJsfVc5r3FLYAvMv+WQ==:J8Y0nnx429iVqouWdpC2PayAiGxvTkJkgPDrahk=",
+      "source": "/00",
+      "consentAt": "2026-04-13T08:31:08.701Z",
+      "lastSubmittedAt": "2026-04-13T08:31:08.701Z",
+      "unsubscribedAt": null,
+      "ipHash": "c06b1e7f54bafbd55fe52a37f76d1ee003252498f57ba838087688b562ca06b6",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36"
+    }
+  ]
+}

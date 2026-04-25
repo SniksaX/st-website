@@ -1,442 +1,377 @@
-﻿// ✅ Version corrigée et complète avec accents UTF-8
+'use client'
 
+import { useEffect } from 'react'
+import Link from 'next/link'
+import Header from '@/components/Header'
+import Footer from '@/components/Footer'
+import DonProgress from '@/components/DonProgress'
+import HelloAssoWidget from '@/components/HelloAssoWidget'
+import FacesMosaic from '@/components/FacesMosaic'
 
+function BackIcon() {
+  return (
+    <svg width={12} height={12} viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden>
+      <path d="M13 8H3M7 4l-4 4 4 4" />
+    </svg>
+  )
+}
+function ShieldIcon() {
+  return (
+    <svg width={14} height={14} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden>
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+    </svg>
+  )
+}
+function HeartIcon() {
+  return (
+    <svg width={14} height={14} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden>
+      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+    </svg>
+  )
+}
+function EuroIcon() {
+  return (
+    <svg width={14} height={14} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden>
+      <path d="M4 10h12M4 14h12M19.5 8.27A6.97 6.97 0 0 0 12 5C8.13 5 5 8.13 5 12s3.13 7 7 7a6.97 6.97 0 0 0 7.5-3.73" />
+    </svg>
+  )
+}
 
-// ✅ Version corrigée et complète avec accents UTF-8
+function ReceiptIcon() {
+  return (
+    <svg width={14} height={14} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden>
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" /><polyline points="14 2 14 8 20 8" /><line x1="16" y1="13" x2="8" y2="13" /><line x1="16" y1="17" x2="8" y2="17" /><polyline points="10 9 9 9 8 9" />
+    </svg>
+  )
+}
 
-import type React from "react";
-import Section from "@/components/Section";
-import BoutonSoutenir from "@/components/BoutonSoutenir";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { ArrowRight, Sparkles, Users } from "lucide-react";
-import { MotionDiv } from "@/components/ClientMotion";
-import DonProgress from "@/components/DonProgress";
-import FacesMosaic from "@/components/FacesMosaic";
-import DonHeader from "@/components/don/DonHeader";
-import DonGradientBG from "@/components/don/GradientBG";
-import DonTrustBadge from "@/components/don/TrustBadge";
-import DonTextBlock from "@/components/don/TextBlock";
-import HelloAssoWidget from "@/components/HelloAssoWidget";
+const TRUST_BADGES = [
+  { icon: <ShieldIcon />, label: 'Association loi 1901' },
+  { icon: <EuroIcon />,   label: 'Financement 100 % citoyen' },
+  { icon: <HeartIcon />,  label: "Pas de pubs, pas d'actionnaires" },
+  { icon: <ReceiptIcon />, label: 'Dons défiscalisés — reçu fiscal' },
+]
 
-// Local alias to keep existing JSX unchanged
-const TrustBadge = DonTrustBadge;
-const TextBlock = DonTextBlock;
-
-export const metadata = {
-  title: "Soutenir Sans Transition — Don",
-  description:
-    "Un média par et pour les minorités. Pas pour les milliardaires. Aidez-nous à devenir stables et indépendants en rejoignant les 1000 personnes qui donnent 2 € / mois.",
-};
-
-const HELLOASSO_URL =
-  "https://www.helloasso.com/beta/associations/sans-transition/formulaires/1";
-const HELLOASSO_ONE_TIME_URL = HELLOASSO_URL; // TODO: remplacer par le lien don ponctuel dédié si différent
+const FAQ = [
+  {
+    q: 'Dons défiscalisés ?',
+    a: "Oui. Sans Transition est reconnue d'intérêt général : vos dons ouvrent droit à une réduction d'impôt de 66 % du montant versé. Un don de 2 €/mois vous revient à 0,74 € réels (24 €/an → 7,92 € après réduction). Un reçu fiscal vous est envoyé automatiquement.",
+  },
+  {
+    q: 'Paiement sécurisé ?',
+    a: 'Les dons sont traités par HelloAsso (HTTPS, 3-D Secure). Nous ne stockons pas vos données bancaires.',
+  },
+  {
+    q: 'RGPD et données personnelles',
+    a: 'Nous collectons le minimum nécessaire pour les reçus fiscaux et la gestion des dons, conformément au RGPD.',
+  },
+  {
+    q: 'Résilier un don mensuel',
+    a: 'Vous pouvez modifier ou arrêter votre soutien à tout moment via votre espace HelloAsso.',
+  },
+]
 
 export default function DonPage() {
+  useEffect(() => {
+    const els = document.querySelectorAll('.rv')
+    const obs = new IntersectionObserver(
+      (entries) => entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add('on') }),
+      { threshold: 0.08 }
+    )
+    els.forEach((el) => obs.observe(el))
+    return () => obs.disconnect()
+  }, [])
+
   return (
-    <main id="don" className="relative z-10 min-h-screen bg-background text-foreground overflow-x-clip">
-      <DonGradientBG />
-      <DonHeader helloassoUrl={HELLOASSO_URL} />
+    <div style={{ background: 'var(--bg)', color: 'var(--fg)', minHeight: '100vh' }}>
+      <Header />
 
-      {/* Page-wide grid with sticky sidebar */}
-      <div className="relative isolate">
-        <div className="mx-auto max-w-[1400px] px-6 lg:px-8">
-          <div className="grid lg:grid-cols-[1fr_380px] gap-12">
-            {/* Left: Main Content Column */}
-            <div className="min-w-0">
-              {/* HERO — dark remix - Full width background */}
-              <section className="relative">
-                {/* Hero content */}
-                <div className="relative z-10 pt-32 pb-20 min-w-0">
-                  <MotionDiv
-                    initial={{ opacity: 0, scale: 0.92 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.5, delay: 0.05 }}
-                  >
-                    <div className="inline-flex items-center gap-2 rounded-full border border-fuchsia-500/20 bg-fuchsia-500/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-fuchsia-700 dark:text-fuchsia-200 mb-6">
-                      <Sparkles className="h-3.5 w-3.5" /> Campagne de soutien
-                    </div>
-                  </MotionDiv>
-
-                  <MotionDiv
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.7, delay: 0.2 }}
-                  >
-                    <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.02] mb-4">
-                      <span className="text-foreground">La Transition — </span>
-                      <span className="bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-neutral-100 dark:from-white dark:via-white dark:to-neutral-100 drop-shadow-[0_2px_10px_rgba(0,0,0,0.35)]">
-                        l’indépendance ou rien.
-                      </span>
-                    </h1>
-                  </MotionDiv>
-
-                  <MotionDiv
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.4 }}
-                  >
-                    <p className="text-lg sm:text-xl text-foreground/95 leading-relaxed max-w-xl mb-8">
-                      1 000 personnes × 2 €/mois = un média libre et stable. Sans Transition est un média
-                      indépendant, construit par et pour les minorités. Notre mission : faire exister
-                      les voix qu’on n’écoute jamais, raconter les luttes avec justesse et proposer des
-                      analyses radicalement différentes.
-                    </p>
-                  </MotionDiv>
-
-                  <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5">
-                    {[
-                      { icon: "shield" as const, text: "Association loi 1901", delay: 0.5 },
-                      { icon: "euro" as const, text: "Financement 100 % citoyen", delay: 0.6 },
-                      { icon: "heartHandshake" as const, text: "Pas de pubs, pas d'actionnaires", delay: 0.7 },
-                      { icon: "target" as const, text: "Indépendance par la communauté", delay: 0.8 },
-                    ].map((badge) => (
-                      <MotionDiv
-                        key={badge.text}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.5, delay: badge.delay }}
-                      >
-                        <TrustBadge icon={badge.icon} text={badge.text} />
-                      </MotionDiv>
-                    ))}
-                  </div>
-
-                  <div className="flex flex-col sm:flex-row gap-4 mt-8">
-                    <MotionDiv
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5, delay: 0.9 }}
-                      whileHover={{ y: -2, scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                      className="w-full sm:w-auto"
-                    >
-                      <Button
-                        asChild
-                        size="lg"
-                        className="rounded-2xl bg-gradient-to-r from-fuchsia-600 to-orange-500 hover:from-fuchsia-500 hover:to-orange-400 text-white font-semibold h-14 px-10 text-base shadow-[0_16px_36px_rgba(168,85,247,0.35)]"
-                      >
-                        <a href={HELLOASSO_URL} target="_blank" rel="noreferrer">
-                          Je rejoins la Transition <ArrowRight className="ml-2 h-5 w-5" />
-                        </a>
-                      </Button>
-                    </MotionDiv>
-                    <MotionDiv
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5, delay: 1 }}
-                      whileHover={{ y: -2, scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                      className="w-full sm:w-auto"
-                    >
-                    </MotionDiv>
-                  </div>
-                </div>
-              </section>
-
-              {/* HAW mobile (HelloAsso Widget) */}
-              <section className="lg:hidden pb-16">
-                <div className="w-full rounded-2xl border border-border bg-card/80 backdrop-blur-md p-4 shadow-2xl ring-1 ring-border">
-                  <HelloAssoWidget className="mx-auto" />
-                  <p className="mt-4 text-xs text-center text-muted-foreground">
-                    Paiement sécurisé via HelloAsso. Aucune donnée bancaire stockée par Sans Transition.
-                  </p>
-                </div>
-              </section>
-
-              {/* Pourquoi La Transition ? */}
-              <Section className="py-20 relative">
-                <div className="max-w-5xl mx-auto">
-                  <MotionDiv
-                    initial={{ opacity: 0, y: 12 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5 }}
-                    className="text-center mb-12"
-                  >
-                    <div className="inline-flex items-center gap-2 rounded-full border border-fuchsia-500/20 bg-fuchsia-500/10 px-4 py-1.5 text-xs font-medium uppercase tracking-wider text-fuchsia-700 dark:text-fuchsia-200 mb-4">
-                      <Sparkles className="h-3.5 w-3.5" /> Pourquoi maintenant
-                    </div>
-                    <h2 className="text-4xl sm:text-6xl font-extrabold leading-tight mb-4">
-                      <span className="text-foreground">Pourquoi </span>
-                      <span className="bg-clip-text text-transparent bg-gradient-to-r from-fuchsia-400 via-pink-300 to-orange-300">La Transition ?</span>
-                    </h2>
-                    <div className="mx-auto h-1 w-24 bg-gradient-to-r from-fuchsia-500 to-orange-500 rounded-full" />
-                    <p className="mt-6 text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto">
-                      Parce qu’on ne peut pas être libres sans moyens.
-                    </p>
-                  </MotionDiv>
-
-                  {/* bandeau de valeurs (auto-scroll) - Enhanced with animations */}
-                  <MotionDiv
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.7, delay: 0.8 }}
-                  >
-                    <div className="relative overflow-hidden rounded-2xl border border-border/50 bg-card/30 backdrop-blur-sm p-2">
-                      <div className="flex gap-8 min-w-max py-3 px-6 text-sm sm:text-base font-semibold tracking-wide text-foreground/90 whitespace-nowrap animate-scroll-x">
-                        {/* DUPLICATED CONTENT FOR INFINITE LOOP */}
-                        {[
-                          "INDÉPENDANCE",
-                          "COMMUNAUTÉ",
-                          "JUSTICE SOCIALE",
-                          "FÉMINISME",
-                          "ANTIRACISME",
-                          "ACCESSIBILITÉ",
-                          "ÉDUC POP",
-                          "INDÉPENDANCE",
-                          "COMMUNAUTÉ",
-                          "JUSTICE SOCIALE",
-                          "FÉMINISME",
-                          "ANTIRACISME",
-                          "ACCESSIBILITÉ",
-                          "ÉDUC POP",
-                          // loop copy
-                          "INDÉPENDANCE",
-                          "COMMUNAUTÉ",
-                          "JUSTICE SOCIALE",
-                          "FÉMINISME",
-                          "ANTIRACISME",
-                          "ACCESSIBILITÉ",
-                          "ÉDUC POP",
-                          "INDÉPENDANCE",
-                          "COMMUNAUTÉ",
-                          "JUSTICE SOCIALE",
-                          "FÉMINISME",
-                          "ANTIRACISME",
-                          "ACCESSIBILITÉ",
-                          "ÉDUC POP",
-                        ].map((txt, i) => (
-                          <span
-                            key={i}
-                            className={
-                              txt === "INDÉPENDANCE"
-                                ? "text-transparent bg-clip-text bg-gradient-to-r from-fuchsia-400 to-pink-400 font-extrabold"
-                                : ""
-                            }
-                          >
-                            {txt}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </MotionDiv>
-
-                  <MotionDiv
-                    initial={{ opacity: 0, scale: 0.95 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6, delay: 0.2 }}
-                    className="mt-8"
-                  >
-                    <DonProgress goal={1000} />
-                  </MotionDiv>
-
-                </div>
-              </Section>
-
-              {/* Pourquoi on existe */}
-              <Section className="py-20">
-                <div className="max-w-5xl mx-auto">
-                  <MotionDiv
-                    initial={{ opacity: 0, y: 12 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5 }}
-                    className="text-center mb-14"
-                  >
-                    <h2 className="text-3xl sm:text-5xl font-extrabold text-foreground mb-4">Pourquoi on existe</h2>
-                    <div className="w-20 h-1 bg-gradient-to-r from-fuchsia-500 to-orange-500 mx-auto rounded-full" />
-                  </MotionDiv>
-
-                  <div className="grid md:grid-cols-2 gap-10">
-                    <TextBlock delay={0.05}>
-                      Sans Transition, c’est des invité·es, des analyses féministes, anticoloniales, historiques.
-                      C’est du terrain, des micros tendus à celles et ceux qu’on n’écoute jamais. C’est un média
-                      qui relie la rage et la tendresse, la lutte et la réflexion.
-                    </TextBlock>
-                    <TextBlock delay={0.1}>
-                      En 2026, on veut aller plus loin :{" "}
-                      <strong className="text-foreground">
-                        lancer un grand projet de reportages, libres et populaires, avec des associations et des
-                        figures de la gauche
-                      </strong>
-                      , pour raconter les luttes de l’intérieur et montrer les nouvelles formes d’organisation
-                      politique dans les quartiers populaires.
-                    </TextBlock>
-                  </div>
-                </div>
-              </Section>
-
-              {/* Pourquoi on a besoin de vous */}
-              <Section className="py-20">
-                <div className="max-w-3xl mx-auto text-center">
-                  <MotionDiv
-                    initial={{ opacity: 0, y: 12 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5 }}
-                  >
-                    <h2 className="text-3xl sm:text-5xl font-extrabold text-foreground mb-4">Pourquoi on a besoin de vous</h2>
-                    <div className="w-20 h-1 bg-gradient-to-r from-fuchsia-500 to-orange-500 mx-auto rounded-full mb-8" />
-
-                    <div className="prose prose-lg max-w-none space-y-6 text-center">
-                      <p className="text-muted-foreground leading-relaxed">
-                        En septembre, avec la monétisation TikTok, on a gagné <strong className="text-foreground">20 €</strong>.
-                        Vingt euros pour un mois de tournages, d’interviews, de montages, de nuits blanches. Ce n’est pas
-                        assez pour vivre. Pas assez pour continuer.
-                      </p>
-                      <p className="text-muted-foreground leading-relaxed">
-                        Au centre de ce média, il y a moi, Hedji. Si ce contenu est gratuit, il n’en est pas moins coûteux.
-                        Et pourtant je continue. Parce que j’y crois. Parce que Sans Transition, ce n’est pas juste un média :
-                        c’est une manière de faire de la politique autrement.
-                      </p>
-                    </div>
-
-                  </MotionDiv>
-                </div>
-              </Section>
-
-              <div className="max-w-5xl mx-auto px-6 lg:px-8">
-                <Separator className="bg-border" />
-              </div>
-
-              {/* Invitation */}
-              <Section className="py-20">
-                <div className="max-w-3xl mx-auto text-center">
-                  <MotionDiv
-                    initial={{ opacity: 0, y: 12 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5 }}
-                  >
-                    <div className="inline-flex items-center gap-2 rounded-full border border-orange-500/20 bg-orange-500/10 px-4 py-1.5 text-xs font-medium uppercase tracking-wider text-orange-700 dark:text-orange-200 mb-6">
-                      <Users className="h-3.5 w-3.5" /> Rejoignez la communauté
-                    </div>
-
-                    <h2 className="text-3xl sm:text-5xl font-extrabold text-foreground mb-4">
-                      L’Invitation à coconstruire
-                    </h2>
-                    <div className="w-20 h-1 bg-gradient-to-r from-fuchsia-500 to-orange-500 mx-auto rounded-full mb-8" />
-
-                    <div className="prose prose-lg max-w-none mx-auto space-y-6 mb-10">
-                      <p className="text-muted-foreground leading-relaxed">
-                        Parce que Sans Transition, ce n’est pas « mon » média. C’est le nôtre. Chaque don, chaque partage,
-                        chaque geste fait partie d’un projet collectif. Notre travail restera en accès libre.
-                      </p>
-                      <p className="text-foreground font-semibold text-xl leading-relaxed">
-                        Devenez l’une des 1000 personnes qui feront la différence. Soutenez notre développement, investissez
-                        dans Sans Transition maintenant.
-                      </p>
-                      <p className="text-muted-foreground leading-relaxed">
-                        Rejoignez la communauté qui construit activement l’avenir du média sur{" "}
-                        <strong className="text-foreground">sanstransition.fr</strong>.
-                      </p>
-                    </div>
-
-                    <p className="text-muted-foreground text-sm mt-8 italic">
-                      Toi aussi, transitionne. C’était Hedji pour ST. Bisous mes vies.
-                    </p>
-                  </MotionDiv>
-                </div>
-              </Section>
-
-              {/* FAQ (déplacée en fin de page pour conclure) */}
-              <Section className="py-20">
-                <div className="max-w-4xl mx-auto">
-                  <MotionDiv
-                    initial={{ opacity: 0, y: 12 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5 }}
-                    className="text-center mb-10"
-                  >
-                    <h2 className="text-3xl sm:text-5xl font-extrabold text-foreground mb-4">FAQ</h2>
-                    <div className="w-20 h-1 bg-gradient-to-r from-fuchsia-500 to-orange-500 mx-auto rounded-full mb-3" />
-                    <p className="text-muted-foreground">Sécurité, RGPD, résiliation</p>
-                  </MotionDiv>
-
-                  <div className="space-y-6 text-muted-foreground">
-                    <div>
-                      <p className="text-foreground font-semibold mb-1">Paiement sécurisé ?</p>
-                      <p>Les dons sont traités par HelloAsso (HTTPS, 3-D Secure). Nous ne stockons pas vos données bancaires.</p>
-                    </div>
-                    <div>
-                      <p className="text-foreground font-semibold mb-1">RGPD et données personnelles</p>
-                      <p>Nous collectons le minimum nécessaire pour les reçus fiscaux et la gestion des dons, conformément au RGPD.</p>
-                    </div>
-                    <div>
-                      <p className="text-foreground font-semibold mb-1">Résilier un don mensuel</p>
-                      <p>Vous pouvez modifier ou arrêter votre soutien à tout moment via votre espace HelloAsso.</p>
-                    </div>
-                  </div>
-                </div>
-              </Section>
-
-              {/* Les visages de ST — mosaïque de vidéos */}
-              <Section className="py-20">
-                <div className="max-w-5xl mx-auto">
-                  <MotionDiv
-                    initial={{ opacity: 0, y: 12 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5 }}
-                    className="text-center mb-10"
-                  >
-                    <h2 className="text-3xl sm:text-5xl font-extrabold text-foreground mb-4">Les visages de ST</h2>
-                    <div className="w-20 h-1 bg-gradient-to-r from-fuchsia-500 to-orange-500 mx-auto rounded-full mb-3" />
-                    <p className="text-muted-foreground">Extraits vidéo depuis notre TikTok</p>
-                  </MotionDiv>
-
-                  <MotionDiv
-                    initial={{ opacity: 0, scale: 0.9, rotateY: -15 }}
-                    whileInView={{ opacity: 1, scale: 1, rotateY: 0 }}
-                    viewport={{ once: true, amount: 0.2 }}
-                    transition={{
-                      duration: 1,
-                      type: "spring",
-                      stiffness: 50
-                    }}
-                    whileHover={{
-                      scale: 1.02,
-                      rotateY: 2,
-                      transition: { duration: 0.3 }
-                    }}
-                    style={{ perspective: 1200 }}
-                  >
-                    <FacesMosaic fileUrl="/json_don.txt" variant="static" />
-                  </MotionDiv>
-                </div>
-              </Section>
-
-            </div>
-            {/* Close: Left Main Content Column */}
-
-            {/* Right: Sticky Sidebar - Persists through entire page */}
-            <MotionDiv
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, delay: 0.3 }}
-              className="hidden lg:block relative z-10"
-            >
-              <div className="sticky top-28 h-fit pt-0">
-                <div className="w-full rounded-2xl border border-border bg-card/80 backdrop-blur-md p-4 shadow-2xl ring-1 ring-border">
-                  <HelloAssoWidget className="mx-auto" />
-                  <p className="mt-4 text-xs text-center text-muted-foreground">
-                    Paiement sécurisé via HelloAsso. Aucune donnée bancaire stockée par Sans Transition.
-                  </p>
-                </div>
-              </div>
-            </MotionDiv>
-          </div>
-          {/* Close: grid */}
+      {/* Page header */}
+      <div style={{
+        padding: 'calc(var(--hh) + clamp(40px,6vw,80px)) clamp(16px,4vw,48px) 0',
+        maxWidth: 1440,
+        margin: '0 auto',
+      }}>
+        {/* Breadcrumb */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 32 }}>
+          <Link href="/" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.2em', color: 'var(--muted)', textDecoration: 'none' }}>
+            <BackIcon /> Accueil
+          </Link>
+          <span style={{ fontSize: 11, color: 'var(--border2)' }}>/</span>
+          <span style={{ fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.2em', color: 'var(--fg2)' }}>Soutenir</span>
         </div>
-        {/* Close: max-w container */}
-      </div >
-      {/* Close: page-wide wrapper */}
 
-    </main >
-  );
+        {/* Title block */}
+        <div style={{
+          paddingBottom: 24,
+          marginBottom: 0,
+          borderBottom: '1px solid var(--border)',
+        }}>
+          <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 24, flexWrap: 'wrap' }}>
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 16 }}>
+                <span className="grad-line" />
+                <span style={{ fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.28em', color: 'var(--muted)' }}>
+                  Campagne de soutien
+                </span>
+              </div>
+              <h1 style={{ fontSize: 'clamp(32px,5vw,64px)', fontWeight: 700, letterSpacing: '-0.03em', lineHeight: 0.95 }}>
+                <span style={{ WebkitTextStroke: '1.5px var(--fg)', WebkitTextFillColor: 'transparent', display: 'block' }}>L&apos;indépendance</span>
+                <span className="grad-text" style={{ display: 'block' }}>ou rien.</span>
+              </h1>
+            </div>
+            <p style={{ fontSize: 14, color: 'var(--fg2)', maxWidth: 360, lineHeight: 1.65, textAlign: 'right' }}>
+              1 000 personnes × 2 €/mois = un média libre et stable. Sans pub, sans actionnaire, sans compromis.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Two-column layout */}
+      <div style={{
+        maxWidth: 1440,
+        margin: '0 auto',
+        padding: 'clamp(48px,6vw,80px) clamp(16px,4vw,48px)',
+        display: 'grid',
+        gridTemplateColumns: 'minmax(0, 1fr) 380px',
+        gap: 'clamp(32px,4vw,64px)',
+        alignItems: 'start',
+      }}
+        className="don-grid"
+      >
+        {/* Left: content */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+
+          {/* Trust badges */}
+          <div className="rv" style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gap: 1,
+            background: 'var(--border)',
+            border: '1px solid var(--border)',
+            borderRadius: 3,
+            overflow: 'hidden',
+            marginBottom: 48,
+          }}>
+            {TRUST_BADGES.map((b) => (
+              <div key={b.label} className="grid-cell" style={{ padding: '20px 24px', display: 'flex', alignItems: 'center', gap: 12 }}>
+                <span style={{ color: 'var(--muted)' }}>{b.icon}</span>
+                <span style={{ fontSize: 12, color: 'var(--fg2)', letterSpacing: '0.02em' }}>{b.label}</span>
+              </div>
+            ))}
+          </div>
+
+          {/* Progress */}
+          <div className="rv" style={{ marginBottom: 48 }}>
+            <div style={{ marginBottom: 16 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12 }}>
+                <span className="grad-line" />
+                <span style={{ fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.28em', color: 'var(--muted)' }}>
+                  Objectif
+                </span>
+              </div>
+            </div>
+            <DonProgress goal={1000} />
+          </div>
+
+          {/* Ticker strip */}
+          <div className="rv" style={{
+            border: '1px solid var(--border)',
+            borderRadius: 3,
+            overflow: 'hidden',
+            marginBottom: 48,
+            background: 'var(--surface)',
+            padding: '14px 0',
+          }}>
+            <div style={{
+              display: 'flex',
+              gap: 48,
+              whiteSpace: 'nowrap',
+              animation: 'scroll-x 18s linear infinite',
+              paddingLeft: 32,
+            }}>
+              {['INDÉPENDANCE', 'COMMUNAUTÉ', 'JUSTICE SOCIALE', 'FÉMINISME', 'ANTIRACISME', 'ACCESSIBILITÉ', 'ÉDUC POP',
+                'INDÉPENDANCE', 'COMMUNAUTÉ', 'JUSTICE SOCIALE', 'FÉMINISME', 'ANTIRACISME', 'ACCESSIBILITÉ', 'ÉDUC POP'].map((t, i) => (
+                <span key={i} style={{
+                  fontSize: 11,
+                  fontWeight: 700,
+                  letterSpacing: '0.2em',
+                  textTransform: 'uppercase',
+                  color: t === 'INDÉPENDANCE' ? 'transparent' : 'var(--fg2)',
+                  ...(t === 'INDÉPENDANCE' ? { background: 'var(--grad)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' } : {}),
+                }}>{t}</span>
+              ))}
+            </div>
+          </div>
+
+          {/* Pourquoi on existe */}
+          <div className="rv" style={{ marginBottom: 48 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 }}>
+              <span className="grad-line" />
+              <span style={{ fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.28em', color: 'var(--muted)' }}>
+                Pourquoi on existe
+              </span>
+            </div>
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: '1fr 1fr',
+              gap: 1,
+              background: 'var(--border)',
+              border: '1px solid var(--border)',
+              borderRadius: 3,
+              overflow: 'hidden',
+            }}
+              className="text-grid-2"
+            >
+              <div className="grid-cell" style={{ padding: 'clamp(20px,2.5vw,32px)' }}>
+                <p style={{ fontSize: 14, color: 'var(--fg2)', lineHeight: 1.7 }}>
+                  Sans Transition, c&apos;est des invité·es, des analyses féministes, anticoloniales, historiques. C&apos;est du terrain, des micros tendus à celles et ceux qu&apos;on n&apos;écoute jamais. C&apos;est un média qui relie la rage et la tendresse, la lutte et la réflexion.
+                </p>
+              </div>
+              <div className="grid-cell" style={{ padding: 'clamp(20px,2.5vw,32px)' }}>
+                <p style={{ fontSize: 14, color: 'var(--fg2)', lineHeight: 1.7 }}>
+                  En 2026, on veut aller plus loin : <strong style={{ color: 'var(--fg)' }}>lancer un grand projet de reportages, libres et populaires</strong>, pour raconter les luttes de l&apos;intérieur et montrer les nouvelles formes d&apos;organisation politique dans les quartiers populaires.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Pourquoi on a besoin de vous */}
+          <div className="rv" style={{ marginBottom: 48 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 }}>
+              <span className="grad-line" />
+              <span style={{ fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.28em', color: 'var(--muted)' }}>
+                Pourquoi on a besoin de vous
+              </span>
+            </div>
+            <div style={{
+              border: '1px solid var(--border)',
+              borderRadius: 3,
+              background: 'var(--surface)',
+              padding: 'clamp(24px,3vw,40px)',
+            }}>
+              <p style={{ fontSize: 14, color: 'var(--fg2)', lineHeight: 1.7, marginBottom: 16 }}>
+                En septembre, avec la monétisation TikTok, on a gagné <strong style={{ color: 'var(--fg)' }}>20 €</strong>. Vingt euros pour un mois de tournages, d&apos;interviews, de montages, de nuits blanches. Ce n&apos;est pas assez pour vivre. Pas assez pour continuer.
+              </p>
+              <p style={{ fontSize: 14, color: 'var(--fg2)', lineHeight: 1.7 }}>
+                Au centre de ce média, il y a moi, Hedji. Si ce contenu est gratuit, il n&apos;en est pas moins coûteux. Et pourtant je continue. Parce que j&apos;y crois. Parce que Sans Transition, ce n&apos;est pas juste un média : c&apos;est une manière de faire de la politique autrement.
+              </p>
+            </div>
+          </div>
+
+          {/* L'invitation */}
+          <div className="rv" style={{ marginBottom: 48 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 }}>
+              <span className="grad-line" />
+              <span style={{ fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.28em', color: 'var(--muted)' }}>
+                Rejoindre la communauté
+              </span>
+            </div>
+            <div style={{
+              border: '1px solid var(--border)',
+              borderRadius: 3,
+              background: 'var(--surface)',
+              padding: 'clamp(24px,3vw,40px)',
+            }}>
+              <p style={{ fontSize: 14, color: 'var(--fg2)', lineHeight: 1.7, marginBottom: 16 }}>
+                Parce que Sans Transition, ce n&apos;est pas « mon » média. C&apos;est le nôtre. Chaque don, chaque partage, chaque geste fait partie d&apos;un projet collectif. Notre travail restera en accès libre.
+              </p>
+              <p style={{ fontSize: 16, fontWeight: 600, color: 'var(--fg)', lineHeight: 1.65, marginBottom: 16 }}>
+                Devenez l&apos;une des 1000 personnes qui feront la différence. Soutenez notre développement, investissez dans Sans Transition maintenant.
+              </p>
+              <p style={{ fontSize: 12, color: 'var(--muted)', fontStyle: 'italic' }}>
+                Toi aussi, transitionne. C&apos;était Hedji pour ST. Bisous mes vies.
+              </p>
+            </div>
+          </div>
+
+          {/* FAQ */}
+          <div className="rv" style={{ marginBottom: 48 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 }}>
+              <span className="grad-line" />
+              <span style={{ fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.28em', color: 'var(--muted)' }}>
+                FAQ
+              </span>
+            </div>
+            <div style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 1,
+              background: 'var(--border)',
+              border: '1px solid var(--border)',
+              borderRadius: 3,
+              overflow: 'hidden',
+            }}>
+              {FAQ.map((item) => (
+                <div key={item.q} className="grid-cell" style={{ padding: 'clamp(16px,2vw,24px) clamp(20px,2.5vw,32px)' }}>
+                  <p style={{ fontSize: 12, fontWeight: 700, color: 'var(--fg)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8 }}>{item.q}</p>
+                  <p style={{ fontSize: 13, color: 'var(--fg2)', lineHeight: 1.65 }}>{item.a}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Les visages */}
+          <div className="rv">
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 }}>
+              <span className="grad-line" />
+              <span style={{ fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.28em', color: 'var(--muted)' }}>
+                Les visages de ST
+              </span>
+            </div>
+            <FacesMosaic fileUrl="/json_don.txt" variant="static" />
+          </div>
+
+        </div>
+
+        {/* Right: sticky widget */}
+        <div style={{ position: 'sticky', top: 'calc(var(--hh) + 24px)' }} className="don-sidebar">
+          <div style={{
+            border: '1px solid var(--border)',
+            borderRadius: 3,
+            background: 'var(--surface)',
+            padding: 'clamp(16px,2vw,24px)',
+            marginBottom: 16,
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 }}>
+              <span className="grad-line" />
+              <span style={{ fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.28em', color: 'var(--muted)' }}>
+                Faire un don
+              </span>
+            </div>
+            <HelloAssoWidget className="don-widget" />
+            <p style={{ marginTop: 12, fontSize: 11, color: 'var(--muted)', textAlign: 'center' }}>
+              Paiement sécurisé via HelloAsso. Aucune donnée bancaire stockée par Sans Transition.
+            </p>
+            <div style={{
+              marginTop: 10,
+              padding: '10px 14px',
+              background: 'var(--bg)',
+              border: '1px solid var(--border)',
+              borderRadius: 2,
+              display: 'flex',
+              gap: 8,
+            
+              alignItems: 'flex-start',
+            }}>
+              <span style={{ fontSize: 13, flexShrink: 0 }}>🧾</span>
+              <p style={{ fontSize: 11, color: 'var(--fg2)', lineHeight: 1.6 }}>
+                <strong style={{ color: 'var(--fg)' }}>Don défiscalisé.</strong> Réduction d&apos;impôt de 66 % — 2 €/mois vous revient à <strong style={{ color: 'var(--fg)' }}>0,74 € réels</strong>. Reçu fiscal automatique.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <style>{`
+        @media (max-width: 860px) {
+          .don-grid { grid-template-columns: 1fr !important; }
+          .don-sidebar { position: static !important; }
+          .text-grid-2 { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
+
+      <Footer />
+    </div>
+  )
 }
