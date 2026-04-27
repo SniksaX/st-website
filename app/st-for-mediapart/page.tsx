@@ -86,12 +86,19 @@ const FORMATS = [
   },
 ]
 
+// er = taux d'engagement (%) · sr = share rate (%)
 const PILOT_DATA = [
-  { sujet: 'Loi Yadan', vues: '535 111', sr: '2,62 %', nabo: '96 %', signal: 'Viralité totale FYP', level: 'top' },
-  { sujet: 'Extrême gauche (LFI)', vues: '16 280', sr: '1,28 %', nabo: '70 %', signal: 'Seuil viral franchi', level: 'yes' },
-  { sujet: 'Iran pt.1', vues: '17 499', sr: '0,82 %', nabo: '71 %', signal: 'Fort reach hors communauté', level: 'no' },
-  { sujet: 'Rima Hassan (GAV)', vues: '2 037', sr: '1,33 %', nabo: '26 %', signal: 'SR viral, reach contenu', level: 'yes' },
-  { sujet: 'Peine de mort', vues: '2 778', sr: '0,94 %', nabo: '40 %', signal: 'Juste sous le seuil', level: 'no' },
+  { sujet: 'Loi Yadan',                  vues: '546 243', er: 17.4, sr: 2.58, top: true },
+  { sujet: 'Iran pt. 1',                 vues: '17 621',  er: 24.9, sr: 0.82, top: false },
+  { sujet: 'LFI = extrême gauche ?',     vues: '16 325',  er: 25.7, sr: 1.27, top: false },
+  { sujet: 'Concentration des médias',   vues: '9 944',   er: 25.9, sr: 0.72, top: false },
+  { sujet: 'Violences policières',       vues: '4 452',   er: 27.8, sr: 0.54, top: false },
+  { sujet: 'Iran pt. 2',                 vues: '3 849',   er: 24.1, sr: 0.44, top: false },
+  { sujet: 'Diplomatie Trump',           vues: '3 453',   er: 26.6, sr: 0.46, top: false },
+  { sujet: 'Dossiers Epstein',           vues: '3 313',   er: 19.5, sr: 0.63, top: false },
+  { sujet: 'Municipales — 2e tour',      vues: '3 303',   er: 23.6, sr: 0.30, top: false },
+  { sujet: 'Peine de mort (Knesset)',    vues: '2 964',   er: 24.3, sr: 0.88, top: false },
+  { sujet: 'Rima Hassan — GAV',          vues: '2 523',   er: 23.7, sr: 1.19, top: false },
 ]
 
 const TL = [
@@ -117,12 +124,229 @@ const SHOWCASE_ITEMS = [
 const NAV = [
   { id: 'mp-hero',        label: 'Intro' },
   { id: 'mp-proposition', label: 'Proposition' },
-  { id: 'mp-histoire',    label: 'Pilote' },
   { id: 'mp-formats',     label: 'Formats' },
+  { id: 'mp-histoire',    label: 'Pilote' },
+  { id: 'mp-videos',      label: 'Épisodes' },
   { id: 'mp-audience',    label: 'Audience' },
   { id: 'mp-manifesto',   label: 'Éthique' },
   { id: 'mp-cta',         label: 'Contact' },
 ]
+
+/* ── Video data ──────────────────────────────────────────── */
+interface VidItem { id: string; title: string; date: string; views: number; er: number; shares: number }
+
+const VIDEOS_LEMEDIA: VidItem[] = [
+  { id: '7623463034530401569', title: 'Loi Yadan — criminaliser la critique de l\'État hébreu', date: 'Mars 2026', views: 546243, er: 17.4, shares: 14103 },
+  { id: '7613049538198195478', title: 'Iran — ils libèrent un peuple, ils frappent une école', date: 'Mars 2026', views: 17621, er: 24.9, shares: 145 },
+  { id: '7610467542531951894', title: 'LFI = extrême gauche ? Comment paver le chemin à la droite', date: 'Fév. 2026', views: 16325, er: 25.7, shares: 208 },
+  { id: '7606798495110171927', title: 'Concentration des médias — à qui profite la neutralité ?', date: 'Fév. 2026', views: 9944, er: 25.9, shares: 72 },
+  { id: '7602353869598870806', title: 'Violences policières — El Hacen Diarra', date: 'Fév. 2026', views: 4452, er: 27.8, shares: 24 },
+  { id: '7628310754516634902', title: 'Garde-à-vue illégale de Rima Hassan', date: 'Avr. 2026', views: 2523, er: 23.7, shares: 30 },
+  { id: '7626054527329848608', title: 'Peine de mort pour les Palestiniens — Knesset', date: 'Avr. 2026', views: 2964, er: 24.3, shares: 26 },
+  { id: '7619403100780154115', title: 'Municipales — second tour, LFI et extrême droite', date: 'Mars 2026', views: 3303, er: 23.6, shares: 10 },
+  { id: '7615678953944026390', title: 'Iran pt. 2', date: 'Mars 2026', views: 3849, er: 24.1, shares: 17 },
+  { id: '7604942850769325334', title: 'Dossiers Epstein — ce qu\'ils révèlent', date: 'Fév. 2026', views: 3313, er: 19.5, shares: 21 },
+  { id: '7599749031916490006', title: 'Diplomatie Trump', date: 'Jan. 2026', views: 3453, er: 26.6, shares: 16 },
+]
+
+const VIDEOS_MEDIAPART: VidItem[] = [
+  { id: '7593457658443681046', title: 'Kompromat de Saint-Étienne pt. 2 — le chantage', date: 'Jan. 2026', views: 10810, er: 20.9, shares: 40 },
+  { id: '7593068443847363862', title: 'Kompromat de Saint-Étienne pt. 1 — la sextape', date: 'Jan. 2026', views: 7666, er: 26.7, shares: 52 },
+  { id: '7593811948811308310', title: 'Kompromat de Saint-Étienne — le Fokus complet', date: 'Jan. 2026', views: 2072, er: 21.1, shares: 7 },
+]
+
+/* ── Video card deck ────────────────────────────────────── */
+function VideoPoster({ video, onPlay }: { video: VidItem; onPlay: () => void }) {
+  const [thumb, setThumb] = useState<string | null>(null)
+
+  useEffect(() => {
+    fetch(`/api/tiktok-oembed?ids=${video.id}`)
+      .then(r => r.json())
+      .then(d => {
+        const url = d?.map?.[video.id]?.thumbnail_url
+        if (url) setThumb(url)
+      })
+      .catch(() => {})
+  }, [video.id])
+
+  const fmtViews = (n: number) =>
+    n >= 1000000 ? `${(n / 1000000).toFixed(1)}M` : n >= 1000 ? `${(n / 1000).toFixed(n >= 100000 ? 0 : 1)}k` : String(n)
+
+  return (
+    <div
+      onClick={onPlay}
+      style={{
+        width: '100%', height: '100%', cursor: 'none',
+        position: 'relative', overflow: 'hidden',
+        background: '#0a0a14',
+      }}
+    >
+      {/* Thumbnail */}
+      {thumb
+        ? <img src={thumb} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+        : <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(ellipse at 60% 20%, oklch(0.72 0.27 290 / 0.12) 0%, transparent 60%)' }} />
+      }
+
+      {/* Dark overlay gradient — stronger at bottom for text legibility */}
+      <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(5,5,12,0.45) 0%, rgba(5,5,12,0.1) 30%, rgba(5,5,12,0.7) 65%, rgba(5,5,12,0.96) 100%)' }} />
+
+      {/* Gradient top accent line */}
+      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: 'linear-gradient(90deg,oklch(0.72 0.27 290),oklch(0.78 0.22 330) 48%,oklch(0.85 0.25 40))', zIndex: 2 }} />
+
+      {/* Top label */}
+      <div style={{ position: 'absolute', top: 12, left: 16, right: 16, display: 'flex', alignItems: 'center', gap: 8, zIndex: 2 }}>
+        <svg width="14" height="14" viewBox="0 0 32 32" fill="none" style={{ flexShrink: 0 }}>
+          <path d="M22.5 2h-4.3v19.3a4.3 4.3 0 1 1-4.3-4.3c.4 0 .8 0 1.2.1V12.7a8.6 8.6 0 1 0 7.4 8.5V10.7a12.8 12.8 0 0 0 7.5 2.4V8.7A7.5 7.5 0 0 1 22.5 2z" fill="rgba(255,255,255,0.7)"/>
+        </svg>
+        <span style={{ fontSize: 9, textTransform: 'uppercase', letterSpacing: '0.22em', color: 'rgba(255,255,255,0.5)' }}>TikTok</span>
+        <span style={{ marginLeft: 'auto', fontSize: 9, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.1em' }}>{video.date}</span>
+      </div>
+
+      {/* Bottom content */}
+      <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '0 18px 20px', zIndex: 2 }}>
+        {/* Title */}
+        <p style={{
+          fontSize: 13.5, fontWeight: 600, color: '#f0ede8', lineHeight: 1.5,
+          display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden',
+          letterSpacing: '-0.01em', marginBottom: 14,
+        }}>
+          {video.title}
+        </p>
+
+        {/* Stats */}
+        <div style={{ display: 'flex', gap: 14, alignItems: 'center', marginBottom: 14 }}>
+          <div>
+            <div style={{ fontSize: 16, fontWeight: 700, letterSpacing: '-0.03em', color: '#fff', fontVariantNumeric: 'tabular-nums' }}>{fmtViews(video.views)}</div>
+            <div style={{ fontSize: 8.5, textTransform: 'uppercase', letterSpacing: '0.18em', color: 'rgba(255,255,255,0.4)', marginTop: 1 }}>vues</div>
+          </div>
+          <div style={{ width: 1, height: 24, background: 'rgba(255,255,255,0.12)', flexShrink: 0 }} />
+          <div>
+            <div style={{ fontSize: 16, fontWeight: 700, letterSpacing: '-0.03em', color: '#fff', fontVariantNumeric: 'tabular-nums' }}>{video.er.toFixed(1)}%</div>
+            <div style={{ fontSize: 8.5, textTransform: 'uppercase', letterSpacing: '0.18em', color: 'rgba(255,255,255,0.4)', marginTop: 1 }}>engagement</div>
+          </div>
+          {video.shares > 50 && (
+            <>
+              <div style={{ width: 1, height: 24, background: 'rgba(255,255,255,0.12)', flexShrink: 0 }} />
+              <div>
+                <div style={{ fontSize: 16, fontWeight: 700, letterSpacing: '-0.03em', color: '#fff', fontVariantNumeric: 'tabular-nums' }}>{fmtViews(video.shares)}</div>
+                <div style={{ fontSize: 8.5, textTransform: 'uppercase', letterSpacing: '0.18em', color: 'rgba(255,255,255,0.4)', marginTop: 1 }}>partages</div>
+              </div>
+            </>
+          )}
+        </div>
+
+        {/* Play button */}
+        <div style={{
+          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
+          background: 'linear-gradient(90deg,oklch(0.72 0.27 290),oklch(0.78 0.22 330) 48%,oklch(0.85 0.25 40))',
+          color: '#fff', fontFamily: "'Space Grotesk',sans-serif", fontWeight: 600,
+          fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.22em',
+          padding: '12px 0', borderRadius: 3,
+        }}>
+          <svg width="11" height="11" viewBox="0 0 16 16" fill="currentColor"><path d="M4 2l10 6-10 6V2z"/></svg>
+          Regarder
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function VideoCardDeck({ videos, label }: { videos: VidItem[]; label: string }) {
+  const [front, setFront] = useState(0)
+  const [phase, setPhase] = useState<'idle' | 'out' | 'in'>('idle')
+  const [playing, setPlaying] = useState(false)
+
+  const advance = () => {
+    if (phase !== 'idle') return
+    setPlaying(false)
+    setPhase('out')
+    setTimeout(() => {
+      setFront(i => (i + 1) % videos.length)
+      setPhase('in')
+      setTimeout(() => setPhase('idle'), 320)
+    }, 340)
+  }
+
+  const card  = videos[front]
+  const next1 = videos[(front + 1) % videos.length]
+  const next2 = videos[(front + 2) % videos.length]
+
+  const CARD_W = 325
+  const CARD_H = 580
+
+  return (
+    <div>
+      <div style={{ fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.28em', color: '#5a5a72', marginBottom: 20, display: 'flex', alignItems: 'center', gap: 10 }}>
+        <span className="mp-grad-line" />{label} · {videos.length} épisode{videos.length > 1 ? 's' : ''}
+      </div>
+
+      {/* Stack */}
+      <div style={{ position: 'relative', width: CARD_W, height: CARD_H }}>
+
+        {/* Card ×2 (back) — decorative */}
+        <div style={{
+          position: 'absolute', top: 0, left: 0, width: CARD_W, height: CARD_H,
+          borderRadius: 12, overflow: 'hidden', zIndex: 1,
+          transform: 'translateX(20px) translateY(-16px) scale(0.91)',
+          opacity: 0.35, background: '#0d0d18', border: '1px solid #1c1c2c',
+        }}>
+          <div style={{ padding: '20px 18px', fontSize: 11, fontWeight: 600, color: '#3a3a54', lineHeight: 1.5 }}>{next2.title}</div>
+        </div>
+
+        {/* Card ×1 (middle) — decorative */}
+        <div style={{
+          position: 'absolute', top: 0, left: 0, width: CARD_W, height: CARD_H,
+          borderRadius: 12, overflow: 'hidden', zIndex: 2,
+          transform: 'translateX(10px) translateY(-8px) scale(0.955)',
+          opacity: 0.6, background: '#0d0d18', border: '1px solid #1c1c2c',
+        }}>
+          <div style={{ padding: '20px 18px', fontSize: 12, fontWeight: 600, color: '#5a5a72', lineHeight: 1.5 }}>{next1.title}</div>
+        </div>
+
+        {/* Front card — poster or TikTok embed */}
+        <div style={{
+          position: 'absolute', top: 0, left: 0, width: CARD_W, height: CARD_H,
+          borderRadius: 12, overflow: 'hidden', zIndex: 10,
+          transition: 'transform .36s cubic-bezier(0.4,0,0.2,1), opacity .28s ease',
+          transform: phase === 'out' ? 'translateX(-115%) rotate(-6deg)' : 'translateX(0) rotate(0)',
+          opacity: phase === 'out' ? 0 : 1,
+          boxShadow: '0 24px 64px rgba(0,0,0,0.6)',
+        }}>
+          {playing ? (
+            <iframe
+              key={card.id}
+              src={`https://www.tiktok.com/embed/v2/${card.id}?lang=fr-FR`}
+              style={{ width: '100%', height: '100%', border: 'none', display: 'block' }}
+              allowFullScreen
+              allow="encrypted-media"
+              title={card.title}
+            />
+          ) : (
+            <VideoPoster video={card} onPlay={() => setPlaying(true)} />
+          )}
+        </div>
+      </div>
+
+      {/* Controls */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 16, width: CARD_W }}>
+        <span style={{ fontSize: 10, color: '#3a3a54', letterSpacing: '0.12em', fontVariantNumeric: 'tabular-nums' }}>
+          {front + 1} / {videos.length}
+        </span>
+        <button
+          onClick={advance}
+          disabled={phase !== 'idle'}
+          className="mp-interactive"
+          style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'none', border: '1px solid #1c1c2c', color: '#a8a4b0', fontFamily: "'Space Grotesk',sans-serif", fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.2em', padding: '8px 14px', borderRadius: 2, cursor: 'none', transition: 'border-color .2s, color .2s' }}
+          onMouseEnter={e => { e.currentTarget.style.borderColor = '#3a3a54'; e.currentTarget.style.color = '#f0ede8' }}
+          onMouseLeave={e => { e.currentTarget.style.borderColor = '#1c1c2c'; e.currentTarget.style.color = '#a8a4b0' }}
+        >
+          Suivant
+          <svg width={10} height={10} viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M3 8h10M9 4l4 4-4 4" /></svg>
+        </button>
+      </div>
+    </div>
+  )
+}
 
 /* ── Timeline horizontal scroll ────────────────────────── */
 function TimelineScrollSection() {
@@ -155,7 +379,7 @@ function TimelineScrollSection() {
   }, [])
 
   return (
-    <section ref={containerRef} style={{ height: '320vh', background: '#08080e', position: 'relative', fontFamily: "'Space Grotesk',sans-serif" }}>
+    <section ref={containerRef} style={{ height: '270vh', background: '#08080e', position: 'relative', fontFamily: "'Space Grotesk',sans-serif" }}>
       <div style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
 
         {/* Header */}
@@ -176,7 +400,7 @@ function TimelineScrollSection() {
             <div id="mp-tl-track" style={{ display: 'flex', gap: 0, paddingLeft: 'calc((100vw - clamp(450px, 39vw, 630px)) / 2)', willChange: 'transform' }}>
               {TL.map((item, i) => (
                 <div key={i} className="mp-tl-hcard">
-                  <div style={{ fontSize: 11, letterSpacing: '0.18em', color: '#1c1c2c', fontVariantNumeric: 'tabular-nums', marginBottom: 20 }}>
+                  <div style={{ fontSize: 11, letterSpacing: '0.18em', color: '#5a5a72', fontVariantNumeric: 'tabular-nums', marginBottom: 20 }}>
                     {String(i + 1).padStart(2, '0')}
                   </div>
                   <div style={{ fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.22em', color: '#5a5a72', marginBottom: 10 }}>{item.date}</div>
@@ -204,9 +428,9 @@ function TimelineScrollSection() {
         {/* Bottom labels */}
         <div style={{ padding: '14px clamp(24px,5vw,64px) clamp(20px,2.5vw,32px)' }}>
           <div style={{ maxWidth: 1440, margin: '0 auto', display: 'flex', justifyContent: 'space-between' }}>
-            <span style={{ fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.2em', color: '#282840' }}>Fondation</span>
+            <span style={{ fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.2em', color: '#5a5a72' }}>Fondation</span>
             <span style={{ fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.2em', color: '#5a5a72' }}>{TL.length} jalons</span>
-            <span style={{ fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.2em', color: '#282840' }}>Ce dossier</span>
+            <span style={{ fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.2em', color: '#5a5a72' }}>Ce dossier</span>
           </div>
         </div>
 
@@ -249,7 +473,7 @@ function HorizontalScrollSection() {
   }, [])
 
   return (
-    <section ref={containerRef} style={{ height: '300vh', background: '#0d0d18', position: 'relative', fontFamily: "'Space Grotesk',sans-serif" }}>
+    <section ref={containerRef} style={{ height: '250vh', background: '#0d0d18', position: 'relative', fontFamily: "'Space Grotesk',sans-serif" }}>
       <div style={{ position: 'sticky', top: 0, height: '100vh', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
 
         {/* Header */}
@@ -275,7 +499,7 @@ function HorizontalScrollSection() {
               <div key={item.num} className="mp-hcard mp-interactive" style={{ animationDelay: `${i * 0.22}s` }}>
                 <div className="mp-hcard-glow" />
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                  <span style={{ fontSize: 11, letterSpacing: '0.2em', color: '#282840', fontVariantNumeric: 'tabular-nums' }}>{item.num}</span>
+                  <span style={{ fontSize: 11, letterSpacing: '0.2em', color: '#5a5a72', fontVariantNumeric: 'tabular-nums' }}>{item.num}</span>
                   <div className="mp-dot-pulse" style={{ width: 7, height: 7, borderRadius: '50%', background: 'linear-gradient(135deg,oklch(0.72 0.27 290),oklch(0.85 0.25 40))', animationDelay: `${i * 0.25}s` }} />
                 </div>
                 <div className="mp-grad-text" style={{ fontSize: 'clamp(48px,5.5vw,76px)', fontWeight: 700, letterSpacing: '-0.04em', lineHeight: 1, flex: 1, display: 'flex', alignItems: 'center' }}>
@@ -323,7 +547,7 @@ function PitchContent() {
 
   function goTo(id: string) {
     const el = document.getElementById(id)
-    if (el) window.scrollTo({ top: el.offsetTop - 60, behavior: 'smooth' })
+    if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 60, behavior: 'smooth' })
   }
 
   function toggleFormat(idx: number) {
@@ -339,8 +563,6 @@ function PitchContent() {
 
     let mx = window.innerWidth / 2, my = window.innerHeight / 2
     let rx = mx, ry = my, rafId = 0
-    const tickerEl  = document.querySelector('.mp-ticker-track') as HTMLElement | null
-    let lastSY = window.scrollY, tickerTarget = 28, tickerCur = 28
 
     const onMove = (e: MouseEvent) => {
       mx = e.clientX; my = e.clientY
@@ -355,10 +577,6 @@ function PitchContent() {
     const animRing = () => {
       rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12
       if (ring) { ring.style.left = rx + 'px'; ring.style.top = ry + 'px' }
-      // ticker velocity lerp — decay back to 28s when scroll stops
-      tickerTarget += (28 - tickerTarget) * 0.03
-      tickerCur    += (tickerTarget - tickerCur) * 0.07
-      if (tickerEl) tickerEl.style.animationDuration = `${tickerCur.toFixed(2)}s`
       rafId = requestAnimationFrame(animRing)
     }
     animRing()
@@ -371,13 +589,6 @@ function PitchContent() {
     }
     window.addEventListener('scroll', onScroll)
 
-    // ticker velocity: snap tickerTarget to fast speed on scroll
-    const onScrollVel = () => {
-      const delta = Math.abs(window.scrollY - lastSY)
-      lastSY = window.scrollY
-      if (delta > 0) tickerTarget = Math.max(4, 28 - delta * 1.1)
-    }
-    window.addEventListener('scroll', onScrollVel, { passive: true })
 
     // Hover cursor enlargement
     const interactEls = document.querySelectorAll('.mp-interactive')
@@ -395,12 +606,6 @@ function PitchContent() {
       rvEls.forEach(el => { if (el.getBoundingClientRect().top < window.innerHeight) el.classList.add('mp-on') })
     }, 60)
 
-    // Timeline dots
-    const tlObs = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('mp-on') })
-    }, { threshold: 0.5 })
-    document.querySelectorAll('.mp-tl-item').forEach(el => tlObs.observe(el))
-
     // Side nav
     const sections = document.querySelectorAll('[data-mp-section]')
     const dots = document.querySelectorAll('.mp-dot')
@@ -416,6 +621,20 @@ function PitchContent() {
     }, { threshold: 0.35 })
     sections.forEach(s => dotObs.observe(s))
 
+    // ER bars
+    const erObs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          const bar = e.target as HTMLElement
+          const pct = parseFloat(bar.dataset.erPct ?? '0')
+          bar.style.setProperty('--er-w', `${pct}%`)
+          bar.classList.add('mp-er-on')
+          erObs.unobserve(bar)
+        }
+      })
+    }, { threshold: 0.3 })
+    document.querySelectorAll('.mp-er-bar').forEach(el => erObs.observe(el))
+
     // Counters
     function animCount(el: Element) {
       const ds = (el as HTMLElement).dataset
@@ -428,7 +647,7 @@ function PitchContent() {
         const p = Math.min((now - t0) / dur, 1)
         const ease = 1 - Math.pow(1 - p, 3)
         const v = target * ease
-        el.textContent = isFloat ? v.toFixed(1) : Math.round(v) + (isPct ? '%' : 'k+')
+        el.textContent = isFloat ? v.toFixed(1) + (isPct ? ' %' : '') : Math.round(v) + (isPct ? '%' : '')
         if (p < 1) requestAnimationFrame(step)
       }
       requestAnimationFrame(step)
@@ -484,10 +703,9 @@ function PitchContent() {
     return () => {
       document.removeEventListener('mousemove', onMove)
       window.removeEventListener('scroll', onScroll)
-      window.removeEventListener('scroll', onScrollVel)
       cancelAnimationFrame(rafId)
       clearInterval(grainInterval)
-      rvObs.disconnect(); tlObs.disconnect(); dotObs.disconnect(); cntObs.disconnect()
+      rvObs.disconnect(); dotObs.disconnect(); cntObs.disconnect(); erObs.disconnect()
       interactEls.forEach(el => { el.removeEventListener('mouseenter', addH); el.removeEventListener('mouseleave', remH) })
       tiltCards.forEach(c => { c.removeEventListener('mousemove', onTiltMove as EventListener); c.removeEventListener('mouseleave', onTiltLeave as EventListener) })
       document.body.style.cursor = ''
@@ -545,14 +763,17 @@ function PitchContent() {
         .mp-format-row:hover { background:#0d0d18; }
         .mp-tl-dot { width:8px;height:8px;border-radius:50%;border:1px solid #282840;background:#08080e;position:relative;z-index:1;margin-top:8px;margin-left:11px;flex-shrink:0;transition:border-color .3s,background .3s; }
         .mp-tl-item.mp-on .mp-tl-dot { border-color:oklch(0.72 0.27 290);background:oklch(0.72 0.27 290 / .2); }
-        .mp-mf-line { font-size:clamp(22px,4vw,54px);font-weight:300;color:#5a5a72;line-height:1.4;cursor:none;padding:14px 0;position:relative;transition:color .3s; }
+        .mp-mf-line { font-size:clamp(22px,4vw,54px);font-weight:300;color:#7a7a90;line-height:1.4;cursor:none;padding:14px 0;position:relative;transition:color .3s; }
         .mp-mf-line::after { content:'';position:absolute;bottom:0;left:0;height:1px;width:0;background:linear-gradient(90deg,oklch(0.72 0.27 290),oklch(0.78 0.22 330) 48%,oklch(0.85 0.25 40));transition:width .55s cubic-bezier(0.4,0,0.2,1); }
         .mp-mf-line:hover { color:#f0ede8; }
         .mp-mf-line:hover::after { width:100%; }
         .mp-mf-kw { background:linear-gradient(90deg,oklch(0.72 0.27 290),oklch(0.78 0.22 330) 48%,oklch(0.85 0.25 40));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-weight:700; }
-        .mp-mf-left  { opacity:0;transform:translateX(-32px);transition:opacity .65s ease,transform .65s ease,color .3s; }
-        .mp-mf-right { opacity:0;transform:translateX(32px); transition:opacity .65s ease,transform .65s ease,color .3s; }
-        .mp-mf-left.mp-on,.mp-mf-right.mp-on { opacity:1;transform:translateX(0); }
+        .mp-mf-line.mp-rv { transform:translateY(18px) translateX(-40px); }
+        .mp-mf-line.mp-rv.mp-mf-right { transform:translateY(18px) translateX(40px); }
+        .mp-mf-line.mp-rv.mp-on { transform:translateY(0) translateX(0); opacity:1; }
+        .mp-mf-left  { opacity:0;transform:translateY(18px) translateX(-40px);transition:opacity .7s ease,transform .7s cubic-bezier(0.2,0,0,1),color .3s; }
+        .mp-mf-right { opacity:0;transform:translateY(18px) translateX(40px); transition:opacity .7s ease,transform .7s cubic-bezier(0.2,0,0,1),color .3s; }
+        .mp-mf-left.mp-on,.mp-mf-right.mp-on { opacity:1;transform:translateY(0) translateX(0); }
         .mp-ticker-track { display:flex;animation:mp-ticker 28s linear infinite;will-change:transform; }
         .mp-ticker-track:hover { animation-play-state:paused; }
         @keyframes mp-ticker { from{transform:translateX(0)} to{transform:translateX(-50%)} }
@@ -575,8 +796,10 @@ function PitchContent() {
         .mp-tl-hdot { width:8px;height:8px;border-radius:50%;border:1px solid #282840;background:#08080e;flex-shrink:0;transition:border-color .3s,background .3s; }
         .mp-tl-hcard:hover .mp-tl-hdot { border-color:oklch(0.72 0.27 290);background:oklch(0.72 0.27 290 / 0.2); }
         .mp-tl-hdot-last { background:linear-gradient(135deg,oklch(0.72 0.27 290),oklch(0.85 0.25 40));border-color:transparent; }
-        @media (max-width:860px) { .mp-prop-grid { grid-template-columns:1fr !important; } .mp-aud-grid { grid-template-columns:repeat(2,1fr) !important; } .mp-hist-grid { grid-template-columns:1fr !important; } #mp-side-nav { display:none; } }
+        @media (max-width:860px) { .mp-prop-grid { grid-template-columns:1fr !important; } .mp-aud-grid { grid-template-columns:1fr !important; } .mp-hist-grid { grid-template-columns:1fr !important; } #mp-side-nav { display:none; } }
         @media (max-width:640px) { body { cursor:auto !important; } #mp-cursor,#mp-cursor-ring { display:none; } }
+        .mp-er-bar { width:0 !important; }
+        .mp-er-bar.mp-er-on { width:var(--er-w) !important; }
       `}</style>
 
       <canvas id="mp-grain-c" style={{ position: 'fixed', inset: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 9996, opacity: 0.09, mixBlendMode: 'overlay' }} />
@@ -684,10 +907,10 @@ function PitchContent() {
         <div className="mp-ticker-track">
           {[1, 2].map(n => (
             <div key={n} style={{ display: 'inline-flex', flexShrink: 0 }} aria-hidden={n === 2 ? true : undefined}>
-              {['Radical', 'Queer', 'Féministe', 'Indépendant', 'Pédagogique', 'Sans bullshit', 'Par et pour les minorités', '100% citoyen', 'Zéro pub · Zéro milliardaire', 'Association loi 1901', 'Pipeline éditorial', '4,5 M vues', 'Share rate ≥ 1%'].map((w) => (
+              {['Radical', 'Queer', 'Féministe', 'Antiraciste', 'Indépendant', 'Pédagogique', 'Sans bullshit', 'Par et pour les minorités', '100% citoyen', 'Zéro pub · Zéro milliardaire', 'Association loi 1901', 'Pipeline éditorial', '4,5 M vues', 'Share rate ≥ 1%'].map((w) => (
                 <Fragment key={w + n}>
-                  <span style={{ display: 'inline-block', padding: '11px 20px', fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.26em', color: '#5a5a72' }}>{w}</span>
-                  <span style={{ display: 'inline-flex', alignItems: 'center', color: '#282840', fontSize: 14, padding: '0 4px', alignSelf: 'center' }}>·</span>
+                  <span style={{ display: 'inline-block', padding: '11px 20px', fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.26em', color: '#a8a4b0' }}>{w}</span>
+                  <span style={{ display: 'inline-flex', alignItems: 'center', color: '#5a5a72', fontSize: 14, padding: '0 4px', alignSelf: 'center' }}>·</span>
                 </Fragment>
               ))}
             </div>
@@ -729,72 +952,12 @@ function PitchContent() {
         </div>
       </section>
 
-      <TimelineScrollSection />
-
-      {/* ══ HISTOIRE / PILOTE ══ */}
-      <section id="mp-histoire" data-mp-section="mp-histoire" style={{ background: '#0d0d18', fontFamily: "'Space Grotesk',sans-serif" }}>
-        <div style={{ maxWidth: 1440, margin: '0 auto', padding: 'clamp(56px,7vw,96px) clamp(24px,5vw,64px)' }}>
-          <div className="mp-rv" style={{ paddingBottom: 20, marginBottom: 52, borderBottom: '1px solid #1c1c2c' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 14, fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.28em', color: '#5a5a72', marginBottom: 10 }}>
-              <span>02</span><span>— Notre parcours</span>
-            </div>
-            <h2 style={{ fontSize: 'clamp(22px,3.2vw,40px)', fontWeight: 700, letterSpacing: '-0.025em' }}>11 semaines de pilote · les preuves</h2>
-          </div>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 24, maxWidth: 720 }}>
-              <div className="mp-rv">
-                <p style={{ fontSize: 'clamp(15px,1.6vw,18px)', fontWeight: 300, color: '#a8a4b0', lineHeight: 1.75, marginBottom: 16 }}>
-                  Entre janvier et avril 2026, 11 semaines de collaboration sur le format exact. L&apos;indicateur-clé : le <strong style={{ color: '#f0ede8', fontWeight: 600 }}>share rate</strong>. Au-delà de 1,0 %, la vidéo sort de la bulle communautaire.
-                </p>
-              </div>
-
-              {/* Pilot table */}
-              <div className="mp-rv mp-d1" style={{ border: '1px solid #1c1c2c', borderRadius: 3, overflow: 'hidden' }}>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 80px 70px 1fr', background: '#1c1c2c', gap: 1 }}>
-                  {['Sujet', 'Vues', 'Share Rate', 'Signal'].map(h => (
-                    <div key={h} style={{ background: '#0d0d18', padding: '8px 12px', fontSize: 9, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.14em', color: '#5a5a72' }}>{h}</div>
-                  ))}
-                  {PILOT_DATA.map(row => (
-                    <Fragment key={row.sujet}>
-                      <div style={{ background: '#08080e', padding: '12px', fontSize: 12, color: row.level === 'top' ? '#f0ede8' : '#a8a4b0', fontWeight: row.level === 'top' ? 600 : 400 }}>{row.sujet}</div>
-                      <div style={{ background: '#08080e', padding: '12px', fontSize: 12, color: '#a8a4b0', fontVariantNumeric: 'tabular-nums' }}>{row.vues}</div>
-                      <div style={{ background: '#08080e', padding: '12px', fontSize: 12, fontWeight: 700, color: row.level === 'top' ? '#f59e0b' : row.level === 'yes' ? '#22c55e' : '#a8a4b0' }}>{row.sr}</div>
-                      <div style={{ background: '#08080e', padding: '12px', fontSize: 11, color: '#5a5a72' }}>{row.signal}</div>
-                    </Fragment>
-                  ))}
-                </div>
-              </div>
-              <p className="mp-rv mp-d2" style={{ fontSize: 10, color: '#5a5a72', fontStyle: 'italic' }}>
-                <span style={{ color: '#f59e0b' }}>■</span> Viralité totale FYP &nbsp;·&nbsp; <span style={{ color: '#22c55e' }}>■</span> Seuil viral franchi
-              </p>
-
-              {/* Mini stat cards */}
-              <div className="mp-rv mp-d3" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1, background: '#1c1c2c', borderRadius: 3, overflow: 'hidden', border: '1px solid #1c1c2c' }}>
-                {[
-                  { val: '4,5 M', label: 'Vues TikTok cumulées' },
-                  { val: '21,8 %', label: 'Taux d\'engagement moyen' },
-                  { val: '76 %', label: 'Audience féminine' },
-                  { val: '78 %', label: 'Audience France' },
-                ].map(s => (
-                  <div key={s.label} style={{ background: '#08080e', padding: '20px 18px' }}>
-                    <div className="mp-grad-text" style={{ fontSize: 28, fontWeight: 700, letterSpacing: '-0.04em', lineHeight: 1 }}>{s.val}</div>
-                    <div style={{ fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.2em', color: '#5a5a72', marginTop: 6 }}>{s.label}</div>
-                  </div>
-                ))}
-              </div>
-              <p className="mp-rv mp-d4" style={{ fontSize: 10, color: '#5a5a72', fontStyle: 'italic' }}>Données TikTok Studio certifiées · arrêtées avril 2026</p>
-          </div>
-        </div>
-      </section>
-
-      <HorizontalScrollSection />
-
       {/* ══ FORMATS ══ */}
-      <section id="mp-formats" data-mp-section="mp-formats" style={{ background: '#08080e', fontFamily: "'Space Grotesk',sans-serif" }}>
+      <section id="mp-formats" data-mp-section="mp-formats" style={{ background: '#0d0d18', fontFamily: "'Space Grotesk',sans-serif" }}>
         <div style={{ maxWidth: 1440, margin: '0 auto', padding: 'clamp(56px,7vw,96px) clamp(24px,5vw,64px)' }}>
           <div className="mp-rv" style={{ paddingBottom: 20, marginBottom: 52, borderBottom: '1px solid #1c1c2c' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 14, fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.28em', color: '#5a5a72', marginBottom: 10 }}>
-              <span>03</span><span>— Architecture du pipeline</span>
+              <span>02</span><span>— Architecture du pipeline</span>
             </div>
             <h2 style={{ fontSize: 'clamp(22px,3.2vw,40px)', fontWeight: 700, letterSpacing: '-0.025em' }}>Comment ça marche</h2>
           </div>
@@ -806,7 +969,7 @@ function PitchContent() {
                   className={`mp-format-row mp-interactive${openFormat === i ? ' mp-open' : ''}`}
                   onClick={() => toggleFormat(i)}
                 >
-                  <div style={{ padding: '22px 20px', fontSize: 11, letterSpacing: '0.2em', color: '#282840', fontVariantNumeric: 'tabular-nums', borderRight: '1px solid #1c1c2c', alignSelf: 'stretch', display: 'flex', alignItems: 'flex-start', paddingTop: 26 }}>{f.idx}</div>
+                  <div style={{ padding: '22px 20px', fontSize: 11, letterSpacing: '0.2em', color: '#5a5a72', fontVariantNumeric: 'tabular-nums', borderRight: '1px solid #1c1c2c', alignSelf: 'stretch', display: 'flex', alignItems: 'flex-start', paddingTop: 26 }}>{f.idx}</div>
                   <div style={{ padding: '22px 28px' }}>
                     <div style={{ fontSize: 16, fontWeight: 600, letterSpacing: '-0.01em', color: '#f0ede8', marginBottom: 4 }}>{f.name}</div>
                     <div style={{ fontSize: 13, color: '#a8a4b0' }}>{f.desc}</div>
@@ -829,35 +992,189 @@ function PitchContent() {
         </div>
       </section>
 
+      <TimelineScrollSection />
+
+      {/* ══ HISTOIRE / PILOTE ══ */}
+      <section id="mp-histoire" data-mp-section="mp-histoire" style={{ background: '#0d0d18', fontFamily: "'Space Grotesk',sans-serif" }}>
+        <div style={{ maxWidth: 1440, margin: '0 auto', padding: 'clamp(56px,7vw,96px) clamp(24px,5vw,64px)' }}>
+          <div className="mp-rv" style={{ paddingBottom: 20, marginBottom: 52, borderBottom: '1px solid #1c1c2c' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 14, fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.28em', color: '#5a5a72', marginBottom: 10 }}>
+              <span>03</span><span>— Notre parcours</span>
+            </div>
+            <h2 style={{ fontSize: 'clamp(22px,3.2vw,40px)', fontWeight: 700, letterSpacing: '-0.025em' }}>11 semaines de pilote · les preuves</h2>
+          </div>
+
+          <div className="mp-rv" style={{ marginBottom: 8 }}>
+            <p style={{ fontSize: 'clamp(15px,1.6vw,18px)', fontWeight: 300, color: '#a8a4b0', lineHeight: 1.75 }}>
+              Entre janvier et avril 2026, 11 semaines de collaboration sur le format exact. L&apos;indicateur-clé : le <strong style={{ color: '#f0ede8', fontWeight: 600 }}>share rate</strong>. Au-delà de 1,0 %, la vidéo sort de la bulle communautaire.
+            </p>
+          </div>
+
+          {/* Deux colonnes côte à côte */}
+          <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 1, background: '#1c1c2c', borderRadius: 3, overflow: 'hidden', border: '1px solid #1c1c2c' }} className="mp-rv mp-d1 mp-hist-grid">
+
+            {/* Gauche — table pilote */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 1, background: '#1c1c2c' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 88px 62px 62px', background: '#1c1c2c', gap: 1 }}>
+                {['Sujet', 'Vues', 'ER', 'SR'].map(h => (
+                  <div key={h} style={{ background: '#0d0d18', padding: '8px 14px', fontSize: 9, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.14em', color: '#5a5a72' }}>{h}</div>
+                ))}
+                {PILOT_DATA.map(row => {
+                  const bg  = row.top ? '#0a0a14' : '#08080e'
+                  const pad = row.top ? '15px 14px' : '10px 14px'
+                  const fs  = row.top ? 13 : 12
+                  const srViral = row.sr >= 1
+                  const srNear  = row.sr >= 0.7 && row.sr < 1
+                  const erGood  = row.er >= 20
+                  const srColor = srViral ? '#f59e0b' : srNear ? '#60a5fa' : '#5a5a72'
+                  const erColor = erGood  ? '#22c55e' : '#a8a4b0'
+                  return (
+                    <Fragment key={row.sujet}>
+                      <div style={{ background: bg, padding: pad, fontSize: fs, color: row.top ? '#f0ede8' : '#a8a4b0', fontWeight: row.top ? 700 : 400, borderLeft: row.top ? '2px solid #f59e0b' : '2px solid transparent', display: 'flex', alignItems: 'center', gap: 8 }}>
+                        {srViral && !row.top && <span style={{ width: 4, height: 4, borderRadius: '50%', background: '#f59e0b', flexShrink: 0, display: 'inline-block' }} />}
+                        {row.sujet}
+                      </div>
+                      <div style={{ background: bg, padding: pad, fontSize: fs, color: row.top ? '#f0ede8' : '#7a7a90', fontVariantNumeric: 'tabular-nums', display: 'flex', alignItems: 'center' }}>{row.vues}</div>
+                      <div style={{ background: bg, padding: pad, fontSize: row.top ? 14 : fs, fontWeight: 700, color: erColor, display: 'flex', alignItems: 'center', fontVariantNumeric: 'tabular-nums' }}>{row.er.toFixed(1)}%</div>
+                      <div style={{ background: bg, padding: pad, fontSize: row.top ? 14 : fs, fontWeight: 700, color: srColor, display: 'flex', alignItems: 'center', fontVariantNumeric: 'tabular-nums' }}>{row.sr.toFixed(2)}%</div>
+                    </Fragment>
+                  )
+                })}
+              </div>
+              <div style={{ background: '#08080e', padding: '10px 14px', display: 'flex', gap: 20, flexWrap: 'wrap' }}>
+                <span style={{ fontSize: 9, color: '#5a5a72', fontStyle: 'italic' }}><span style={{ color: '#f59e0b' }}>●</span> SR ≥ 1 % · viralité</span>
+                <span style={{ fontSize: 9, color: '#5a5a72', fontStyle: 'italic' }}><span style={{ color: '#60a5fa' }}>●</span> SR 0,7–1 %</span>
+                <span style={{ fontSize: 9, color: '#5a5a72', fontStyle: 'italic' }}><span style={{ color: '#22c55e' }}>●</span> ER ≥ 20 % · engagement profond</span>
+              </div>
+            </div>
+
+            {/* Droite — stats agrégées */}
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1, background: '#1c1c2c', alignContent: 'start' }}>
+              {[
+                { val: '4,5 M',  label: 'Vues cumulées', sub: '11 épisodes' },
+                { val: '21,8 %', label: 'ER moyen',      sub: '×3,6 le secteur' },
+                { val: '3 / 11', label: 'SR ≥ 1 %',      sub: 'seuil viral franchi' },
+                { val: '10 / 11',label: 'ER ≥ 20 %',     sub: 'engagement profond' },
+              ].map(s => (
+                <div key={s.label} style={{ background: '#08080e', padding: '22px 16px' }}>
+                  <div className="mp-grad-text" style={{ fontSize: 'clamp(18px,2vw,26px)', fontWeight: 700, letterSpacing: '-0.04em', lineHeight: 1, marginBottom: 6 }}>{s.val}</div>
+                  <div style={{ fontSize: 9, textTransform: 'uppercase', letterSpacing: '0.18em', color: '#5a5a72', lineHeight: 1.4 }}>{s.label}</div>
+                  <div style={{ fontSize: 9, color: '#3a3a54', marginTop: 3 }}>{s.sub}</div>
+                </div>
+              ))}
+              <div style={{ gridColumn: '1 / -1', background: '#08080e', padding: '10px 16px', borderTop: '1px solid #1c1c2c' }}>
+                <span style={{ fontSize: 9, color: '#3a3a54', fontStyle: 'italic' }}>TikTok Studio · avril 2026 · 11 épisodes</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <HorizontalScrollSection />
+
+      {/* ══ VIDEOS ══ */}
+      <section id="mp-videos" data-mp-section="mp-videos" style={{ background: '#08080e', fontFamily: "'Space Grotesk',sans-serif" }}>
+        <div style={{ maxWidth: 1440, margin: '0 auto', padding: 'clamp(56px,7vw,96px) clamp(24px,5vw,64px)' }}>
+          <div className="mp-rv" style={{ paddingBottom: 20, marginBottom: 52, borderBottom: '1px solid #1c1c2c' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 14, fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.28em', color: '#5a5a72', marginBottom: 10 }}>
+              <span>04</span><span>— Le format en action</span>
+            </div>
+            <h2 style={{ fontSize: 'clamp(22px,3.2vw,40px)', fontWeight: 700, letterSpacing: '-0.025em' }}>Les épisodes</h2>
+          </div>
+
+          <div className="mp-rv mp-d1" style={{ display: 'flex', justifyContent: 'center', gap: 'clamp(40px,5vw,80px)', flexWrap: 'wrap' }}>
+            <VideoCardDeck videos={VIDEOS_LEMEDIA} label="× Le Media" />
+            <VideoCardDeck videos={VIDEOS_MEDIAPART} label="× Mediapart" />
+          </div>
+        </div>
+      </section>
+
       {/* ══ AUDIENCE ══ */}
       <section id="mp-audience" data-mp-section="mp-audience" style={{ background: '#0d0d18', fontFamily: "'Space Grotesk',sans-serif" }}>
         <div style={{ maxWidth: 1440, margin: '0 auto', padding: 'clamp(56px,7vw,96px) clamp(24px,5vw,64px)' }}>
           <div className="mp-rv" style={{ paddingBottom: 20, marginBottom: 52, borderBottom: '1px solid #1c1c2c' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 14, fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.28em', color: '#5a5a72', marginBottom: 10 }}>
-              <span>04</span><span>— Notre audience</span>
+              <span>05</span><span>— Notre audience</span>
             </div>
             <h2 style={{ fontSize: 'clamp(22px,3.2vw,40px)', fontWeight: 700, letterSpacing: '-0.025em' }}>Qui ne lit pas encore Mediapart</h2>
           </div>
 
-          <div className="mp-aud-grid mp-rv" style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 1, background: '#1c1c2c', borderRadius: 3, overflow: 'hidden', border: '1px solid #1c1c2c' }}>
-            {[
-              { count: 76, label: '18–34 ans', sub: 'Cœur de cible jeune et politisé·e' },
-              { count: 76, label: 'Femmes & non-binaires', sub: 'Audience majoritairement queer & féministe' },
-              { count: 78, label: 'France métropolitaine', sub: 'Paris, Lyon, Marseille, Bordeaux' },
-              { count: 21.8, label: "% d'engagement moyen", sub: 'Benchmark secteur : 5–7 %', isFloat: true },
-            ].map((c, i) => (
-              <div key={i} style={{ background: '#08080e', padding: '28px 24px' }}>
-                <div className="mp-grad-text" style={{ fontSize: 'clamp(28px,3.5vw,48px)', fontWeight: 700, letterSpacing: '-0.04em', lineHeight: 1, marginBottom: 8 }}
-                  data-count={c.count}
-                >0{c.isFloat ? '' : '%'}</div>
-                <div style={{ fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.2em', color: '#5a5a72' }}>{c.label}</div>
-                <div style={{ fontSize: 12, color: '#a8a4b0', marginTop: 6 }}>{c.sub}</div>
+          {/* Asymmetric grid */}
+          <div className="mp-rv mp-aud-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 1, background: '#1c1c2c', borderRadius: 3, overflow: 'hidden', border: '1px solid #1c1c2c' }}>
+
+            {/* Left col — 2 stacked mini cards */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+              {/* 76% merged */}
+              <div style={{ background: '#08080e', padding: '28px 24px', flex: 1 }}>
+                <div className="mp-grad-text" style={{ fontSize: 'clamp(32px,4vw,56px)', fontWeight: 700, letterSpacing: '-0.04em', lineHeight: 1, marginBottom: 10 }} data-count={76}>0%</div>
+                <div style={{ fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.2em', color: '#5a5a72', marginBottom: 6 }}>Audience féministe 18–34</div>
+                <div style={{ fontSize: 12, color: '#a8a4b0', lineHeight: 1.6 }}>Femmes, non-binaires, jeunes politisé·es — le cœur de cible que Mediapart cherche à toucher.</div>
               </div>
-            ))}
+              {/* 78% */}
+              <div style={{ background: '#08080e', padding: '28px 24px', flex: 1 }}>
+                <div className="mp-grad-text" style={{ fontSize: 'clamp(32px,4vw,56px)', fontWeight: 700, letterSpacing: '-0.04em', lineHeight: 1, marginBottom: 10 }} data-count={78}>0%</div>
+                <div style={{ fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.2em', color: '#5a5a72', marginBottom: 6 }}>Audience France</div>
+                <div style={{ fontSize: 12, color: '#a8a4b0', lineHeight: 1.6 }}>Paris, Lyon, Marseille, Bordeaux — concentré sur les bassins urbains de Mediapart.</div>
+              </div>
+            </div>
+
+            {/* Right col — engagement feature card */}
+            <div style={{ background: '#08080e', padding: '32px 32px 28px', display: 'flex', flexDirection: 'column', position: 'relative', overflow: 'hidden' }}>
+              {/* Ghost bg number */}
+              <div aria-hidden style={{ position: 'absolute', right: -12, top: -8, fontSize: 'clamp(100px,14vw,180px)', fontWeight: 800, letterSpacing: '-0.06em', lineHeight: 1, userSelect: 'none', pointerEvents: 'none', background: 'linear-gradient(90deg,oklch(0.72 0.27 290 / 0.07),oklch(0.85 0.25 40 / 0.04))', WebkitBackgroundClip: 'text', backgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>21,8</div>
+
+              {/* Header */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: 14, fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.28em', color: '#5a5a72', marginBottom: 20, position: 'relative' }}>
+                <span className="mp-grad-line" />Taux d&apos;engagement — comparatif secteur
+              </div>
+
+              {/* Big number + badge */}
+              <div style={{ display: 'flex', alignItems: 'flex-end', gap: 16, marginBottom: 32, position: 'relative' }}>
+                <div className="mp-grad-text" style={{ fontSize: 'clamp(48px,6vw,80px)', fontWeight: 700, letterSpacing: '-0.04em', lineHeight: 1 }} data-count={21.8}>0</div>
+                <div style={{ marginBottom: 8, display: 'flex', flexDirection: 'column', gap: 4 }}>
+                  <span style={{ fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.2em', color: '#5a5a72' }}>% engagement moyen</span>
+                  <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: 'linear-gradient(90deg,oklch(0.72 0.27 290 / 0.15),oklch(0.85 0.25 40 / 0.1))', border: '1px solid oklch(0.72 0.27 290 / 0.25)', borderRadius: 2, padding: '3px 8px', fontSize: 10, fontWeight: 700, letterSpacing: '0.1em', color: 'oklch(0.85 0.25 40)' }}>
+                    ×3,6 le benchmark secteur
+                  </span>
+                </div>
+              </div>
+
+              {/* Bars */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 16, position: 'relative', flex: 1 }}>
+                {/* Scale ticks */}
+                <div style={{ position: 'relative', height: 16, marginBottom: 2 }}>
+                  {[0, 5, 10, 15, 20, 25].map(tick => (
+                    <div key={tick} style={{ position: 'absolute', left: `${(tick / 25) * 100}%`, top: 0, display: 'flex', flexDirection: 'column', alignItems: 'center', transform: 'translateX(-50%)' }}>
+                      <span style={{ fontSize: 9, color: '#3a3a54', letterSpacing: '0.1em' }}>{tick}%</span>
+                    </div>
+                  ))}
+                </div>
+
+                {[
+                  { label: 'Benchmark secteur', sub: '5–7 % · médias TikTok', pct: (6 / 25) * 100, display: '~6 %', muted: true, h: 6 },
+                  { label: 'Sans Transition', sub: 'moyenne · 11 semaines pilote', pct: (21.8 / 25) * 100, display: '21,8 %', muted: false, h: 12 },
+                ].map((row) => (
+                  <div key={row.label}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 8 }}>
+                      <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
+                        <span style={{ fontSize: 12, fontWeight: 600, color: row.muted ? '#7a7a90' : '#f0ede8' }}>{row.label}</span>
+                        <span style={{ fontSize: 10, color: '#5a5a72' }}>{row.sub}</span>
+                      </div>
+                      <span style={{ fontSize: row.muted ? 12 : 15, fontWeight: 700, color: row.muted ? '#5a5a72' : 'transparent', backgroundImage: row.muted ? 'none' : 'linear-gradient(90deg,oklch(0.72 0.27 290),oklch(0.85 0.25 40))', WebkitBackgroundClip: row.muted ? 'unset' : 'text', backgroundClip: row.muted ? 'unset' : 'text', WebkitTextFillColor: row.muted ? 'unset' : 'transparent' }}>{row.display}</span>
+                    </div>
+                    <div style={{ position: 'relative', height: row.h, background: '#1c1c2c', borderRadius: 999, overflow: 'hidden' }}>
+                      <div className="mp-er-bar" style={{ position: 'absolute', top: 0, left: 0, height: '100%', width: 0, borderRadius: 999, background: row.muted ? '#3a3a54' : 'linear-gradient(90deg,oklch(0.72 0.27 290),oklch(0.78 0.22 330) 48%,oklch(0.85 0.25 40))', transition: 'width 1.4s cubic-bezier(0.2,0,0,1)', boxShadow: row.muted ? 'none' : '0 0 12px oklch(0.72 0.27 290 / 0.4)' }} data-er-pct={row.pct} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Footer note */}
+              <div style={{ marginTop: 24, paddingTop: 16, borderTop: '1px solid #1c1c2c', fontSize: 10, color: '#5a5a72', fontStyle: 'italic' }}>
+                Données TikTok Studio certifiées · arrêtées avril 2026 · Benchmark : moyenne médias TikTok FR
+              </div>
+            </div>
           </div>
-          <p className="mp-rv" style={{ marginTop: 20, fontSize: 11, color: '#5a5a72', fontStyle: 'italic' }}>
-            * Données TikTok Studio certifiées · arrêtées avril 2026
-          </p>
         </div>
       </section>
 
@@ -866,7 +1183,7 @@ function PitchContent() {
         <div style={{ maxWidth: 1440, margin: '0 auto', padding: 'clamp(56px,7vw,96px) clamp(24px,5vw,64px)' }}>
           <div className="mp-rv" style={{ paddingBottom: 20, marginBottom: 52, borderBottom: '1px solid #1c1c2c' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 14, fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.28em', color: '#5a5a72', marginBottom: 10 }}>
-              <span>05</span><span>— Fondations éthiques</span>
+              <span>06</span><span>— Fondations éthiques</span>
             </div>
             <h2 style={{ fontSize: 'clamp(22px,3.2vw,40px)', fontWeight: 700, letterSpacing: '-0.025em' }}>Ce en quoi on croit</h2>
           </div>
@@ -897,7 +1214,7 @@ function PitchContent() {
         <div style={{ maxWidth: 1440, margin: '0 auto', padding: 'clamp(56px,7vw,96px) clamp(24px,5vw,64px)' }}>
           <div className="mp-rv" style={{ paddingBottom: 20, marginBottom: 52, borderBottom: '1px solid #1c1c2c' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 14, fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.28em', color: '#5a5a72', marginBottom: 10 }}>
-              <span>06</span><span>— Ce qu&apos;on propose concrètement</span>
+              <span>07</span><span>— Ce qu&apos;on propose concrètement</span>
             </div>
             <h2 style={{ fontSize: 'clamp(22px,3.2vw,40px)', fontWeight: 700, letterSpacing: '-0.025em' }}>Une collab régulière, pas un one-shot</h2>
           </div>
@@ -931,20 +1248,16 @@ function PitchContent() {
             <p style={{ fontSize: 15, color: '#a8a4b0', lineHeight: 1.8, maxWidth: 480 }}>
               Hedi et l&apos;équipe sont disponibles pour en discuter — un appel, un café, un mail. Dossier complet, idées de sujets, calendrier prêt.
             </p>
-            <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', justifyContent: 'center' }}>
-              <a href="mailto:contact@sanstransition.fr" className="mp-interactive" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'linear-gradient(90deg,oklch(0.72 0.27 290) 0%,oklch(0.78 0.22 330) 48%,oklch(0.85 0.25 40) 100%)', color: '#fff', fontFamily: 'inherit', fontWeight: 600, fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.2em', padding: '13px 26px', borderRadius: 2, border: 'none', textDecoration: 'none', cursor: 'none' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
+              <a href="mailto:contact@sanstransition.fr" className="mp-interactive" style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: 'linear-gradient(90deg,oklch(0.72 0.27 290) 0%,oklch(0.78 0.22 330) 48%,oklch(0.85 0.25 40) 100%)', color: '#fff', fontFamily: 'inherit', fontWeight: 600, fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.2em', padding: '15px 32px', borderRadius: 2, border: 'none', textDecoration: 'none', cursor: 'none' }}>
                 contact@sanstransition.fr
                 <svg width={12} height={12} viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M3 8h10M9 4l4 4-4 4" /></svg>
               </a>
-              <a href="https://sanstransition.fr" target="_blank" rel="noreferrer" className="mp-interactive" style={{ display: 'inline-flex', alignItems: 'center', background: 'none', border: '1px solid #282840', color: '#f0ede8', fontFamily: 'inherit', fontWeight: 500, fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.18em', padding: '13px 26px', borderRadius: 2, cursor: 'none', textDecoration: 'none' }}>
-                Visiter le site
-              </a>
-              <a href="/collabs" className="mp-interactive" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'none', border: '1px solid #282840', color: '#f0ede8', fontFamily: 'inherit', fontWeight: 500, fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.18em', padding: '13px 26px', borderRadius: 2, cursor: 'none', textDecoration: 'none', transition: 'border-color .2s' }}
-                onMouseEnter={e => (e.currentTarget.style.borderColor = 'oklch(0.72 0.27 290)')}
-                onMouseLeave={e => (e.currentTarget.style.borderColor = '#282840')}
+              <a href="/collabs" className="mp-interactive" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'none', border: 'none', color: '#5a5a72', fontFamily: 'inherit', fontWeight: 400, fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.18em', padding: '8px 0', cursor: 'none', textDecoration: 'none', transition: 'color .2s' }}
+                onMouseEnter={e => (e.currentTarget.style.color = '#a8a4b0')}
+                onMouseLeave={e => (e.currentTarget.style.color = '#5a5a72')}
               >
-                Voir les collabs
-                <svg width={11} height={11} viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M3 8h10M9 4l4 4-4 4" /></svg>
+                Voir les collabs →
               </a>
             </div>
           </div>
@@ -955,7 +1268,7 @@ function PitchContent() {
       <footer style={{ borderTop: '1px solid #1c1c2c', padding: '28px clamp(24px,5vw,64px)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16, background: '#08080e', fontFamily: "'Space Grotesk',sans-serif" }}>
         <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#f0ede8' }}>Sans Transition × Mediapart</span>
         <span style={{ fontSize: 11, color: '#5a5a72' }}>Dossier de partenariat · Avril 2026 · Association loi 1901 · Paris</span>
-        <span style={{ fontSize: 11, color: '#5a5a72' }}>Fait par Hedi, et ouais mes vies :)</span>
+        <span style={{ fontSize: 11, color: '#5a5a72' }}>Fait par Hedi :)</span>
       </footer>
     </>
   )
