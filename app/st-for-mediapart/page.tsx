@@ -1038,7 +1038,7 @@ function PitchContent() {
                       <div style={{ background: bg, padding: pad, fontSize: row.top ? 14 : fs, fontWeight: 700, color: erColor, display: 'flex', alignItems: 'center', fontVariantNumeric: 'tabular-nums' }}>{row.er.toFixed(1)}%</div>
                       <div style={{ background: bg, padding: pad, fontSize: row.top ? 14 : fs, fontWeight: 700, color: srColor, display: 'flex', alignItems: 'center', fontVariantNumeric: 'tabular-nums' }}>{row.sr.toFixed(2)}%</div>
                     </Fragment>
-                  )
+                  ) 
                 })}
               </div>
               <div style={{ background: '#08080e', padding: '10px 14px', display: 'flex', gap: 20, flexWrap: 'wrap' }}>
