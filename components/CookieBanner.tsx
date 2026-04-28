@@ -71,7 +71,7 @@ export default function CookieBanner() {
               <div style={{ flex: 1, minWidth: 260 }}>
                 <p style={{ fontSize: 12, color: '#a8a4b0', lineHeight: 1.65, margin: 0 }}>
                   On utilise des cookies nécessaires au fonctionnement du site.
-                  Avec ton accord, on active aussi des cookies d'<strong style={{ color: '#f0ede8', fontWeight: 600 }}>analytics</strong> et
+                  Avec ton accord, on active aussi des cookies d&apos;<strong style={{ color: '#f0ede8', fontWeight: 600 }}>analytics</strong> et
                   de <strong style={{ color: '#f0ede8', fontWeight: 600 }}>marketing</strong>.
                   Par défaut, tout est désactivé.
                 </p>
