@@ -106,7 +106,7 @@ export default function CookieBanner() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 8 }}>
                 {[
-                  { key: 'analytics' as const, label: 'Analytics', desc: 'Mesure d\'audience anonyme.', val: analytics, set: setAnalytics },
+                  { key: 'analytics' as const, label: 'Analytics', desc: "Mesure d'audience anonyme.", val: analytics, set: setAnalytics },
                   { key: 'marketing' as const, label: 'Marketing', desc: 'Publicité & retargeting.', val: marketing, set: setMarketing },
                 ].map(item => (
                   <label key={item.key} style={{ display: 'flex', alignItems: 'center', gap: 12, background: '#08080e', border: '1px solid #1c1c2c', borderRadius: 2, padding: '12px 14px', cursor: 'pointer' }}>
@@ -149,7 +149,7 @@ export default function CookieBanner() {
           )}
 
           <p style={{ fontSize: 10, color: '#3a3a54', marginTop: 12, marginBottom: 0 }}>
-            Tu peux changer d'avis à tout moment via « Gérer mes cookies » en bas de page.
+            Tu peux changer d&apos;avis à tout moment via « Gérer mes cookies » en bas de page.
           </p>
         </div>
       </div>
