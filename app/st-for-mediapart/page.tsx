@@ -1,73 +1,13 @@
 'use client'
 
 import { useState, useEffect, useRef, Fragment } from 'react'
+import ProtectedDocumentGate from '@/components/ProtectedDocumentGate'
+import ActionButton from '@/components/protected-page/ActionButton'
+import SideNav from '@/components/protected-page/SideNav'
 
 /* ── Password gate ──────────────────────────────────────── */
 function PasswordGate({ onUnlock }: { onUnlock: () => void }) {
-  const [value, setValue] = useState('')
-  const [error, setError] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const [show, setShow] = useState(false)
-
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    if (!value.trim()) return
-    setLoading(true); setError(false)
-    try {
-      const res = await fetch('/api/mediapart-auth', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password: value }),
-      })
-      if (res.ok) { onUnlock() }
-      else { setError(true); setValue('') }
-    } catch { setError(true) }
-    finally { setLoading(false) }
-  }
-
-  return (
-    <div style={{ minHeight: '100vh', background: '#08080e', color: '#f0ede8', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24, fontFamily: "'Space Grotesk', sans-serif" }}>
-      <div style={{ width: '100%', maxWidth: 360 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 40 }}>
-          <span style={{ display: 'inline-block', width: 24, height: 2, background: 'linear-gradient(90deg, oklch(0.72 0.27 290) 0%, oklch(0.78 0.22 330) 48%, oklch(0.85 0.25 40) 100%)', flexShrink: 0 }} />
-          <span style={{ fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.28em', color: '#5a5a72' }}>Document confidentiel</span>
-        </div>
-        <h1 style={{ fontSize: 24, fontWeight: 700, letterSpacing: '-0.02em', marginBottom: 8 }}>Accès restreint</h1>
-        <p style={{ fontSize: 13, color: '#a8a4b0', marginBottom: 32, lineHeight: 1.6 }}>Ce document est réservé à son destinataire.</p>
-        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-          <div style={{ position: 'relative' }}>
-            <input
-              autoFocus
-              type={show ? 'text' : 'password'}
-              value={value}
-              onChange={(e) => { setValue(e.target.value); setError(false) }}
-              placeholder="Mot de passe"
-              disabled={loading}
-              style={{ width: '100%', boxSizing: 'border-box', padding: '12px 44px 12px 16px', background: '#0d0d18', border: `1px solid ${error ? '#ef4444' : '#1c1c2c'}`, borderRadius: 3, fontSize: 14, color: '#f0ede8', outline: 'none', fontFamily: 'inherit' }}
-            />
-            <button
-              type="button"
-              onClick={() => setShow(s => !s)}
-              style={{ position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: '#5a5a72', padding: 4, display: 'flex', alignItems: 'center' }}
-            >
-              {show
-                ? <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
-                : <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-              }
-            </button>
-          </div>
-          {error && <p style={{ fontSize: 11, color: '#ef4444' }}>Mot de passe incorrect.</p>}
-          <button
-            type="submit"
-            disabled={loading || !value.trim()}
-            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, background: 'linear-gradient(90deg, oklch(0.72 0.27 290) 0%, oklch(0.78 0.22 330) 48%, oklch(0.85 0.25 40) 100%)', color: '#fff', fontFamily: 'inherit', fontWeight: 600, fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.2em', padding: '13px 22px', borderRadius: 2, border: 'none', cursor: 'pointer' }}
-          >
-            {loading ? 'Vérification…' : 'Accéder'}
-          </button>
-        </form>
-      </div>
-    </div>
-  )
+  return <ProtectedDocumentGate onUnlock={onUnlock} />
 }
 
 /* ── Data ───────────────────────────────────────────────── */
@@ -822,17 +762,14 @@ function PitchContent() {
       <div id="mp-progress-bar" />
 
       {/* Side nav */}
-      <nav id="mp-side-nav" aria-label="Navigation">
-        {NAV.map((item, i) => (
-          <div
-            key={item.id}
-            className={`mp-dot mp-interactive${i === 0 ? ' mp-active' : ''}`}
-            data-section={item.id}
-            data-label={item.label}
-            onClick={() => goTo(item.id)}
-          />
-        ))}
-      </nav>
+      <SideNav
+        navId="mp-side-nav"
+        ariaLabel="Navigation"
+        items={NAV}
+        itemClassName="mp-dot mp-interactive"
+        activeClassName="mp-active"
+        onItemClick={goTo}
+      />
 
       {/* ══ HERO ══ */}
       <section
@@ -881,13 +818,18 @@ function PitchContent() {
           </p>
 
           <div className="mp-rv mp-d4" style={{ display: 'flex', gap: 12, flexWrap: 'wrap', paddingBottom: 56 }}>
-            <button onClick={() => goTo('mp-proposition')} className="mp-interactive" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'linear-gradient(90deg,oklch(0.72 0.27 290) 0%,oklch(0.78 0.22 330) 48%,oklch(0.85 0.25 40) 100%)', color: '#fff', fontFamily: "'Space Grotesk',sans-serif", fontWeight: 600, fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.2em', padding: '11px 22px', borderRadius: 2, border: 'none', cursor: 'none' }}>
+            <ActionButton onClick={() => goTo('mp-proposition')} className="mp-interactive" style={{ cursor: 'none' }}>
               Voir la proposition
-              <svg width={11} height={11} viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M3 8h10M9 4l4 4-4 4" /></svg>
-            </button>
-            <button onClick={() => goTo('mp-cta')} className="mp-interactive" style={{ display: 'inline-flex', alignItems: 'center', background: 'none', border: '1px solid #282840', color: '#f0ede8', fontFamily: "'Space Grotesk',sans-serif", fontWeight: 500, fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.18em', padding: '11px 22px', borderRadius: 2, cursor: 'none', transition: 'border-color .15s' }}>
+            </ActionButton>
+            <ActionButton
+              onClick={() => goTo('mp-cta')}
+              variant="outline"
+              className="mp-interactive"
+              style={{ cursor: 'none', transition: 'border-color .15s' }}
+              showArrow={false}
+            >
               Nous contacter
-            </button>
+            </ActionButton>
           </div>
         </div>
 
@@ -1263,16 +1205,21 @@ function PitchContent() {
               Hedi et l&apos;équipe sont disponibles pour en discuter — un appel, un café, un mail. Dossier complet, idées de sujets, calendrier prêt.
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
-              <a href="mailto:contact@sanstransition.fr" className="mp-interactive" style={{ display: 'inline-flex', alignItems: 'center', gap: 10, background: 'linear-gradient(90deg,oklch(0.72 0.27 290) 0%,oklch(0.78 0.22 330) 48%,oklch(0.85 0.25 40) 100%)', color: '#fff', fontFamily: 'inherit', fontWeight: 600, fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.2em', padding: '15px 32px', borderRadius: 2, border: 'none', textDecoration: 'none', cursor: 'none' }}>
-                contact@sanstransition.fr
-                <svg width={12} height={12} viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M3 8h10M9 4l4 4-4 4" /></svg>
-              </a>
-              <a href="/collabs" className="mp-interactive" style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'none', border: 'none', color: '#5a5a72', fontFamily: 'inherit', fontWeight: 400, fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.18em', padding: '8px 0', cursor: 'none', textDecoration: 'none', transition: 'color .2s' }}
-                onMouseEnter={e => (e.currentTarget.style.color = '#a8a4b0')}
-                onMouseLeave={e => (e.currentTarget.style.color = '#5a5a72')}
+              <ActionButton
+                href="mailto:contact@sanstransition.fr"
+                className="mp-interactive"
+                style={{ cursor: 'none', fontSize: 12, padding: '15px 32px', gap: 10 }}
               >
-                Voir les collabs →
-              </a>
+                contact@sanstransition.fr
+              </ActionButton>
+              <ActionButton
+                href="/collabs"
+                variant="outline"
+                className="mp-interactive"
+                style={{ cursor: 'none', color: '#5a5a72', border: 'none', padding: '8px 0', fontWeight: 400 }}
+              >
+                Voir les collabs
+              </ActionButton>
             </div>
           </div>
         </div>
