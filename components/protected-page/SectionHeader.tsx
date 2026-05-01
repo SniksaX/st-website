@@ -54,11 +54,11 @@ export default function SectionHeader({
             alignItems: 'center',
             justifyContent: centered ? 'center' : undefined,
             gap: 14,
-            fontSize: 10,
+            fontSize: 11,
             textTransform: 'uppercase',
             letterSpacing: '0.28em',
-            color: '#5a5a72',
-            marginBottom: 10,
+            color: 'var(--fg2)',
+            marginBottom: 12,
             ...eyebrowStyle,
           }}
         >
@@ -69,9 +69,11 @@ export default function SectionHeader({
 
       <h2
         style={{
-          fontSize: 'clamp(22px,3.2vw,40px)',
+          fontSize: 'clamp(30px,4vw,58px)',
           fontWeight: 700,
-          letterSpacing: '-0.025em',
+          letterSpacing: '-0.03em',
+          lineHeight: 1.06,
+          marginBottom: 12,
           ...titleStyle,
         }}
       >
@@ -81,10 +83,10 @@ export default function SectionHeader({
       {body ? (
         <p
           style={{
-            fontSize: 14,
-            color: '#a8a4b0',
-            lineHeight: 1.7,
-            maxWidth: centered ? 720 : 580,
+            fontSize: 15,
+            color: 'var(--fg2)',
+            lineHeight: 1.72,
+            maxWidth: centered ? 720 : 620,
             margin: centered ? '0 auto' : undefined,
             ...bodyStyle,
           }}
