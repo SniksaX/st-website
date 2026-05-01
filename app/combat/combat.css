@@ -417,29 +417,27 @@ body.cbt-hovering #cbt-cursor-ring {
 
 .cbt-hero-brief {
   display: grid;
-  grid-template-columns: minmax(0, 680px) minmax(420px, 1fr);
+  grid-template-columns: minmax(0, 680px) minmax(320px, 380px);
   align-items: end;
-  gap: clamp(28px, 5vw, 84px);
+  gap: clamp(24px, 4vw, 56px);
   margin-bottom: 32px;
 }
 
 .cbt-hero-proof {
   position: relative;
-  overflow: hidden;
-  border: 1px solid var(--border);
-  border-radius: 3px;
-  background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.018)),
-    var(--surface);
-  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.24);
+  align-self: end;
+  overflow: visible;
+  padding: 0 0 2px;
 }
 
 .cbt-hero-proof::before {
   content: '';
   position: absolute;
-  inset: 0 0 auto;
-  height: 2px;
-  background: var(--grad);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: linear-gradient(90deg, oklch(0.72 0.27 290 / 0.8), transparent 72%);
 }
 
 .cbt-hero-proof-head {
@@ -447,7 +445,8 @@ body.cbt-hovering #cbt-cursor-ring {
   align-items: center;
   justify-content: space-between;
   gap: 14px;
-  padding: 18px 20px;
+  margin-bottom: 16px;
+  padding: 0 0 12px;
   border-bottom: 1px solid var(--border);
 }
 
@@ -467,20 +466,23 @@ body.cbt-hovering #cbt-cursor-ring {
 }
 
 .cbt-hero-proof-feed {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  background: var(--border);
-  gap: 1px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
 }
 
 .cbt-hero-proof-row {
-  display: flex;
-  min-height: 112px;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 22px;
-  padding: 18px;
-  background: rgba(8, 8, 14, 0.68);
+  display: grid;
+  grid-template-columns: minmax(86px, auto) minmax(0, 1fr);
+  min-height: 0;
+  gap: 16px;
+  align-items: baseline;
+  padding: 13px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.cbt-hero-proof-row:last-child {
+  border-bottom: none;
 }
 
 .cbt-hero-proof-row strong,
@@ -491,7 +493,7 @@ body.cbt-hovering #cbt-cursor-ring {
 .cbt-hero-proof-row strong {
   margin-bottom: 4px;
   color: var(--fg);
-  font-size: 14px;
+  font-size: 15px;
   line-height: 1.2;
 }
 
@@ -502,15 +504,22 @@ body.cbt-hovering #cbt-cursor-ring {
 }
 
 .cbt-hero-proof-row em {
-  flex: 0 0 auto;
+  grid-row: 1;
+  grid-column: 1;
   background: var(--grad);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  font-size: 18px;
+  font-size: clamp(24px, 2.35vw, 34px);
   font-style: normal;
   font-weight: 700;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.05em;
+  line-height: 0.95;
+}
+
+.cbt-hero-proof-row > div {
+  grid-row: 1;
+  grid-column: 2;
 }
 
 .cbt-hero-stats,
