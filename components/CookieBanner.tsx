@@ -52,19 +52,19 @@ export default function CookieBanner() {
   if (!open) return null;
 
   return (
-    <div style={{
+    <div className="st-cookie-banner-shell" style={{
       position: 'fixed', inset: '0 0 0 0', bottom: 0, left: 0, right: 0,
       zIndex: 9990, display: 'flex', alignItems: 'flex-end', pointerEvents: 'none',
     }}>
-      <div style={{
+      <div className="st-cookie-banner-panel" style={{
         width: '100%', pointerEvents: 'auto',
         background: '#0a0a14', borderTop: '1px solid #1c1c2c',
         fontFamily: "'Space Grotesk', sans-serif",
       }}>
         {/* gradient top line */}
-        <div style={{ height: 2, background: GRAD }} />
+        <div className="st-cookie-banner-line" style={{ height: 2, background: GRAD }} />
 
-        <div style={{ maxWidth: 960, margin: '0 auto', padding: '20px clamp(16px,4vw,40px)' }}>
+        <div className="st-cookie-banner-inner" style={{ maxWidth: 960, margin: '0 auto', padding: '20px clamp(16px,4vw,40px)' }}>
           {!custom ? (
             <div style={{ display: 'flex', alignItems: 'center', gap: 24, flexWrap: 'wrap' }}>
               {/* Text */}
