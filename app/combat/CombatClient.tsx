@@ -1,12 +1,19 @@
 'use client'
 /* eslint-disable react/no-unescaped-entities */
 
-import { type CSSProperties, type ReactNode, useEffect, useState } from 'react'
+import { type CSSProperties, type ReactNode, useEffect, useMemo, useState } from 'react'
 
 import Image from 'next/image'
 
 import ProtectedDocumentGate from '@/components/ProtectedDocumentGate'
 import ActionButton from '@/components/protected-page/ActionButton'
+import {
+  AnimatedStatNumber,
+  BulletPanel as SharedBulletPanel,
+  DataTable,
+  formatStatValue,
+  useProtectedDossierEffects,
+} from '@/components/protected-page/dossier'
 import SectionHeader from '@/components/protected-page/SectionHeader'
 import SideNav from '@/components/protected-page/SideNav'
 
@@ -209,11 +216,19 @@ const LISTS = {
 }
 
 function Table({ headers, rows }: TableProps) {
-  return <div className="cbt-data-table"><table><thead><tr>{headers.map((h) => <th key={h}>{h}</th>)}</tr></thead><tbody>{rows.map((row, i) => <tr key={`${headers[0]}-${i}`}>{row.map((cell, j) => <td key={`${headers[0]}-${i}-${j}`}>{cell}</td>)}</tr>)}</tbody></table></div>
+  return <DataTable headers={headers} rows={rows} className="cbt-data-table" />
 }
 
 function BulletPanel({ title, items }: { title: string; items: string[] }) {
-  return <div className="cbt-panel cbt-panel-surface cbt-interactive"><div className="cbt-panel-kicker">{title}</div><ul className="cbt-bullet-list">{items.map((item) => <li key={item}>{item}</li>)}</ul></div>
+  return (
+    <SharedBulletPanel
+      title={title}
+      items={items}
+      className="cbt-panel cbt-panel-surface cbt-interactive"
+      kickerClassName="cbt-panel-kicker"
+      listClassName="cbt-bullet-list"
+    />
+  )
 }
 
 function formatLiveEuro(cents?: number, currency = 'EUR') {
@@ -226,18 +241,12 @@ function formatLiveEuro(cents?: number, currency = 'EUR') {
   }).replace(/\s€$/, ' EUR')
 }
 
-function formatStatValue(value: number, suffix?: string) {
-  if (suffix === 'EUR') return `${Math.round(value).toLocaleString('fr-FR')} EUR`
-  if (suffix === '%') return `${value.toFixed(1)} %`
-  return Math.round(value).toLocaleString('fr-FR')
-}
-
 function StatNumber({ item, value }: { item: StatItem; value?: number }) {
   if (typeof value === 'number') {
     return <span className="cbt-hero-num grad-text">{formatStatValue(value, item.suffix)}</span>
   }
 
-  return <span className="cbt-hero-num grad-text" data-count={item.count} data-format={item.format} data-suffix={item.suffix} data-float={item.float ? 'true' : undefined}>0</span>
+  return <AnimatedStatNumber className="cbt-hero-num grad-text" value={item.count} format={item.format} suffix={item.suffix} float={item.float} />
 }
 
 function GrowthChart() {
@@ -509,6 +518,34 @@ export default function CombatClient() {
   const [donProgress, setDonProgress] = useState<DonationProgress | null>(null)
   const [donProgressError, setDonProgressError] = useState<string | null>(null)
   const goTo = (id: string) => { const el = document.getElementById(id); if (!el) return; window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 60, behavior: 'smooth' }) }
+  const dossierEffects = useMemo(() => ({
+    progressId: 'cbt-progress',
+    cursorId: 'cbt-cursor',
+    cursorRingId: 'cbt-cursor-ring',
+    headerId: 'cbt-header',
+    headerScrolledClassName: 'cbt-scrolled',
+    glowAId: 'cbt-glow-a',
+    glowBId: 'cbt-glow-b',
+    sectionDataAttr: 'data-combat-section',
+    dotSelector: '.cbt-dot',
+    activeDotClassName: 'cbt-active',
+    revealSelector: '.cbt-rv',
+    revealOnClassName: 'cbt-on',
+    interactiveSelector: '.cbt-interactive',
+    hoveringBodyClassName: 'cbt-hovering',
+    customCursorBodyClassName: 'cbt-custom-cursor',
+    cursorMode: 'fine' as const,
+    counterSelector: '[data-count]',
+    counterMode: 'standard' as const,
+    widthSelector: '[data-width]',
+    growthChart: {
+      triggerId: 'cbt-growth-svg',
+      lineId: 'cbt-chart-line',
+      areaId: 'cbt-chart-area',
+      dotSelector: '.cbt-chart-dot',
+      dotDrawnClassName: 'cbt-drawn',
+    },
+  }), [])
 
   useEffect(() => {
     if (!unlocked) return
@@ -530,25 +567,7 @@ export default function CombatClient() {
     }
   }, [unlocked])
 
-  useEffect(() => {
-    if (!unlocked) return
-    const prefersFinePointer = window.matchMedia('(pointer: fine)').matches
-    const cursor = document.getElementById('cbt-cursor'); const ring = document.getElementById('cbt-cursor-ring'); const progress = document.getElementById('cbt-progress'); const header = document.getElementById('cbt-header'); const glowA = document.getElementById('cbt-glow-a'); const glowB = document.getElementById('cbt-glow-b'); const chartLine = document.getElementById('cbt-chart-line'); const chartArea = document.getElementById('cbt-chart-area'); const chartDots = document.querySelectorAll('.cbt-chart-dot')
-    let mx = window.innerWidth / 2, my = window.innerHeight / 2, rx = mx, ry = my, rafId = 0
-    const onMove = (e: MouseEvent) => { mx = e.clientX; my = e.clientY; if (cursor) { cursor.style.left = `${mx}px`; cursor.style.top = `${my}px` } if (glowA && glowB) { const nx = (e.clientX / window.innerWidth - 0.5) * 2; const ny = (e.clientY / window.innerHeight - 0.5) * 2; glowA.style.transform = `translate(${nx * 24}px, ${ny * 16}px)`; glowB.style.transform = `translate(${-nx * 20}px, ${-ny * 14}px) scale(1.05)` } }
-    const animateRing = () => { rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12; if (ring) { ring.style.left = `${rx}px`; ring.style.top = `${ry}px` } rafId = requestAnimationFrame(animateRing) }
-    const onScroll = () => { const h = document.documentElement.scrollHeight - window.innerHeight; if (progress) progress.style.width = `${(window.scrollY / h) * 100}%`; if (header) header.classList.toggle('cbt-scrolled', window.scrollY > 20) }
-    const interactEls = document.querySelectorAll('.cbt-interactive'); const addHover = () => document.body.classList.add('cbt-hovering'); const removeHover = () => document.body.classList.remove('cbt-hovering'); interactEls.forEach((el) => { el.addEventListener('mouseenter', addHover); el.addEventListener('mouseleave', removeHover) })
-    const revealEls = document.querySelectorAll('.cbt-rv'); const revealObserver = new IntersectionObserver((entries) => { entries.forEach((entry) => { if (entry.isIntersecting) entry.target.classList.add('cbt-on') }) }, { threshold: 0.1 }); revealEls.forEach((el) => revealObserver.observe(el)); window.setTimeout(() => { revealEls.forEach((el) => { if (el.getBoundingClientRect().top < window.innerHeight) el.classList.add('cbt-on') }) }, 60)
-    const dots = document.querySelectorAll('.cbt-dot'); const sections = document.querySelectorAll('[data-combat-section]'); const dotObserver = new IntersectionObserver((entries) => { entries.forEach((entry) => { if (!entry.isIntersecting) return; dots.forEach((dot) => dot.classList.remove('cbt-active')); const id = entry.target.getAttribute('data-combat-section'); document.querySelector(`.cbt-dot[data-section="${id}"]`)?.classList.add('cbt-active') }) }, { threshold: 0.35 }); sections.forEach((section) => dotObserver.observe(section))
-    const animateCount = (el: Element) => { const dataset = (el as HTMLElement).dataset; const target = parseFloat(dataset.count ?? '0'); if (Number.isNaN(target)) return; const duration = 1400; const start = performance.now(); const format = dataset.format; const suffix = dataset.suffix ?? ''; const isFloat = dataset.float === 'true'; const step = (now: number) => { const ratio = Math.min((now - start) / duration, 1); const eased = 1 - Math.pow(1 - ratio, 3); const value = target * eased; let text = ''; if (format === 'millions') text = `${(value / 1000000).toFixed(1)}M`; else if (suffix === 'EUR') text = `${Math.round(value).toLocaleString('fr-FR')} EUR`; else if (suffix === '%') text = `${value.toFixed(1)} %`; else if (isFloat) text = `${value.toFixed(1)}`; else text = Math.round(value).toLocaleString('fr-FR'); el.textContent = text; if (ratio < 1) requestAnimationFrame(step) }; requestAnimationFrame(step) }
-    const counterObserver = new IntersectionObserver((entries) => { entries.forEach((entry) => { if (!entry.isIntersecting) return; animateCount(entry.target); counterObserver.unobserve(entry.target) }) }, { threshold: 0.4 }); document.querySelectorAll('[data-count]').forEach((el) => counterObserver.observe(el))
-    const widthObserver = new IntersectionObserver((entries) => { entries.forEach((entry) => { if (!entry.isIntersecting) return; const target = entry.target as HTMLElement; const width = target.dataset.width; if (width) target.style.width = `${width}%`; widthObserver.unobserve(target) }) }, { threshold: 0.2 }); document.querySelectorAll('[data-width]').forEach((el) => widthObserver.observe(el))
-    const chartObserver = new IntersectionObserver((entries) => { entries.forEach((entry) => { if (!entry.isIntersecting) return; chartLine?.classList.add('cbt-drawn'); chartArea?.classList.add('cbt-drawn'); chartDots.forEach((dot, index) => window.setTimeout(() => dot.classList.add('cbt-drawn'), 600 + index * 200)); chartObserver.disconnect() }) }, { threshold: 0.3 }); const growthSvg = document.getElementById('cbt-growth-svg'); if (growthSvg) chartObserver.observe(growthSvg)
-    if (prefersFinePointer) { document.addEventListener('mousemove', onMove); animateRing(); document.body.classList.add('cbt-custom-cursor') }
-    window.addEventListener('scroll', onScroll, { passive: true }); onScroll()
-    return () => { if (prefersFinePointer) { document.removeEventListener('mousemove', onMove); cancelAnimationFrame(rafId); document.body.classList.remove('cbt-custom-cursor') } window.removeEventListener('scroll', onScroll); revealObserver.disconnect(); dotObserver.disconnect(); counterObserver.disconnect(); widthObserver.disconnect(); chartObserver.disconnect(); interactEls.forEach((el) => { el.removeEventListener('mouseenter', addHover); el.removeEventListener('mouseleave', removeHover) }); document.body.classList.remove('cbt-hovering') }
-  }, [unlocked])
+  useProtectedDossierEffects({ ...dossierEffects, enabled: unlocked })
 
   if (!unlocked) return <ProtectedDocumentGate onUnlock={() => setUnlocked(true)} />
 

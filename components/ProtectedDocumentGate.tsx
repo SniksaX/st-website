@@ -1,12 +1,30 @@
 'use client'
 
-import { type FormEvent, useState } from 'react'
+import { type FormEvent, useEffect, useState } from 'react'
 
 export default function ProtectedDocumentGate({ onUnlock }: { onUnlock: () => void }) {
   const [value, setValue] = useState('')
   const [error, setError] = useState(false)
   const [loading, setLoading] = useState(false)
+  const [checkingSavedAccess, setCheckingSavedAccess] = useState(true)
   const [show, setShow] = useState(false)
+
+  useEffect(() => {
+    let cancelled = false
+
+    ;(async () => {
+      try {
+        const res = await fetch('/api/mediapart-auth', { cache: 'no-store' })
+        if (!cancelled && res.ok) onUnlock()
+      } finally {
+        if (!cancelled) setCheckingSavedAccess(false)
+      }
+    })()
+
+    return () => {
+      cancelled = true
+    }
+  }, [onUnlock])
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -37,6 +55,14 @@ export default function ProtectedDocumentGate({ onUnlock }: { onUnlock: () => vo
 
   const GRAD = 'linear-gradient(90deg, oklch(0.72 0.27 290) 0%, oklch(0.78 0.22 330) 48%, oklch(0.85 0.25 40) 100%)'
 
+  if (checkingSavedAccess) {
+    return (
+      <div style={{ minHeight: '100vh', background: '#08080e', color: '#f0ede8', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24, fontFamily: 'var(--font-body)' }}>
+        <span style={{ fontSize: 10, textTransform: 'uppercase', letterSpacing: '0.28em', color: '#5a5a72' }}>Vérification…</span>
+      </div>
+    )
+  }
+
   return (
     <div style={{ minHeight: '100vh', background: '#08080e', color: '#f0ede8', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24, fontFamily: 'var(--font-body)', position: 'relative', overflow: 'hidden' }}>
       {/* Grid background */}
@@ -52,7 +78,6 @@ export default function ProtectedDocumentGate({ onUnlock }: { onUnlock: () => vo
             SANS<br />
             <span style={{ background: GRAD, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>TRANSITION</span>
           </div>
-          <div style={{ marginTop: 10, fontSize: 9, textTransform: 'uppercase', letterSpacing: '0.44em', color: '#5a5a72' }}>COMBAT 2026</div>
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 24, justifyContent: 'center' }}>
