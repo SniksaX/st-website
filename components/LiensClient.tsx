@@ -341,6 +341,21 @@ export default function LiensClient() {
           {/* Proposer un sujet */}
           <LienRow href="https://forms.gle/yoHVL6iKBi6Adz8T9" icon={<IcoMsg />} label="Proposer un sujet ou témoigner" />
 
+          {/* Mediapart */}
+          <div style={{ border: '1px solid var(--border)', borderRadius: 3, overflow: 'hidden' }}>
+            <div style={{ padding: '10px 14px', background: 'var(--surface)' }}>
+              <p style={{ fontSize: 11, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Mediapart</p>
+            </div>
+            <div style={{
+              display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1,
+              background: 'var(--border)', borderTop: '1px solid var(--border)',
+            }}>
+              <LienCell href="https://www.mediapart.fr/journal/france/280326/psychiatrie-une-jeune-femme-subit-85-seances-d-electrochocs-et-perd-la-memoire" icon={<IcoGlobe />} label="Géraldine" />
+              <LienCell href="https://www.mediapart.fr/journal/france/280326/l-intense-lobbying-de-fondamental-fondation-privee-devenue-incontournable-en-psychiatrie" icon={<IcoGlobe />} label="FondaMental" />
+            </div>
+          </div>
+
+
           {/* Newsletter */}
           {process.env.NEXT_PUBLIC_NEWSLETTER_ENABLED === 'true' && (
             <button
