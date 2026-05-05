@@ -723,6 +723,29 @@ body.cbt-hovering #cbt-cursor-ring {
   opacity: 1;
 }
 
+.cbt-proj-info-i {
+  font-size: 9px;
+  font-weight: 700;
+  fill: oklch(0.72 0.27 290);
+  font-family: var(--font-body);
+  pointer-events: none;
+}
+
+.cbt-proj-tooltip {
+  display: none;
+  pointer-events: none;
+}
+
+.cbt-proj-info-group:hover .cbt-proj-tooltip {
+  display: block;
+}
+
+.cbt-proj-tooltip-text {
+  font-size: 10px;
+  fill: oklch(0.88 0.01 270);
+  font-family: var(--font-body);
+}
+
 .cbt-viral-grid {
   display: flex;
   flex-direction: column;
