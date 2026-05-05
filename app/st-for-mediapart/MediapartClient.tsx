@@ -71,7 +71,7 @@ const TL = [
 ]
 
 const SHOWCASE_ITEMS = [
-  { num: '01', stat: '4,5M',   label: 'Vues TikTok cumulées',  detail: '11 semaines de pilote' },
+  { num: '01', stat: '5,23M',  label: 'Vues TikTok cumulées',  detail: '5 234 380 vues totales' },
   { num: '02', stat: '21,8%',  label: "Taux d'engagement",     detail: 'Benchmark secteur : 5–7 %' },
   { num: '03', stat: '76%',    label: 'Audience féminine',     detail: 'Queer & féministe' },
   { num: '04', stat: '2,62%',  label: 'Share rate record',     detail: 'Loi Yadan — viralité totale' },
@@ -90,7 +90,7 @@ const TOP_VIRAL = [
 ]
 
 const PROOF_POINTS = [
-  { value: '4,5 M', label: 'vues cumulees', body: '11 semaines de pilote et une preuve claire de distribution sur TikTok.' },
+  { value: '5,23 M', label: 'vues cumulees', body: '5 234 380 vues totales et une preuve claire de distribution sur TikTok.' },
   { value: '21,8 %', label: 'engagement moyen', body: 'Un niveau tres au-dessus du benchmark medias sur formats courts.' },
   { value: '3 / 11', label: 'seuil viral franchi', body: 'Le share rate depasse 1 % sur trois episodes, signal de diffusion hors bulle.' },
 ]
@@ -181,10 +181,14 @@ function GrowthChart() {
 }
 
 /* ── Video card deck ────────────────────────────────────── */
-function VideoPoster({ video, onPlay }: { video: VidItem; onPlay: () => void }) {
+const fmtVideoValue = (n: number) =>
+  n >= 1000000 ? `${(n / 1000000).toFixed(1)}M` : n >= 1000 ? `${(n / 1000).toFixed(n >= 100000 ? 0 : 1)}k` : String(n)
+
+function VideoThumb({ video, onPlay }: { video: VidItem; onPlay: () => void }) {
   const [thumb, setThumb] = useState<string | null>(null)
 
   useEffect(() => {
+    setThumb(null)
     fetch(`/api/tiktok-oembed?ids=${video.id}`)
       .then(r => r.json())
       .then(d => {
@@ -194,182 +198,75 @@ function VideoPoster({ video, onPlay }: { video: VidItem; onPlay: () => void }) 
       .catch(() => {})
   }, [video.id])
 
-  const fmtViews = (n: number) =>
-    n >= 1000000 ? `${(n / 1000000).toFixed(1)}M` : n >= 1000 ? `${(n / 1000).toFixed(n >= 100000 ? 0 : 1)}k` : String(n)
-
   return (
-    <div
-      onClick={onPlay}
-      style={{
-        width: '100%', height: '100%', cursor: 'none',
-        position: 'relative', overflow: 'hidden',
-        background: '#0a0a14',
-      }}
-    >
-      {/* Thumbnail */}
-      {thumb
-        ? <img src={thumb} alt="" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
-        : <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(ellipse at 60% 20%, oklch(0.72 0.27 290 / 0.12) 0%, transparent 60%)' }} />
-      }
-
-      {/* Dark overlay gradient — stronger at bottom for text legibility */}
-      <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(5,5,12,0.45) 0%, rgba(5,5,12,0.1) 30%, rgba(5,5,12,0.7) 65%, rgba(5,5,12,0.96) 100%)' }} />
-
-      {/* Gradient top accent line */}
-      <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: 'linear-gradient(90deg,oklch(0.72 0.27 290),oklch(0.78 0.22 330) 48%,oklch(0.85 0.25 40))', zIndex: 2 }} />
-
-      {/* Top label */}
-      <div style={{ position: 'absolute', top: 12, left: 16, right: 16, display: 'flex', alignItems: 'center', gap: 8, zIndex: 2 }}>
-        <svg width="14" height="14" viewBox="0 0 32 32" fill="none" style={{ flexShrink: 0 }}>
-          <path d="M22.5 2h-4.3v19.3a4.3 4.3 0 1 1-4.3-4.3c.4 0 .8 0 1.2.1V12.7a8.6 8.6 0 1 0 7.4 8.5V10.7a12.8 12.8 0 0 0 7.5 2.4V8.7A7.5 7.5 0 0 1 22.5 2z" fill="rgba(255,255,255,0.7)"/>
-        </svg>
-        <span style={{ fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.22em', color: 'rgba(255,255,255,0.5)' }}>TikTok</span>
-        <span style={{ marginLeft: 'auto', fontSize: 11, color: 'rgba(255,255,255,0.4)', letterSpacing: '0.1em' }}>{video.date}</span>
-      </div>
-
-      {/* Bottom content */}
-      <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '0 18px 20px', zIndex: 2 }}>
-        {/* Title */}
-        <p style={{
-          fontSize: 13.5, fontWeight: 600, color: '#f0ede8', lineHeight: 1.5,
-          display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden',
-          letterSpacing: '-0.01em', marginBottom: 14,
-        }}>
-          {video.title}
-        </p>
-
-        {/* Stats */}
-        <div style={{ display: 'flex', gap: 14, alignItems: 'center', marginBottom: 14 }}>
-          <div>
-            <div style={{ fontSize: 16, fontWeight: 700, letterSpacing: '-0.03em', color: '#fff', fontVariantNumeric: 'tabular-nums' }}>{fmtViews(video.views)}</div>
-            <div style={{ fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.18em', color: 'rgba(255,255,255,0.4)', marginTop: 1 }}>vues</div>
-          </div>
-          <div style={{ width: 1, height: 24, background: 'rgba(255,255,255,0.12)', flexShrink: 0 }} />
-          <div>
-            <div style={{ fontSize: 16, fontWeight: 700, letterSpacing: '-0.03em', color: '#fff', fontVariantNumeric: 'tabular-nums' }}>{video.er.toFixed(1)}%</div>
-            <div style={{ fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.18em', color: 'rgba(255,255,255,0.4)', marginTop: 1 }}>engagement</div>
-          </div>
-          {video.shares > 50 && (
-            <>
-              <div style={{ width: 1, height: 24, background: 'rgba(255,255,255,0.12)', flexShrink: 0 }} />
-              <div>
-                <div style={{ fontSize: 16, fontWeight: 700, letterSpacing: '-0.03em', color: '#fff', fontVariantNumeric: 'tabular-nums' }}>{fmtViews(video.shares)}</div>
-                <div style={{ fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.18em', color: 'rgba(255,255,255,0.4)', marginTop: 1 }}>partages</div>
-              </div>
-            </>
-          )}
-        </div>
-
-        {/* Play button */}
-        <div style={{
-          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10,
-          background: 'linear-gradient(90deg,oklch(0.72 0.27 290),oklch(0.78 0.22 330) 48%,oklch(0.85 0.25 40))',
-          color: '#fff', fontFamily: "'Space Grotesk',sans-serif", fontWeight: 600,
-          fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.22em',
-          padding: '12px 0', borderRadius: 3,
-        }}>
-          <svg width="11" height="11" viewBox="0 0 16 16" fill="currentColor"><path d="M4 2l10 6-10 6V2z"/></svg>
-          Regarder
-        </div>
-      </div>
-    </div>
+    <button className="mp-video-thumb mp-interactive" onClick={onPlay} type="button">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      {thumb ? <img src={thumb} alt="" /> : <span className="mp-video-thumb-fallback" aria-hidden />}
+      <span className="mp-video-thumb-overlay" />
+      <span className="mp-video-play-btn">
+        <svg width="10" height="10" viewBox="0 0 16 16" fill="currentColor"><path d="M4 2l10 6-10 6V2z" /></svg>
+        Regarder sur TikTok
+      </span>
+    </button>
   )
 }
 
 function VideoCardDeck({ videos, label }: { videos: VidItem[]; label: string }) {
   const [front, setFront] = useState(0)
-  const [phase, setPhase] = useState<'idle' | 'out' | 'in'>('idle')
   const [playing, setPlaying] = useState(false)
 
   const advance = () => {
-    if (phase !== 'idle') return
     setPlaying(false)
-    setPhase('out')
-    setTimeout(() => {
-      setFront(i => (i + 1) % videos.length)
-      setPhase('in')
-      setTimeout(() => setPhase('idle'), 320)
-    }, 340)
+    setFront(i => (i + 1) % videos.length)
   }
 
   const card  = videos[front]
-  const next1 = videos[(front + 1) % videos.length]
-  const next2 = videos[(front + 2) % videos.length]
-
-  const CARD_W = 325
-  const CARD_H = 580
 
   return (
-    <div className="mp-video-deck">
-      <div style={{ fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.28em', color: '#8a8aa4', marginBottom: 20, display: 'flex', alignItems: 'center', gap: 10 }}>
-        <span className="mp-grad-line" />{label} · {videos.length} épisode{videos.length > 1 ? 's' : ''}
+    <article className="mp-video-card">
+      <div className="mp-video-rubric">
+        {label} <span>· {videos.length} épisode{videos.length > 1 ? 's' : ''}</span>
       </div>
 
-      {/* Stack */}
-      <div className="mp-video-stack" style={{ position: 'relative', width: CARD_W, height: CARD_H }}>
-
-        {/* Card ×2 (back) — decorative */}
-        <div className="mp-video-back mp-video-back-2" style={{
-          position: 'absolute', top: 0, left: 0, width: CARD_W, height: CARD_H,
-          borderRadius: 12, overflow: 'hidden', zIndex: 1,
-          transform: 'translateX(20px) translateY(-16px) scale(0.91)',
-          opacity: 0.35, background: '#0d0d18', border: '1px solid #1c1c2c',
-        }}>
-          <div style={{ padding: '20px 18px', fontSize: 11, fontWeight: 600, color: '#6a6a84', lineHeight: 1.5 }}>{next2.title}</div>
-        </div>
-
-        {/* Card ×1 (middle) — decorative */}
-        <div className="mp-video-back mp-video-back-1" style={{
-          position: 'absolute', top: 0, left: 0, width: CARD_W, height: CARD_H,
-          borderRadius: 12, overflow: 'hidden', zIndex: 2,
-          transform: 'translateX(10px) translateY(-8px) scale(0.955)',
-          opacity: 0.6, background: '#0d0d18', border: '1px solid #1c1c2c',
-        }}>
-          <div style={{ padding: '20px 18px', fontSize: 12, fontWeight: 600, color: '#8a8aa4', lineHeight: 1.5 }}>{next1.title}</div>
-        </div>
-
-        {/* Front card — poster or TikTok embed */}
-        <div className="mp-video-front" style={{
-          position: 'absolute', top: 0, left: 0, width: CARD_W, height: CARD_H,
-          borderRadius: 12, overflow: 'hidden', zIndex: 10,
-          transition: 'transform .36s cubic-bezier(0.4,0,0.2,1), opacity .28s ease',
-          transform: phase === 'out' ? 'translateX(-115%) rotate(-6deg)' : 'translateX(0) rotate(0)',
-          opacity: phase === 'out' ? 0 : 1,
-          boxShadow: '0 24px 64px rgba(0,0,0,0.6)',
-        }}>
-          {playing ? (
-            <iframe
-              key={card.id}
-              src={`https://www.tiktok.com/embed/v2/${card.id}?lang=fr-FR`}
-              style={{ width: '100%', height: '100%', border: 'none', display: 'block' }}
-              allowFullScreen
-              allow="encrypted-media"
-              title={card.title}
-            />
-          ) : (
-            <VideoPoster video={card} onPlay={() => setPlaying(true)} />
-          )}
-        </div>
+      <div className="mp-video-frame">
+        {playing ? (
+          <iframe
+            key={card.id}
+            src={`https://www.tiktok.com/embed/v2/${card.id}?lang=fr-FR`}
+            allowFullScreen
+            allow="encrypted-media"
+            title={card.title}
+          />
+        ) : (
+          <VideoThumb video={card} onPlay={() => setPlaying(true)} />
+        )}
       </div>
 
-      {/* Controls */}
-      <div className="mp-video-controls" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: 16, width: CARD_W }}>
-        <span style={{ fontSize: 12, color: '#6a6a84', letterSpacing: '0.12em', fontVariantNumeric: 'tabular-nums' }}>
-          {front + 1} / {videos.length}
-        </span>
+      <div className="mp-video-title">{card.title}</div>
+      <div className="mp-video-stats">
+        <div className="mp-video-stat"><strong>{fmtVideoValue(card.views)}</strong><small>vues</small></div>
+        <div className="mp-video-divider" />
+        <div className="mp-video-stat"><strong>{card.er.toFixed(1)}%</strong><small>engagement</small></div>
+        {card.shares > 50 && (
+          <>
+            <div className="mp-video-divider" />
+            <div className="mp-video-stat"><strong>{fmtVideoValue(card.shares)}</strong><small>partages</small></div>
+          </>
+        )}
+      </div>
+
+      <div className="mp-video-counter">
+        <span>{front + 1} / {videos.length} · {card.date}</span>
         <button
           onClick={advance}
-          disabled={phase !== 'idle'}
-          className="mp-interactive"
-          style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'none', border: '1px solid #1c1c2c', color: '#a8a4b0', fontFamily: "'Space Grotesk',sans-serif", fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.2em', padding: '8px 14px', borderRadius: 2, cursor: 'none', transition: 'border-color .2s, color .2s' }}
-          onMouseEnter={e => { e.currentTarget.style.borderColor = '#6a6a84'; e.currentTarget.style.color = '#f0ede8' }}
-          onMouseLeave={e => { e.currentTarget.style.borderColor = '#1c1c2c'; e.currentTarget.style.color = '#a8a4b0' }}
+          className="mp-video-next-btn mp-interactive"
+          type="button"
         >
           Suivant
-          <svg width={10} height={10} viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M3 8h10M9 4l4 4-4 4" /></svg>
+          <svg width={10} height={10} viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M4 2l8 6-8 6" /></svg>
         </button>
       </div>
-    </div>
+    </article>
   )
 }
 
@@ -719,7 +616,6 @@ function PitchContent() {
               <div className="mp-editorial-actions">
                 <span>Newsletter</span>
                 <span>Nous contacter</span>
-                <span>Proposition</span>
               </div>
             </div>
             <div className="mp-editorial-nav">
@@ -809,7 +705,7 @@ function PitchContent() {
               Le média féministe et antiraciste veut transformer des enquêtes exigeantes en formats courts natifs, pensés pour toucher les publics qui ne lisent pas encore la presse indépendante.
             </p>
             <div className="mp-editorial-author">
-              par <strong>Sans Transition</strong> · dossier transmis à la rédaction · avril 2026
+              par <strong>Sans Transition</strong> · en complément du PDF transmis par mail · avril 2026
             </div>
           </article>
 
@@ -852,7 +748,7 @@ function PitchContent() {
         <div className="mp-hero-stats">
           <div className="mp-hero-stats-grid">
             {[
-              { target: 4.5, suffix: '', label: 'M vues TikTok', isFloat: true },
+              { target: 5.23, suffix: '', label: 'M vues TikTok', isFloat: true },
               { target: 21.8, suffix: '', label: '% engagement moyen', isFloat: true },
               { target: 76, suffix: '', label: '% audience féminine', isFloat: false },
               { target: 2025, prefix: 'fév. ', suffix: '', label: 'Depuis', isFloat: false },
@@ -875,7 +771,7 @@ function PitchContent() {
         <div className="mp-ticker-track">
           {[1, 2].map(n => (
             <div key={n} style={{ display: 'inline-flex', flexShrink: 0 }} aria-hidden={n === 2 ? true : undefined}>
-              {['Radical', 'Queer', 'Féministe', 'Antiraciste', 'Indépendant', 'Pédagogique', 'Sans bullshit', 'Par et pour les minorités', '100% citoyen', 'Zéro pub · Zéro milliardaire', 'Association loi 1901', 'Pipeline éditorial', '4,5 M vues', 'Share rate ≥ 1%'].map((w) => (
+              {['Radical', 'Queer', 'Féministe', 'Antiraciste', 'Indépendant', 'Pédagogique', 'Sans bullshit', 'Par et pour les minorités', '100% citoyen', 'Zéro pub · Zéro milliardaire', 'Association loi 1901', 'Pipeline éditorial', '5,23 M vues', 'Share rate ≥ 1%'].map((w) => (
                 <Fragment key={w + n}>
                   <span style={{ display: 'inline-block', padding: '11px 20px', fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.26em', color: '#a8a4b0' }}>{w}</span>
                   <span style={{ display: 'inline-flex', alignItems: 'center', color: '#8a8aa4', fontSize: 14, padding: '0 4px', alignSelf: 'center' }}>·</span>
@@ -890,8 +786,8 @@ function PitchContent() {
       <section id="mp-proposition" data-mp-section="mp-proposition" style={{ background: '#08080e', fontFamily: "'Space Grotesk',sans-serif" }}>
         <div style={{ maxWidth: 1440, margin: '0 auto', padding: 'clamp(56px,7vw,96px) clamp(24px,5vw,64px)' }}>
           <div className="mp-rv" style={{ paddingBottom: 20, marginBottom: 52, borderBottom: '1px solid #1c1c2c' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 14, fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.28em', color: '#8a8aa4', marginBottom: 10 }}>
-              <span>01</span><span>— Ce qu&apos;on propose à Mediapart</span>
+            <div className="mp-sec-eyebrow" style={{ display: 'flex', alignItems: 'center', gap: 14, fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.28em', color: '#8a8aa4', marginBottom: 10 }}>
+              <span>01</span><span>— Ce qu&apos;on propose à Mediapart</span><span className="mp-sec-lbl">Ce qu&apos;on propose à Mediapart</span>
             </div>
             <h2 style={{ fontSize: 'clamp(22px,3.2vw,40px)', fontWeight: 700, letterSpacing: '-0.025em' }}>Un pipeline éditorial qui existe déjà</h2>
           </div>
@@ -938,38 +834,53 @@ function PitchContent() {
       <section id="mp-formats" data-mp-section="mp-formats" style={{ background: '#0d0d18', fontFamily: "'Space Grotesk',sans-serif" }}>
         <div style={{ maxWidth: 1440, margin: '0 auto', padding: 'clamp(56px,7vw,96px) clamp(24px,5vw,64px)' }}>
           <div className="mp-rv" style={{ paddingBottom: 20, marginBottom: 52, borderBottom: '1px solid #1c1c2c' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 14, fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.28em', color: '#8a8aa4', marginBottom: 10 }}>
-              <span>02</span><span>— Architecture du pipeline</span>
+            <div className="mp-sec-eyebrow" style={{ display: 'flex', alignItems: 'center', gap: 14, fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.28em', color: '#8a8aa4', marginBottom: 10 }}>
+              <span>02</span><span>— Architecture du pipeline</span><span className="mp-sec-lbl">Architecture du pipeline</span>
             </div>
             <h2 style={{ fontSize: 'clamp(22px,3.2vw,40px)', fontWeight: 700, letterSpacing: '-0.025em' }}>Comment ça marche</h2>
           </div>
 
-          <div className="mp-rv" style={{ display: 'flex', flexDirection: 'column', gap: 1, background: '#1c1c2c', borderRadius: 3, overflow: 'hidden', border: '1px solid #1c1c2c' }}>
-            {FORMATS.map((f, i) => (
-              <div key={f.idx}>
-                <div
-                  className={`mp-format-row mp-interactive${openFormat === i ? ' mp-open' : ''}`}
-                  onClick={() => toggleFormat(i)}
-                >
-                  <div style={{ padding: '22px 20px', fontSize: 11, letterSpacing: '0.2em', color: '#8a8aa4', fontVariantNumeric: 'tabular-nums', borderRight: '1px solid #1c1c2c', alignSelf: 'stretch', display: 'flex', alignItems: 'flex-start', paddingTop: 26 }}>{f.idx}</div>
-                  <div style={{ padding: '22px 28px' }}>
-                    <div style={{ fontSize: 16, fontWeight: 600, letterSpacing: '-0.01em', color: '#f0ede8', marginBottom: 4 }}>{f.name}</div>
-                    <div style={{ fontSize: 13, color: '#a8a4b0' }}>{f.desc}</div>
-                  </div>
-                  <div style={{ padding: '22px 24px', fontSize: 20, color: openFormat === i ? 'oklch(0.78 0.22 330)' : '#8a8aa4', transition: 'transform .35s,color .25s', transform: openFormat === i ? 'rotate(45deg)' : 'none', alignSelf: 'stretch', display: 'flex', alignItems: 'center' }}>+</div>
-                </div>
-                {openFormat === i && (
-                  <div style={{ padding: '0 28px 28px 112px', background: '#08080e' }}>
-                    <p style={{ fontSize: 14, color: '#a8a4b0', lineHeight: 1.8, marginBottom: 12 }}>{f.body}</p>
-                    <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-                      {f.tags.map(t => (
-                        <span key={t} style={{ display: 'inline-block', fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.2em', color: '#8a8aa4', border: '1px solid #282840', padding: '3px 8px', borderRadius: 2 }}>{t}</span>
-                      ))}
+          <div className="mp-with-sidebar">
+            <div className="mp-rv" style={{ display: 'flex', flexDirection: 'column', gap: 1, background: '#1c1c2c', borderRadius: 3, overflow: 'hidden', border: '1px solid #1c1c2c' }}>
+              {FORMATS.map((f, i) => (
+                <div key={f.idx}>
+                  <div
+                    className={`mp-format-row mp-interactive${openFormat === i ? ' mp-open' : ''}`}
+                    onClick={() => toggleFormat(i)}
+                  >
+                    <div style={{ padding: '22px 20px', fontSize: 11, letterSpacing: '0.2em', color: '#8a8aa4', fontVariantNumeric: 'tabular-nums', borderRight: '1px solid #1c1c2c', alignSelf: 'stretch', display: 'flex', alignItems: 'flex-start', paddingTop: 26 }}>{f.idx}</div>
+                    <div style={{ padding: '22px 28px' }}>
+                      <div style={{ fontSize: 16, fontWeight: 600, letterSpacing: '-0.01em', color: '#f0ede8', marginBottom: 4 }}>{f.name}</div>
+                      <div style={{ fontSize: 13, color: '#a8a4b0' }}>{f.desc}</div>
                     </div>
+                    <div style={{ padding: '22px 24px', fontSize: 20, color: openFormat === i ? 'oklch(0.78 0.22 330)' : '#8a8aa4', transition: 'transform .35s,color .25s', transform: openFormat === i ? 'rotate(45deg)' : 'none', alignSelf: 'stretch', display: 'flex', alignItems: 'center' }}>+</div>
                   </div>
-                )}
+                  {openFormat === i && (
+                    <div style={{ padding: '0 28px 28px 112px', background: '#08080e' }}>
+                      <p style={{ fontSize: 14, color: '#a8a4b0', lineHeight: 1.8, marginBottom: 12 }}>{f.body}</p>
+                      <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+                        {f.tags.map(t => (
+                          <span key={t} style={{ display: 'inline-block', fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.2em', color: '#8a8aa4', border: '1px solid #282840', padding: '3px 8px', borderRadius: 2 }}>{t}</span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+            <aside className="mp-inline-widget">
+              <div className="mp-inline-club">
+                <h3>Le Club de Mediapart</h3>
+                <p>Comment une enquête de fond peut-elle rencontrer les publics qui ne lisent pas encore la presse — sans devenir un produit de l&apos;algorithme&nbsp;? C&apos;est la question que ce partenariat pose concrètement.</p>
               </div>
-            ))}
+              <div className="mp-inline-alert">
+                <div className="mp-inline-alert-badge">● À retenir</div>
+                <div className="mp-inline-alert-body">
+                  <p>Le format FOKUS est calibré entre 145 et 156 secondes. Au-delà de 160s, le taux de complétion chute brutalement.</p>
+                  <p>Chaque épisode est publié simultanément sur @sanstransition et @Mediapart — deux algorithmes activés en parallèle.</p>
+                </div>
+              </div>
+            </aside>
           </div>
         </div>
       </section>
@@ -980,8 +891,8 @@ function PitchContent() {
       <section id="mp-histoire" data-mp-section="mp-histoire" style={{ background: '#0d0d18', fontFamily: "'Space Grotesk',sans-serif" }}>
         <div style={{ maxWidth: 1440, margin: '0 auto', padding: 'clamp(56px,7vw,96px) clamp(24px,5vw,64px)' }}>
           <div className="mp-rv" style={{ paddingBottom: 20, marginBottom: 52, borderBottom: '1px solid #1c1c2c' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 14, fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.28em', color: '#8a8aa4', marginBottom: 10 }}>
-              <span>03</span><span>— Notre parcours</span>
+            <div className="mp-sec-eyebrow" style={{ display: 'flex', alignItems: 'center', gap: 14, fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.28em', color: '#8a8aa4', marginBottom: 10 }}>
+              <span>03</span><span>— Notre parcours</span><span className="mp-sec-lbl">Notre parcours</span>
             </div>
             <h2 style={{ fontSize: 'clamp(22px,3.2vw,40px)', fontWeight: 700, letterSpacing: '-0.025em' }}>11 semaines de pilote · les preuves</h2>
           </div>
@@ -993,6 +904,8 @@ function PitchContent() {
           </div>
 
           {/* Deux colonnes côte à côte */}
+          <div className="mp-with-sidebar">
+          <div>
           <div
             style={{
               display: 'grid',
@@ -1141,15 +1054,15 @@ function PitchContent() {
                 }}
               >
                 <span style={{ fontSize: 11, color: '#8a8aa4', fontStyle: 'italic' }}>
-                  <span style={{ color: '#f59e0b' }}>●</span> SR ≥ 1 % · viralité
+                  <span className="mp-legend-dot mp-legend-dot-viral">●</span> SR ≥ 1 % · viralité
                 </span>
 
                 <span style={{ fontSize: 11, color: '#8a8aa4', fontStyle: 'italic' }}>
-                  <span style={{ color: '#60a5fa' }}>●</span> SR 0,7–1 %
+                  <span className="mp-legend-dot mp-legend-dot-watch">●</span> SR 0,7–1 %
                 </span>
 
                 <span style={{ fontSize: 11, color: '#8a8aa4', fontStyle: 'italic' }}>
-                  <span style={{ color: '#22c55e' }}>●</span> ER ≥ 20 % · engagement profond
+                  <span className="mp-legend-dot mp-legend-dot-engaged">●</span> ER ≥ 20 % · engagement profond
                 </span>
               </div>
             </div>
@@ -1242,6 +1155,26 @@ function PitchContent() {
           </div>
 
           <GrowthChart />
+          </div>
+            <aside className="mp-inline-widget">
+              <div className="mp-inline-alert">
+                <div className="mp-inline-alert-badge">● En chiffres — 11 semaines de pilote</div>
+                <div className="mp-inline-alert-body">
+                  <p><strong>614 000 vues cumulées</strong> · Share rate ≥ 1 % sur 3 épisodes sur 11 · Engagement moyen&nbsp;: 21,8 %.</p>
+                  <p>Sur la Loi Yadan&nbsp;: 546 243 vues · 96 % de non-abonné·es · 2,62 % de share rate — seuil de viralité de masse largement franchi.</p>
+                </div>
+              </div>
+              <div className="mp-inline-strip">
+                <div className="mp-inline-strip-logo">
+                  Sans<span>Transition</span>
+                </div>
+                <div className="mp-inline-strip-body">
+                  <strong>Association loi 1901 · Fondée en février 2025</strong>
+                  <p>Média féministe, antiraciste et indépendant. 47&nbsp;000+ abonné·es TikTok. Zéro pub, zéro milliardaire.</p>
+                </div>
+              </div>
+            </aside>
+          </div>
         </div>
       </section>
 
@@ -1251,13 +1184,13 @@ function PitchContent() {
       <section id="mp-videos" data-mp-section="mp-videos" style={{ background: '#08080e', fontFamily: "'Space Grotesk',sans-serif" }}>
         <div style={{ maxWidth: 1440, margin: '0 auto', padding: 'clamp(56px,7vw,96px) clamp(24px,5vw,64px)' }}>
           <div className="mp-rv" style={{ paddingBottom: 20, marginBottom: 52, borderBottom: '1px solid #1c1c2c' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 14, fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.28em', color: '#8a8aa4', marginBottom: 10 }}>
-              <span>04</span><span>— Le format en action</span>
+            <div className="mp-sec-eyebrow" style={{ display: 'flex', alignItems: 'center', gap: 14, fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.28em', color: '#8a8aa4', marginBottom: 10 }}>
+              <span>04</span><span>— Le format en action</span><span className="mp-sec-lbl">Le format en action</span>
             </div>
             <h2 style={{ fontSize: 'clamp(22px,3.2vw,40px)', fontWeight: 700, letterSpacing: '-0.025em' }}>Les épisodes</h2>
           </div>
 
-          <div className="mp-rv mp-d1" style={{ display: 'flex', justifyContent: 'center', gap: 'clamp(40px,5vw,80px)', flexWrap: 'wrap' }}>
+          <div className="mp-rv mp-d1 mp-video-grid">
             <VideoCardDeck videos={VIDEOS_LEMEDIA} label="× Le Media" />
             <VideoCardDeck videos={VIDEOS_MEDIAPART} label="× Mediapart" />
           </div>
@@ -1268,8 +1201,8 @@ function PitchContent() {
       <section id="mp-audience" data-mp-section="mp-audience" style={{ background: '#0d0d18', fontFamily: "'Space Grotesk',sans-serif" }}>
         <div style={{ maxWidth: 1440, margin: '0 auto', padding: 'clamp(56px,7vw,96px) clamp(24px,5vw,64px)' }}>
           <div className="mp-rv" style={{ paddingBottom: 20, marginBottom: 52, borderBottom: '1px solid #1c1c2c' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 14, fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.28em', color: '#8a8aa4', marginBottom: 10 }}>
-              <span>05</span><span>— Notre audience</span>
+            <div className="mp-sec-eyebrow" style={{ display: 'flex', alignItems: 'center', gap: 14, fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.28em', color: '#8a8aa4', marginBottom: 10 }}>
+              <span>05</span><span>— Notre audience</span><span className="mp-sec-lbl">Notre audience</span>
             </div>
             <h2 style={{ fontSize: 'clamp(22px,3.2vw,40px)', fontWeight: 700, letterSpacing: '-0.025em' }}>Qui ne lit pas encore Mediapart</h2>
           </div>
@@ -1308,7 +1241,7 @@ function PitchContent() {
                 <div className="mp-grad-text" style={{ fontSize: 'clamp(48px,6vw,80px)', fontWeight: 700, letterSpacing: '-0.04em', lineHeight: 1 }} data-count={21.8}>0</div>
                 <div style={{ marginBottom: 8, display: 'flex', flexDirection: 'column', gap: 4 }}>
                   <span style={{ fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.2em', color: '#8a8aa4' }}>% engagement moyen</span>
-                  <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: 'linear-gradient(90deg,oklch(0.72 0.27 290 / 0.15),oklch(0.85 0.25 40 / 0.1))', border: '1px solid oklch(0.72 0.27 290 / 0.25)', borderRadius: 2, padding: '3px 8px', fontSize: 12, fontWeight: 700, letterSpacing: '0.1em', color: 'oklch(0.85 0.25 40)' }}>
+                  <span className="mp-audience-benchmark" style={{ display: 'inline-flex', alignItems: 'center', gap: 6, background: 'linear-gradient(90deg,oklch(0.72 0.27 290 / 0.15),oklch(0.85 0.25 40 / 0.1))', border: '1px solid oklch(0.72 0.27 290 / 0.25)', borderRadius: 2, padding: '3px 8px', fontSize: 12, fontWeight: 700, letterSpacing: '0.1em', color: 'oklch(0.85 0.25 40)' }}>
                     ×3,6 le benchmark secteur
                   </span>
                 </div>
@@ -1374,29 +1307,43 @@ function PitchContent() {
       <section id="mp-manifesto" data-mp-section="mp-manifesto" style={{ background: '#08080e', fontFamily: "'Space Grotesk',sans-serif" }}>
         <div style={{ maxWidth: 1440, margin: '0 auto', padding: 'clamp(56px,7vw,96px) clamp(24px,5vw,64px)' }}>
           <div className="mp-rv" style={{ paddingBottom: 20, marginBottom: 52, borderBottom: '1px solid #1c1c2c' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 14, fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.28em', color: '#8a8aa4', marginBottom: 10 }}>
-              <span>06</span><span>— Fondations éthiques</span>
+            <div className="mp-sec-eyebrow" style={{ display: 'flex', alignItems: 'center', gap: 14, fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.28em', color: '#8a8aa4', marginBottom: 10 }}>
+              <span>06</span><span>— Fondations éthiques</span><span className="mp-sec-lbl">Fondations éthiques</span>
             </div>
             <h2 style={{ fontSize: 'clamp(22px,3.2vw,40px)', fontWeight: 700, letterSpacing: '-0.025em' }}>Ce en quoi on croit</h2>
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            {[
-              { delay: 0, text: <>Le journalisme doit partir <span className="mp-mf-kw">des concerné·es</span>, pas des experts de plateau.</> },
-              { delay: .1, text: <><span className="mp-mf-kw">L&apos;indépendance d&apos;angle</span> n&apos;est pas une valeur — c&apos;est la condition de la performance algorithmique.</> },
-              { delay: .2, text: <>Un format qui ne touche <span className="mp-mf-kw">pas les 18–34 ans</span> est un format qui disparaît du flux.</> },
-              { delay: .3, text: <>La rigueur factuelle et <span className="mp-mf-kw">dire clairement ce qu&apos;on pense</span> ne sont pas opposés.</> },
-              { delay: .4, text: <><span className="mp-mf-kw">Politiser sans bullshit.</span> C&apos;est notre seul brief éditorial.</> },
-              { delay: .5, text: <>On pense que <span className="mp-mf-kw">Mediapart</span> croit aux mêmes choses. C&apos;est pourquoi on frappe à votre porte.</> },
-            ].map((line, i) => (
-              <div
-                key={i}
-                className={`mp-mf-line mp-rv mp-interactive mp-mf-${i % 2 === 0 ? 'left' : 'right'}`}
-                style={{ transitionDelay: `${line.delay}s` }}
-              >
-                {line.text}
+          <div className="mp-with-sidebar">
+            <div style={{ display: 'flex', flexDirection: 'column' }}>
+              {[
+                { delay: 0, text: <>Le journalisme doit partir <span className="mp-mf-kw">des concerné·es</span>, pas des experts de plateau.</> },
+                { delay: .1, text: <><span className="mp-mf-kw">L&apos;indépendance d&apos;angle</span> n&apos;est pas une valeur — c&apos;est la condition de la performance algorithmique.</> },
+                { delay: .2, text: <>Un format qui ne touche <span className="mp-mf-kw">pas les 18–34 ans</span> est un format qui disparaît du flux.</> },
+                { delay: .3, text: <>La rigueur factuelle et <span className="mp-mf-kw">dire clairement ce qu&apos;on pense</span> ne sont pas opposés.</> },
+                { delay: .4, text: <><span className="mp-mf-kw">Politiser sans bullshit.</span> C&apos;est notre seul brief éditorial.</> },
+                { delay: .5, text: <>On pense que <span className="mp-mf-kw">Mediapart</span> croit aux mêmes choses. C&apos;est pourquoi on frappe à votre porte.</> },
+              ].map((line, i) => (
+                <div
+                  key={i}
+                  className={`mp-mf-line mp-rv mp-interactive mp-mf-${i % 2 === 0 ? 'left' : 'right'}`}
+                  style={{ transitionDelay: `${line.delay}s` }}
+                >
+                  {line.text}
+                </div>
+              ))}
+            </div>
+            <aside className="mp-inline-widget">
+              <div className="mp-inline-club">
+                <h3>Pourquoi Mediapart&nbsp;?</h3>
+                <p>Les sujets Mediapart réunissent exactement les conditions qui produisent un signal viral&nbsp;: révélation factuelle dense, personnage public, enjeu politique clair. L&apos;enquête devient matériau — sans perdre sa rigueur.</p>
               </div>
-            ))}
+              <div className="mp-inline-alert">
+                <div className="mp-inline-alert-badge">● Proposition concrète</div>
+                <div className="mp-inline-alert-body">
+                  <p>Un cycle test de <strong>4 épisodes</strong> sur des thèmes issus des enquêtes Mediapart. Objectif&nbsp;: mesurer le share rate, calibrer le ton, établir les indicateurs communs avant de signer la convention.</p>
+                </div>
+              </div>
+            </aside>
           </div>
         </div>
       </section>
@@ -1405,8 +1352,8 @@ function PitchContent() {
       <section id="mp-cta" data-mp-section="mp-cta" style={{ background: '#0d0d18', fontFamily: "'Space Grotesk',sans-serif" }}>
         <div style={{ maxWidth: 1440, margin: '0 auto', padding: 'clamp(56px,7vw,96px) clamp(24px,5vw,64px)' }}>
           <div className="mp-rv" style={{ paddingBottom: 20, marginBottom: 52, borderBottom: '1px solid #1c1c2c' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 14, fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.28em', color: '#8a8aa4', marginBottom: 10 }}>
-              <span>07</span><span>— Ce qu&apos;on propose concrètement</span>
+            <div className="mp-sec-eyebrow" style={{ display: 'flex', alignItems: 'center', gap: 14, fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.28em', color: '#8a8aa4', marginBottom: 10 }}>
+              <span>07</span><span>— Ce qu&apos;on propose concrètement</span><span className="mp-sec-lbl">Ce qu&apos;on propose concrètement</span>
             </div>
             <h2 style={{ fontSize: 'clamp(22px,3.2vw,40px)', fontWeight: 700, letterSpacing: '-0.025em' }}>Une collab régulière, pas un one-shot</h2>
           </div>
@@ -1443,7 +1390,7 @@ function PitchContent() {
               On démarre quand <span className="mp-grad-text">vous voulez.</span>
             </h3>
             <p style={{ fontSize: 15, color: '#a8a4b0', lineHeight: 1.8, maxWidth: 480 }}>
-              Hedi et l&apos;équipe sont disponibles pour en discuter — un appel, un café, un mail. Dossier complet, idées de sujets, calendrier prêt.
+              Hedi et l&apos;équipe sont disponibles pour en discuter — un appel, un café, un mail. Le PDF joint pose le cadre formel ; cette page permet de parcourir les preuves, les formats et le calendrier.
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
               <ActionButton
