@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 'use client'
 
 import React from 'react'
@@ -113,7 +114,7 @@ export default function VideosTikTok({ src = DEFAULT_SRC }: { src?: string }) {
       }
     })()
     return () => { cancelled = true }
-  }, [])
+  }, [src])
 
   /* 2 — oEmbed thumbnails */
   React.useEffect(() => {

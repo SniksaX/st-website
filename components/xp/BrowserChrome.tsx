@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import React from 'react'
 import { ArrowLeft, ArrowRight, RotateCw, Home, Menu, Star, X } from 'lucide-react'
 

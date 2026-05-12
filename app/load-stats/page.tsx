@@ -94,6 +94,39 @@ const erTikTok = (
   return ((L + C + S) / V) * 100;
 };
 
+// ---------- Sort helpers ----------
+const getDateMs = (it: StatsItem): number | undefined => {
+  const raw = it.date ?? it.create_time ?? it.created_at ?? it.published_at;
+  if (raw === null || raw === undefined || raw === "") return undefined;
+  if (typeof raw === "number") return raw;
+  const d = new Date(String(raw)).getTime();
+  return Number.isNaN(d) ? undefined : d;
+};
+
+const getTitle = (it: StatsItem): string =>
+  String(it.title ?? it.caption ?? it.name ?? "");
+
+const getEr = (it: StatsItem): number | undefined => {
+  const v = toNum(it.views);
+  const l = toNum(it.likes);
+  const c = toNum(it.comments);
+  const s = toNum(it.shares);
+  const er = toNum(it.engagementRate);
+  return er !== undefined ? er : (v !== undefined ? erTikTok(l, c, s, v) : undefined);
+};
+
+const valueFor = (it: StatsItem, key: SortKey): number | string | undefined => {
+  switch (key) {
+    case "date": return getDateMs(it);
+    case "title": return getTitle(it).toLowerCase();
+    case "views": return toNum(it.views);
+    case "likes": return toNum(it.likes);
+    case "comments": return toNum(it.comments);
+    case "shares": return toNum(it.shares);
+    case "er": return getEr(it);
+  }
+};
+
 // ---------- Couleurs (vues + ER) -> pastilles ----------
 function badgeClassesForViews(v?: number): string {
   // 0–5k rouge, 5–10k jaune, 10–25k vert, 25–100k bleu, >100k violet
@@ -295,39 +328,6 @@ export default function LoadStatsOfflinePage(): ReactElement {
     setPayload(null);
   };
 
-  // ---------- Helpers tri ----------
-  const getDateMs = (it: StatsItem): number | undefined => {
-    const raw = it.date ?? it.create_time ?? it.created_at ?? it.published_at;
-    if (raw === null || raw === undefined || raw === "") return undefined;
-    if (typeof raw === "number") return raw;
-    const d = new Date(String(raw)).getTime();
-    return Number.isNaN(d) ? undefined : d;
-  };
-
-  const getEr = (it: StatsItem): number | undefined => {
-    const v = toNum(it.views);
-    const l = toNum(it.likes);
-    const c = toNum(it.comments);
-    const s = toNum(it.shares);
-    const er = toNum(it.engagementRate);
-    return er !== undefined ? er : (v !== undefined ? erTikTok(l, c, s, v) : undefined);
-  };
-
-  const getTitle = (it: StatsItem): string =>
-    String(it.title ?? it.caption ?? it.name ?? "");
-
-  const valueFor = (it: StatsItem, key: SortKey): number | string | undefined => {
-    switch (key) {
-      case "date": return getDateMs(it);
-      case "title": return getTitle(it).toLowerCase();
-      case "views": return toNum(it.views);
-      case "likes": return toNum(it.likes);
-      case "comments": return toNum(it.comments);
-      case "shares": return toNum(it.shares);
-      case "er": return getEr(it);
-    }
-  };
-
   const sortedItems = React.useMemo(() => {
     const arr = items.slice();
     arr.sort((a, b) => {
@@ -348,7 +348,7 @@ export default function LoadStatsOfflinePage(): ReactElement {
       return sortDir === "asc" ? cmp : -cmp;
     });
     return arr;
-  }, [items, sortKey, sortDir]);
+  }, [items, sortKey, sortDir, valueFor]);
 
   const toggleSort = (key: SortKey): void => {
     if (sortKey === key) {

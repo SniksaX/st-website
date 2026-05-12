@@ -1,6 +1,5 @@
 ﻿'use client';
 import React from 'react';
-import Image from 'next/image';
 import Section from './Section';
 import SectionHeading from '@/components/SectionHeading';
 import { Inter } from 'next/font/google';
@@ -12,7 +11,6 @@ const inter = Inter({
   weight: ['400', '500', '700'],
 });
 
-const DON_URL = 'https://www.helloasso.com/associations/sans-transition/formulaires/1';
 
 export default function Dons() {
   const container: Variants = {

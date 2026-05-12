@@ -1,6 +1,6 @@
+/* eslint-disable @next/next/no-img-element */
 import React from 'react';
 import { motion, useDragControls } from 'framer-motion';
-import styles from '../../app/xp/xp-theme.module.css';
 
 interface WindowProps {
     title: string;

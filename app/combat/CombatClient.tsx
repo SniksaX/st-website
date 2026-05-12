@@ -166,11 +166,6 @@ const PROOF_POINTS: ProofPoint[] = [
   { value: '728 EUR', label: 'pic HelloAsso', body: 'Avril 2026 : 84 transactions validées, dont 56 mensualités.' },
 ]
 
-const HERO_SIGNAL_ITEMS: HeroSignalItem[] = [
-  { title: 'Loi Yadan', meta: 'Vidéo de référence', stat: '546k vues' },
-  { title: 'Ibti', meta: 'Fokus-témoignage', stat: '1,0M vues' },
-  { title: 'Le Média', meta: 'Collaboration', stat: '11 épisodes' },
-]
 
 const DELIVERABLE_ITEMS: AskItem[] = [
   { idx: '01', title: 'Rythme stabilisé', body: "Maintenir trois vidéos par semaine sans dépendre d'un temps bénévole imprévisible." },

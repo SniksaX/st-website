@@ -1,6 +1,6 @@
+/* eslint-disable @next/next/no-img-element */
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import styles from '../../app/xp/xp-theme.module.css';
 
 export default function Taskbar() {
     const [time, setTime] = useState<string>('');

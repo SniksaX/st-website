@@ -54,7 +54,6 @@ const Tile = ({
   emphasis?: boolean
 }) => {
   const prefersReduced = useReducedMotion()
-  const Comp = external ? "a" : Link
   const common = "group relative flex items-center justify-between gap-3 rounded-xl border border-white/10 bg-white/[0.04] px-3 py-3 text-sm text-white/90 backdrop-blur transition focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40 hover:bg-white/[0.06]"
   const pulse = emphasis ? "after:absolute after:inset-0 after:-z-10 after:rounded-xl after:bg-gradient-to-r after:from-white/10 after:to-transparent" : ""
 
