@@ -20,29 +20,29 @@ function PasswordGate({ onUnlock }: { onUnlock: () => void }) {
 /* ── Data ───────────────────────────────────────────────── */
 const FORMATS = [
   {
-    idx: '01', name: 'FOKUS', desc: 'Format natif TikTok · 145–156 secondes · Trois voix',
-    body: "Le Fokus n'est pas un format magazine adapté au web. C'est un format natif TikTok : trois voix alternées en rythme soutenu, durée calibrée entre 145 et 156 secondes. Au-delà de 160 secondes, le taux de complétion chute brutalement. La vidéo transforme une information dense en acte d'identification ou de dénonciation — c'est ce mécanisme qui produit la viralité militante.",
-    tags: ['TikTok', 'Instagram', '145–156s', 'Viralité politique'],
+    idx: '01', name: 'HÉDITO', desc: 'Locomotive éditoriale · 80–90 secondes · Format incarné',
+    body: "Le Hédito n'est pas une simple introduction. C'est une porte d'entrée éditoriale : première personne, urgence morale, chiffres transformés en arguments émotionnels, voix journalistique intégrée sans casser le rythme, verdict final et signature ST. Sur Électrochocs, le Hédito de Hedi génère 241 969 vues Instagram, 27,4 % de rétention TikTok et 95 nouveaux abonnés — contre 2 pour les formats contextuels. C'est le format locomotive.",
+    tags: ['TikTok', 'Instagram', '80–90s', 'Format locomotive', 'Incarnation'],
   },
   {
-    idx: '02', name: 'CROSS-POST', desc: 'Distribution simultanée · Deux comptes TikTok · Reach amplifié',
-    body: "Chaque épisode est publié simultanément sur @sanstransition et @Mediapart. Les vues cumulées incluent les deux comptes. Ce mécanisme double le reach organique initial et active deux algorithmes distincts — avec en prime la reprise sur Instagram Mediapart et le lien article → vidéo intégré dans l'enquête web.",
-    tags: ['TikTok', 'Instagram', 'Cross-post simultané'],
+    idx: '02', name: 'FOKUS', desc: 'Décryptage pédagogique · 120–150 secondes · Trois voix',
+    body: "Le Fokus est un format natif TikTok à trois voix alternées en rythme soutenu, calibré entre 120 et 150 secondes. Il explique un mécanisme, une institution ou un scandale complexe. Il donne de la profondeur à la série, diversifie les entrées éditoriales et évite de réduire la collaboration à une seule incarnation. À utiliser en deuxième ou troisième temps, jamais comme point d'entrée.",
+    tags: ['TikTok', 'Instagram', '120–150s', 'Décryptage', 'Trois voix'],
   },
   {
-    idx: '03', name: 'SHARE RATE', desc: 'L\'indicateur-clé · Seuil 1,0 % · Viralité de masse',
-    body: "Le share rate — taux de partage par vue — est notre boussole. Au-delà de 1,0 %, la vidéo sort de la bulle communautaire et inonde l'algorithme de masse. Sur 11 épisodes pilote : Loi Yadan → 535 111 vues, 2,62 % de share rate, 96 % de non-abonné·es. Les sujets Mediapart réunissent exactement les conditions qui produisent ce signal.",
-    tags: ['Analytics', 'Share rate ≥ 1%', 'FYP', 'Algorithme'],
+    idx: '03', name: 'FOKUS-TÉMOIGNAGE', desc: 'Entrée humaine · 100–140 secondes · Expérience vécue',
+    body: "Le Fokus-témoignage porte une expérience vécue et rend le sujet concret. Il ancre l'enquête dans du réel identifiable, pas seulement dans des données. Format complémentaire qui densifie la série et touche des entrées éditoriales différentes — les publics arrivent par l'émotion, restent pour les faits.",
+    tags: ['TikTok', 'Instagram', '100–140s', 'Témoignage', 'Profondeur'],
   },
   {
-    idx: '04', name: 'PIPELINE', desc: 'Sujet → Script → Tournage → Post-prod → Distribution',
-    body: 'ST prend en charge 100 % de la production. Mediapart fournit les sujets, valide les faits, apporte ses locaux pour le tournage. Chaque épisode mobilise 3 personnes sur environ 8h. La répartition est claire : Mediapart détient la validation factuelle absolue. ST conserve la maîtrise totale de l\'angle éditorial et de la formulation — c\'est cette indépendance qui produit la performance algorithmique.',
-    tags: ['DaVinci Resolve', 'Locaux Mediapart', 'Équipe ST', 'Convention formelle'],
+    idx: '04', name: 'ODL / CONTEXTE', desc: 'Profondeur historique · 90–130 secondes · Continuité politique',
+    body: "L'OeilDe Lucho (ODL) situe le sujet dans le temps, montre la continuité politique et évite la lecture événementielle isolée. Il donne de la hauteur à la série sans alourdir la porte d'entrée. À utiliser après le Hédito pour ceux qui veulent comprendre d'où vient le problème.",
+    tags: ['TikTok', 'Instagram', '90–130s', 'Contexte', 'Histoire'],
   },
   {
-    idx: '05', name: 'CYCLE TEST', desc: '4 épisodes · Sujets Mediapart · Indicateurs partagés',
-    body: "On propose de ne pas s'engager sur le long terme avant d'avoir vu la mécanique en action. Quatre épisodes sur des thèmes issus des enquêtes Mediapart : santé mentale / psychiatrie, violences policières / justice, Palestine / droit international, affaire judiciaire / politique. Objectif : mesurer le share rate, calibrer le ton, établir les indicateurs communs avant de signer la convention.",
-    tags: ['4 épisodes', 'Pilote', 'Convention à venir'],
+    idx: '05', name: 'CAPSULE ÉVÉNEMENT', desc: 'Couverture souple · 30–90 secondes · Réaction rapide',
+    body: "La capsule événement est le format agile de la collaboration : festival, conférence, lancement d'enquête, réaction à chaud. Elle assure une présence sociale rapide sur les temps forts de Mediapart sans mobiliser la chaîne de production complète. Elle valorise la marque et produit du contenu directement distribuable.",
+    tags: ['TikTok', 'Instagram', '30–90s', 'Événement', 'Terrain'],
   },
 ]
 
@@ -66,19 +66,20 @@ const TL = [
   { date: 'Mars – Mai 2025', title: '10k abonné·es TikTok', body: "En 10 semaines, on franchit les 10 000. Format FOKUS : analyses courtes, féministes, accessibles, radicales." },
   { date: 'Été 2025', title: 'Campagne de soutien', body: "Première levée citoyenne sur HelloAsso. Lancement du site vitrine. 3k abonné·es Instagram." },
   { date: 'Hiver 2025–2026', title: '40k TikTok · 1k YouTube', body: "Lancement YouTube. Expansion des formats. Couvertures terrain." },
-  { date: 'Jan – Avr 2026', title: '11 semaines de pilote', body: "Collaboration avec un premier média partenaire. 11 épisodes. 3 franchissements du seuil viral. 535k vues sur la Loi Yadan." },
-  { date: 'Avril 2026', title: 'Ce dossier', body: "On frappe à votre porte. On pense que Sans Transition et Mediapart peuvent construire quelque chose de fort ensemble." },
+  { date: 'Janvier 2026', title: 'Série 1 × Mediapart — Saint-Étienne', body: "Trois épisodes sur le Kompromat de Saint-Étienne. Premier crosspost TikTok/Instagram avec Mediapart. La mécanique est posée." },
+  { date: 'Mai 2026', title: 'Série 2 × Mediapart — Électrochocs', body: "297 511 vues. 91 % sur Instagram. 92–98 % de non-abonnés. Le Hédito de Hedi génère 241 969 vues IG et 27,4 % de rétention TikTok. Instagram devient canal de distribution primaire." },
+  { date: 'Mai 2026', title: 'Proposition de convention', body: "Deux séries prouvent le modèle. On propose de passer d'une collaboration au cas par cas à une convention de séries éditoriales : formats flexibles, crosspost systématique, rémunération au forfait, reporting régulier." },
 ]
 
 const SHOWCASE_ITEMS = [
-  { num: '01', stat: '5,23M',  label: 'Vues TikTok cumulées',  detail: '5 234 380 vues totales' },
-  { num: '02', stat: '21,8%',  label: "Taux d'engagement",     detail: 'Benchmark secteur : 5–7 %' },
-  { num: '03', stat: '76%',    label: 'Audience féminine',     detail: 'Queer & féministe' },
-  { num: '04', stat: '2,62%',  label: 'Share rate record',     detail: 'Loi Yadan — viralité totale' },
-  { num: '05', stat: '535K',   label: 'Vues — Loi Yadan',      detail: '96 % non-abonné·es' },
-  { num: '06', stat: '78%',    label: 'Audience France',       detail: 'Paris, Lyon, Marseille' },
-  { num: '07', stat: '18–34',  label: "Tranche d'âge",         detail: 'Cœur de cible jeune' },
-  { num: '08', stat: '≥ 1%',   label: 'Seuil viral',          detail: '3 franchissements' },
+  { num: '01', stat: '297K',   label: 'Vues Électrochocs',     detail: '91 % générées sur Instagram' },
+  { num: '02', stat: '91%',    label: 'Distribution Instagram', detail: 'Canal primaire — pas de reprise' },
+  { num: '03', stat: '92–98%', label: 'Non-abonnés IG',        detail: 'Sortie de bulle confirmée' },
+  { num: '04', stat: '27,4%',  label: 'Rétention TikTok',      detail: 'Hédito 84s — format locomotive' },
+  { num: '05', stat: '242K',   label: 'Vues IG — Hédito',      detail: '224 follows générés' },
+  { num: '06', stat: '2,62%',  label: 'Share rate record',     detail: 'Loi Yadan — 546k vues' },
+  { num: '07', stat: '21,8%',  label: "Taux d'engagement",     detail: '×3,6 le benchmark secteur' },
+  { num: '08', stat: '78%',    label: 'Audience France',       detail: 'Paris, Lyon, Marseille' },
 ]
 
 const TOP_VIRAL = [
@@ -90,9 +91,9 @@ const TOP_VIRAL = [
 ]
 
 const PROOF_POINTS = [
-  { value: '5,23 M', label: 'vues cumulees', body: '5 234 380 vues totales et une preuve claire de distribution sur TikTok.' },
-  { value: '21,8 %', label: 'engagement moyen', body: 'Un niveau tres au-dessus du benchmark medias sur formats courts.' },
-  { value: '3 / 11', label: 'seuil viral franchi', body: 'Le share rate depasse 1 % sur trois episodes, signal de diffusion hors bulle.' },
+  { value: '297 K', label: 'vues — serie ECT', body: '297 511 vues sur Électrochocs. Instagram génère 91 % du total. La plateforme devient canal de distribution primaire, pas de reprise.' },
+  { value: '92–98%', label: 'non-abonnés Instagram', body: 'Sur chaque vidéo de la série, entre 92 et 98 % des vues viennent de comptes qui ne suivent pas @sanstransition. Sortie de bulle réelle.' },
+  { value: '27,4 %', label: 'rétention TikTok — Hédito', body: 'Le format incarné de 84 secondes génère 27,4 % de rétention TikTok — contre 16–18 % pour les formats contextuels. C\'est le signal locomotive.' },
 ]
 
 const NAV = [
@@ -127,6 +128,12 @@ const VIDEOS_MEDIAPART: VidItem[] = [
   { id: '7593457658443681046', title: 'Kompromat de Saint-Étienne pt. 2 — le chantage', date: 'Jan. 2026', views: 10810, er: 20.9, shares: 40 },
   { id: '7593068443847363862', title: 'Kompromat de Saint-Étienne pt. 1 — la sextape', date: 'Jan. 2026', views: 7666, er: 26.7, shares: 52 },
   { id: '7593811948811308310', title: 'Kompromat de Saint-Étienne — le Fokus complet', date: 'Jan. 2026', views: 2072, er: 21.1, shares: 7 },
+]
+
+const VIDEOS_ECT: VidItem[] = [
+  { id: '7636076214976875798', title: 'Hédito · Géraldine et les électrochocs', date: 'Mai 2026', views: 23918, er: 18.1, shares: 162 },
+  { id: '7636445235630984470', title: "L'OeilDe Lucho · Histoire de l'ECT", date: 'Mai 2026', views: 1826, er: 28.2, shares: 27 },
+  { id: '7637198122665446678', title: 'Fokus-témoignage · Géraldine', date: 'Mai 2026', views: 2316, er: 23.2, shares: 20 },
 ]
 
 /* ── Growth chart ───────────────────────────────────────── */
@@ -310,9 +317,9 @@ function TimelineScrollSection() {
             <div style={{ display: 'flex', alignItems: 'center', gap: 14, fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.28em', color: '#8a8aa4', marginBottom: 8 }}>
               <span className="mp-grad-line" />Notre parcours
             </div>
-            <h2 style={{ fontSize: 'clamp(22px,3.2vw,40px)', fontWeight: 700, letterSpacing: '-0.025em' }}>14 mois · une trajectoire</h2>
+            <h2 style={{ fontSize: "clamp(22px,3.2vw,40px)", fontWeight: 700, letterSpacing: "-0.025em" }}>16 mois · deux séries Mediapart</h2>
           </div>
-          <span style={{ fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.22em', color: '#8a8aa4' }}>fév. 2025 → avr. 2026</span>
+          <span style={{ fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.22em', color: '#8a8aa4' }}>fév. 2025 → mai 2026</span>
         </div>
 
         {/* Track + line dans le même conteneur flex-column */}
@@ -648,7 +655,7 @@ function PitchContent() {
             <div className="mp-hero-copy">
           <div className="mp-rv" style={{ display: 'inline-flex', alignItems: 'center', gap: 14, fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.32em', color: '#8a8aa4', marginBottom: 44 }}>
             <span className="mp-grad-line" />
-            Dossier de partenariat · Avril 2026
+            Proposition de convention · Mai 2026
           </div>
 
           <div className="mp-rv mp-hero-brand mp-st-hero-brand" style={{ display: 'flex', alignItems: 'center', gap: 'clamp(20px,3vw,48px)' }}>
@@ -692,20 +699,20 @@ function PitchContent() {
             </button>
           </div>
 
-          <p className="mp-rv mp-d3" style={{ fontSize: 'clamp(14px,1.5vw,18px)', fontWeight: 300, color: '#a8a4b0', maxWidth: 560, lineHeight: 1.7, marginBottom: 40, marginTop: 40 }}>
-            Faire résonner l&apos;enquête radicale sur la For You Page — structurer, revendiquer et décupler un pipeline éditorial qui fonctionne déjà.
+          <p className="mp-rv mp-d3" style={{ fontSize: "clamp(14px,1.5vw,18px)", fontWeight: 300, color: "#a8a4b0", maxWidth: 560, lineHeight: 1.7, marginBottom: 40, marginTop: 40 }}>
+            Deux séries produites ensemble. La preuve est là. Il faut maintenant lui donner une forme économique et éditoriale stable.
           </p>
 
           <article className="mp-editorial-story">
-            <div className="mp-editorial-kicker">Partenariat éditorial</div>
+            <div className="mp-editorial-kicker">Proposition de convention éditoriale</div>
             <h1 className="mp-editorial-title">
-              Sans Transition propose à Mediapart de faire circuler l’enquête sur la For You Page
+              Sans Transition et Mediapart ont déjà produit deux séries. Voici la suite.
             </h1>
             <p className="mp-editorial-deck">
-              Le média féministe et antiraciste veut transformer des enquêtes exigeantes en formats courts natifs, pensés pour toucher les publics qui ne lisent pas encore la presse indépendante.
+              297 511 vues, 91 % sur Instagram, 92–98 % de non-abonnés. Les enquêtes Mediapart circulent là où elles ne circulaient pas. On propose de structurer ça en convention.
             </p>
             <div className="mp-editorial-author">
-              par <strong>Sans Transition</strong> · en complément du PDF transmis par mail · avril 2026
+              par <strong>Sans Transition</strong> · en complément du PDF transmis par mail · mai 2026
             </div>
           </article>
 
@@ -748,11 +755,11 @@ function PitchContent() {
         <div className="mp-hero-stats">
           <div className="mp-hero-stats-grid">
             {[
-              { target: 5.23, suffix: '', label: 'M vues TikTok', isFloat: true },
-              { target: 21.8, suffix: '', label: '% engagement moyen', isFloat: true },
-              { target: 76, suffix: '', label: '% audience féminine', isFloat: false },
-              { target: 2025, prefix: 'fév. ', suffix: '', label: 'Depuis', isFloat: false },
-              { target: 11, prefix: '', suffix: ' semaines', label: 'Pilote', isFloat: false },
+              { target: 297511, prefix: '', suffix: '', label: 'vues — Électrochocs', isFloat: false },
+              { target: 91, prefix: '', suffix: '', label: '% vues Instagram', isFloat: false },
+              { target: 27.4, prefix: '', suffix: '', label: '% rétention TikTok', isFloat: true },
+              { target: 2, prefix: '', suffix: ' séries', label: 'produites ensemble', isFloat: false },
+              { target: 21.8, prefix: '', suffix: '', label: '% engagement moyen', isFloat: true },
             ].map((st, i) => (
               <div key={i} className="mp-hero-stat-card mp-interactive">
                 {i > 0 && <span style={{ color: '#282840', fontSize: 20 }}>·</span>}
@@ -787,15 +794,15 @@ function PitchContent() {
         <div style={{ maxWidth: 1440, margin: '0 auto', padding: 'clamp(56px,7vw,96px) clamp(24px,5vw,64px)' }}>
           <div className="mp-rv" style={{ paddingBottom: 20, marginBottom: 52, borderBottom: '1px solid #1c1c2c' }}>
             <div className="mp-sec-eyebrow" style={{ display: 'flex', alignItems: 'center', gap: 14, fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.28em', color: '#8a8aa4', marginBottom: 10 }}>
-              <span>01</span><span>— Ce qu&apos;on propose à Mediapart</span><span className="mp-sec-lbl">Ce qu&apos;on propose à Mediapart</span>
+              <span>01</span><span>— Ce que les deux séries prouvent</span><span className="mp-sec-lbl">Ce que les deux séries prouvent</span>
             </div>
-            <h2 style={{ fontSize: 'clamp(22px,3.2vw,40px)', fontWeight: 700, letterSpacing: '-0.025em' }}>Un pipeline éditorial qui existe déjà</h2>
+            <h2 style={{ fontSize: 'clamp(22px,3.2vw,40px)', fontWeight: 700, letterSpacing: '-0.025em' }}>La collaboration a dépassé le stade de l&apos;intuition</h2>
           </div>
 
           <div className="mp-proof-strip mp-rv mp-d1">
             <div className="mp-proof-intro">
-              <span style={{ fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.22em', color: '#8a8aa4' }}>Pourquoi ce partenariat est credible</span>
-              <strong>La relation ne part pas d&apos;une promesse, elle part d&apos;un usage deja observe.</strong>
+              <span style={{ fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.22em', color: '#8a8aa4' }}>Ce que les données des deux séries établissent</span>
+              <strong>Instagram est devenu le canal primaire. Le Hédito est la locomotive. Il faut maintenant structurer ça.</strong>
             </div>
             {PROOF_POINTS.map((item) => (
               <div key={item.label} className="mp-proof-item mp-interactive">
@@ -825,7 +832,7 @@ function PitchContent() {
             <p style={{ fontSize: 'clamp(16px,2vw,22px)', fontWeight: 300, fontStyle: 'italic', color: '#a8a4b0', lineHeight: 1.7, marginBottom: 12 }}>
               &ldquo;L&apos;objectif de cette proposition n&apos;est pas de créer une relation à partir de rien. C&apos;est de structurer, revendiquer et décupler un pipeline qui fonctionne.&rdquo;
             </p>
-            <span style={{ fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.24em', color: '#8a8aa4' }}>— Proposition éditoriale · Sans Transition · Avril 2026</span>
+            <span style={{ fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.24em', color: '#8a8aa4' }}>— Proposition de convention · Sans Transition · Mai 2026</span>
           </div>
         </div>
       </section>
@@ -835,9 +842,9 @@ function PitchContent() {
         <div style={{ maxWidth: 1440, margin: '0 auto', padding: 'clamp(56px,7vw,96px) clamp(24px,5vw,64px)' }}>
           <div className="mp-rv" style={{ paddingBottom: 20, marginBottom: 52, borderBottom: '1px solid #1c1c2c' }}>
             <div className="mp-sec-eyebrow" style={{ display: 'flex', alignItems: 'center', gap: 14, fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.28em', color: '#8a8aa4', marginBottom: 10 }}>
-              <span>02</span><span>— Architecture du pipeline</span><span className="mp-sec-lbl">Architecture du pipeline</span>
+              <span>02</span><span>— Dispositif éditorial</span><span className="mp-sec-lbl">Dispositif éditorial</span>
             </div>
-            <h2 style={{ fontSize: 'clamp(22px,3.2vw,40px)', fontWeight: 700, letterSpacing: '-0.025em' }}>Comment ça marche</h2>
+            <h2 style={{ fontSize: 'clamp(22px,3.2vw,40px)', fontWeight: 700, letterSpacing: '-0.025em' }}>Du format unique au dispositif flexible</h2>
           </div>
 
           <div className="mp-with-sidebar">
@@ -871,13 +878,13 @@ function PitchContent() {
             <aside className="mp-inline-widget">
               <div className="mp-inline-club">
                 <h3>Le Club de Mediapart</h3>
-                <p>Comment une enquête de fond peut-elle rencontrer les publics qui ne lisent pas encore la presse — sans devenir un produit de l&apos;algorithme&nbsp;? C&apos;est la question que ce partenariat pose concrètement.</p>
+                <p>Le Fokus ne doit plus porter seul la promesse du partenariat. La performance vient d&apos;une architecture éditoriale capable d&apos;adapter la forme au sujet — pas d&apos;un format fixe répété.</p>
               </div>
               <div className="mp-inline-alert">
-                <div className="mp-inline-alert-badge">● À retenir</div>
+                <div className="mp-inline-alert-badge">● Ce qu&apos;Électrochocs prouve</div>
                 <div className="mp-inline-alert-body">
-                  <p>Le format FOKUS est calibré entre 145 et 156 secondes. Au-delà de 160s, le taux de complétion chute brutalement.</p>
-                  <p>Chaque épisode est publié simultanément sur @sanstransition et @Mediapart — deux algorithmes activés en parallèle.</p>
+                  <p>Le Hédito (84s) génère 27,4 % de rétention TikTok. Les formats longs (ODL, Fokus-témoignage) renforcent la série en 2e ou 3e position — jamais en ouverture.</p>
+                  <p>Instagram génère 91 % des vues. Le crosspost n&apos;est pas une option de fin de chaîne, c&apos;est un paramètre de production dès le script.</p>
                 </div>
               </div>
             </aside>
@@ -894,12 +901,12 @@ function PitchContent() {
             <div className="mp-sec-eyebrow" style={{ display: 'flex', alignItems: 'center', gap: 14, fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.28em', color: '#8a8aa4', marginBottom: 10 }}>
               <span>03</span><span>— Notre parcours</span><span className="mp-sec-lbl">Notre parcours</span>
             </div>
-            <h2 style={{ fontSize: 'clamp(22px,3.2vw,40px)', fontWeight: 700, letterSpacing: '-0.025em' }}>11 semaines de pilote · les preuves</h2>
+            <h2 style={{ fontSize: "clamp(22px,3.2vw,40px)", fontWeight: 700, letterSpacing: "-0.025em" }}>11 semaines de pilote · les preuves</h2>
           </div>
 
           <div className="mp-rv" style={{ marginBottom: 8 }}>
             <p style={{ fontSize: 'clamp(15px,1.6vw,18px)', fontWeight: 300, color: '#a8a4b0', lineHeight: 1.75 }}>
-              Entre janvier et avril 2026, 11 semaines de collaboration sur le format exact. L&apos;indicateur-clé : le <strong style={{ color: '#f0ede8', fontWeight: 600 }}>share rate</strong>. Au-delà de 1,0 %, la vidéo sort de la bulle communautaire.
+              Entre janvier et avril 2026, 11 semaines de collaboration avec un premier média partenaire. L&apos;indicateur-clé : le <strong style={{ color: '#f0ede8', fontWeight: 600 }}>share rate</strong>. Au-delà de 1,0 %, la vidéo sort de la bulle communautaire.
             </p>
           </div>
 
@@ -1148,7 +1155,7 @@ function PitchContent() {
                     fontStyle: 'italic',
                   }}
                 >
-                  TikTok Studio · avril 2026 · 11 épisodes
+                  TikTok Studio · LeMedia pilote · jan–avr 2026 · 11 épisodes
                 </span>
               </div>
             </div>
@@ -1158,10 +1165,10 @@ function PitchContent() {
           </div>
             <aside className="mp-inline-widget">
               <div className="mp-inline-alert">
-                <div className="mp-inline-alert-badge">● En chiffres — 11 semaines de pilote</div>
+                <div className="mp-inline-alert-badge">● En chiffres — deux séries × Mediapart</div>
                 <div className="mp-inline-alert-body">
-                  <p><strong>614 000 vues cumulées</strong> · Share rate ≥ 1 % sur 3 épisodes sur 11 · Engagement moyen&nbsp;: 21,8 %.</p>
-                  <p>Sur la Loi Yadan&nbsp;: 546 243 vues · 96 % de non-abonné·es · 2,62 % de share rate — seuil de viralité de masse largement franchi.</p>
+                  <p><strong>Électrochocs (mai 2026)</strong>&nbsp;: 297 511 vues · 91 % Instagram · 92–98 % non-abonnés · 27,4 % rétention Hédito.</p>
+                  <p><strong>Saint-Étienne (jan. 2026)</strong>&nbsp;: 20 548 vues TikTok · première série crosspost · mécanique posée. Sur le pilote LeMedia&nbsp;: 546k vues · 2,62 % share rate · 96 % non-abonnés.</p>
                 </div>
               </div>
               <div className="mp-inline-strip">
@@ -1192,7 +1199,8 @@ function PitchContent() {
 
           <div className="mp-rv mp-d1 mp-video-grid">
             <VideoCardDeck videos={VIDEOS_LEMEDIA} label="× Le Media" />
-            <VideoCardDeck videos={VIDEOS_MEDIAPART} label="× Mediapart" />
+            <VideoCardDeck videos={VIDEOS_MEDIAPART} label="× Mediapart · Saint-Étienne" />
+            <VideoCardDeck videos={VIDEOS_ECT} label="× Mediapart · Électrochocs" />
           </div>
         </div>
       </section>
@@ -1279,7 +1287,7 @@ function PitchContent() {
 
               {/* Footer note */}
               <div style={{ marginTop: 24, paddingTop: 16, borderTop: '1px solid #1c1c2c', fontSize: 12, color: '#8a8aa4', fontStyle: 'italic' }}>
-                Données TikTok Studio certifiées · arrêtées avril 2026 · Benchmark : moyenne médias TikTok FR
+                Données TikTok Studio et Instagram Insights · arrêtées mai 2026 · Benchmark : moyenne médias TikTok FR
               </div>
             </div>
           </div>
@@ -1353,17 +1361,17 @@ function PitchContent() {
         <div style={{ maxWidth: 1440, margin: '0 auto', padding: 'clamp(56px,7vw,96px) clamp(24px,5vw,64px)' }}>
           <div className="mp-rv" style={{ paddingBottom: 20, marginBottom: 52, borderBottom: '1px solid #1c1c2c' }}>
             <div className="mp-sec-eyebrow" style={{ display: 'flex', alignItems: 'center', gap: 14, fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.28em', color: '#8a8aa4', marginBottom: 10 }}>
-              <span>07</span><span>— Ce qu&apos;on propose concrètement</span><span className="mp-sec-lbl">Ce qu&apos;on propose concrètement</span>
+              <span>07</span><span>— Proposition de convention</span><span className="mp-sec-lbl">Proposition de convention</span>
             </div>
-            <h2 style={{ fontSize: 'clamp(22px,3.2vw,40px)', fontWeight: 700, letterSpacing: '-0.025em' }}>Une collab régulière, pas un one-shot</h2>
+            <h2 style={{ fontSize: 'clamp(22px,3.2vw,40px)', fontWeight: 700, letterSpacing: '-0.025em' }}>Une convention de séries, pas des one-shots</h2>
           </div>
 
           {/* Cycle test cards */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 1, background: '#1c1c2c', borderRadius: 3, overflow: 'hidden', border: '1px solid #1c1c2c', marginBottom: 48 }} className="mp-prop-grid">
             {[
-              { tag: 'Semaine 1', title: 'Santé mentale / psychiatrie', body: "Enquête sur l'électroconvulsivothérapie et la fondation FondaMental — ce que les données révèlent sur la psychiatrie institutionnelle française." },
-              { tag: 'Semaine 2–3', title: 'Violences policières · Palestine', body: "Suivi d'une affaire judiciaire en cours : mécanismes institutionnels, impunité, données chiffrées. Puis analyse d'une révélation Mediapart sur la politique française vis-à-vis de l'État hébreu." },
-              { tag: 'Semaine 4', title: 'Affaire judiciaire / politique', body: "Enquête Mediapart sur une personnalité ou une institution — ce que les documents révèlent, ce que les grands médias n'ont pas dit." },
+              { tag: 'Option A — Cycle test', title: '3 contenus + 1 bilan data', body: "Lancer le prochain cycle sur une enquête forte ou un sujet de fond. Hédito + Fokus ou témoignage + bilan data partagé à J+7. Objectif : stabiliser les formats et poser les indicateurs communs." },
+              { tag: 'Option B — Série éditoriale', title: 'Hédito + Fokus/témoignage + contexte', body: "Transformer une enquête dense en conversation sociale multi-entrées. Un format locomotive pour ouvrir, un format pédagogique pour comprendre, un témoignage ou ODL pour densifier." },
+              { tag: 'Option C — Convention longue', title: '1 à 2 séries par mois', body: "Installer une présence sociale régulière et mesurable. Reporting trimestriel. Rémunération au forfait sur la production complète : veille, script, validation, tournage, montage, distribution, analyse." },
             ].map((c, i) => (
               <div key={i} className="mp-prop-card mp-shiny mp-rv mp-interactive" style={{ transitionDelay: `${i * 0.1}s` }}>
                 <div style={{ fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.24em', color: '#8a8aa4', marginBottom: 14 }}>{c.tag}</div>
@@ -1373,24 +1381,20 @@ function PitchContent() {
             ))}
           </div>
 
-          <div className="mp-rv" style={{ marginBottom: 56 }}>
-            <p style={{ fontSize: 'clamp(15px,1.6vw,18px)', fontWeight: 300, color: '#a8a4b0', lineHeight: 1.75 }}>
-              Ce cycle peut être adapté selon le calendrier éditorial de Mediapart. Si l’actualité, un événement public ou un temps fort éditorial le justifie, un épisode Fokus peut être remplacé par une activation événementielle équivalente : couverture d’un festival, capsules courtes, interviews verticales, micro-trottoirs, formats ‘ce qu’il faut retenir’, ou contenus incarnés tournés sur place. L’objectif reste le même : traduire un temps fort Mediapart en contenus sociaux natifs, distribuables sur TikTok et Instagram, avec validation factuelle, montage ST et bilan data.            </p>
-          </div>
 
           <div className="mp-quote mp-rv" style={{ marginBottom: 56 }}>
             <p style={{ fontSize: 'clamp(16px,2vw,22px)', fontWeight: 300, fontStyle: 'italic', color: '#a8a4b0', lineHeight: 1.7, marginBottom: 12 }}>
               &ldquo;Sans Transition n&apos;est pas un prestataire de production. La collaboration fonctionne parce que les deux parties partagent un cadre éditorial et que ST garde la main sur le script, l&apos;angle et le montage. C&apos;est ce qui produit les résultats — pas le plateau, pas le logo en haut à droite.&rdquo;
             </p>
-            <span style={{ fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.24em', color: '#8a8aa4' }}>— Proposition éditoriale · Sans Transition · Avril 2026</span>
+            <span style={{ fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.24em', color: '#8a8aa4' }}>— Proposition de convention · Sans Transition · Mai 2026</span>
           </div>
 
           <div className="mp-rv mp-d1" style={{ textAlign: 'center', maxWidth: 640, margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 28 }}>
             <h3 style={{ fontSize: 'clamp(20px,3vw,32px)', fontWeight: 700, letterSpacing: '-0.02em' }}>
-              On démarre quand <span className="mp-grad-text">vous voulez.</span>
+              Une réunion de cadrage <span className="mp-grad-text">pour valider la suite.</span>
             </h3>
             <p style={{ fontSize: 15, color: '#a8a4b0', lineHeight: 1.8, maxWidth: 480 }}>
-              Hedi et l&apos;équipe sont disponibles pour en discuter — un appel, un café, un mail. Le PDF joint pose le cadre formel ; cette page permet de parcourir les preuves, les formats et le calendrier.
+              Hedi et l&apos;équipe proposent une réunion pour valider trois points : les sujets du prochain cycle, les formats associés, et le modèle de rémunération au forfait. À l&apos;issue, ST transmet une proposition de calendrier et de convention opérationnelle.
             </p>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
               <ActionButton
