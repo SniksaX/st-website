@@ -250,6 +250,7 @@ const SOCIALS = [
 export default function LiensClient() {
   const [showNewsletter, setShowNewsletter] = useState(false)
   const [donOpen, setDonOpen] = useState(false)
+  const [heditoOpen, setHeditoOpen] = useState(false)
 
   return (
     <>
@@ -343,23 +344,48 @@ export default function LiensClient() {
 
           {/* Dernier Hédito */}
           <div style={{ border: '1px solid var(--border)', borderRadius: 3, overflow: 'hidden' }}>
-            <div style={{ padding: '10px 14px', background: 'var(--surface)' }}>
-              <p style={{ fontSize: 11, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Dernier Hédito</p>
-            </div>
-            <div style={{
-              display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1,
-              background: 'var(--border)', borderTop: '1px solid var(--border)',
-            }}>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 1, background: 'var(--border)' }}>
-                <div style={{ padding: '6px 14px', background: 'var(--surface)', fontSize: 10, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Articles</div>
-                <LienCell href="https://www.mediapart.fr/journal/international/240526/il-avance-et-commence-attraper-mon-sein-des-membres-de-la-flottille-pour-gaza-temoignent-de-violenc" icon={<IcoGlobe />} label="Témoignages de violence" />
-                <LienCell href="https://www.mediapart.fr/journal/international/210526/flottille-pour-gaza-la-violence-d-israel-indigne-enfin" icon={<IcoGlobe />} label="La violence d'Israël indigne enfin" />
+            <button
+              onClick={() => setHeditoOpen((v) => !v)}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                width: '100%',
+                padding: '14px 18px',
+                background: 'var(--surface)',
+                border: 'none',
+                cursor: 'pointer',
+                color: 'var(--fg)',
+                fontSize: 13,
+                transition: 'background .15s',
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--surface2)')}
+              onMouseLeave={(e) => (e.currentTarget.style.background = 'var(--surface)')}
+            >
+              <span style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <span style={{ color: 'var(--muted)' }}><IcoBook /></span>
+                Dernier Hédito
+              </span>
+              <span style={{ color: 'var(--muted)', transform: heditoOpen ? 'rotate(180deg)' : 'none', transition: 'transform .2s', display: 'flex' }}>
+                <IcoChevDown />
+              </span>
+            </button>
+            {heditoOpen && (
+              <div style={{
+                display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1,
+                background: 'var(--border)', borderTop: '1px solid var(--border)',
+              }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 1, background: 'var(--border)' }}>
+                  <div style={{ padding: '6px 14px', background: 'var(--surface)', fontSize: 10, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Articles</div>
+                  <LienCell href="https://www.mediapart.fr/journal/international/240526/il-avance-et-commence-attraper-mon-sein-des-membres-de-la-flottille-pour-gaza-temoignent-de-violenc" icon={<IcoGlobe />} label="Témoignages de violence" />
+                  <LienCell href="https://www.mediapart.fr/journal/international/210526/flottille-pour-gaza-la-violence-d-israel-indigne-enfin" icon={<IcoGlobe />} label="La violence d'Israël indigne enfin" />
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 1, background: 'var(--border)' }}>
+                  <div style={{ padding: '6px 14px', background: 'var(--surface)', fontSize: 10, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Vidéo</div>
+                  <LienCell href="https://www.youtube.com/watch?v=hiavQ-zZo6M" icon={<IcoYTSmall />} label="MADLEENS (docu)" />
+                </div>
               </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 1, background: 'var(--border)' }}>
-                <div style={{ padding: '6px 14px', background: 'var(--surface)', fontSize: 10, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Vidéo</div>
-                <LienCell href="https://www.youtube.com/watch?v=hiavQ-zZo6M" icon={<IcoYTSmall />} label="MADLEENS (docu)" />
-              </div>
-            </div>
+            )}
           </div>
 
 
