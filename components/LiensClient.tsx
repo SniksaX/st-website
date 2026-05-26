@@ -289,7 +289,7 @@ export default function LiensClient() {
           <LienRow href="/" internal icon={<IcoGlobe />} label="sanstransition.fr" />
 
           {/* Dernière vidéo YT */}
-          <LienRow href="https://www.youtube.com/watch?v=3-pBA4tpqVE" icon={<IcoYTSmall />} label="Regarder notre dernière vidéo" />
+          <LienRow href="https://www.youtube.com/watch?v=lGJ9-UD2R2g" icon={<IcoYTSmall />} label="Regarder notre dernière vidéo" />
 
           {/* Kit du Révolutionnaire */}
           <LienRow href="/kit-revolutionnaire" internal icon={<IcoBook />} label="Kit du Révolutionnaire" />
@@ -341,17 +341,24 @@ export default function LiensClient() {
           {/* Proposer un sujet */}
           <LienRow href="https://forms.gle/yoHVL6iKBi6Adz8T9" icon={<IcoMsg />} label="Proposer un sujet ou témoigner" />
 
-          {/* Mediapart */}
+          {/* Dernier Hédito */}
           <div style={{ border: '1px solid var(--border)', borderRadius: 3, overflow: 'hidden' }}>
             <div style={{ padding: '10px 14px', background: 'var(--surface)' }}>
-              <p style={{ fontSize: 11, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Mediapart</p>
+              <p style={{ fontSize: 11, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Dernier Hédito</p>
             </div>
             <div style={{
               display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1,
               background: 'var(--border)', borderTop: '1px solid var(--border)',
             }}>
-              <LienCell href="https://www.mediapart.fr/journal/france/280326/psychiatrie-une-jeune-femme-subit-85-seances-d-electrochocs-et-perd-la-memoire" icon={<IcoGlobe />} label="Géraldine" />
-              <LienCell href="https://www.mediapart.fr/journal/france/280326/l-intense-lobbying-de-fondamental-fondation-privee-devenue-incontournable-en-psychiatrie" icon={<IcoGlobe />} label="FondaMental" />
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 1, background: 'var(--border)' }}>
+                <div style={{ padding: '6px 14px', background: 'var(--surface)', fontSize: 10, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Articles</div>
+                <LienCell href="https://www.mediapart.fr/journal/international/240526/il-avance-et-commence-attraper-mon-sein-des-membres-de-la-flottille-pour-gaza-temoignent-de-violenc" icon={<IcoGlobe />} label="Témoignages de violence" />
+                <LienCell href="https://www.mediapart.fr/journal/international/210526/flottille-pour-gaza-la-violence-d-israel-indigne-enfin" icon={<IcoGlobe />} label="La violence d'Israël indigne enfin" />
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 1, background: 'var(--border)' }}>
+                <div style={{ padding: '6px 14px', background: 'var(--surface)', fontSize: 10, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Vidéo</div>
+                <LienCell href="https://www.youtube.com/watch?v=hiavQ-zZo6M" icon={<IcoYTSmall />} label="MADLEENS (docu)" />
+              </div>
             </div>
           </div>
 
