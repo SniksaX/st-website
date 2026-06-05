@@ -1,7 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
-import Link from 'next/link'
+import { useState } from 'react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 
@@ -154,7 +153,7 @@ function useScrollReveal() {
 
 /* ── Components ───────────────────────────────────────── */
 
-function ModuleCard({ mod, index }: { mod: typeof MODULES[0]; index: number }) {
+function ModuleCard({ mod, _index }: { mod: typeof MODULES[0]; _index: number }) {
   const [open, setOpen] = useState(false)
   const [openItem, setOpenItem] = useState<number | null>(null)
 
@@ -279,7 +278,7 @@ function ModuleCard({ mod, index }: { mod: typeof MODULES[0]; index: number }) {
   )
 }
 
-function PrincipeRow({ p, index }: { p: typeof PRINCIPES[0]; index: number }) {
+function PrincipeRow({ p, _index }: { p: typeof PRINCIPES[0]; _index: number }) {
   return (
     <div style={{
       display: 'grid',
@@ -325,7 +324,7 @@ function PrincipeRow({ p, index }: { p: typeof PRINCIPES[0]; index: number }) {
   )
 }
 
-function OutilCard({ o, index }: { o: typeof OUTILS[0]; index: number }) {
+function OutilCard({ o, _index }: { o: typeof OUTILS[0]; _index: number }) {
   return (
     <div>
       <div style={{
@@ -462,7 +461,7 @@ export default function KitRevolutionnaire() {
                 lineHeight: 1.65,
                 maxWidth: 520,
               }}>
-                Tout ce qu'on a appris depuis qu'on a lancé ST. Comment filmer, organiser, diffuser, tenir. Pour celles et ceux qui veulent construire quelque chose qui dure.
+                Tout ce qu&apos;on a appris depuis qu&apos;on a lancé ST. Comment filmer, organiser, diffuser, tenir. Pour celles et ceux qui veulent construire quelque chose qui dure.
               </p>
             </div>
 
@@ -565,7 +564,7 @@ export default function KitRevolutionnaire() {
             maxWidth: 520,
             marginBottom: 56,
           }}>
-            Pas de théorie abstraite. Chaque module est construit depuis l'expérience concrète de Sans Transition. On partage ce qui a marché, ce qui a foiré, et pourquoi.
+            Pas de théorie abstraite. Chaque module est construit depuis l&apos;expérience concrète de Sans Transition. On partage ce qui a marché, ce qui a foiré, et pourquoi.
           </p>
 
           <div style={{
@@ -575,7 +574,7 @@ export default function KitRevolutionnaire() {
             gap: 16,
           }}>
             {MODULES.map((mod, i) => (
-              <ModuleCard key={mod.num} mod={mod} index={i} />
+              <ModuleCard key={mod.num} mod={mod} _index={i} />
             ))}
           </div>
         </div>
@@ -608,7 +607,7 @@ export default function KitRevolutionnaire() {
             maxWidth: 800,
           }}>
             {PRINCIPES.map((p, i) => (
-              <PrincipeRow key={p.n} p={p} index={i} />
+              <PrincipeRow key={p.n} p={p} _index={i} />
             ))}
           </div>
         </div>
@@ -626,7 +625,7 @@ export default function KitRevolutionnaire() {
               <span>— Boîte à outils</span>
             </div>
             <h2 className="sec-title">
-              Ce qu'on utilise <span className="grad-text">vraiment.</span>
+              Ce qu&apos;on utilise <span className="grad-text">vraiment.</span>
             </h2>
           </div>
 
@@ -640,7 +639,7 @@ export default function KitRevolutionnaire() {
             overflow: 'hidden',
           }}>
             {OUTILS.map((o, i) => (
-              <OutilCard key={o.name} o={o} index={i} />
+              <OutilCard key={o.name} o={o} _index={i} />
             ))}
           </div>
         </div>
@@ -695,7 +694,7 @@ export default function KitRevolutionnaire() {
             lineHeight: 1.7,
             marginBottom: 48,
           }}>
-            Ce kit est open source. Partage-le. Adapte-le. Améliore-le. Et si tu veux échanger avec l'équipe ST sur ton projet, on répond.
+            Ce kit est open source. Partage-le. Adapte-le. Améliore-le. Et si tu veux échanger avec l&apos;équipe ST sur ton projet, on répond.
           </p>
           <div style={{
             display: 'flex',
