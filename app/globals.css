@@ -214,6 +214,15 @@ body {
 }
 .ticker-track:hover { animation-play-state: paused; }
 
+/* ── Scroll X animation (marquee) ───────────────── */
+@keyframes scroll-x {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.animate-scroll-x {
+  animation: scroll-x 35s linear infinite;
+}
+
 /* ── Glow pulses ─────────────────────────────── */
 @keyframes glow-pulse-a {
   0%, 100% { opacity: 0.7; transform: scale(1); }
