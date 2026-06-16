@@ -56,6 +56,13 @@ function IcoHeart() {
     </svg>
   )
 }
+function IcoHeartGlow() {
+  return (
+    <svg width={16} height={16} viewBox="0 0 24 24" fill="none" stroke="#ef4444" strokeWidth="1.6" aria-hidden style={{ filter: 'drop-shadow(0 0 6px rgba(239,68,68,0.8))' }}>
+      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+    </svg>
+  )
+}
 function IcoMail() {
   return (
     <svg width={16} height={16} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden>
@@ -332,11 +339,12 @@ export default function LiensClient() {
 
           {/* Aider */}
           <div style={{
-            display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1,
+            display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 1,
             background: 'var(--border)', border: '1px solid var(--border)', borderRadius: 3, overflow: 'hidden',
           }}>
             <LienCell href="https://gofund.me/6e217b10a" icon={<IcoHeart />} label="Aider Abood" />
             <LienCell href="https://gofund.me/ed90a35c6" icon={<IcoHeart />} label="Aider Elodie" />
+            <LienCell href="https://www.leetchi.com/fr/c/aidez-moi-je-vous-en-supplie-4021047" icon={<IcoHeartGlow />} label="Aider Nanou" />
           </div>
 
           {/* Proposer un sujet */}
