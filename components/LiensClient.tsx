@@ -63,6 +63,13 @@ function IcoHeartGlow() {
     </svg>
   )
 }
+function IcoYTGlow() {
+  return (
+    <svg width={20} height={20} viewBox="0 0 24 24" fill="currentColor" aria-hidden className="yt-glow-icon">
+      <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+    </svg>
+  )
+}
 function IcoMail() {
   return (
     <svg width={16} height={16} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden>
@@ -299,6 +306,9 @@ export default function LiensClient() {
           {/* Dernière vidéo YT */}
           <LienRow href="https://www.youtube.com/watch?v=lGJ9-UD2R2g" icon={<IcoYTSmall />} label="Regarder notre dernière vidéo" />
 
+          {/* ST x MEDIAPART FESTIVAL */}
+          <LienRow href="https://youtu.be/rQ-6ghMphpA" icon={<IcoYTGlow />} label="ST x MEDIAPART FESTIVAL" glow />
+
           {/* Kit du Révolutionnaire */}
           <LienRow href="/kit-revolutionnaire" internal icon={<IcoBook />} label="Kit du Révolutionnaire" />
 
@@ -463,6 +473,22 @@ export default function LiensClient() {
 
       <style>{`
         @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes glow-pulse {
+          0%, 100% { filter: drop-shadow(0 0 8px rgba(239,68,68,0.6)) drop-shadow(0 0 16px rgba(239,68,68,0.4)); }
+          50% { filter: drop-shadow(0 0 16px rgba(239,68,68,0.9)) drop-shadow(0 0 32px rgba(239,68,68,0.6)); }
+        }
+        .yt-glow-icon {
+          animation: glow-pulse 2s ease-in-out infinite;
+        }
+        .glow-row {
+          border-color: rgba(239,68,68,0.5);
+          box-shadow: 0 0 12px rgba(239,68,68,0.2), 0 0 24px rgba(239,68,68,0.1);
+          animation: border-glow 2s ease-in-out infinite;
+        }
+        @keyframes border-glow {
+          0%, 100% { box-shadow: 0 0 12px rgba(239,68,68,0.2), 0 0 24px rgba(239,68,68,0.1); border-color: rgba(239,68,68,0.5); }
+          50% { box-shadow: 0 0 20px rgba(239,68,68,0.4), 0 0 40px rgba(239,68,68,0.2); border-color: rgba(239,68,68,0.8); }
+        }
       `}</style>
     </>
   )
@@ -470,7 +496,7 @@ export default function LiensClient() {
 
 /* ── Sub-components ─────────────────────────────────────── */
 
-function LienRow({ href, icon, label, internal }: { href: string; icon: React.ReactNode; label: string; internal?: boolean }) {
+function LienRow({ href, icon, label, internal, glow }: { href: string; icon: React.ReactNode; label: string; internal?: boolean; glow?: boolean }) {
   const style: React.CSSProperties = {
     display: 'flex',
     alignItems: 'center',
@@ -498,13 +524,13 @@ function LienRow({ href, icon, label, internal }: { href: string; icon: React.Re
 
   if (internal) {
     return (
-      <Link href={href} style={style} onMouseEnter={hoverIn} onMouseLeave={hoverOut}>
+      <Link href={href} style={style} className={glow ? 'glow-row' : ''} onMouseEnter={hoverIn} onMouseLeave={hoverOut}>
         {inner}
       </Link>
     )
   }
   return (
-    <a href={href} target="_blank" rel="noreferrer" style={style} onMouseEnter={hoverIn} onMouseLeave={hoverOut}>
+    <a href={href} target="_blank" rel="noreferrer" style={style} className={glow ? 'glow-row' : ''} onMouseEnter={hoverIn} onMouseLeave={hoverOut}>
       {inner}
     </a>
   )
