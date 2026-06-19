@@ -304,7 +304,7 @@ export default function LiensClient() {
           <LienRow href="/" internal icon={<IcoGlobe />} label="sanstransition.fr" />
 
           {/* Dernière vidéo YT */}
-          <LienRow href="https://www.youtube.com/watch?v=lGJ9-UD2R2g" icon={<IcoYTSmall />} label="Regarder notre dernière vidéo" />
+          <LienRow href="https://www.youtube.com/watch?v=9qbIiH6LRP0" icon={<IcoYTSmall />} label="Regarder notre dernière vidéo" />
 
           {/* ST x MEDIAPART FESTIVAL */}
           <LienRow href="https://youtu.be/rQ-6ghMphpA" icon={<IcoYTGlow />} label="ST x MEDIAPART FESTIVAL" glow />
