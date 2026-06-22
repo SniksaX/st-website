@@ -67,19 +67,20 @@ const TL = [
   { date: 'Été 2025', title: 'Campagne de soutien', body: "Première levée citoyenne sur HelloAsso. Lancement du site vitrine. 3k abonné·es Instagram." },
   { date: 'Hiver 2025–2026', title: '40k TikTok · 1k YouTube', body: "Lancement YouTube. Expansion des formats. Couvertures terrain." },
   { date: 'Janvier 2026', title: 'Série 1 × Mediapart — Saint-Étienne', body: "Trois épisodes sur le Kompromat de Saint-Étienne. Premier crosspost TikTok/Instagram avec Mediapart. La mécanique est posée." },
-  { date: 'Mai 2026', title: 'Série 2 × Mediapart — Électrochocs', body: "297 511 vues. 91 % sur Instagram. 92–98 % de non-abonnés. Le Hédito de Hedi génère 241 969 vues IG et 27,4 % de rétention TikTok. Instagram devient canal de distribution primaire." },
-  { date: 'Mai 2026', title: 'Proposition de convention', body: "Deux séries prouvent le modèle. On propose de passer d'une collaboration au cas par cas à une convention de séries éditoriales : formats flexibles, crosspost systématique, rémunération au forfait, reporting régulier." },
+  { date: 'Mai 2026', title: 'Série 2 × Mediapart — Électrochocs', body: "297 511 vues. 91 % sur Instagram. 92–98 % de non-abonnés. Le Hédito génère 241 969 vues IG et 27,4 % de rétention TikTok. Instagram devient canal de distribution primaire." },
+  { date: 'Juin 2026', title: 'Festival Mediapart', body: "Le 6 juin, ST assure la couverture sociale du Festival Mediapart à Aubervilliers. Intégralité des vidéos validée sans retouche. Prestation facturée (devis ST-2026-3). ST fonctionne comme partenaire autonome." },
+  { date: 'Juin 2026', title: 'Proposition de convention', body: "Deux séries et un festival prouvent le modèle. On propose de passer d'une collaboration au cas par cas à une convention de séries éditoriales : formats flexibles, crosspost systématique, rémunération au forfait, reporting régulier." },
 ]
 
 const SHOWCASE_ITEMS = [
   { num: '01', stat: '297K',   label: 'Vues Électrochocs',     detail: '91 % générées sur Instagram' },
-  { num: '02', stat: '91%',    label: 'Distribution Instagram', detail: 'Canal primaire — pas de reprise' },
+  { num: '02', stat: '81,4%',  label: 'Abonné·es 18–34 ans',   detail: '44,2 % 18-24 · 37,2 % 25-34' },
   { num: '03', stat: '92–98%', label: 'Non-abonnés IG',        detail: 'Sortie de bulle confirmée' },
   { num: '04', stat: '27,4%',  label: 'Rétention TikTok',      detail: 'Hédito 84s — format locomotive' },
-  { num: '05', stat: '242K',   label: 'Vues IG — Hédito',      detail: '224 follows générés' },
+  { num: '05', stat: '265K',   label: 'Vues IG — Hédito',      detail: '241 969 vues Instagram' },
   { num: '06', stat: '2,62%',  label: 'Share rate record',     detail: 'Loi Yadan — 546k vues' },
   { num: '07', stat: '21,8%',  label: "Taux d'engagement",     detail: '×3,6 le benchmark secteur' },
-  { num: '08', stat: '78%',    label: 'Audience France',       detail: 'Paris, Lyon, Marseille' },
+  { num: '08', stat: '77,1%',  label: 'Audience France',       detail: 'Paris, Lyon, Marseille' },
 ]
 
 const TOP_VIRAL = [
@@ -655,7 +656,7 @@ function PitchContent() {
             <div className="mp-hero-copy">
           <div className="mp-rv" style={{ display: 'inline-flex', alignItems: 'center', gap: 14, fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.32em', color: '#8a8aa4', marginBottom: 44 }}>
             <span className="mp-grad-line" />
-            Proposition de convention · Mai 2026
+            Dossier de convention · Juin 2026
           </div>
 
           <div className="mp-rv mp-hero-brand mp-st-hero-brand" style={{ display: 'flex', alignItems: 'center', gap: 'clamp(20px,3vw,48px)' }}>
@@ -712,7 +713,7 @@ function PitchContent() {
               297 511 vues, 91 % sur Instagram, 92–98 % de non-abonnés. Les enquêtes Mediapart circulent là où elles ne circulaient pas. On propose de structurer ça en convention.
             </p>
             <div className="mp-editorial-author">
-              par <strong>Sans Transition</strong> · en complément du PDF transmis par mail · mai 2026
+              par <strong>Sans Transition</strong> · en complément du PDF transmis par mail · Juin 2026
             </div>
           </article>
 
@@ -832,7 +833,7 @@ function PitchContent() {
             <p style={{ fontSize: 'clamp(16px,2vw,22px)', fontWeight: 300, fontStyle: 'italic', color: '#a8a4b0', lineHeight: 1.7, marginBottom: 12 }}>
               &ldquo;L&apos;objectif de cette proposition n&apos;est pas de créer une relation à partir de rien. C&apos;est de structurer, revendiquer et décupler un pipeline qui fonctionne.&rdquo;
             </p>
-            <span style={{ fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.24em', color: '#8a8aa4' }}>— Proposition de convention · Sans Transition · Mai 2026</span>
+            <span style={{ fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.24em', color: '#8a8aa4' }}>— Dossier de convention · Sans Transition · Juin 2026</span>
           </div>
         </div>
       </section>
@@ -1220,16 +1221,16 @@ function PitchContent() {
 
             {/* Left col — 2 stacked mini cards */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
-              {/* 76% merged */}
+              {/* 75% femmes */}
               <div style={{ background: '#08080e', padding: '28px 24px', flex: 1 }}>
-                <div className="mp-grad-text" style={{ fontSize: 'clamp(32px,4vw,56px)', fontWeight: 700, letterSpacing: '-0.04em', lineHeight: 1, marginBottom: 10 }} data-count={76}>0%</div>
-                <div style={{ fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.2em', color: '#8a8aa4', marginBottom: 6 }}>Audience féministe 18–34</div>
+                <div className="mp-grad-text" style={{ fontSize: 'clamp(32px,4vw,56px)', fontWeight: 700, letterSpacing: '-0.04em', lineHeight: 1, marginBottom: 10 }} data-count={75}>0%</div>
+                <div style={{ fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.2em', color: '#8a8aa4', marginBottom: 6 }}>Femmes · 75 %</div>
                 <div style={{ fontSize: 12, color: '#a8a4b0', lineHeight: 1.6 }}>Femmes, non-binaires, jeunes politisé·es — le cœur de cible que Mediapart cherche à toucher.</div>
               </div>
-              {/* 78% */}
+              {/* 77,1% France */}
               <div style={{ background: '#08080e', padding: '28px 24px', flex: 1 }}>
-                <div className="mp-grad-text" style={{ fontSize: 'clamp(32px,4vw,56px)', fontWeight: 700, letterSpacing: '-0.04em', lineHeight: 1, marginBottom: 10 }} data-count={78}>0%</div>
-                <div style={{ fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.2em', color: '#8a8aa4', marginBottom: 6 }}>Audience France</div>
+                <div className="mp-grad-text" style={{ fontSize: 'clamp(32px,4vw,56px)', fontWeight: 700, letterSpacing: '-0.04em', lineHeight: 1, marginBottom: 10 }} data-count={77.1}>0%</div>
+                <div style={{ fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.2em', color: '#8a8aa4', marginBottom: 6 }}>France · 77,1 %</div>
                 <div style={{ fontSize: 12, color: '#a8a4b0', lineHeight: 1.6 }}>Paris, Lyon, Marseille, Bordeaux — concentré sur les bassins urbains de Mediapart.</div>
               </div>
             </div>
@@ -1369,9 +1370,9 @@ function PitchContent() {
           {/* Cycle test cards */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 1, background: '#1c1c2c', borderRadius: 3, overflow: 'hidden', border: '1px solid #1c1c2c', marginBottom: 48 }} className="mp-prop-grid">
             {[
-              { tag: 'Option A — Cycle test', title: '3 contenus + 1 bilan data', body: "Lancer le prochain cycle sur une enquête forte ou un sujet de fond. Hédito + Fokus ou témoignage + bilan data partagé à J+7. Objectif : stabiliser les formats et poser les indicateurs communs." },
-              { tag: 'Option B — Série éditoriale', title: 'Hédito + Fokus/témoignage + contexte', body: "Transformer une enquête dense en conversation sociale multi-entrées. Un format locomotive pour ouvrir, un format pédagogique pour comprendre, un témoignage ou ODL pour densifier." },
-              { tag: 'Option C — Convention longue', title: '1 à 2 séries par mois', body: "Installer une présence sociale régulière et mesurable. Reporting trimestriel. Rémunération au forfait sur la production complète : veille, script, validation, tournage, montage, distribution, analyse." },
+              { tag: 'Base — Séries', title: '1 à 2 séries / mois', body: "Formats courts + bilan data. Forfait récurrent couvrant la veille, écriture, tournage, montage, sous-titrage, publication et reporting. Un cycle de 3 mois renouvelable, non-exclusive." },
+              { tag: 'Options — Lourd', title: 'Studio · Terrain · Long', body: "Pour les grandes enquêtes : interview ST × journaliste, immersion terrain, ou décryptage avec extraits. Disponible à la carte selon l'actualité et la force du sujet. Co-diffusion YouTube sur les deux chaînes." },
+              { tag: 'Événement', title: 'Capsules terrain + interview', body: "Couverture souple et rapide des temps forts Mediapart : festival, table ronde, lancement d'enquête. Capsules de 30 à 90 secondes produites et diffusées dans la journée. Forfait dédié." },
             ].map((c, i) => (
               <div key={i} className="mp-prop-card mp-shiny mp-rv mp-interactive" style={{ transitionDelay: `${i * 0.1}s` }}>
                 <div style={{ fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.24em', color: '#8a8aa4', marginBottom: 14 }}>{c.tag}</div>
@@ -1386,7 +1387,7 @@ function PitchContent() {
             <p style={{ fontSize: 'clamp(16px,2vw,22px)', fontWeight: 300, fontStyle: 'italic', color: '#a8a4b0', lineHeight: 1.7, marginBottom: 12 }}>
               &ldquo;Sans Transition n&apos;est pas un prestataire de production. La collaboration fonctionne parce que les deux parties partagent un cadre éditorial et que ST garde la main sur le script, l&apos;angle et le montage. C&apos;est ce qui produit les résultats — pas le plateau, pas le logo en haut à droite.&rdquo;
             </p>
-            <span style={{ fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.24em', color: '#8a8aa4' }}>— Proposition de convention · Sans Transition · Mai 2026</span>
+            <span style={{ fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.24em', color: '#8a8aa4' }}>— Dossier de convention · Sans Transition · Juin 2026</span>
           </div>
 
           <div className="mp-rv mp-d1" style={{ textAlign: 'center', maxWidth: 640, margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 28 }}>
@@ -1420,7 +1421,7 @@ function PitchContent() {
       {/* Footer */}
       <footer style={{ borderTop: '1px solid #1c1c2c', padding: '28px clamp(24px,5vw,64px)', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16, background: '#08080e', fontFamily: "'Space Grotesk',sans-serif" }}>
         <span style={{ fontSize: 12, fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', color: '#f0ede8' }}>Sans Transition × Mediapart</span>
-        <span style={{ fontSize: 11, color: '#8a8aa4' }}>Dossier de partenariat · Avril 2026 · Association loi 1901 · Paris</span>
+        <span style={{ fontSize: 11, color: '#8a8aa4' }}>Dossier de convention · Juin 2026 · Association loi 1901 · Paris</span>
         <span style={{ fontSize: 11, color: '#8a8aa4' }}>Fait par Hedi pour Sans Transition</span>
       </footer>
     </div>
