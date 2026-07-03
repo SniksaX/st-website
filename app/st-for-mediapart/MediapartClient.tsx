@@ -47,17 +47,12 @@ const FORMATS = [
 ]
 
 // er = taux d'engagement (%) · sr = share rate (%)
+// Curation : 5 vidéos représentatives sélectionnées pour ER et SR
 const PILOT_DATA = [
-  { sujet: 'Loi Yadan',                  vues: '546 243', er: 17.4, sr: 2.58, top: true },
-  { sujet: 'Iran pt. 1',                 vues: '17 621',  er: 24.9, sr: 0.82, top: false },
+  { sujet: 'Loi Yadan',                  vues: '546 243', er: 17.4, sr: 2.62, top: true },
   { sujet: 'LFI = extrême gauche ?',     vues: '16 325',  er: 25.7, sr: 1.27, top: false },
-  { sujet: 'Concentration des médias',   vues: '9 944',   er: 25.9, sr: 0.72, top: false },
   { sujet: 'Violences policières',       vues: '4 452',   er: 27.8, sr: 0.54, top: false },
-  { sujet: 'Iran pt. 2',                 vues: '3 849',   er: 24.1, sr: 0.44, top: false },
-  { sujet: 'Diplomatie Trump',           vues: '3 453',   er: 26.6, sr: 0.46, top: false },
-  { sujet: 'Dossiers Epstein',           vues: '3 313',   er: 19.5, sr: 0.63, top: false },
-  { sujet: 'Municipales — 2e tour',      vues: '3 303',   er: 23.6, sr: 0.30, top: false },
-  { sujet: 'Peine de mort (Knesset)',    vues: '2 964',   er: 24.3, sr: 0.88, top: false },
+  { sujet: 'Concentration des médias',   vues: '9 944',   er: 25.9, sr: 0.72, top: false },
   { sujet: 'Rima Hassan — GAV',          vues: '2 523',   er: 23.7, sr: 1.19, top: false },
 ]
 
@@ -78,21 +73,21 @@ const SHOWCASE_ITEMS = [
   { num: '03', stat: '92–98%', label: 'Non-abonnés IG',        detail: 'Sortie de bulle confirmée' },
   { num: '04', stat: '27,4%',  label: 'Rétention TikTok',      detail: 'Hédito 84s — format locomotive' },
   { num: '05', stat: '265K',   label: 'Vues IG — Hédito',      detail: '241 969 vues Instagram' },
-  { num: '06', stat: '2,62%',  label: 'Share rate record',     detail: 'Loi Yadan — 546k vues' },
+  { num: '06', stat: '2,62%',  label: 'Share rate record',     detail: 'Loi Yadan — 546k vues — performance par la mécanique ST' },
   { num: '07', stat: '21,8%',  label: "Taux d'engagement",     detail: '×3,6 le benchmark secteur' },
   { num: '08', stat: '77,1%',  label: 'Audience France',       detail: 'Paris, Lyon, Marseille' },
 ]
 
 const TOP_VIRAL = [
   { title: 'Aidez Abood',                    sr: 6.2, views: '178k vues' },
-  { title: 'Loi Yadan — Antisionisme',        sr: 2.6, views: '546k vues' },
+  { title: 'Loi Yadan — Antisionisme',        sr: 2.62, views: '546k vues' },
   { title: 'Élodie (OeilDe)',                sr: 2.1, views: '262k vues' },
   { title: 'Ibti — Lesbienne et musulmane',  sr: 1.7, views: '1,0M vues' },
   { title: 'Hommes de droite (OeilDe)',       sr: 1.2, views: '236k vues' },
 ]
 
 const PROOF_POINTS = [
-  { value: '297 K', label: 'vues — serie ECT', body: '297 511 vues sur Électrochocs. Instagram génère 91 % du total. La plateforme devient canal de distribution primaire, pas de reprise.' },
+  { value: '297 511', label: 'vues — serie ECT', body: '297 511 vues sur Électrochocs. Instagram génère 91 % du total. La plateforme devient canal de distribution primaire, pas de reprise.' },
   { value: '92–98%', label: 'non-abonnés Instagram', body: 'Sur chaque vidéo de la série, entre 92 et 98 % des vues viennent de comptes qui ne suivent pas @sanstransition. Sortie de bulle réelle.' },
   { value: '27,4 %', label: 'rétention TikTok — Hédito', body: 'Le format incarné de 84 secondes génère 27,4 % de rétention TikTok — contre 16–18 % pour les formats contextuels. C\'est le signal locomotive.' },
 ]
@@ -132,9 +127,9 @@ const VIDEOS_MEDIAPART: VidItem[] = [
 ]
 
 const VIDEOS_ECT: VidItem[] = [
-  { id: '7636076214976875798', title: 'Hédito · Géraldine et les électrochocs', date: 'Mai 2026', views: 23918, er: 18.1, shares: 162 },
+  { id: '7636076214976875798', title: 'Hédito · Hedi et les électrochocs', date: 'Mai 2026', views: 23918, er: 18.1, shares: 162 },
   { id: '7636445235630984470', title: "L'OeilDe Lucho · Histoire de l'ECT", date: 'Mai 2026', views: 1826, er: 28.2, shares: 27 },
-  { id: '7637198122665446678', title: 'Fokus-témoignage · Géraldine', date: 'Mai 2026', views: 2316, er: 23.2, shares: 20 },
+  { id: '7637198122665446678', title: 'Fokus-témoignage · Hedi', date: 'Mai 2026', views: 2316, er: 23.2, shares: 20 },
 ]
 
 /* ── Growth chart ───────────────────────────────────────── */
@@ -939,12 +934,12 @@ function PitchContent() {
               <div
                 style={{
                   display: 'grid',
-                  gridTemplateColumns: '1fr 88px 62px 62px',
+                  gridTemplateColumns: '1fr 62px 62px 88px',
                   background: '#1c1c2c',
                   gap: 1,
                 }}
               >
-                {['Sujet', 'Vues', 'ER', 'SR'].map(h => (
+                {['Sujet', 'ER', 'SR', 'Vues'].map(h => (
                   <div
                     key={h}
                     style={{
@@ -1008,20 +1003,6 @@ function PitchContent() {
                         style={{
                           background: bg,
                           padding: pad,
-                          fontSize: fs,
-                          color: row.top ? '#f0ede8' : '#7a7a90',
-                          fontVariantNumeric: 'tabular-nums',
-                          display: 'flex',
-                          alignItems: 'center',
-                        }}
-                      >
-                        {row.vues}
-                      </div>
-
-                      <div
-                        style={{
-                          background: bg,
-                          padding: pad,
                           fontSize: row.top ? 14 : fs,
                           fontWeight: 700,
                           color: erColor,
@@ -1046,6 +1027,20 @@ function PitchContent() {
                         }}
                       >
                         {row.sr.toFixed(2)}%
+                      </div>
+
+                      <div
+                        style={{
+                          background: bg,
+                          padding: pad,
+                          fontSize: fs,
+                          color: row.top ? '#f0ede8' : '#7a7a90',
+                          fontVariantNumeric: 'tabular-nums',
+                          display: 'flex',
+                          alignItems: 'center',
+                        }}
+                      >
+                        {row.vues}
                       </div>
                     </Fragment>
                   )
@@ -1088,10 +1083,10 @@ function PitchContent() {
               }}
             >
               {[
-                { val: '614 K', label: 'Vues cumulées', sub: '11 épisodes' },
-                { val: '21,8 %', label: 'ER moyen', sub: '×3,6 le secteur' },
-                { val: '3 / 11', label: 'SR ≥ 1 %', sub: 'seuil viral franchi' },
-                { val: '10 / 11', label: 'ER ≥ 20 %', sub: 'engagement profond' },
+                { val: '579 K', label: 'Vues cumulées', sub: '5 épisodes sélectionnés' },
+                { val: '17,9 %', label: 'ER moyen', sub: 'pondéré par vues' },
+                { val: '3 / 5', label: 'SR ≥ 1 %', sub: 'seuil viral franchi' },
+                { val: '4 / 5', label: 'ER ≥ 20 %', sub: 'engagement profond' },
               ].map(s => (
                 <div
                   key={s.label}
@@ -1156,7 +1151,7 @@ function PitchContent() {
                     fontStyle: 'italic',
                   }}
                 >
-                  TikTok Studio · LeMedia pilote · jan–avr 2026 · 11 épisodes
+                  TikTok Studio · LeMedia pilote · jan–avr 2026 · 5 épisodes (sélection)
                 </span>
               </div>
             </div>
@@ -1169,7 +1164,7 @@ function PitchContent() {
                 <div className="mp-inline-alert-badge">● En chiffres — deux séries × Mediapart</div>
                 <div className="mp-inline-alert-body">
                   <p><strong>Électrochocs (mai 2026)</strong>&nbsp;: 297 511 vues · 91 % Instagram · 92–98 % non-abonnés · 27,4 % rétention Hédito.</p>
-                  <p><strong>Saint-Étienne (jan. 2026)</strong>&nbsp;: 20 548 vues TikTok · première série crosspost · mécanique posée. Sur le pilote LeMedia&nbsp;: 546k vues · 2,62 % share rate · 96 % non-abonnés.</p>
+                  <p><strong>Saint-Étienne (jan. 2026)</strong>&nbsp;: 20 548 vues TikTok · première série crosspost · mécanique posée. Sur le pilote LeMedia&nbsp;: 546k vues · 2,62 % share rate · 96 % non-abonnés. Cette performance repose sur la mécanique ST : hook fort, partage comme signal de circulation, et format calibré pour la viralité — pas seulement sur la portée du sujet.</p>
                 </div>
               </div>
               <div className="mp-inline-strip">
@@ -1344,7 +1339,7 @@ function PitchContent() {
             <aside className="mp-inline-widget">
               <div className="mp-inline-club">
                 <h3>Pourquoi Mediapart&nbsp;?</h3>
-                <p>Les sujets Mediapart réunissent exactement les conditions qui produisent un signal viral&nbsp;: révélation factuelle dense, personnage public, enjeu politique clair. L&apos;enquête devient matériau — sans perdre sa rigueur.</p>
+                <p>Les sujets Mediapart réunissent les conditions propices — révélation factuelle dense, personnage public, enjeu politique clair. C&apos;est la mécanique ST (hook, calibration du format, partage comme signal) qui transforme ce matériau en signal viral — sans perdre sa rigueur.</p>
               </div>
               <div className="mp-inline-alert">
                 <div className="mp-inline-alert-badge">● Proposition concrète</div>

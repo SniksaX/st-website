@@ -357,6 +357,9 @@ export default function LiensClient() {
             <LienCell href="https://www.leetchi.com/fr/c/aidez-moi-je-vous-en-supplie-4021047" icon={<IcoHeartGlow />} label="Aider Nanou" />
           </div>
 
+          {/* Pétition Assemblée nationale */}
+          <LienRow href="https://petitions.assemblee-nationale.fr/initiatives/i-6334" icon={<IcoGlobe />} label="Pétition permis de tuer" />
+
           {/* Proposer un sujet */}
           <LienRow href="https://forms.gle/yoHVL6iKBi6Adz8T9" icon={<IcoMsg />} label="Proposer un sujet ou témoigner" />
 
