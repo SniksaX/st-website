@@ -16,7 +16,7 @@ export default function CGUPage() {
             Conditions Générales d’Utilisation
           </h1>
           <p className="mt-3 text-lg text-neutral-600 dark:text-neutral-400">
-            Dernière mise à jour : 21 septembre 2025
+            Dernière mise à jour : 17 septembre 2026
           </p>
         </div>
       </section>

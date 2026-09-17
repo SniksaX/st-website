@@ -16,7 +16,7 @@ export default function MentionsLegalesPage() {
             Mentions légales
           </h1>
           <p className="mt-3 text-lg text-neutral-600 dark:text-neutral-400">
-            Dernière mise à jour : 21 septembre 2025
+            Dernière mise à jour : 17 septembre 2026
           </p>
         </div>
       </section>
@@ -34,31 +34,36 @@ export default function MentionsLegalesPage() {
             <h2 className="mt-10 text-2xl font-semibold">Éditeur du site</h2>
             <ul className="list-disc pl-6">
               <li>
-                Association : <strong>Sans Transition</strong> (association loi 1901 déclarée)
+                Association : <strong>Sans Transition</strong> (association loi 1901 déclarée, publiée au
+                Journal officiel des associations le 12 août 2025)
               </li>
+              <li>N° RNA : W943 011 922</li>
+              <li>SIREN : 990 312 803 – SIRET du siège : 990 312 803 00010</li>
               <li>
-                Siège social : <em>[ADRESSE DU SIÈGE OU DOMICILIATION OFFICIELLE]</em>
+                Siège social : 94800 Villejuif, France. L’adresse complète du siège est communiquée sur
+                demande écrite à {" "}
+                <a href="mailto:contact@sanstransition.fr">contact@sanstransition.fr</a>.
               </li>
+              <li>Directeur de la publication : Hedji</li>
               <li>
                 Contact : {" "}
                 <a href="mailto:contact@sanstransition.fr">contact@sanstransition.fr</a>
               </li>
-              <li>Responsable de la publication : l’association Sans Transition</li>
             </ul>
 
             <h2 className="mt-10 text-2xl font-semibold">Hébergement</h2>
             <ul className="list-disc pl-6">
               <li>
-                Hébergeur : <em>[NOM DE L’HÉBERGEUR]</em>
+                Hébergeur : <strong>Netlify, Inc.</strong>
+              </li>
+              <li>Adresse : 101 2nd Street, San Francisco, CA 94105-2239, États-Unis</li>
+              <li>
+                Contact : {" "}
+                <a href="mailto:support@netlify.com">support@netlify.com</a>
               </li>
               <li>
-                Adresse : <em>[ADRESSE POSTALE DE L’HÉBERGEUR]</em>
-              </li>
-              <li>
-                Téléphone : <em>[NUMÉRO DE L’HÉBERGEUR]</em>
-              </li>
-              <li>
-                (Optionnel) N° RCS / SIREN : <em>[RÉFÉRENCE LÉGALE DE L’HÉBERGEUR]</em>
+                Site : {" "}
+                <a href="https://www.netlify.com" target="_blank" rel="noreferrer">www.netlify.com</a>
               </li>
             </ul>
 
