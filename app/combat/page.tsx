@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 import CombatClient from './CombatClient'
 
 export const metadata: Metadata = {
-  title: 'Sans Transition - Combat',
+  title: 'Combat',
   robots: {
     index: false,
     follow: false,

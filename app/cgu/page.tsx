@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 export const metadata = {
-  title: "Conditions Générales d’Utilisation | Sans Transition",
+  title: "Conditions Générales d’Utilisation",
   description:
     "CGU du site sanstransition.fr : conditions d'accès et d'utilisation.",
 };

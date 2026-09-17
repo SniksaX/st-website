@@ -1,7 +1,7 @@
 
 
 export const metadata = {
-  title: "Mentions légales | Sans Transition",
+  title: "Mentions légales",
   description:
     "Mentions légales de sanstransition.fr, conformément à la loi LCEN du 21 juin 2004.",
 };

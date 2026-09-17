@@ -10,7 +10,7 @@ import Footer from "./components/Footer";
 import SectionDivider from "./components/SectionDivider";
 
 export const metadata = {
-  title: "Kit média | Sans Transition",
+  title: "Kit média",
   description: "Logos, éléments de marque, photos presse et dossier complet du kit média de Sans Transition.",
 };
 

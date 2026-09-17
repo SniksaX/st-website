@@ -1,7 +1,7 @@
 import LiensClient from '@/components/LiensClient'
 
 export const metadata = {
-  title: 'Sans Transition - Liens',
+  title: 'Liens',
   description: 'Tous les liens utiles en mode linktree.',
 }
 

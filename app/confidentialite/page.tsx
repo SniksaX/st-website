@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 export const metadata = {
-  title: "Politique de confidentialité | Sans Transition",
+  title: "Politique de confidentialité",
   description:
     "Politique de confidentialité (RGPD) de sanstransition.fr : données collectées, finalités, droits et cookies.",
 };
