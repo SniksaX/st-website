@@ -20,7 +20,7 @@
 
   --font-body: var(--font-space-grotesk), 'Space Grotesk', sans-serif;
 
-  --hh: 56px;
+  --hh: 60px;
   --nh: 44px;
 
   /* Tailwind compat aliases */
@@ -246,7 +246,50 @@ body {
 }
 .flicker-title { animation: flicker 6s ease-in-out infinite; }
 
+
+/* ── Nav links (header) ──────────────────────── */
+.nav-link {
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  color: var(--fg2);
+  padding: 8px 14px;
+  border-radius: 2px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s;
+}
+.nav-link:hover { background: var(--surface2); color: var(--fg); }
+
+/* ── Display section title (Barbra) ──────────── */
+.sec-title-display {
+  font-family: var(--font-barbra), serif;
+  font-size: clamp(30px, 4vw, 54px);
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  color: var(--fg);
+}
+
+/* ── Section head, variante home ─────────────── */
+.sec-head-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+  padding-bottom: 20px;
+  margin-bottom: 32px;
+  border-bottom: 1px solid var(--border);
+}
+
 /* ── Responsive ──────────────────────────────── */
+@media (max-width: 1100px) {
+  .nav-links  { display: none !important; }
+  .nav-burger { display: inline-flex !important; }
+}
+@media (min-width: 1101px) {
+  .nav-panel { display: none !important; }
+}
 @media (max-width: 700px) {
   .hide-mobile  { display: none !important; }
   .camp-grid    { grid-template-columns: 1fr !important; gap: 40px !important; }

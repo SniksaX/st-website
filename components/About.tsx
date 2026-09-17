@@ -46,14 +46,14 @@ const team: Member[] = [
     role: 'Chroniqueuse · Féminisme',
     img: '/amandine.png',
     alt: 'Portrait d\'Amandine',
-    bio: 'Regard féministe sur l\'actu. Analyses qui claquent, ancrées dans le réel.',
+    bio: 'Regard féministe sur l\'actu, ancré dans le réel.',
     tiktok: 'carpedine',
     instagram: 'amandine_chbd',
     initials: 'A',
   },
   {
     name: 'Louis',
-    role: 'Chroniqueur · Histoire politique',
+    role: 'Chroniqueur · Histoire',
     img: '/louis.png',
     alt: 'Portrait de Louis',
     bio: 'Remet les faits dans le temps pour comprendre le présent.',
@@ -95,7 +95,7 @@ export default function About() {
       className="team-grid"
       style={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(6, 1fr)',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(170px, 1fr))',
         gap: 1,
         background: 'var(--border)',
         border: '1px solid var(--border)',
@@ -108,7 +108,7 @@ export default function About() {
           key={m.name}
           className="rv grid-cell"
           style={{
-            padding: 'clamp(16px,2vw,24px)',
+            padding: 'clamp(16px,2vw,22px)',
             display: 'flex',
             flexDirection: 'column',
             gap: 16,

@@ -5,12 +5,11 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
 /* ── Data ──────────────────────────────────────────────── */
 
 const FORMATS = [
-  { n: '01', title: 'Fokus',           desc: 'Zoom radical sur une figure ou une info toxique, avec structure chiadée.', tag: 'Analyse' },
-  { n: '02', title: 'Hédito',          desc: 'Coup de gueule perso et politique, où on assume le feu et les larmes.', tag: 'Éditorial' },
-  { n: '03', title: "L'Œil d'Amandine", desc: "Lecture féministe radicale de l'actu, précise et documentée.", tag: 'Féminisme' },
-  { n: '04', title: "L'Œil de Lucho",  desc: 'Ancrage historique pour piger le présent calmement mais sûrement.', tag: 'Histoire' },
-  { n: '05', title: 'Interviews',      desc: "Entretiens safe et profonds avec celles et ceux qu'on n'écoute jamais.", tag: 'Long format' },
-  { n: '06', title: 'Mikro',           desc: 'Micro-trottoirs sensibles, au cœur des manifs et des luttes.', tag: 'Terrain' },
+  { n: '01', title: 'Fokus',      desc: 'Zoom radical sur une figure ou une info toxique, avec structure chiadée.' },
+  { n: '02', title: 'Hédito',     desc: 'Coup de gueule perso et politique, où on assume le feu et les larmes.' },
+  { n: '03', title: "L'Œil",      desc: "Le regard d'un·e chroniqueur·se sur un fait ou une actu, depuis son point de vue unique." },
+  { n: '04', title: 'Interviews', desc: "Entretiens safe et profonds avec celles et ceux qu'on n'écoute jamais." },
+  { n: '05', title: 'Mikro',      desc: 'Micro-trottoirs sensibles, au cœur des manifs et des luttes.' },
 ]
 
 type NodeType = 'format' | 'value'
@@ -18,22 +17,21 @@ interface Node { id: string; x: number; y: number; label: string; description: s
 interface Star { x: number; y: number; radius: number; opacity: number; phase: number }
 
 const NODES: Node[] = [
-  { id: 'fokus',    x: 0.22, y: 0.30, label: 'Fokus',             description: 'Zoom radical sur une figure ou une info toxique, avec structure chiadée.', type: 'format', color: '#fb923c' },
-  { id: 'hedito',   x: 0.20, y: 0.48, label: 'Hédito',            description: "Coup de gueule perso et politique, où on assume le feu et les larmes.", type: 'format', color: '#f97316' },
-  { id: 'itw',      x: 0.32, y: 0.60, label: 'Interviews',        description: "Entretiens safe et profonds avec celles et ceux qu'on n'écoute jamais.", type: 'format', color: '#fb7185' },
-  { id: 'oda',      x: 0.36, y: 0.22, label: "L'Œil d'Amandine", description: "Lecture féministe radicale de l'actu, précise et documentée.", type: 'format', color: '#f97316' },
-  { id: 'odl',      x: 0.40, y: 0.42, label: "L'Œil de Lucho",   description: 'Ancrage historique pour piger le présent calmement mais sûrement.', type: 'format', color: '#fb923c' },
-  { id: 'mikro',    x: 0.26, y: 0.68, label: 'Mikro',             description: 'Micro-trottoirs sensibles, au cœur des manifs et des luttes.', type: 'format', color: '#f97316' },
-  { id: 'indep',    x: 0.68, y: 0.38, label: 'Indépendance',      description: 'Aucune concession sur nos choix éditoriaux et nos sujets.', type: 'value', color: '#a855f7' },
-  { id: 'clarte',   x: 0.78, y: 0.26, label: 'Clarté',            description: 'Vulgariser, couper dans le gras, zéro jargon inutile.', type: 'value', color: '#6366f1' },
-  { id: 'humanite', x: 0.72, y: 0.56, label: 'Humanité',          description: 'Mettre les personnes au centre, écouter, respecter, amplifier.', type: 'value', color: '#ec4899' },
-  { id: 'rigueur',  x: 0.84, y: 0.42, label: 'Rigueur',           description: 'Vérifier, sourcer, contextualiser : la base de tout le reste.', type: 'value', color: '#22d3ee' },
+  { id: 'fokus',    x: 0.22, y: 0.30, label: 'Fokus',        description: 'Zoom radical sur une figure ou une info toxique, avec structure chiadée.', type: 'format', color: '#fb923c' },
+  { id: 'hedito',   x: 0.20, y: 0.48, label: 'Hédito',       description: "Coup de gueule perso et politique, où on assume le feu et les larmes.", type: 'format', color: '#f97316' },
+  { id: 'itw',      x: 0.32, y: 0.60, label: 'Interviews',   description: "Entretiens safe et profonds avec celles et ceux qu'on n'écoute jamais.", type: 'format', color: '#fb7185' },
+  { id: 'oeil',     x: 0.38, y: 0.32, label: "L'Œil",        description: "Le regard d'un·e chroniqueur·se sur un fait ou une actu, depuis son point de vue unique.", type: 'format', color: '#f97316' },
+  { id: 'mikro',    x: 0.26, y: 0.68, label: 'Mikro',        description: 'Micro-trottoirs sensibles, au cœur des manifs et des luttes.', type: 'format', color: '#f97316' },
+  { id: 'indep',    x: 0.68, y: 0.38, label: 'Indépendance', description: 'Aucune concession sur nos choix éditoriaux et nos sujets.', type: 'value', color: '#a855f7' },
+  { id: 'clarte',   x: 0.78, y: 0.26, label: 'Clarté',       description: 'Vulgariser, couper dans le gras, zéro jargon inutile.', type: 'value', color: '#6366f1' },
+  { id: 'humanite', x: 0.72, y: 0.56, label: 'Humanité',     description: 'Mettre les personnes au centre, écouter, respecter, amplifier.', type: 'value', color: '#ec4899' },
+  { id: 'rigueur',  x: 0.84, y: 0.42, label: 'Rigueur',      description: 'Vérifier, sourcer, contextualiser : la base de tout le reste.', type: 'value', color: '#22d3ee' },
 ]
 
 const CONNECTIONS: Array<[string, string]> = [
-  ['fokus','hedito'], ['hedito','itw'], ['itw','mikro'], ['mikro','odl'], ['odl','oda'], ['oda','fokus'],
+  ['fokus','hedito'], ['hedito','itw'], ['itw','mikro'], ['mikro','oeil'], ['oeil','fokus'],
   ['indep','clarte'], ['indep','rigueur'], ['indep','humanite'], ['clarte','rigueur'], ['rigueur','humanite'],
-  ['itw','indep'], ['fokus','indep'], ['odl','humanite'], ['oda','clarte'],
+  ['itw','indep'], ['fokus','indep'], ['oeil','humanite'], ['oeil','clarte'],
 ]
 
 /* ── Galaxy view ────────────────────────────────────────── */
@@ -293,17 +291,13 @@ function ListView() {
   return (
     <div
       className="grid-mosaic"
-      style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}
+      style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))' }}
     >
       {FORMATS.map((f) => (
         <div key={f.n} className="grid-cell" style={{ padding: 'clamp(20px,3vw,32px)' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 20 }}>
-            <span style={{ fontSize: 9, letterSpacing: '0.2em', color: 'var(--border2)', fontVariantNumeric: 'tabular-nums' }}>{f.n}</span>
-            <span className="tag-pill">{f.tag}</span>
-          </div>
-          <h3 style={{ fontSize: 'clamp(16px,1.5vw,20px)', fontWeight: 700, color: 'var(--fg)', letterSpacing: '-0.01em', marginBottom: 10 }}>
+          <h4 style={{ fontSize: 'clamp(16px,1.5vw,20px)', fontWeight: 700, color: 'var(--fg)', letterSpacing: '-0.01em', marginBottom: 10 }}>
             {f.title}
-          </h3>
+          </h4>
           <p style={{ fontSize: 13, color: 'var(--fg2)', lineHeight: 1.65 }}>{f.desc}</p>
         </div>
       ))}
@@ -341,16 +335,23 @@ function IcoList() {
 /* ── Main export ────────────────────────────────────────── */
 
 export default function Formats() {
-  const [view, setView] = useState<'galaxy' | 'list'>('list')
+  const [view, setView] = useState<'galaxy' | 'list'>('galaxy')
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
 
-      {/* Top row: intro + toggle */}
-      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 24 }}>
-        <p className="rv" style={{ fontSize: 'clamp(15px,1.6vw,19px)', color: 'var(--fg2)', fontWeight: 300, lineHeight: 1.6, maxWidth: 560 }}>
-          Six formats, une ligne éditoriale. Radical, queer, féministe, accessible — chaque format a sa voix et son ancrage dans le réel.
+      {/* Titre + intro */}
+      <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: 24, flexWrap: 'wrap' }}>
+        <h3 style={{ fontSize: 'clamp(19px,2.2vw,26px)', fontWeight: 700, letterSpacing: '-0.02em', color: 'var(--fg)' }}>
+          Galaxie éditoriale
+        </h3>
+        <p style={{ fontSize: 14, color: 'var(--fg2)', maxWidth: 460, lineHeight: 1.6 }}>
+          Cinq formats, une ligne. Chaque format a sa voix ; quatre valeurs les tiennent ensemble.
         </p>
+      </div>
+
+      {/* Bascule */}
+      <div style={{ display: 'flex', justifyContent: 'flex-start' }}>
 
         {/* Switch */}
         <div style={{
@@ -399,12 +400,12 @@ export default function Formats() {
                   background: 'var(--grad)',
                 }} />
               )}
-            </button>
+              </button>
           ))}
         </div>
       </div>
 
-      {/* View */}
+      {/* Vue */}
       {view === 'galaxy' ? <GalaxyView /> : <ListView />}
 
     </div>
