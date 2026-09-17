@@ -65,8 +65,8 @@ function AnimatedCount({ target, suffix }: { target: number; suffix: string }) {
 
 /* ── Stats config ───────────────────────────── */
 const STATS = [
-  { icon: <IcoTikTok s={13} />, animated: true,  target: 40, suffix: 'k+', label: 'TikTok' },
-  { icon: <IcoIG s={13} />,     animated: true,  target: 3,  suffix: 'k+', label: 'Instagram' },
+  { icon: <IcoTikTok s={13} />, animated: true,  target: 57, suffix: 'k+', label: 'TikTok' },
+  { icon: <IcoIG s={13} />,     animated: true,  target: 21, suffix: 'k+', label: 'Instagram' },
   { icon: <IcoYT s={13} />,     animated: true,  target: 1,  suffix: 'k+', label: 'YouTube' },
   { icon: null,                  animated: false, val: 'fév. 2025',       label: 'Depuis' },
   { icon: null,                  animated: false, val: 'Asso. loi 1901',  label: 'Statut' },

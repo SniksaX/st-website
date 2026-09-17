@@ -155,6 +155,17 @@ function PublicationsTeaser() {
       ),
     },
     {
+      slug: '/publications#instagram',
+      label: 'Instagram',
+      type: 'Reels & posts',
+      desc: 'Nos Reels et publications Instagram, la plateforme sur laquelle on touche le plus de monde.',
+      icon: (
+        <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden>
+          <rect x="2" y="2" width="20" height="20" rx="5" /><circle cx="12" cy="12" r="4.5" /><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+        </svg>
+      ),
+    },
+    {
       slug: '/publications#youtube',
       label: 'YouTube',
       type: 'Vidéos longues',
@@ -181,12 +192,12 @@ function PublicationsTeaser() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
       <p className="rv" style={{ fontSize: 'clamp(15px,1.6vw,19px)', color: 'var(--fg2)', fontWeight: 300, lineHeight: 1.6, maxWidth: 600 }}>
-        TikTok, YouTube, collabs — toutes les publications de Sans Transition réunies.
+        Instagram, TikTok, YouTube, collabs : toutes les publications de Sans Transition réunies.
       </p>
 
       <div className="rv" style={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(3, 1fr)',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
         gap: 1,
         background: 'var(--border)',
         border: '1px solid var(--border)',

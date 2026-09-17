@@ -110,7 +110,7 @@ export default function Campaign() {
         }}>
           <span style={{ fontSize: 16, lineHeight: 1, flexShrink: 0 }}>🧾</span>
           <p style={{ fontSize: 12, color: 'var(--fg2)', lineHeight: 1.6 }}>
-            <strong style={{ color: 'var(--fg)' }}>Dons défiscalisés.</strong> En tant qu&apos;association reconnue d&apos;intérêt général, Sans Transition émet des reçus fiscaux. Un don de 2 €/mois vous revient à <strong style={{ color: 'var(--fg)' }}>0,74 € réels</strong> après réduction d&apos;impôt de 66 %.
+            <strong style={{ color: 'var(--fg)' }}>Dons défiscalisés.</strong> En tant qu&apos;association reconnue d&apos;intérêt général, Sans Transition émet des reçus fiscaux. Un don de 2 €/mois vous revient à <strong style={{ color: 'var(--fg)' }}>0,68 € réels</strong> après réduction d&apos;impôt de 66 %.
           </p>
         </div>
       </div>

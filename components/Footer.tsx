@@ -10,6 +10,13 @@ const NAV_LINKS = [
   { id: 'publications', label: 'Publications',    href: '/publications' },
   { id: 'campagne',     label: 'Campagne',        href: '/#campagne' },
   { id: 'collabs',      label: 'Collabs',          href: '/collabs' },
+  { id: 'contact',      label: 'Contact',          href: '/contact' },
+]
+
+const LEGAL_LINKS = [
+  { id: 'mentions',        label: 'Mentions légales', href: '/mentions-legales' },
+  { id: 'cgu',             label: 'CGU',              href: '/cgu' },
+  { id: 'confidentialite', label: 'Confidentialité',  href: '/confidentialite' },
 ]
 
 export default function Footer() {
@@ -60,6 +67,7 @@ export default function Footer() {
         </div>
 
         {/* Center: nav links */}
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10 }}>
         <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '4px 16px' }}>
           {NAV_LINKS.map((link) => (
             <Link
@@ -78,6 +86,27 @@ export default function Footer() {
               {link.label}
             </Link>
           ))}
+        </div>
+
+        <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '4px 14px' }}>
+          {LEGAL_LINKS.map((link) => (
+            <Link
+              key={link.id}
+              href={link.href}
+              style={{
+                fontSize: 11,
+                color: 'var(--border2)',
+                textDecoration: 'none',
+                letterSpacing: '0.04em',
+                transition: 'color .15s',
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--fg)')}
+              onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--border2)')}
+            >
+              {link.label}
+            </Link>
+          ))}
+        </div>
         </div>
 
         {/* Right */}

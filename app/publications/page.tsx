@@ -94,7 +94,8 @@ export default function PublicationsPage() {
       </div>
 
       {/* YouTube section */}
-      <section style={{
+      <section id="youtube" style={{
+        scrollMarginTop: 'calc(var(--hh) + 16px)',
         padding: 'clamp(48px,6vw,80px) clamp(16px,4vw,48px)',
         borderTop: '1px solid var(--border)',
       }}>
@@ -111,7 +112,8 @@ export default function PublicationsPage() {
       </section>
 
       {/* TikTok section */}
-      <section style={{
+      <section id="tiktok" style={{
+        scrollMarginTop: 'calc(var(--hh) + 16px)',
         padding: 'clamp(48px,6vw,80px) clamp(16px,4vw,48px)',
         borderTop: '1px solid var(--border)',
       }}>
@@ -128,7 +130,8 @@ export default function PublicationsPage() {
       </section>
 
       {/* Instagram section */}
-      <section style={{
+      <section id="instagram" style={{
+        scrollMarginTop: 'calc(var(--hh) + 16px)',
         padding: 'clamp(48px,6vw,80px) clamp(16px,4vw,48px)',
         borderTop: '1px solid var(--border)',
       }}>

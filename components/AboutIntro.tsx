@@ -53,8 +53,8 @@ const PILLARS = [
 ]
 
 const PLATFORMS = [
-  { name: 'TikTok', followers: '40k+', url: 'https://www.tiktok.com/@sanstransition', Icon: IcoTikTok },
-  { name: 'Instagram', followers: '3k+', url: 'https://www.instagram.com/sanstransition__', Icon: IcoIG },
+  { name: 'TikTok', followers: '57k+', url: 'https://www.tiktok.com/@sanstransition', Icon: IcoTikTok },
+  { name: 'Instagram', followers: '21k+', url: 'https://www.instagram.com/sanstransition__', Icon: IcoIG },
   { name: 'YouTube', followers: '1k+', url: 'https://www.youtube.com/@SansTransitionMedia', Icon: IcoYT },
   { name: 'X', followers: '400+', url: 'https://x.com/sanstransition_', Icon: IcoX },
 ]
