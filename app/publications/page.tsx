@@ -5,6 +5,7 @@ import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import VideosYouTube from '@/components/VideosYouTube'
 import VideosTikTok from '@/components/VideosTikTokFromJson'
+import VideosInstagram from '@/components/VideosInstagram'
 import Link from 'next/link'
 
 function BackIcon() {
@@ -87,7 +88,7 @@ export default function PublicationsPage() {
             </h1>
           </div>
           <p style={{ fontSize: 14, color: 'var(--fg2)', maxWidth: 360, lineHeight: 1.6, textAlign: 'right' }}>
-            Toutes les publications YouTube et TikTok de Sans Transition — radical, queer, féministe, accessible.
+            Toutes les publications YouTube, TikTok et Instagram de Sans Transition — radical, queer, féministe, accessible.
           </p>
         </div>
       </div>
@@ -123,6 +124,23 @@ export default function PublicationsPage() {
             <h2 className="sec-title">Toutes les vidéos</h2>
           </div>
           <VideosTikTok />
+        </div>
+      </section>
+
+      {/* Instagram section */}
+      <section style={{
+        padding: 'clamp(48px,6vw,80px) clamp(16px,4vw,48px)',
+        borderTop: '1px solid var(--border)',
+      }}>
+        <div style={{ maxWidth: 1440, margin: '0 auto' }}>
+          <div className="sec-head">
+            <div className="sec-eyebrow">
+              <span>03</span>
+              <span>— Instagram</span>
+            </div>
+            <h2 className="sec-title">Dernières publications</h2>
+          </div>
+          <VideosInstagram />
         </div>
       </section>
 

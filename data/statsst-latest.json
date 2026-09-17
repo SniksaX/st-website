@@ -1,0 +1,454 @@
+{
+  "accounts": [
+    {
+      "platform": "instagram",
+      "followers": 21075,
+      "capturedAt": "2026-09-16T02:02:21.135Z"
+    },
+    {
+      "platform": "tiktok",
+      "followers": 57835,
+      "capturedAt": "2026-09-16T02:01:51.423Z"
+    }
+  ],
+  "videos": {
+    "tiktok": [
+      {
+        "video_id": "7685501873968729366",
+        "platform": "tiktok",
+        "title": "#fokus sur le ralentissement de l'IA. #SansTransition #actu #politique #ia",
+        "description": null,
+        "create_time": "2026-09-14T21:12:37.000Z",
+        "share_url": "https://www.tiktok.com/@sanstransition/video/7685501873968729366?utm_campaign=tt4d_open_api&utm_source=sbaw7b274m08jzpaif",
+        "cover_url": null,
+        "latest_snapshot": {
+          "view_count": 3128,
+          "like_count": 662,
+          "comment_count": 12,
+          "share_count": 67
+        },
+        "metrics": {
+          "engagement_rate": 23.69
+        }
+      },
+      {
+        "video_id": "7685112287283137824",
+        "platform": "tiktok",
+        "title": "Favella, militante, à la @Fête de l’Humanité. ",
+        "description": null,
+        "create_time": "2026-09-13T20:00:44.000Z",
+        "share_url": "https://www.tiktok.com/@sanstransition/video/7685112287283137824?utm_campaign=tt4d_open_api&utm_source=sbaw7b274m08jzpaif",
+        "cover_url": null,
+        "latest_snapshot": {
+          "view_count": 2041,
+          "like_count": 209,
+          "comment_count": 3,
+          "share_count": 22
+        },
+        "metrics": {
+          "engagement_rate": 11.46
+        }
+      },
+      {
+        "video_id": "7685111830133361953",
+        "platform": "tiktok",
+        "title": "@Jose Rexach à la @Fête de l’Humanité. ",
+        "description": null,
+        "create_time": "2026-09-13T19:58:58.000Z",
+        "share_url": "https://www.tiktok.com/@sanstransition/video/7685111830133361953?utm_campaign=tt4d_open_api&utm_source=sbaw7b274m08jzpaif",
+        "cover_url": null,
+        "latest_snapshot": {
+          "view_count": 1233,
+          "like_count": 167,
+          "comment_count": 0,
+          "share_count": 8
+        },
+        "metrics": {
+          "engagement_rate": 14.19
+        }
+      },
+      {
+        "video_id": "7685109198480330017",
+        "platform": "tiktok",
+        "title": "@Bally Bagayoko à la @Fête de l’Humanité. ",
+        "description": null,
+        "create_time": "2026-09-13T19:48:45.000Z",
+        "share_url": "https://www.tiktok.com/@sanstransition/video/7685109198480330017?utm_campaign=tt4d_open_api&utm_source=sbaw7b274m08jzpaif",
+        "cover_url": null,
+        "latest_snapshot": {
+          "view_count": 1439,
+          "like_count": 242,
+          "comment_count": 4,
+          "share_count": 12
+        },
+        "metrics": {
+          "engagement_rate": 17.93
+        }
+      },
+      {
+        "video_id": "7685107450722225440",
+        "platform": "tiktok",
+        "title": "@Nadège Abomangoli à la @Fête de l’Humanité. ",
+        "description": null,
+        "create_time": "2026-09-13T19:41:57.000Z",
+        "share_url": "https://www.tiktok.com/@sanstransition/video/7685107450722225440?utm_campaign=tt4d_open_api&utm_source=sbaw7b274m08jzpaif",
+        "cover_url": null,
+        "latest_snapshot": {
+          "view_count": 2614,
+          "like_count": 244,
+          "comment_count": 4,
+          "share_count": 5
+        },
+        "metrics": {
+          "engagement_rate": 9.68
+        }
+      },
+      {
+        "video_id": "7681740789331856672",
+        "platform": "tiktok",
+        "title": "Marine Le Pen face au MEDEF. @Lucho #SansTransition ",
+        "description": null,
+        "create_time": "2026-09-04T17:57:35.000Z",
+        "share_url": "https://www.tiktok.com/@sanstransition/video/7681740789331856672?utm_campaign=tt4d_open_api&utm_source=sbaw7b274m08jzpaif",
+        "cover_url": null,
+        "latest_snapshot": {
+          "view_count": 2101,
+          "like_count": 438,
+          "comment_count": 4,
+          "share_count": 12
+        },
+        "metrics": {
+          "engagement_rate": 21.61
+        }
+      },
+      {
+        "video_id": "7681333869710200097",
+        "platform": "tiktok",
+        "title": "@Louis Boyard au Lycée Arago de Villeneuve-Saint-Georges pour la rentrée. ",
+        "description": null,
+        "create_time": "2026-09-03T15:38:32.000Z",
+        "share_url": "https://www.tiktok.com/@sanstransition/video/7681333869710200097?utm_campaign=tt4d_open_api&utm_source=sbaw7b274m08jzpaif",
+        "cover_url": null,
+        "latest_snapshot": {
+          "view_count": 1254,
+          "like_count": 196,
+          "comment_count": 3,
+          "share_count": 18
+        },
+        "metrics": {
+          "engagement_rate": 17.3
+        }
+      },
+      {
+        "video_id": "7680921386935651617",
+        "platform": "tiktok",
+        "title": "@Louis Boyard au Lycée Arago de Villeneuve-Saint-Georges. ",
+        "description": null,
+        "create_time": "2026-09-02T12:57:54.000Z",
+        "share_url": "https://www.tiktok.com/@sanstransition/video/7680921386935651617?utm_campaign=tt4d_open_api&utm_source=sbaw7b274m08jzpaif",
+        "cover_url": null,
+        "latest_snapshot": {
+          "view_count": 34636,
+          "like_count": 4811,
+          "comment_count": 34,
+          "share_count": 462
+        },
+        "metrics": {
+          "engagement_rate": 15.32
+        }
+      },
+      {
+        "video_id": "7680638177224166688",
+        "platform": "tiktok",
+        "title": "Le mot d’@Alma Dufour aux jeunes pour @Carapace et #SansTransition  Carapace est un projet Maison Mémérou ",
+        "description": null,
+        "create_time": "2026-09-01T18:38:53.000Z",
+        "share_url": "https://www.tiktok.com/@sanstransition/video/7680638177224166688?utm_campaign=tt4d_open_api&utm_source=sbaw7b274m08jzpaif",
+        "cover_url": null,
+        "latest_snapshot": {
+          "view_count": 878,
+          "like_count": 124,
+          "comment_count": 1,
+          "share_count": 4
+        },
+        "metrics": {
+          "engagement_rate": 14.69
+        }
+      },
+      {
+        "video_id": "7680634025970634016",
+        "platform": "tiktok",
+        "title": "@Alma Dufour sur ls mobilisation pour @Carapace et #SansTransition.  Carapace est un projet Maison Mémérou. ",
+        "description": null,
+        "create_time": "2026-09-01T18:22:48.000Z",
+        "share_url": "https://www.tiktok.com/@sanstransition/video/7680634025970634016?utm_campaign=tt4d_open_api&utm_source=sbaw7b274m08jzpaif",
+        "cover_url": null,
+        "latest_snapshot": {
+          "view_count": 645,
+          "like_count": 84,
+          "comment_count": 8,
+          "share_count": 2
+        },
+        "metrics": {
+          "engagement_rate": 14.57
+        }
+      },
+      {
+        "video_id": "7680628676542696737",
+        "platform": "tiktok",
+        "title": "@Alma Dufour sur la Nouvelle France pour @Carapace et #SansTransition.  Carapace est un projet de Maison Mémérou. ",
+        "description": null,
+        "create_time": "2026-09-01T18:02:04.000Z",
+        "share_url": "https://www.tiktok.com/@sanstransition/video/7680628676542696737?utm_campaign=tt4d_open_api&utm_source=sbaw7b274m08jzpaif",
+        "cover_url": null,
+        "latest_snapshot": {
+          "view_count": 907,
+          "like_count": 152,
+          "comment_count": 0,
+          "share_count": 5
+        },
+        "metrics": {
+          "engagement_rate": 17.31
+        }
+      },
+      {
+        "video_id": "7680620110129810720",
+        "platform": "tiktok",
+        "title": "@Alma Dufour sur l’importance de la sociologie pour #SansTransition et @Carapace. Carapace est un projet de Maison Mémérou. ",
+        "description": null,
+        "create_time": "2026-09-01T17:28:48.000Z",
+        "share_url": "https://www.tiktok.com/@sanstransition/video/7680620110129810720?utm_campaign=tt4d_open_api&utm_source=sbaw7b274m08jzpaif",
+        "cover_url": null,
+        "latest_snapshot": {
+          "view_count": 784,
+          "like_count": 128,
+          "comment_count": 2,
+          "share_count": 2
+        },
+        "metrics": {
+          "engagement_rate": 16.84
+        }
+      }
+    ],
+    "instagram": [
+      {
+        "video_id": "18364926565208635",
+        "platform": "instagram",
+        "title": "#fokus sur le ralentissement de l’IA.",
+        "description": null,
+        "create_time": "2026-09-14T21:19:02.000Z",
+        "share_url": "https://www.instagram.com/reel/DdSFXAFAdDb/",
+        "cover_url": "https://instagram.fcdg2-1.fna.fbcdn.net/v/t51.82787-15/811266963_17915520162448912_5178118055363454381_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=101&_nc_map=urlgen_bucketless&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=8np0XgTpPvMQ7kNvwHH7pq3&_nc_oc=Adok6wNJk5XcU0y1CDqoC-gF4Q122wRLQE5td09oWrb4fpfbu_c45SiArf09C0RJBsF2IzLS-4boyCmohl44n7a9&_nc_zt=23&_nc_ht=instagram.fcdg2-1.fna&edm=ANo9K5cEAAAA&_nc_gid=Wl5LX709YY5ZtIDYhsTeYw&_nc_tpa=Q5bMBQJNxeXKbH0jZ2HW-7WjI1_TfCAu3MJo9mGS2-MsIrgzMDLm1T4KU0P3zoZOKVmudUNyWo1jFLTX3Q&oh=00_AQK3SstJYjh2b0U566Tf64ghG5uJkggLFm0NbU6wrvhwbw&oe=6AAFD734",
+        "latest_snapshot": {
+          "view_count": 5649,
+          "like_count": 263,
+          "comment_count": 6,
+          "share_count": 129
+        },
+        "metrics": {
+          "engagement_rate": 7.05
+        }
+      },
+      {
+        "video_id": "17869507062639812",
+        "platform": "instagram",
+        "title": "Favella à la @fetedelhumanite.",
+        "description": null,
+        "create_time": "2026-09-13T19:55:21.000Z",
+        "share_url": "https://www.instagram.com/reel/DdPW8wagznB/",
+        "cover_url": "https://instagram.fcdg2-1.fna.fbcdn.net/v/t51.82787-15/809209089_17915362428448912_7920177046424687314_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=105&_nc_map=urlgen_bucketless&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=f2BpedceVzEQ7kNvwFqzRda&_nc_oc=AdoZIrrfbnFOXRw20HnuT7N2TNqkgg3COj0lpa9FBeXOIDiEGfzFcMTKfd8_034Y8RzewVwnWZqkxY_54GNd-3Cz&_nc_zt=23&_nc_ht=instagram.fcdg2-1.fna&edm=ANo9K5cEAAAA&_nc_gid=Wl5LX709YY5ZtIDYhsTeYw&_nc_tpa=Q5bMBQI0BUlR39DPnOMeRz9yUaBtZxhrWQnbZTopbWLT9Di8C-Xc9VjCop5DyQPAq6K0GnQ1h-hDsaWX5A&oh=00_AQLCfXtaroyGX0bT2cvuSvlkymrmlXwr-0QZF7DyU7yB-g&oe=6AAFE42A",
+        "latest_snapshot": {
+          "view_count": 3027,
+          "like_count": 71,
+          "comment_count": 1,
+          "share_count": 5
+        },
+        "metrics": {
+          "engagement_rate": 2.54
+        }
+      },
+      {
+        "video_id": "17881154910691566",
+        "platform": "instagram",
+        "title": "@rexachjose à la @fetedelhumanite.",
+        "description": null,
+        "create_time": "2026-09-13T19:52:09.000Z",
+        "share_url": "https://www.instagram.com/reel/DdPWpExgAFs/",
+        "cover_url": "https://instagram.fcdg2-1.fna.fbcdn.net/v/t51.82787-15/809225981_17915361924448912_7230162779795766555_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=102&_nc_map=urlgen_bucketless&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=21pjLk2ihfIQ7kNvwEZogBo&_nc_oc=AdqtiLawi8uZZhFlY-lgXT4fbBmmH-lMj3A4VUUi4-8wRTzdQTBiCxkDdrxY85dG6H_YwOGh0L514d9oZAANIirl&_nc_zt=23&_nc_ht=instagram.fcdg2-1.fna&edm=ANo9K5cEAAAA&_nc_gid=Wl5LX709YY5ZtIDYhsTeYw&_nc_tpa=Q5bMBQLqLVrmH98_vvK_8UkyylKkMqQy4LfuQta_BZ--0OD44HW0qBk0zkh7PO49SnB0wTEaczLIKQO9bA&oh=00_AQJeUUuz-Q2KjRVnv0rrm8tZ3dFKpPyOEJjtu9mT9w6Z0g&oe=6AAFE416",
+        "latest_snapshot": {
+          "view_count": 8428,
+          "like_count": 320,
+          "comment_count": 23,
+          "share_count": 10
+        },
+        "metrics": {
+          "engagement_rate": 4.19
+        }
+      },
+      {
+        "video_id": "18113247212095835",
+        "platform": "instagram",
+        "title": "@ballybagayoko à la @fetedelhumanite.",
+        "description": null,
+        "create_time": "2026-09-13T19:45:43.000Z",
+        "share_url": "https://www.instagram.com/reel/DdPV0QCgY9t/",
+        "cover_url": "https://instagram.fcdg2-1.fna.fbcdn.net/v/t51.82787-15/808906035_17915361405448912_1631078565977330317_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=109&_nc_map=urlgen_bucketless&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=7rh5_b6S-usQ7kNvwH8gpUB&_nc_oc=AdorDCgP1q3EhqDooyg_4jLy7p9EUMIxGyXfkVFau6R3XKCiukODLK6UcrnCaaaaj3qoit4pll1cpPmzUdBnvNV-&_nc_zt=23&_nc_ht=instagram.fcdg2-1.fna&edm=ANo9K5cEAAAA&_nc_gid=Wl5LX709YY5ZtIDYhsTeYw&_nc_tpa=Q5bMBQKhQu7Y-YmwEirvMJ9p9KddWa4-JQ74r7W7t6hbVJr4nX2h-3Lqz_o95Togw55wPjRx15xGuU9maw&oh=00_AQJmjReRgyxaTeir08ku0ynzTsAyZsuMbOCSOBsJQmQsLQ&oe=6AAFDDFB",
+        "latest_snapshot": {
+          "view_count": 4713,
+          "like_count": 311,
+          "comment_count": 30,
+          "share_count": 5
+        },
+        "metrics": {
+          "engagement_rate": 7.34
+        }
+      },
+      {
+        "video_id": "18406930528094617",
+        "platform": "instagram",
+        "title": "@deputee_abomangoli à la @fetedelhumanite.",
+        "description": null,
+        "create_time": "2026-09-13T19:39:35.000Z",
+        "share_url": "https://www.instagram.com/reel/DdPVKp_gKSK/",
+        "cover_url": "https://instagram.fcdg2-1.fna.fbcdn.net/v/t51.82787-15/809386350_17915360952448912_6744459302263089306_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=110&_nc_map=urlgen_bucketless&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=4NIvOVisD5wQ7kNvwF2Q85T&_nc_oc=AdqK5EqXr2RGcEhOILE1a00PVg19krM9KgY9TOI-mT7tVtyIpTTdS1uqk82X3bsKWGBY6cs0hNO-iEMAYMSGAwbp&_nc_zt=23&_nc_ht=instagram.fcdg2-1.fna&edm=ANo9K5cEAAAA&_nc_gid=Wl5LX709YY5ZtIDYhsTeYw&_nc_tpa=Q5bMBQIVFRxiYrJSNylsjFJB2Yg1LR8Mn8qtMlkiWzJeaRmJKn4JpGs-EqKRLepwaMoPoRYKMc7JzubdNQ&oh=00_AQIZSlJ0VYLP-6Wa6JIDPVD8tXYzw0mEMAyQ3cSYZdup8Q&oe=6AAFC491",
+        "latest_snapshot": {
+          "view_count": 9187,
+          "like_count": 518,
+          "comment_count": 22,
+          "share_count": 6
+        },
+        "metrics": {
+          "engagement_rate": 5.94
+        }
+      },
+      {
+        "video_id": "18140843182587743",
+        "platform": "instagram",
+        "title": "Marine Le Pen face au MEDEF. @louis_bnh",
+        "description": null,
+        "create_time": "2026-09-04T17:52:41.000Z",
+        "share_url": "https://www.instagram.com/reel/Dc39qk-ADPM/",
+        "cover_url": "https://instagram.fcdg2-1.fna.fbcdn.net/v/t51.82787-15/793867451_17914041396448912_4658389120739376980_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=107&_nc_map=urlgen_bucketless&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=nMV3TVjZSTsQ7kNvwGmV4ln&_nc_oc=Adp2_OsgNbFqjl459R3ob3OVBtSOu6G6d8OxKHSQXlgwo_MXWOqO8exIDZFOIVtFF5fHveBcfVV95v_JqxwkM_bS&_nc_zt=23&_nc_ht=instagram.fcdg2-1.fna&edm=ANo9K5cEAAAA&_nc_gid=Wl5LX709YY5ZtIDYhsTeYw&_nc_tpa=Q5bMBQLvEIz__xgfOWnD2kM_6QDoKQCcotnNen2QHZHCEPsMp5tcQh3sS3mYjxdg_q3rHQfOS9rgum4TAQ&oh=00_AQJ5VADtxWLfT2rgVGX8LYHVY0d3_yNoJrVTWNTyIR3D9A&oe=6AAFE343",
+        "latest_snapshot": {
+          "view_count": 4890,
+          "like_count": 372,
+          "comment_count": 43,
+          "share_count": 15
+        },
+        "metrics": {
+          "engagement_rate": 8.79
+        }
+      },
+      {
+        "video_id": "17984509797051805",
+        "platform": "instagram",
+        "title": "@boyardlouis au Lycée Arago de Villeneuve-Saint-Georges.",
+        "description": null,
+        "create_time": "2026-09-03T15:32:01.000Z",
+        "share_url": "https://www.instagram.com/reel/Dc1ItqdgkNF/",
+        "cover_url": "https://instagram.fcdg2-1.fna.fbcdn.net/v/t51.82787-15/793518405_17913879183448912_6288247620525462597_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=104&_nc_map=urlgen_bucketless&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=Ofo6gzxfQ-gQ7kNvwHv9nsk&_nc_oc=AdqQOGKd-aZZgjpPfqwQ8nNWej6FMt16lcdtxHj8Z5wpXsGtc1lfLcLCzMp9deMoXxgOFd6_A6E-ZjxAie5aC76Z&_nc_zt=23&_nc_ht=instagram.fcdg2-1.fna&edm=ANo9K5cEAAAA&_nc_gid=Wl5LX709YY5ZtIDYhsTeYw&_nc_tpa=Q5bMBQLEo3q0HioYrhaAa2ptfZodgHxoykWrJ6kB8UuMT2aSrF5GgeGcdfyeI1p3vn9Elk_xHm6lAL75ig&oh=00_AQLSF7p7amvQXCqI8RIz2NdEbr14lSzgusdmPDLxfBd1Ug&oe=6AAFC70F",
+        "latest_snapshot": {
+          "view_count": 1705,
+          "like_count": 59,
+          "comment_count": 0,
+          "share_count": 3
+        },
+        "metrics": {
+          "engagement_rate": 3.64
+        }
+      },
+      {
+        "video_id": "18246275386308815",
+        "platform": "instagram",
+        "title": "Le mot de @alma_dufour aux jeunes pour @lacarapace_ et #sanstransition ",
+        "description": null,
+        "create_time": "2026-09-01T18:35:51.000Z",
+        "share_url": "https://www.instagram.com/reel/DcwUOX_gowk/",
+        "cover_url": "https://instagram.fcdg2-1.fna.fbcdn.net/v/t51.82787-15/792252897_17913620112448912_1975531485713158849_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=109&_nc_map=urlgen_bucketless&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=txYcLfvPIqQQ7kNvwGp6mah&_nc_oc=Ado2ILwXNoNlLJNG7FNkC3Ue-a-Y_jlWBoiXu6Q5ScRaEv1xn8VFYRsSNrKP5GJKgXWi0QLO8N7uRocI0m2TBCYT&_nc_zt=23&_nc_ht=instagram.fcdg2-1.fna&edm=ANo9K5cEAAAA&_nc_gid=Wl5LX709YY5ZtIDYhsTeYw&_nc_tpa=Q5bMBQLf6pwDPLb5w5oM0lTLwhdVZuDBCSkTi-Ij4YeUyM9g1ZZoylaTkSatueygg8JxCeYCVLGEwKTm6g&oh=00_AQIAu4xj_WXWeOLAH1l1YMO6r_UWOm5Z_KKrmDUlhzqj8Q&oe=6AAFB971",
+        "latest_snapshot": {
+          "view_count": 3546,
+          "like_count": 156,
+          "comment_count": 20,
+          "share_count": 65
+        },
+        "metrics": {
+          "engagement_rate": 6.8
+        }
+      },
+      {
+        "video_id": "18222521782331763",
+        "platform": "instagram",
+        "title": "@alma_dufour sur la mobilisation pour @lacarapace_ et #sanstransition. ",
+        "description": null,
+        "create_time": "2026-09-01T18:18:15.000Z",
+        "share_url": "https://www.instagram.com/reel/DcwSLT0ArvV/",
+        "cover_url": "https://instagram.fcdg2-1.fna.fbcdn.net/v/t51.82787-15/793436443_17913618600448912_8161875942873238763_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=110&_nc_map=urlgen_bucketless&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=XUHrNQGcdx4Q7kNvwH_9jLM&_nc_oc=AdpJR1RYbAX643dGiHpj-6cxJYxVpVOkHnyeHe-3X2hF2qv0fCN-k2E7dO5BgtzfGddRa8jMdKheHjRZLxo-bn8K&_nc_zt=23&_nc_ht=instagram.fcdg2-1.fna&edm=ANo9K5cEAAAA&_nc_gid=Wl5LX709YY5ZtIDYhsTeYw&_nc_tpa=Q5bMBQJ_zCsviQezRTRW0h2szljxBRcnZ5Lyi5JP7Bk2RvdeIyvVE0eesJojv4Qe8uITvnwGFUa_2K_I9Q&oh=00_AQKiI0IyvRr384wQ602cuOeYa97IF5PND4IQxUUfOK-FIw&oe=6AAFE37D",
+        "latest_snapshot": {
+          "view_count": 2215,
+          "like_count": 80,
+          "comment_count": 3,
+          "share_count": 1
+        },
+        "metrics": {
+          "engagement_rate": 3.79
+        }
+      },
+      {
+        "video_id": "17989026738045859",
+        "platform": "instagram",
+        "title": "@alma_dufour sur la Nouvelle France pour #sanstransition et @lacarapace_. ",
+        "description": null,
+        "create_time": "2026-09-01T17:55:29.000Z",
+        "share_url": "https://www.instagram.com/reel/DcwPXDUAIR9/",
+        "cover_url": "https://instagram.fcdg2-1.fna.fbcdn.net/v/t51.82787-15/792806972_17913616287448912_780046129444356278_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=104&_nc_map=urlgen_bucketless&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=MI8sgf3K7LQQ7kNvwGw83I4&_nc_oc=AdqIHxBSlauzIXTlsy5dJ121SXwffQf-dXeiSf77mT31hKK_8ievls-4_P96IgUKZ9ZMMdvjQ1tmF9VnWWWn2UGm&_nc_zt=23&_nc_ht=instagram.fcdg2-1.fna&edm=ANo9K5cEAAAA&_nc_gid=Wl5LX709YY5ZtIDYhsTeYw&_nc_tpa=Q5bMBQJE-mhkzSkbZyY9KWWxx-zs5hwctq34dsfNA7q5ySu8jgKgbJQkUu5OHFmrDFYZtwPSJcJbyDMlxQ&oh=00_AQJBgQ4tzTbtyesfsjDTG_8XgnV80e7nqhyTyqNWWlsqVw&oe=6AAFD6BA",
+        "latest_snapshot": {
+          "view_count": 1444,
+          "like_count": 50,
+          "comment_count": 1,
+          "share_count": 36
+        },
+        "metrics": {
+          "engagement_rate": 6.02
+        }
+      },
+      {
+        "video_id": "17956610307211027",
+        "platform": "instagram",
+        "title": "@alma_dufour sur l’importance de la sociologie pour #sanstransition et @lacarapace_.",
+        "description": null,
+        "create_time": "2026-09-01T17:24:00.000Z",
+        "share_url": "https://www.instagram.com/reel/DcwLxr8gWoE/",
+        "cover_url": "https://instagram.fcdg2-1.fna.fbcdn.net/v/t51.82787-15/790024877_17913613227448912_1686650251560509360_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=102&_nc_map=urlgen_bucketless&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=K8BYOEsjPvAQ7kNvwHdsfdS&_nc_oc=AdpqVk5Nwc_aQchbmz74HA3CTZUuTWynWRXv0G42zciNnqb03sOcOPipxGT5bG_JSsfm6jLTK4smTWx413OMz9ff&_nc_zt=23&_nc_ht=instagram.fcdg2-1.fna&edm=ANo9K5cEAAAA&_nc_gid=Wl5LX709YY5ZtIDYhsTeYw&_nc_tpa=Q5bMBQITWjDStChY8eaea_LafAQZ_zLpSq4F2osBjFcRejRyoBfRrg2EMFi9rjrGgTrsqaboMfpX-BxTJg&oh=00_AQJTV_oE57VEd2GiaJrFZsN67IT9UIE48tnM5PKHIWtGLg&oe=6AAFBDC5",
+        "latest_snapshot": {
+          "view_count": 1301,
+          "like_count": 43,
+          "comment_count": 4,
+          "share_count": 36
+        },
+        "metrics": {
+          "engagement_rate": 6.38
+        }
+      },
+      {
+        "video_id": "17919646434426000",
+        "platform": "instagram",
+        "title": "@iss.lamalice sur la politique.",
+        "description": null,
+        "create_time": "2026-08-31T16:25:01.000Z",
+        "share_url": "https://www.instagram.com/reel/DctgjK0ARqf/",
+        "cover_url": "https://instagram.fcdg2-1.fna.fbcdn.net/v/t51.82787-15/791721116_17913454686448912_7076149056702346722_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=108&_nc_map=urlgen_bucketless&ccb=7-5&_nc_sid=18de74&efg=eyJlZmdfdGFnIjoiQ0xJUFMuYmVzdF9pbWFnZV91cmxnZW4uQzMifQ%3D%3D&_nc_ohc=_7saiui1rxgQ7kNvwHBo8IP&_nc_oc=AdoBvcvryFeolPTlWoqu3HKQkw1Fjc6KvL2Zv0KnBvpE3Moz5zhgykBBVMNnyRTOUupms1ZqM3py31Sj6_wbc_Fj&_nc_zt=23&_nc_ht=instagram.fcdg2-1.fna&edm=ANo9K5cEAAAA&_nc_gid=Wl5LX709YY5ZtIDYhsTeYw&_nc_tpa=Q5bMBQIZjuL9UT7cNwPZwHh5yba16Mp7hvFw3y0viXXchzugJhW59pwLWPaJoziE_oVN3n4y4lk5nqqhGQ&oh=00_AQKMqqzBfLfNpphfW-kxznHPWn3invpkZVz_oinnxwRmuA&oe=6AAFDF4F",
+        "latest_snapshot": {
+          "view_count": 71913,
+          "like_count": 6184,
+          "comment_count": 145,
+          "share_count": 736
+        },
+        "metrics": {
+          "engagement_rate": 9.82
+        }
+      }
+    ]
+  },
+  "lastCollectionAt": "2026-09-16T02:02:44.611Z",
+  "lastCollectionStatus": "ok"
+}

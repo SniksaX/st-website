@@ -2,6 +2,7 @@
 'use client'
 
 import React from 'react'
+import { useSocialStats } from '@/hooks/useSocialStats'
 
 /* ── Types ─────────────────────────────────────────────── */
 
@@ -17,6 +18,7 @@ type JsonItem = {
   likesGained?: number
   velocity?: number
   engagement_rate?: number
+  cover_url?: string
 }
 
 type OEmbed = { thumbnail_url?: string; title?: string }
@@ -79,6 +81,22 @@ export default function VideosTikTok({ src = DEFAULT_SRC }: { src?: string }) {
   const [openId,  setOpenId]  = React.useState<string | null>(null)
   const [loading, setLoading] = React.useState(true)
   const [error,   setError]   = React.useState<string | null>(null)
+  const socialStats = useSocialStats()
+  const liveItems = React.useMemo(() => {
+    if (src !== DEFAULT_SRC || !socialStats?.videos.tiktok.length) return null
+    return socialStats.videos.tiktok.map((video) => ({
+      tiktok_video_id: video.video_id,
+      title: video.title ?? video.description ?? undefined,
+      create_time: video.create_time,
+      views: video.latest_snapshot?.view_count ?? undefined,
+      likes: video.latest_snapshot?.like_count ?? undefined,
+      comments: video.latest_snapshot?.comment_count ?? undefined,
+      shares: video.latest_snapshot?.share_count ?? undefined,
+      engagement_rate: video.metrics.engagement_rate ?? undefined,
+      cover_url: video.cover_url ?? undefined,
+    }))
+  }, [socialStats, src])
+  const activeItems = liveItems ?? items
 
   /* 1 — Load JSON */
   React.useEffect(() => {
@@ -119,7 +137,7 @@ export default function VideosTikTok({ src = DEFAULT_SRC }: { src?: string }) {
   /* 2 — oEmbed thumbnails */
   React.useEffect(() => {
     let cancelled = false
-    const ids = items.map((it) => it.tiktok_video_id)
+    const ids = activeItems.filter((it) => !it.cover_url).map((it) => it.tiktok_video_id)
     if (ids.length === 0) return
 
     const chunk = <T,>(arr: T[], size: number) =>
@@ -143,7 +161,7 @@ export default function VideosTikTok({ src = DEFAULT_SRC }: { src?: string }) {
       } catch { /* silencieux */ }
     })()
     return () => { cancelled = true }
-  }, [items, src])
+  }, [activeItems, src])
 
   const scroll = (dir: 'left' | 'right') => {
     const rail = railRef.current
@@ -152,16 +170,16 @@ export default function VideosTikTok({ src = DEFAULT_SRC }: { src?: string }) {
   }
 
   /* Render list: real items + "see more" card at end */
-  const renderList = loading
+  const renderList = loading && !liveItems
     ? (Array.from({ length: 8 }, () => null) as null[])
-    : [...items, '__MORE__' as const]
+    : [...activeItems, '__MORE__' as const]
 
   return (
     <div>
       {/* Sub-header */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 24 }}>
         <p style={{ fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.28em', color: 'var(--muted)' }}>
-          TikTok · {loading ? '…' : `${items.length} vidéos`}
+          TikTok · {loading && !liveItems ? '…' : `${activeItems.length} vidéos`}
         </p>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
           <a
@@ -262,7 +280,7 @@ export default function VideosTikTok({ src = DEFAULT_SRC }: { src?: string }) {
 
           /* video card */
           const id    = item.tiktok_video_id
-          const thumb = thumbs[id]?.thumbnail_url
+          const thumb = item.cover_url ?? thumbs[id]?.thumbnail_url
           const title = item.title || thumbs[id]?.title || 'Vidéo TikTok'
           const dateLabel = item.create_time
             ? new Date(item.create_time).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short', year: 'numeric' })

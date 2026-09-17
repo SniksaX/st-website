@@ -1,5 +1,9 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Données sociales
+
+Pour afficher les derniers chiffres et les dernières publications TikTok/Instagram collectés par StatsST, renseigner `STATSST_API_URL` dans l'environnement de déploiement. Le site interroge alors StatsST côté serveur et conserve l'affichage existant si le service est momentanément indisponible.
+
 ## Getting Started
 
 First, run the development server:
@@ -93,3 +97,20 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Déploiement Cloudflare Workers
+
+Le site est configuré pour Cloudflare Workers avec OpenNext, sans remplacer le
+déploiement Netlify actuel. Avant toute bascule DNS, connectez-vous au compte
+Cloudflare qui contrôlera le domaine, puis exécutez :
+
+```powershell
+npm run cf-typegen
+npm run preview
+```
+
+Copiez `.dev.vars.example` vers `.dev.vars` pour la prévisualisation locale ;
+ne versionnez jamais ce fichier. Dans Cloudflare, ajoutez chaque variable
+sensible comme secret du Worker, puis lancez `npm run deploy`. Le premier
+déploiement crée une adresse `workers.dev` de test ; rattachez le domaine
+personnalisé seulement après vérification des formulaires, de la newsletter,
+des webhooks HelloAsso et des données externes.

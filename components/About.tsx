@@ -71,11 +71,21 @@ const team: Member[] = [
   },
   {
     name: 'Gappy',
-    role: 'Monteur Vidéo',
+    role: 'Chroniqueur · Consultant',
     img: '/gappy.png',
     alt: 'Portrait de Gappy',
     bio: 'Sait s\'adapter aux différentes plateformes.',
     initials: 'G',
+  },
+  {
+    name: 'Iss',
+    role: 'Chroniqueuse',
+    img: '/iss.png',
+    alt: 'Portrait d\'Iss',
+    bio: 'Vulgarisatrice politique hors pair.',
+    tiktok: 'isslamalice',
+    instagram: 'iss.lamalice',
+    initials: 'I',
   },
 ]
 
@@ -85,7 +95,7 @@ export default function About() {
       className="team-grid"
       style={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(5, 1fr)',
+        gridTemplateColumns: 'repeat(6, 1fr)',
         gap: 1,
         background: 'var(--border)',
         border: '1px solid var(--border)',

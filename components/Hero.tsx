@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import { useSocialStats } from '@/hooks/useSocialStats'
 
 /* ── Icons ─────────────────────────────────── */
 function IcoTikTok({ s = 16 }: { s?: number }) {
@@ -74,6 +75,15 @@ const STATS = [
 /* ── Hero ───────────────────────────────────── */
 export default function Hero() {
   const rvRef = useRef<HTMLDivElement>(null)
+  const socialStats = useSocialStats()
+  const liveFollowers = new Map(
+    socialStats?.accounts.map((account) => [account.platform, account.followers]) ?? [],
+  )
+  const stats = STATS.map((stat) => {
+    const platform = stat.label.toLowerCase()
+    const followers = platform === 'tiktok' || platform === 'instagram' ? liveFollowers.get(platform) : null
+    return followers == null ? stat : { ...stat, target: Math.round(followers / 1000), suffix: 'k+' }
+  })
 
   useEffect(() => {
     const els = rvRef.current?.querySelectorAll('.rv') ?? []
@@ -220,7 +230,7 @@ export default function Hero() {
       }}>
         <div style={{ maxWidth: 1440, margin: '0 auto' }}>
           <div style={{ display: 'flex', gap: 40, alignItems: 'center', overflowX: 'auto', flexWrap: 'wrap' }}>
-            {STATS.map((st, i) => (
+            {stats.map((st, i) => (
               <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
                 {i > 0 && <span style={{ color: 'var(--border2)', fontSize: 18, lineHeight: 1 }}>·</span>}
                 {st.icon && <span style={{ color: 'var(--muted)' }}>{st.icon}</span>}

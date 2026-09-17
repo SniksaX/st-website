@@ -1,6 +1,7 @@
 'use client'
 
 import type { SVGProps } from 'react'
+import { useSocialStats } from '@/hooks/useSocialStats'
 
 function IcoTikTok(props: SVGProps<SVGSVGElement>) {
   return (
@@ -59,6 +60,18 @@ const PLATFORMS = [
 ]
 
 export default function AboutIntro() {
+  const socialStats = useSocialStats()
+  const liveFollowers = new Map(
+    socialStats?.accounts.map((account) => [account.platform, account.followers]) ?? [],
+  )
+  const platforms = PLATFORMS.map((platform) => {
+    const key = platform.name.toLowerCase()
+    const followers = key === 'tiktok' || key === 'instagram' ? liveFollowers.get(key) : null
+    return followers == null
+      ? platform
+      : { ...platform, followers: new Intl.NumberFormat('fr-FR', { notation: 'compact', maximumFractionDigits: 1 }).format(followers) }
+  })
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 48 }}>
 
@@ -111,7 +124,7 @@ export default function AboutIntro() {
           className="grid-mosaic"
           style={{ gridTemplateColumns: 'repeat(4, 1fr)' }}
         >
-          {PLATFORMS.map(({ name, followers, url, Icon }) => (
+          {platforms.map(({ name, followers, url, Icon }) => (
             <a
               key={name}
               href={url}
