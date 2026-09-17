@@ -4,7 +4,6 @@ import { useEffect } from 'react'
 import Link from 'next/link'
 import Header from '@/components/Header'
 import Hero from '@/components/Hero'
-import Partners from '@/components/Partners'
 import LatestVideos from '@/components/LatestVideos'
 import TwoDoors from '@/components/TwoDoors'
 import AboutIntro from '@/components/AboutIntro'
@@ -53,7 +52,6 @@ export default function Page() {
     <div style={{ background: 'var(--bg)', color: 'var(--fg)', minHeight: '100vh' }}>
       <Header />
       <Hero />
-      <Partners />
 
       {/* 01 — Dernières vidéos */}
       <section id="videos" style={sectionStyle}>

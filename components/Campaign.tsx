@@ -103,7 +103,7 @@ export default function Campaign() {
         </div>
 
         <p className="quote" style={{ fontSize: 14, color: 'var(--muted)' }}>
-          &ldquo;Soutenir Sans Transition, ce n&apos;est pas donner : c&apos;est prendre parti.&rdquo; — Hedji
+          &laquo;&nbsp;Soutenir Sans Transition, ce n&apos;est pas donner : c&apos;est prendre parti.&nbsp;&raquo;
         </p>
       </div>
 

@@ -35,12 +35,11 @@ export default function TwoDoors() {
         <p style={{ fontSize: 12, textTransform: 'uppercase', letterSpacing: '0.2em', color: 'var(--muted)' }}>
           Vous suivez ST
         </p>
-        <h3 style={titleStyle}>Rejoindre le camp</h3>
+        <h3 style={titleStyle}>Apprendre</h3>
         <p style={{ fontSize: 15, color: 'var(--fg2)', lineHeight: 1.6, textWrap: 'pretty' }}>
-          Les formats, l&apos;équipe, le Discord, le kit révolutionnaire et la newsletter. Tout ce qu&apos;il faut pour suivre et s&apos;outiller.
+          Vous vous servez des ressources gratuites pour la plupart qu&apos;on vous met à disposition.
         </p>
         <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginTop: 'auto' }}>
-          <a href="#media" className="btn-outline-st" style={{ padding: '12px 18px', fontSize: 12 }}>Le média</a>
           <Link href="/kit-revolutionnaire" className="btn-outline-st" style={{ padding: '12px 18px', fontSize: 12 }}>
             Kit révolutionnaire
           </Link>
@@ -59,9 +58,6 @@ export default function TwoDoors() {
         <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', marginTop: 'auto' }}>
           <Link href="/contact" className="btn-grad" style={{ padding: '12px 20px', fontSize: 12 }}>
             Nous écrire <ArrowIcon />
-          </Link>
-          <Link href="/kit-media" className="btn-outline-st" style={{ padding: '12px 18px', fontSize: 12 }}>
-            Kit média
           </Link>
         </div>
       </div>
