@@ -400,8 +400,8 @@ ${content}
           <tr><td class="st-pad" style="padding:26px 32px 30px;border-top:1px solid #1c1c2c">
             <p style="margin:0 0 14px;font-family:'Space Grotesk','Helvetica Neue',Helvetica,Arial,sans-serif;font-size:11px;line-height:1.6;letter-spacing:.04em;color:#8f8b9c">
               <a href="https://www.tiktok.com/@sanstransition" style="color:#a8a4b0;text-decoration:none">TikTok</a>&nbsp;·&nbsp;
-              <a href="https://www.instagram.com/sanstransition" style="color:#a8a4b0;text-decoration:none">Instagram</a>&nbsp;·&nbsp;
-              <a href="https://www.youtube.com/@sanstransition" style="color:#a8a4b0;text-decoration:none">YouTube</a>&nbsp;·&nbsp;
+              <a href="https://www.instagram.com/sanstransition__" style="color:#a8a4b0;text-decoration:none">Instagram</a>&nbsp;·&nbsp;
+              <a href="https://www.youtube.com/@SansTransitionMedia" style="color:#a8a4b0;text-decoration:none">YouTube</a>&nbsp;·&nbsp;
               <a href="https://sanstransition.fr" style="color:#a8a4b0;text-decoration:none">sanstransition.fr</a>
             </p>
             <p style="margin:0;font-family:'Space Grotesk','Helvetica Neue',Helvetica,Arial,sans-serif;font-size:11px;line-height:1.7;color:#8f8b9c">Sans Transition — association loi 1901, Paris, France.</p>

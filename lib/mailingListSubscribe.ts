@@ -1,6 +1,7 @@
 import nodemailer from 'nodemailer'
 import { createUnsubscribeToken, upsertMailingListSubscriber } from '@/lib/mailingListStore'
 import { upsertSanityMailingListSubscriber } from '@/lib/sanity'
+import { buildConfirmationEmail } from '@/lib/mailingListEmails'
 
 export const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
@@ -137,20 +138,7 @@ export async function subscribeEmail(input: {
       to: email,
       replyTo,
       subject: isReactivated ? `Re: ${confirmSubject}` : confirmSubject,
-      text: [
-        'Bonjour,',
-        '',
-        "Ton inscription a la newsletter Sans Transition est bien enregistree.",
-        '',
-        unsubscribeUrl
-          ? `Pour te desinscrire: ${unsubscribeUrl}`
-          : "Si ce n'etait pas toi, reponds a ce message pour etre retire(e).",
-        '',
-        'Merci,',
-        'Sans Transition',
-      ]
-        .filter(Boolean)
-        .join('\n'),
+      ...buildConfirmationEmail({ reactivated: isReactivated, unsubscribeUrl }),
     }),
   ])
 
