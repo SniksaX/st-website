@@ -568,6 +568,7 @@ async function sendCampaign(campaign, options = {}) {
     const alreadySent = readSentLog(sentLogFile)
     const skippedSubscribed = fileEmails.filter((e) => subscribed.has(e)).length
     const skippedSent = fileEmails.filter((e) => !subscribed.has(e) && alreadySent.has(e)).length
+    if (options.includeSubscribed) subscribed = new Set()
     let pending = fileEmails.filter((e) => !subscribed.has(e) && !alreadySent.has(e))
     if (limit > 0) pending = pending.slice(0, limit)
     recipients = pending.map((email) => ({ email, emailHash: null }))
@@ -720,6 +721,7 @@ async function runSend(args) {
     testTo: args['test-to'] || null,
     recipientsFile: args['recipients-file'] || null,
     delayMs: args['delay-ms'] ? Number(args['delay-ms']) : 0,
+    includeSubscribed: Boolean(args['include-subscribed']),
   })
   console.log(`Campaign done. Sent: ${result.success}. Failed: ${result.failed}. Total: ${result.total}.`)
 }
@@ -860,7 +862,7 @@ function printHelp() {
   console.log('  node scripts/mailing-list.js stats')
   console.log('  node scripts/mailing-list.js export [--out data/mailing-list-emails.csv]')
   console.log('  node scripts/mailing-list.js preview --subject "..." (--text "..." | --text-file file.txt) [--html-file file.html] [--out preview.html]')
-  console.log('  node scripts/mailing-list.js send --subject "..." (--text "..." | --text-file file.txt) [--html-file file.html] [--test-to email] [--limit 50] [--dry-run] [--recipients-file liste.csv] [--delay-ms 20000]')
+  console.log('  node scripts/mailing-list.js send --subject "..." (--text "..." | --text-file file.txt) [--html-file file.html] [--test-to email] [--limit 50] [--dry-run] [--recipients-file liste.csv] [--delay-ms 20000] [--include-subscribed]')
   console.log('  node scripts/mailing-list.js send-scheduled [--queue data/mailing-list-campaigns.json] [--campaign-limit 1] [--limit 50] [--dry-run]')
 }
 

@@ -1,0 +1,13 @@
+# Salut la tcheam !
+
+Surprise ! J’ai dev la newsletter, enfin.
+
+Vous avez dû recevoir un mail pour vous inscrire, et en vrai c’est un bon moyen de keep up avec ce qu’on a produit.
+
+Je vous laisse le choix de vous abonner ou pas, comme vous voulez.
+
+[button:M’inscrire à la newsletter]({{subscribe_url}})
+
+Gros bisous,
+
+Hedji
