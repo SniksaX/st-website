@@ -42,13 +42,6 @@ function IcoGlobe() {
     </svg>
   )
 }
-function IcoYTSmall() {
-  return (
-    <svg width={16} height={16} viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-      <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
-    </svg>
-  )
-}
 function IcoHeart() {
   return (
     <svg width={16} height={16} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden>
@@ -112,13 +105,6 @@ function IcoChevDown() {
     </svg>
   )
 }
-function IcoClose() {
-  return (
-    <svg width={16} height={16} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" aria-hidden>
-      <line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" />
-    </svg>
-  )
-}
 function IcoCheck() {
   return (
     <svg width={20} height={20} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden>
@@ -134,11 +120,11 @@ function IcoSend() {
   )
 }
 
-/* ── Newsletter modal ───────────────────────────────────── */
+/* ── Newsletter form ────────────────────────────────────── */
 
 type FormState = 'idle' | 'loading' | 'success' | 'error' | 'existing'
 
-function NewsletterModal({ onClose }: { onClose: () => void }) {
+function NewsletterForm() {
   const [email, setEmail] = useState('')
   const [state, setState] = useState<FormState>('idle')
   const [message, setMessage] = useState('')
@@ -170,61 +156,43 @@ function NewsletterModal({ onClose }: { onClose: () => void }) {
 
   return (
     <div style={{
-      position: 'fixed', inset: 0, zIndex: 200,
-      display: 'flex', alignItems: 'flex-end', justifyContent: 'center',
+      background: 'var(--surface)',
+      border: '1px solid var(--border)',
+      borderRadius: 3,
+      padding: '16px 18px',
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 12,
     }}>
-      {/* Overlay */}
-      <div
-        onClick={onClose}
-        style={{ position: 'absolute', inset: 0, background: 'rgba(0,0,0,0.6)', backdropFilter: 'blur(6px)' }}
-      />
-      {/* Panel */}
-      <div style={{
-        position: 'relative', zIndex: 1,
-        width: '100%', maxWidth: 440,
-        background: 'var(--surface)',
-        border: '1px solid var(--border)',
-        borderBottom: 'none',
-        borderRadius: '3px 3px 0 0',
-        padding: 'clamp(20px,3vw,32px)',
-      }}>
-        <button
-          onClick={onClose}
-          style={{ position: 'absolute', top: 16, right: 16, background: 'none', border: 'none', cursor: 'pointer', color: 'var(--muted)', display: 'flex' }}
-          aria-label="Fermer"
-        >
-          <IcoClose />
-        </button>
-
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 }}>
-          <span style={{ color: 'var(--muted)' }}><IcoBell /></span>
-          <div>
-            <p style={{ fontSize: 14, fontWeight: 700, color: 'var(--fg)' }}>Newsletter Sans Transition</p>
-            <p style={{ fontSize: 11, color: 'var(--muted)' }}>Reçois nos prochaines infos directement.</p>
-          </div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+        <span style={{ color: 'var(--muted)', display: 'flex' }}><IcoBell /></span>
+        <div>
+          <p style={{ fontSize: 13, fontWeight: 700, color: 'var(--fg)' }}>Newsletter Sans Transition</p>
+          <p style={{ fontSize: 11, color: 'var(--muted)' }}>Reçois nos prochaines infos directement. Pas de spam, désinscription en un clic.</p>
         </div>
+      </div>
 
-        {state === 'success' || state === 'existing' ? (
-          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12, padding: '16px 0', textAlign: 'center' }}>
-            <span style={{ color: 'var(--fg)', display: 'flex' }}><IcoCheck /></span>
-            <p style={{ fontSize: 13, color: 'var(--fg)' }}>{message}</p>
-            <button onClick={onClose} style={{ marginTop: 4, background: 'none', border: '1px solid var(--border)', borderRadius: 2, cursor: 'pointer', fontSize: 11, color: 'var(--muted)', padding: '6px 16px' }}>
-              Fermer
-            </button>
-          </div>
-        ) : (
-          <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+      {state === 'success' || state === 'existing' ? (
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 13, color: 'var(--fg)' }}>
+          <span style={{ display: 'flex' }}><IcoCheck /></span>
+          {message}
+        </div>
+      ) : (
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <div style={{ display: 'flex', gap: 8 }}>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="email@exemple.com"
               aria-label="Adresse email"
+              autoComplete="email"
+              required
               disabled={state === 'loading'}
               style={{
-                width: '100%',
-                boxSizing: 'border-box',
-                padding: '10px 14px',
+                flex: 1,
+                minWidth: 0,
+                padding: '8px 12px',
                 background: 'var(--bg)',
                 border: '1px solid var(--border)',
                 borderRadius: 2,
@@ -233,14 +201,12 @@ function NewsletterModal({ onClose }: { onClose: () => void }) {
                 outline: 'none',
               }}
             />
-            {state === 'error' && (
-              <p style={{ fontSize: 11, color: '#ef4444' }}>{message}</p>
-            )}
             <button
               type="submit"
               disabled={state === 'loading'}
               className="btn-grad"
-              style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8 }}
+              aria-label="S'inscrire à la newsletter"
+              style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, flexShrink: 0, padding: '0 12px', fontSize: 10, letterSpacing: '0.12em' }}
             >
               {state === 'loading'
                 ? <span style={{ width: 14, height: 14, border: '2px solid rgba(255,255,255,0.3)', borderTopColor: '#fff', borderRadius: '50%', animation: 'spin 0.8s linear infinite', display: 'inline-block' }} />
@@ -248,10 +214,12 @@ function NewsletterModal({ onClose }: { onClose: () => void }) {
               }
               {state === 'loading' ? 'Envoi…' : "S'inscrire"}
             </button>
-            <p style={{ fontSize: 10, color: 'var(--muted)', textAlign: 'center' }}>Pas de spam. Désinscription en un clic.</p>
-          </form>
-        )}
-      </div>
+          </div>
+          {state === 'error' && (
+            <p style={{ fontSize: 11, color: '#ef4444' }}>{message}</p>
+          )}
+        </form>
+      )}
     </div>
   )
 }
@@ -266,9 +234,7 @@ const SOCIALS = [
 ]
 
 export default function LiensClient() {
-  const [showNewsletter, setShowNewsletter] = useState(false)
   const [donOpen, setDonOpen] = useState(false)
-  const [heditoOpen, setHeditoOpen] = useState(false)
 
   return (
     <>
@@ -306,9 +272,6 @@ export default function LiensClient() {
 
           {/* Site */}
           <LienRow href="/" internal icon={<IcoGlobe />} label="sanstransition.fr" />
-
-          {/* Dernière vidéo YT */}
-          <LienRow href="https://www.youtube.com/watch?v=6qW5b6h6Ugo" icon={<IcoYTSmall />} label="Regarder notre dernière vidéo" />
 
           {/* ST x MEDIAPART FESTIVAL */}
           <LienRow href="https://youtu.be/rQ-6ghMphpA" icon={<IcoYTGlow />} label="ST x MEDIAPART FESTIVAL" glow />
@@ -353,94 +316,18 @@ export default function LiensClient() {
 
           {/* Aider */}
           <div style={{
-            display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 1,
+            display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1,
             background: 'var(--border)', border: '1px solid var(--border)', borderRadius: 3, overflow: 'hidden',
           }}>
             <LienCell href="https://gofund.me/6e217b10a" icon={<IcoHeart />} label="Aider Abood" />
-            <LienCell href="https://gofund.me/ed90a35c6" icon={<IcoHeart />} label="Aider Elodie" />
             <LienCell href="https://www.leetchi.com/fr/c/aidez-moi-je-vous-en-supplie-4021047" icon={<IcoHeartGlow />} label="Aider Nanou" />
           </div>
-
-          {/* Pétition Assemblée nationale */}
-          <LienRow href="https://petitions.assemblee-nationale.fr/initiatives/i-6334" icon={<IcoGlobe />} label="Pétition permis de tuer" />
 
           {/* Proposer un sujet */}
           <LienRow href="https://forms.gle/yoHVL6iKBi6Adz8T9" icon={<IcoMsg />} label="Proposer un sujet ou témoigner" />
 
-          {/* Dernier Hédito */}
-          <div style={{ border: '1px solid var(--border)', borderRadius: 3, overflow: 'hidden' }}>
-            <button
-              onClick={() => setHeditoOpen((v) => !v)}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                width: '100%',
-                padding: '14px 18px',
-                background: 'var(--surface)',
-                border: 'none',
-                cursor: 'pointer',
-                color: 'var(--fg)',
-                fontSize: 13,
-                transition: 'background .15s',
-              }}
-              onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--surface2)')}
-              onMouseLeave={(e) => (e.currentTarget.style.background = 'var(--surface)')}
-            >
-              <span style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                <span style={{ color: 'var(--muted)' }}><IcoBook /></span>
-                Dernier Hédito
-              </span>
-              <span style={{ color: 'var(--muted)', transform: heditoOpen ? 'rotate(180deg)' : 'none', transition: 'transform .2s', display: 'flex' }}>
-                <IcoChevDown />
-              </span>
-            </button>
-            {heditoOpen && (
-              <div style={{
-                display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 1,
-                background: 'var(--border)', borderTop: '1px solid var(--border)',
-              }}>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 1, background: 'var(--border)' }}>
-                  <div style={{ padding: '6px 14px', background: 'var(--surface)', fontSize: 10, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Articles</div>
-                  <LienCell href="https://www.mediapart.fr/journal/international/240526/il-avance-et-commence-attraper-mon-sein-des-membres-de-la-flottille-pour-gaza-temoignent-de-violenc" icon={<IcoGlobe />} label="Témoignages de violence" />
-                  <LienCell href="https://www.mediapart.fr/journal/international/210526/flottille-pour-gaza-la-violence-d-israel-indigne-enfin" icon={<IcoGlobe />} label="La violence d'Israël indigne enfin" />
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 1, background: 'var(--border)' }}>
-                  <div style={{ padding: '6px 14px', background: 'var(--surface)', fontSize: 10, color: 'var(--muted)', textTransform: 'uppercase', letterSpacing: '0.08em' }}>Vidéo</div>
-                  <LienCell href="https://www.youtube.com/watch?v=hiavQ-zZo6M" icon={<IcoYTSmall />} label="MADLEENS (docu)" />
-                </div>
-              </div>
-            )}
-          </div>
-
-
           {/* Newsletter */}
-          {process.env.NEXT_PUBLIC_NEWSLETTER_ENABLED === 'true' && (
-            <button
-              onClick={() => setShowNewsletter(true)}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between',
-                padding: '14px 18px',
-                background: 'var(--surface)',
-                border: '1px solid var(--border)',
-                borderRadius: 3,
-                cursor: 'pointer',
-                color: 'var(--fg)',
-                width: '100%',
-                transition: 'background .15s',
-              }}
-              onMouseEnter={(e) => (e.currentTarget.style.background = 'var(--surface2)')}
-              onMouseLeave={(e) => (e.currentTarget.style.background = 'var(--surface)')}
-            >
-              <span style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 13 }}>
-                <span style={{ color: 'var(--muted)' }}><IcoBell /></span>
-                S&apos;inscrire à la newsletter
-              </span>
-              <span style={{ color: 'var(--muted)' }}><IcoArrow /></span>
-            </button>
-          )}
+          <NewsletterForm />
 
           {/* Mail */}
           <LienRow href="mailto:contact@sanstransition.fr" icon={<IcoMail />} label="contact@sanstransition.fr" />
@@ -476,7 +363,6 @@ export default function LiensClient() {
         </div>
       </div>
 
-      {showNewsletter && <NewsletterModal onClose={() => setShowNewsletter(false)} />}
 
       <style>{`
         @keyframes spin { to { transform: rotate(360deg); } }

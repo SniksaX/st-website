@@ -620,6 +620,10 @@ async function sendCampaign(campaign, options = {}) {
       failed += 1
       const message = error instanceof Error ? error.message : 'Unknown SMTP error'
       console.error(`Failed: ${maskEmail(recipient.email)} -> ${message}`)
+      if (/quota exceeded|too many mails|messages per hour/i.test(message)) {
+        console.error('Limite d\'envoi SMTP atteinte : arret. Relance la meme commande dans une heure, les adresses deja servies seront sautees.')
+        break
+      }
     }
     if (delayMs) await new Promise((resolve) => setTimeout(resolve, delayMs))
   }
