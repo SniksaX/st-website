@@ -81,7 +81,7 @@ function invalidLink() {
   return htmlPage(
     'Lien invalide',
     `<p>Ce lien d'inscription est invalide ou a expiré. Tu peux t'inscrire directement sur le site.</p>
-     <a class="btn" href="https://sanstransition.fr/00">S'inscrire sur le site</a>`,
+     <a class="btn" href="https://sanstransition.fr/newsletter">S'inscrire sur le site</a>`,
     400
   )
 }

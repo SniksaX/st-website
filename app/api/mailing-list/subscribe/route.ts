@@ -23,7 +23,7 @@ export async function POST(request: Request) {
     }
 
     const { forwardedFor, userAgent } = readRequestMeta(request)
-    const outcome = await subscribeEmail({ email, source: '/00', forwardedFor, userAgent })
+    const outcome = await subscribeEmail({ email, source: '/newsletter', forwardedFor, userAgent })
 
     if (outcome === 'existing') {
       return NextResponse.json({ ok: true, alreadySubscribed: true }, { status: 200 })

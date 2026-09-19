@@ -6,7 +6,12 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  async redirects() {
+    return [
+      // ancienne adresse de la page d'inscription a la newsletter
+      { source: '/00', destination: '/newsletter', permanent: true },
+    ];
+  },
 };
 
 export default nextConfig;

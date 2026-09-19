@@ -63,7 +63,7 @@ export async function upsertSanityMailingListSubscriber(
           _type: 'mailingListSubscriber',
           email: data.email.toLowerCase().trim(),
           emailHash: data.emailHash,
-          source: data.source ?? '/00',
+          source: data.source ?? '/newsletter',
           subscribedAt: data.subscribedAt ?? new Date().toISOString(),
           unsubscribedAt: null,
           ip: data.ip ?? null,

@@ -3,7 +3,7 @@
 import { FormEvent, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import styles from './zero-zero.module.css'
+import styles from './newsletter.module.css'
 
 type FormState = 'idle' | 'loading' | 'success' | 'error'
 

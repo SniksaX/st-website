@@ -22,7 +22,7 @@ export default defineType({
       name: 'source',
       title: 'Source',
       type: 'string',
-      description: "Page depuis laquelle la personne s'est inscrite (ex: /00)",
+      description: "Page depuis laquelle la personne s'est inscrite (ex: /newsletter)",
     }),
     defineField({
       name: 'subscribedAt',

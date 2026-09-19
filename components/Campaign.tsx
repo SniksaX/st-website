@@ -73,7 +73,7 @@ export default function Campaign() {
           <Link href="/don" className="btn-grad" style={{ padding: '15px 26px', fontSize: 12 }}>
             Faire un don <ArrowIcon />
           </Link>
-          <Link href="/00" className="btn-outline-st" style={{ padding: '15px 22px', fontSize: 12 }}>
+          <Link href="/newsletter" className="btn-outline-st" style={{ padding: '15px 22px', fontSize: 12 }}>
             Newsletter
           </Link>
         </div>

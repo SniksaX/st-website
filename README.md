@@ -26,7 +26,7 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 
 ## Mailing List Setup
 
-The `/00` page posts to `/api/mailing-list/subscribe`.
+The `/newsletter` page (formerly `/00`, redirected) posts to `/api/mailing-list/subscribe`.
 
 Required `.env.local` keys:
 
