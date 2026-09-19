@@ -215,3 +215,32 @@ export async function unsubscribeMailingListSubscriber(emailHash: string): Promi
   await writeStore(store)
   return 'updated'
 }
+
+// Invitation links: signed token carrying the email, used for one-click subscribe from an invitation email.
+const INVITE_TTL_SECONDS = 60 * 60 * 24 * 90
+
+function deriveInviteKey(secret: string) {
+  return deriveKey(secret, 'invite:v1')
+}
+
+export function createInviteToken(email: string, now = Date.now()) {
+  const normalized = normalizeEmail(email)
+  const payload = Buffer.from(normalized, 'utf8').toString('base64url')
+  const exp = Math.floor(now / 1000) + INVITE_TTL_SECONDS
+  const signature = hashValue(`${payload}.${exp}`, deriveInviteKey(readSecret()))
+  return `${payload}.${exp}.${signature}`
+}
+
+export function verifyInviteToken(token: string) {
+  const match = token.trim().match(/^([A-Za-z0-9_-]+)\.(\d{9,11})\.([a-f0-9]{64})$/)
+  if (!match) return null
+  const [, payload, expRaw, signature] = match
+  const expected = hashValue(`${payload}.${expRaw}`, deriveInviteKey(readSecret()))
+  const providedBuffer = Buffer.from(signature, 'hex')
+  const expectedBuffer = Buffer.from(expected, 'hex')
+  if (providedBuffer.length !== expectedBuffer.length) return null
+  if (!timingSafeEqual(providedBuffer, expectedBuffer)) return null
+  if (Number(expRaw) * 1000 < Date.now()) return null
+  const email = Buffer.from(payload, 'base64url').toString('utf8')
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? email : null
+}

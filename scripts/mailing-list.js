@@ -217,7 +217,9 @@ function inlineMarkdownToHtml(text) {
   output = output.replace(/\[(?:button|btn):([^\]]+)\]\((https?:\/\/[^\s)]+)\)/gi, (_m, label, url) => {
     const safeLabel = escapeHtml(label.trim())
     const safeUrl = escapeHtml(url.trim())
-    return stashHtml(`<a class="st-button" href="${safeUrl}">${safeLabel}</a>`)
+    return stashHtml(
+      `<a class="st-button" href="${safeUrl}" target="_blank" style="display:inline-block;padding:12px 24px;background-color:#c2569b;background-image:linear-gradient(90deg,#7c5af0 0%,#e05fb0 48%,#f97316 100%);border-radius:2px;font-family:'Space Grotesk','Helvetica Neue',Helvetica,Arial,sans-serif;font-size:11px;font-weight:600;letter-spacing:.2em;line-height:1.2;text-transform:uppercase;color:#ffffff !important;text-decoration:none !important"><span style="color:#ffffff">${safeLabel}</span></a>`,
+    )
   })
 
   output = output.replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, (_m, label, url) => {
@@ -432,6 +434,16 @@ function createUnsubscribeToken(emailHash) {
   return `${normalizedHash}.${signature}`
 }
 
+function buildSubscribeUrl(email) {
+  const secret = readRequiredEnv('MAILING_LIST_SECRET_KEY')
+  const key = deriveKey(secret, 'invite:v1')
+  const payload = Buffer.from(String(email).trim().toLowerCase(), 'utf8').toString('base64url')
+  const exp = Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 90
+  const signature = hashValue(`${payload}.${exp}`, key)
+  const baseUrl = readRequiredEnv('MAILING_LIST_PUBLIC_BASE_URL').replace(/\/+$/, '')
+  return `${baseUrl}/api/mailing-list/join?token=${encodeURIComponent(`${payload}.${exp}.${signature}`)}`
+}
+
 function buildUnsubscribeUrl(emailHash) {
   const baseUrl = readRequiredEnv('MAILING_LIST_PUBLIC_BASE_URL').replace(/\/+$/, '')
   const token = createUnsubscribeToken(emailHash)
@@ -496,6 +508,29 @@ function buildCampaignFromQueueItem(item, index) {
   }
 }
 
+function readRecipientsFile(fileArg) {
+  const file = resolveFilePath(String(fileArg))
+  const raw = fs.readFileSync(file, 'utf8')
+  const seen = new Set()
+  const emails = []
+  for (const line of raw.split(/\r?\n/)) {
+    for (const cell of line.split(/[;,\t]/)) {
+      const email = cell.replace(/^\uFEFF/, '').replace(/"/g, '').trim().toLowerCase()
+      if (!EMAIL_REGEX.test(email) || seen.has(email)) continue
+      seen.add(email)
+      emails.push(email)
+    }
+  }
+  return emails
+}
+
+function readSentLog(logFile) {
+  if (!fs.existsSync(logFile)) return new Set()
+  return new Set(
+    fs.readFileSync(logFile, 'utf8').split(/\r?\n/).map((l) => l.trim().toLowerCase()).filter(Boolean),
+  )
+}
+
 async function sendCampaign(campaign, options = {}) {
   const from = readRequiredEnv('MAILING_LIST_FROM')
   const replyTo = readOptionalEnv('MAILING_LIST_REPLY_TO') || from
@@ -507,10 +542,38 @@ async function sendCampaign(campaign, options = {}) {
     throw new Error('Invalid --test-to email address')
   }
 
+  const recipientsFile = options.recipientsFile || null
+  const delayMs = options.delayMs && Number(options.delayMs) > 0 ? Number(options.delayMs) : 0
+  let sentLogFile = null
+  let externalList = false
+
+  if (recipientsFile && /{{\s*unsubscribe_url\s*}}/.test(campaign.text + (campaign.html || ''))) {
+    throw new Error('--recipients-file: ces personnes ne sont pas abonnees, retire {{unsubscribe_url}} du texte.')
+  }
+
   let recipients
   if (testTo) {
     recipients = [{ email: testTo, emailHash: null }]
     console.log(`Test mode: the campaign can only be sent to ${maskEmail(testTo)}.`)
+  } else if (recipientsFile) {
+    externalList = true
+    const fileEmails = readRecipientsFile(recipientsFile)
+    let subscribed = new Set()
+    try {
+      subscribed = new Set((await readActiveRecipients()).map((r) => String(r.email).toLowerCase()))
+    } catch (error) {
+      console.warn('Impossible de lire les abonnes actuels, aucun filtrage:', error instanceof Error ? error.message : error)
+    }
+    sentLogFile = resolveFilePath(String(recipientsFile)) + '.sent.log'
+    const alreadySent = readSentLog(sentLogFile)
+    const skippedSubscribed = fileEmails.filter((e) => subscribed.has(e)).length
+    const skippedSent = fileEmails.filter((e) => !subscribed.has(e) && alreadySent.has(e)).length
+    let pending = fileEmails.filter((e) => !subscribed.has(e) && !alreadySent.has(e))
+    if (limit > 0) pending = pending.slice(0, limit)
+    recipients = pending.map((email) => ({ email, emailHash: null }))
+    console.log(
+      `Fichier: ${fileEmails.length} adresses. Deja abonnees (ignorees): ${skippedSubscribed}. Deja envoyees (ignorees): ${skippedSent}. A envoyer: ${recipients.length}.`,
+    )
   } else {
     const allRecipients = await readActiveRecipients()
     recipients = limit > 0 ? allRecipients.slice(0, limit) : allRecipients
@@ -531,12 +594,13 @@ async function sendCampaign(campaign, options = {}) {
   let failed = 0
 
   for (const recipient of recipients) {
-    const unsubscribeUrl = testTo
+    const unsubscribeUrl = testTo || externalList
       ? `${readRequiredEnv('MAILING_LIST_PUBLIC_BASE_URL').replace(/\/+$/, '')}/api/mailing-list/unsubscribe?token=APERCU`
       : buildUnsubscribeUrl(recipient.emailHash)
-    const text = renderTemplate(campaign.text, { unsubscribe_url: unsubscribeUrl })
+    const vars = { unsubscribe_url: unsubscribeUrl, subscribe_url: buildSubscribeUrl(recipient.email) }
+    const text = renderTemplate(campaign.text, vars)
     const html = campaign.html
-      ? renderTemplate(campaign.html, { unsubscribe_url: unsubscribeUrl })
+      ? renderTemplate(campaign.html, vars)
       : buildHtmlFromMarkdown(text, campaign.subject)
 
     try {
@@ -549,11 +613,14 @@ async function sendCampaign(campaign, options = {}) {
         html,
       })
       success += 1
+      if (sentLogFile) fs.appendFileSync(sentLogFile, recipient.email + '\n')
+      if (externalList) console.log(`[${success + failed}/${recipients.length}] OK ${maskEmail(recipient.email)}`)
     } catch (error) {
       failed += 1
       const message = error instanceof Error ? error.message : 'Unknown SMTP error'
       console.error(`Failed: ${maskEmail(recipient.email)} -> ${message}`)
     }
+    if (delayMs) await new Promise((resolve) => setTimeout(resolve, delayMs))
   }
 
   return { dryRun, total: recipients.length, success, failed }
@@ -651,6 +718,8 @@ async function runSend(args) {
     dryRun: Boolean(args['dry-run']),
     limit: args.limit ? Number(args.limit) : 0,
     testTo: args['test-to'] || null,
+    recipientsFile: args['recipients-file'] || null,
+    delayMs: args['delay-ms'] ? Number(args['delay-ms']) : 0,
   })
   console.log(`Campaign done. Sent: ${result.success}. Failed: ${result.failed}. Total: ${result.total}.`)
 }
@@ -683,9 +752,10 @@ async function runPreview(args) {
   const campaign = buildCampaignFromArgs(args)
   const unsubscribeUrl =
     'https://sanstransition.fr/api/mailing-list/unsubscribe?token=APERCU'
-  const text = renderTemplate(campaign.text, { unsubscribe_url: unsubscribeUrl })
+  const previewVars = { unsubscribe_url: unsubscribeUrl, subscribe_url: 'https://sanstransition.fr/api/mailing-list/join?token=APERCU' }
+  const text = renderTemplate(campaign.text, previewVars)
   const html = campaign.html
-    ? renderTemplate(campaign.html, { unsubscribe_url: unsubscribeUrl })
+    ? renderTemplate(campaign.html, previewVars)
     : buildHtmlFromMarkdown(text, campaign.subject)
   const previewHtml = embedLocalPublicImages(html)
   const outFile = resolveFilePath(args.out || 'data/campaigns/newsletter-preview.html')
@@ -790,7 +860,7 @@ function printHelp() {
   console.log('  node scripts/mailing-list.js stats')
   console.log('  node scripts/mailing-list.js export [--out data/mailing-list-emails.csv]')
   console.log('  node scripts/mailing-list.js preview --subject "..." (--text "..." | --text-file file.txt) [--html-file file.html] [--out preview.html]')
-  console.log('  node scripts/mailing-list.js send --subject "..." (--text "..." | --text-file file.txt) [--html-file file.html] [--test-to email] [--limit 50] [--dry-run]')
+  console.log('  node scripts/mailing-list.js send --subject "..." (--text "..." | --text-file file.txt) [--html-file file.html] [--test-to email] [--limit 50] [--dry-run] [--recipients-file liste.csv] [--delay-ms 20000]')
   console.log('  node scripts/mailing-list.js send-scheduled [--queue data/mailing-list-campaigns.json] [--campaign-limit 1] [--limit 50] [--dry-run]')
 }
 

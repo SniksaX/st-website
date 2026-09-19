@@ -51,3 +51,6 @@ data/mailing-list-campaigns.json
 .dev.vars*
 !.dev.vars.example
 cloudflare-env.d.ts
+
+# listes privees (donateurs, etc.)
+data/private/
