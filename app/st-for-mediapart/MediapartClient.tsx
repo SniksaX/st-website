@@ -194,7 +194,7 @@ function VideoThumb({ video, onPlay }: { video: VidItem; onPlay: () => void }) {
     setThumb(null)
     fetch(`/api/tiktok-oembed?ids=${video.id}`)
       .then(r => r.json())
-      .then(d => {
+      .then((d: { map?: Record<string, { thumbnail_url?: string }> }) => {
         const url = d?.map?.[video.id]?.thumbnail_url
         if (url) setThumb(url)
       })

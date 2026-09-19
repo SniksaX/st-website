@@ -22,7 +22,10 @@ async function getAccessToken(apiBase: string, clientId?: string, clientSecret?:
     cache: 'no-store',
   })
   if (!r.ok) return null
-  const j = await r.json().catch(() => ({} as any))
+  const j = (await r.json().catch(() => ({}))) as {
+    access_token?: string
+    accessToken?: string
+  }
   return j?.access_token || j?.accessToken || null
 }
 

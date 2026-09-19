@@ -32,6 +32,7 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
 
 # vercel
 .vercel
@@ -43,3 +44,10 @@ next-env.d.ts
 # mailing list data
 data/mailing-list-subscribers.json
 data/mailing-list-campaigns.json
+
+# Cloudflare Workers / OpenNext
+.open-next
+.wrangler
+.dev.vars*
+!.dev.vars.example
+cloudflare-env.d.ts

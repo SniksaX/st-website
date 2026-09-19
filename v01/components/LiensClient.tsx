@@ -279,6 +279,20 @@ export default function LiensClient() {
           </a>
         </motion.div>
 
+        {/* Ligne 3b: Pétition Assemblée nationale */}
+        <motion.div variants={itemMotion}>
+          <a href="https://petitions.assemblee-nationale.fr/initiatives/i-6334" target="_blank" rel="noreferrer" className={baseButton}>
+            <span className="flex items-center gap-2">
+              <ScrollText className="h-4 w-4 text-white/60" aria-hidden />
+              Pétition permis de tuer
+            </span>
+            <ArrowUpRight
+              className="h-4 w-4 text-white/60 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+              aria-hidden
+            />
+          </a>
+        </motion.div>
+
 
         {/* Ligne 4: Proposer un sujet */}
         <motion.div variants={itemMotion}>

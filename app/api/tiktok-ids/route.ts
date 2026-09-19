@@ -41,7 +41,7 @@ if (!apiKey) {
       const res = await fetch(url, { headers, cache: "no-store", next: { revalidate: 0 } });
       last = res;
       if (res.ok) {
-        const json = await res.json(); // { data: [...] }
+        const json: { data?: unknown[] } = await res.json(); // { data: [...] }
         return new NextResponse(
           JSON.stringify({ ids: json?.data ?? [], from: "upstream" }),
           { headers: { "Content-Type": "application/json", "Cache-Control": "no-store, no-cache, must-revalidate" } }

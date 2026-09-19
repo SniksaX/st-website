@@ -1,0 +1,45 @@
+# Exemple de newsletter Sans Transition
+
+Bienvenue dans cette nouvelle édition de notre newsletter. Cette semaine, on vous propose un tour d'horizon des sujets qui nous tiennent à cœur.
+
+---
+
+## À la une
+
+:::card Notre actualité
+On travaille actuellement sur plusieurs nouveaux projets pour vous offrir un contenu toujours plus pertinent. Stay tuned pour les annonces à venir.
+:::
+
+---
+
+## Nos derniers contenus
+
+Découvrez nos dernières vidéos et articles disponibles sur notre site :
+
+* **Nouveau Fokus** en ligne sur notre TikTok
+* **Mis à jour** de nos ressources sur le site
+* **Collaborations** en cours avec nos partenaires
+
+[button:Voir nos contenus](https://sanstransition.fr)
+
+---
+
+## Nous soutenir
+
+Sans Transition existe grâce à votre soutien. Si vous appréciez notre travail, vous pouvez nous aider de plusieurs façons :
+
+* Partagez nos contenus autour de vous
+* Soutenez-nous financièrement via HelloAsso
+
+[button:Nous soutenir](https://www.helloasso.com/associations/sans-transition)
+
+---
+
+Merci de votre confiance !
+
+**L'équipe Sans Transition**
+
+---
+
+*Tu reçois cet email car tu t'es inscrit·e à notre newsletter.*
+Pour te désinscrire : {{unsubscribe_url}}

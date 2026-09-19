@@ -61,6 +61,12 @@ npm run mailing-list:export -- --out data/mailing-list-emails.csv
 # dry-run a campaign (no real send)
 npm run mailing-list:send -- --subject "Actu Sans Transition" --text-file data/campaign.txt --dry-run
 
+# send one real test email without loading the subscriber list
+npm run mailing-list:send -- --subject "Actu Sans Transition" --text-file data/campaign.txt --test-to test@example.com
+
+# generate a local HTML preview (no real send)
+node scripts/mailing-list.js preview --subject "Actu Sans Transition" --text-file data/campaign.txt --out data/campaign-preview.html
+
 # real send (one email per recipient)
 npm run mailing-list:send -- --subject "Actu Sans Transition" --text-file data/campaign.txt
 ```
@@ -68,7 +74,7 @@ npm run mailing-list:send -- --subject "Actu Sans Transition" --text-file data/c
 The send script decrypts emails in memory and sends one message per recipient (no exposed recipient list).
 Use `{{unsubscribe_url}}` in `.txt` and `.html` templates to inject a working one-click unsubscribe link.
 If you skip `--html-file`, the `.txt` body is rendered as Markdown to HTML automatically.
-See `data/campaigns/MARKDOWN_GUIDELINES.md` for cards (`:::card`), CTA buttons (`[button:...]`) and supported syntax.
+See `data/campaigns/README.md` for the supported Markdown syntax and the current newsletter design rules.
 
 Automation (scheduled sends):
 

@@ -153,14 +153,18 @@ function NewsletterModal({ onClose }: { onClose: () => void }) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
       })
+      const contentType = res.headers.get('content-type') || ''
+      if (!contentType.includes('application/json')) {
+        throw new Error('Le serveur a renvoyé une réponse inattendue.')
+      }
       const data = await res.json()
       if (!res.ok) { setState('error'); setMessage(data.error ?? 'Une erreur est survenue.'); return }
       if (data.alreadySubscribed) { setState('existing'); setMessage('Tu es déjà inscrit·e !'); return }
       setState('success')
       setMessage('Tu es inscrit·e à la newsletter.')
-    } catch {
+    } catch (error) {
       setState('error')
-      setMessage('Impossible de contacter le serveur.')
+      setMessage(error instanceof Error ? error.message : 'Impossible de contacter le serveur.')
     }
   }
 

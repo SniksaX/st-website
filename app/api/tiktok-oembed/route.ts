@@ -26,7 +26,7 @@ export async function GET(req: NextRequest) {
           headers: { "User-Agent": "Mozilla/5.0", "Accept-Language": "fr-FR,fr;q=0.9,en;q=0.8" },
         });
         if (!res.ok) return [id, null] as const;
-        const j = await res.json();
+        const j: { thumbnail_url?: string; title?: string; author_name?: string } = await res.json();
         return [id, { thumbnail_url: j?.thumbnail_url, title: j?.title, author_name: j?.author_name }] as const;
       } catch {
         return [id, null] as const;
