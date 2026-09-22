@@ -16,7 +16,7 @@ export default function ConfidentialitePage() {
             Politique de confidentialité
           </h1>
           <p className="mt-3 text-lg text-neutral-600 dark:text-neutral-400">
-            Dernière mise à jour : 17 septembre 2026
+            Dernière mise à jour : 22 septembre 2026
           </p>
         </div>
       </section>
@@ -44,6 +44,9 @@ export default function ConfidentialitePage() {
               <li>
                 <strong>Données de navigation</strong> : pages consultées, appareil, navigateur, approximations techniques d’IP (si mesure d’audience), cookies/traceurs.
               </li>
+              <li>
+                <strong>Protection anti-spam</strong> : signaux techniques strictement nécessaires à la vérification des formulaires par Cloudflare Turnstile.
+              </li>
             </ul>
 
             <h2 className="mt-10 text-2xl font-semibold">3. Finalités et bases légales</h2>
@@ -69,6 +72,12 @@ export default function ConfidentialitePage() {
             <h2 className="mt-10 text-2xl font-semibold">5. Destinataires et sous‑traitants</h2>
             <p>
               Les données sont destinées à l’association Sans Transition et à ses éventuels sous‑traitants techniques chargés de l’hébergement, de l’emailing ou de la mesure d’audience. Aucun partage commercial, aucune revente.
+            </p>
+            <p>
+              Les formulaires utilisent Cloudflare Turnstile en mode invisible pour distinguer les personnes des soumissions automatisées. Consultez l’
+              <a href="https://www.cloudflare.com/cloudflare-customer-dpa/" target="_blank" rel="noreferrer">
+                annexe de Cloudflare relative à la protection des données
+              </a>.
             </p>
 
             <h2 className="mt-10 text-2xl font-semibold">6. Vos droits (RGPD)</h2>

@@ -1,10 +1,10 @@
 'use client'
 
-import { useState, type FormEvent } from 'react'
+import { useRef, useState, type FormEvent } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import HelloAssoWidget from '@/components/HelloAssoWidget'
-import TurnstileWidget from '@/components/TurnstileWidget'
+import TurnstileWidget, { type TurnstileWidgetHandle } from '@/components/TurnstileWidget'
 
 /* ── Icons ─────────────────────────────────────────────── */
 
@@ -128,8 +128,8 @@ type FormState = 'idle' | 'loading' | 'success' | 'error' | 'existing'
 function NewsletterForm() {
   const [email, setEmail] = useState('')
   const [website, setWebsite] = useState('')
-  const [turnstileToken, setTurnstileToken] = useState('')
-  const [turnstileResetKey, setTurnstileResetKey] = useState(0)
+  const [turnstileReady, setTurnstileReady] = useState(false)
+  const turnstileRef = useRef<TurnstileWidgetHandle>(null)
   const [state, setState] = useState<FormState>('idle')
   const [message, setMessage] = useState('')
 
@@ -138,6 +138,9 @@ function NewsletterForm() {
     if (!email.trim()) { setMessage('Entre une adresse email.'); setState('error'); return }
     setState('loading')
     try {
+      const turnstileToken = await turnstileRef.current?.execute()
+      if (!turnstileToken) throw new Error('La vérification anti-spam est indisponible.')
+
       const res = await fetch('/api/mailing-list/subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -149,10 +152,7 @@ function NewsletterForm() {
       }
       const data = await res.json()
       if (!res.ok) {
-        setState('error')
-        setMessage(data.error ?? 'Une erreur est survenue.')
-        setTurnstileResetKey((value) => value + 1)
-        return
+        throw new Error(data.error ?? 'Une erreur est survenue.')
       }
       if (data.alreadySubscribed) { setState('existing'); setMessage('Tu es déjà inscrit·e !'); return }
       setState('success')
@@ -160,7 +160,7 @@ function NewsletterForm() {
     } catch (error) {
       setState('error')
       setMessage(error instanceof Error ? error.message : 'Impossible de contacter le serveur.')
-      setTurnstileResetKey((value) => value + 1)
+      turnstileRef.current?.reset()
     }
   }
 
@@ -224,7 +224,7 @@ function NewsletterForm() {
             />
             <button
               type="submit"
-              disabled={state === 'loading' || !turnstileToken}
+              disabled={state === 'loading' || !turnstileReady}
               className="btn-grad"
               aria-label="S'inscrire à la newsletter"
               style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, flexShrink: 0, padding: '0 12px', fontSize: 10, letterSpacing: '0.12em' }}
@@ -237,9 +237,9 @@ function NewsletterForm() {
             </button>
           </div>
           <TurnstileWidget
+            ref={turnstileRef}
             action="newsletter"
-            onToken={setTurnstileToken}
-            resetKey={turnstileResetKey}
+            onReady={setTurnstileReady}
           />
           {state === 'error' && (
             <p style={{ fontSize: 11, color: '#ef4444' }}>{message}</p>

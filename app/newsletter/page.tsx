@@ -1,10 +1,10 @@
 'use client'
 
-import { FormEvent, useState } from 'react'
+import { FormEvent, useRef, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import styles from './newsletter.module.css'
-import TurnstileWidget from '@/components/TurnstileWidget'
+import TurnstileWidget, { type TurnstileWidgetHandle } from '@/components/TurnstileWidget'
 
 type FormState = 'idle' | 'loading' | 'success' | 'error'
 
@@ -27,8 +27,8 @@ function SparkIcon() {
 export default function ZeroZeroPage() {
   const [email, setEmail] = useState('')
   const [website, setWebsite] = useState('')
-  const [turnstileToken, setTurnstileToken] = useState('')
-  const [turnstileResetKey, setTurnstileResetKey] = useState(0)
+  const [turnstileReady, setTurnstileReady] = useState(false)
+  const turnstileRef = useRef<TurnstileWidgetHandle>(null)
   const [state, setState] = useState<FormState>('idle')
   const [message, setMessage] = useState('')
 
@@ -45,6 +45,9 @@ export default function ZeroZeroPage() {
     setMessage('')
 
     try {
+      const turnstileToken = await turnstileRef.current?.execute()
+      if (!turnstileToken) throw new Error('La vérification anti-spam est indisponible.')
+
       const response = await fetch('/api/mailing-list/subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -77,7 +80,7 @@ export default function ZeroZeroPage() {
       setEmail('')
     } catch (error) {
       setState('error')
-      setTurnstileResetKey((value) => value + 1)
+      turnstileRef.current?.reset()
       const fallback = "Impossible de t'inscrire pour le moment."
       setMessage(error instanceof Error ? error.message : fallback)
     }
@@ -171,16 +174,16 @@ export default function ZeroZeroPage() {
                   aria-invalid={state === 'error'}
                   aria-describedby={message ? 'form-message' : 'privacy-note'}
                 />
-                <button type="submit" disabled={state === 'loading' || !turnstileToken}>
+                <button type="submit" disabled={state === 'loading' || !turnstileReady}>
                   <span>{state === 'loading' ? 'Envoi…' : 'Je m’inscris'}</span>
                   <ArrowIcon />
                 </button>
               </div>
 
               <TurnstileWidget
+                ref={turnstileRef}
                 action="newsletter"
-                onToken={setTurnstileToken}
-                resetKey={turnstileResetKey}
+                onReady={setTurnstileReady}
               />
 
               {message && (

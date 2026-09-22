@@ -1,12 +1,23 @@
 'use client'
 
 import Script from 'next/script'
-import { useCallback, useEffect, useRef } from 'react'
+import {
+  forwardRef,
+  useCallback,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+} from 'react'
 
-const DEVELOPMENT_SITE_KEY = '1x00000000000000000000AA'
+const DEVELOPMENT_SITE_KEY = '1x00000000000000000000BB'
 const siteKey =
   process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ||
   (process.env.NODE_ENV !== 'production' ? DEVELOPMENT_SITE_KEY : '')
+
+type PendingChallenge = {
+  resolve: (token: string) => void
+  reject: (error: Error) => void
+}
 
 type TurnstileApi = {
   render: (
@@ -14,13 +25,17 @@ type TurnstileApi = {
     options: {
       sitekey: string
       action: string
-      theme: 'auto'
-      size: 'flexible'
+      appearance: 'interaction-only'
+      execution: 'execute'
+      responseField: false
       callback: (token: string) => void
       'error-callback': () => void
       'expired-callback': () => void
+      'timeout-callback': () => void
+      'unsupported-callback': () => void
     }
   ) => string
+  execute: (widgetId: string) => void
   remove: (widgetId: string) => void
   reset: (widgetId: string) => void
 }
@@ -31,23 +46,55 @@ declare global {
   }
 }
 
-export default function TurnstileWidget({
-  action,
-  onToken,
-  resetKey = 0,
-}: {
+export type TurnstileWidgetHandle = {
+  execute: () => Promise<string>
+  reset: () => void
+}
+
+const TurnstileWidget = forwardRef<TurnstileWidgetHandle, {
   action: 'contact' | 'newsletter'
-  onToken: (token: string) => void
-  resetKey?: number
-}) {
+  onReady?: (ready: boolean) => void
+}>(function TurnstileWidget({ action, onReady }, ref) {
   const containerRef = useRef<HTMLDivElement>(null)
   const widgetIdRef = useRef<string | null>(null)
-  const onTokenRef = useRef(onToken)
-  const previousResetKey = useRef(resetKey)
+  const pendingRef = useRef<PendingChallenge | null>(null)
+  const onReadyRef = useRef(onReady)
 
   useEffect(() => {
-    onTokenRef.current = onToken
-  }, [onToken])
+    onReadyRef.current = onReady
+  }, [onReady])
+
+  const rejectPending = useCallback((message: string) => {
+    pendingRef.current?.reject(new Error(message))
+    pendingRef.current = null
+  }, [])
+
+  const reset = useCallback(() => {
+    rejectPending('Vérification anti-spam réinitialisée.')
+    if (widgetIdRef.current && window.turnstile) {
+      window.turnstile.reset(widgetIdRef.current)
+    }
+  }, [rejectPending])
+
+  useImperativeHandle(ref, () => ({
+    execute: () => {
+      if (!siteKey) {
+        return Promise.reject(new Error('La protection anti-spam n’est pas configurée.'))
+      }
+      if (!window.turnstile || !widgetIdRef.current) {
+        return Promise.reject(new Error('La protection anti-spam est encore en cours de chargement.'))
+      }
+      if (pendingRef.current) {
+        return Promise.reject(new Error('Une vérification anti-spam est déjà en cours.'))
+      }
+
+      return new Promise<string>((resolve, reject) => {
+        pendingRef.current = { resolve, reject }
+        window.turnstile?.execute(widgetIdRef.current as string)
+      })
+    },
+    reset,
+  }), [reset])
 
   const renderWidget = useCallback(() => {
     if (!siteKey || !containerRef.current || !window.turnstile || widgetIdRef.current) return
@@ -55,40 +102,32 @@ export default function TurnstileWidget({
     widgetIdRef.current = window.turnstile.render(containerRef.current, {
       sitekey: siteKey,
       action,
-      theme: 'auto',
-      size: 'flexible',
-      callback: (token) => onTokenRef.current(token),
-      'error-callback': () => onTokenRef.current(''),
-      'expired-callback': () => onTokenRef.current(''),
+      appearance: 'interaction-only',
+      execution: 'execute',
+      responseField: false,
+      callback: (token) => {
+        pendingRef.current?.resolve(token)
+        pendingRef.current = null
+      },
+      'error-callback': () => rejectPending('La vérification anti-spam a échoué.'),
+      'expired-callback': () => rejectPending('La vérification anti-spam a expiré. Réessaie.'),
+      'timeout-callback': () => rejectPending('La vérification anti-spam a expiré. Réessaie.'),
+      'unsupported-callback': () => rejectPending('Ce navigateur ne permet pas la vérification anti-spam.'),
     })
-  }, [action])
+    onReadyRef.current?.(true)
+  }, [action, rejectPending])
 
   useEffect(() => {
     renderWidget()
     return () => {
+      rejectPending('Vérification anti-spam interrompue.')
+      onReadyRef.current?.(false)
       if (widgetIdRef.current && window.turnstile) {
         window.turnstile.remove(widgetIdRef.current)
         widgetIdRef.current = null
       }
     }
-  }, [renderWidget])
-
-  useEffect(() => {
-    if (previousResetKey.current === resetKey) return
-    previousResetKey.current = resetKey
-    onTokenRef.current('')
-    if (widgetIdRef.current && window.turnstile) {
-      window.turnstile.reset(widgetIdRef.current)
-    }
-  }, [resetKey])
-
-  if (!siteKey) {
-    return (
-      <p role="alert" style={{ fontSize: 12, color: '#ef4444' }}>
-        La protection anti-spam n’est pas configurée.
-      </p>
-    )
-  }
+  }, [rejectPending, renderWidget])
 
   return (
     <>
@@ -98,7 +137,9 @@ export default function TurnstileWidget({
         strategy="afterInteractive"
         onReady={renderWidget}
       />
-      <div ref={containerRef} style={{ width: '100%', minHeight: 65 }} />
+      <div ref={containerRef} style={{ width: '100%', minHeight: 0 }} />
     </>
   )
-}
+})
+
+export default TurnstileWidget

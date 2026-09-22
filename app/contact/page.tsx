@@ -1,10 +1,10 @@
 'use client'
 
-import { useEffect, useState, type FormEvent } from 'react'
+import { useEffect, useRef, useState, type FormEvent } from 'react'
 import Link from 'next/link'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
-import TurnstileWidget from '@/components/TurnstileWidget'
+import TurnstileWidget, { type TurnstileWidgetHandle } from '@/components/TurnstileWidget'
 
 function BackIcon() {
   return (
@@ -80,8 +80,8 @@ export default function ContactPage() {
   const [email, setEmail]     = useState('')
   const [message, setMessage] = useState('')
   const [website, setWebsite] = useState('')
-  const [turnstileToken, setTurnstileToken] = useState('')
-  const [turnstileResetKey, setTurnstileResetKey] = useState(0)
+  const [turnstileReady, setTurnstileReady] = useState(false)
+  const turnstileRef = useRef<TurnstileWidgetHandle>(null)
   const [state, setState]     = useState<FormState>('idle')
   const [error, setError]     = useState('')
 
@@ -105,6 +105,9 @@ export default function ContactPage() {
     setState('loading')
     setError('')
     try {
+      const turnstileToken = await turnstileRef.current?.execute()
+      if (!turnstileToken) throw new Error('La vérification anti-spam est indisponible.')
+
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -115,7 +118,7 @@ export default function ContactPage() {
       setState('success')
     } catch (submitError) {
       setState('error')
-      setTurnstileResetKey((value) => value + 1)
+      turnstileRef.current?.reset()
       setError(
         submitError instanceof Error
           ? submitError.message
@@ -339,18 +342,18 @@ export default function ContactPage() {
               )}
 
               <TurnstileWidget
+                ref={turnstileRef}
                 action="contact"
-                onToken={setTurnstileToken}
-                resetKey={turnstileResetKey}
+                onReady={setTurnstileReady}
               />
 
               {/* Submit */}
               <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginTop: 4 }}>
                 <button
                   type="submit"
-                  disabled={state === 'loading' || !turnstileToken}
+                  disabled={state === 'loading' || !turnstileReady}
                   className="btn-grad"
-                  style={{ padding: '13px 28px', fontSize: 12, opacity: state === 'loading' || !turnstileToken ? 0.6 : 1 }}
+                  style={{ padding: '13px 28px', fontSize: 12, opacity: state === 'loading' || !turnstileReady ? 0.6 : 1 }}
                 >
                   {state === 'loading' ? (
                     <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
