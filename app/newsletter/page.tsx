@@ -4,6 +4,7 @@ import { FormEvent, useState } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import styles from './newsletter.module.css'
+import TurnstileWidget from '@/components/TurnstileWidget'
 
 type FormState = 'idle' | 'loading' | 'success' | 'error'
 
@@ -25,6 +26,9 @@ function SparkIcon() {
 
 export default function ZeroZeroPage() {
   const [email, setEmail] = useState('')
+  const [website, setWebsite] = useState('')
+  const [turnstileToken, setTurnstileToken] = useState('')
+  const [turnstileResetKey, setTurnstileResetKey] = useState(0)
   const [state, setState] = useState<FormState>('idle')
   const [message, setMessage] = useState('')
 
@@ -44,7 +48,7 @@ export default function ZeroZeroPage() {
       const response = await fetch('/api/mailing-list/subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, website, turnstileToken, source: '/newsletter' }),
       })
 
       const contentType = response.headers.get('content-type') || ''
@@ -73,6 +77,7 @@ export default function ZeroZeroPage() {
       setEmail('')
     } catch (error) {
       setState('error')
+      setTurnstileResetKey((value) => value + 1)
       const fallback = "Impossible de t'inscrire pour le moment."
       setMessage(error instanceof Error ? error.message : fallback)
     }
@@ -142,6 +147,17 @@ export default function ZeroZeroPage() {
             </p>
 
             <form className={styles.form} onSubmit={handleSubmit} noValidate>
+              <div aria-hidden="true" style={{ position: 'absolute', left: '-10000px', width: 1, height: 1, overflow: 'hidden' }}>
+                <label htmlFor="newsletter-website">Site internet</label>
+                <input
+                  id="newsletter-website"
+                  type="text"
+                  value={website}
+                  onChange={(event) => setWebsite(event.target.value)}
+                  tabIndex={-1}
+                  autoComplete="off"
+                />
+              </div>
               <label htmlFor="mailing-email">Ton adresse email</label>
               <div className={styles.fieldRow}>
                 <input
@@ -155,11 +171,17 @@ export default function ZeroZeroPage() {
                   aria-invalid={state === 'error'}
                   aria-describedby={message ? 'form-message' : 'privacy-note'}
                 />
-                <button type="submit" disabled={state === 'loading'}>
+                <button type="submit" disabled={state === 'loading' || !turnstileToken}>
                   <span>{state === 'loading' ? 'Envoi…' : 'Je m’inscris'}</span>
                   <ArrowIcon />
                 </button>
               </div>
+
+              <TurnstileWidget
+                action="newsletter"
+                onToken={setTurnstileToken}
+                resetKey={turnstileResetKey}
+              />
 
               {message && (
                 <p

@@ -28,6 +28,18 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 
 The `/newsletter` page (formerly `/00`, redirected) posts to `/api/mailing-list/subscribe`.
 
+The public contact and newsletter forms are protected by Cloudflare Turnstile. Create a
+Managed widget restricted to `sanstransition.fr`, then provide the public site key at
+build time and the secret only to the server:
+
+```env
+NEXT_PUBLIC_TURNSTILE_SITE_KEY=your-public-site-key
+TURNSTILE_SECRET_KEY=your-server-side-secret
+```
+
+Local development automatically uses Cloudflare's official always-pass test keys when
+these variables are absent. Production fails closed if either production key is missing.
+
 Required `.env.local` keys:
 
 ```env

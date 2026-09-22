@@ -4,6 +4,7 @@ import { useState, type FormEvent } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import HelloAssoWidget from '@/components/HelloAssoWidget'
+import TurnstileWidget from '@/components/TurnstileWidget'
 
 /* ── Icons ─────────────────────────────────────────────── */
 
@@ -126,6 +127,9 @@ type FormState = 'idle' | 'loading' | 'success' | 'error' | 'existing'
 
 function NewsletterForm() {
   const [email, setEmail] = useState('')
+  const [website, setWebsite] = useState('')
+  const [turnstileToken, setTurnstileToken] = useState('')
+  const [turnstileResetKey, setTurnstileResetKey] = useState(0)
   const [state, setState] = useState<FormState>('idle')
   const [message, setMessage] = useState('')
 
@@ -137,20 +141,26 @@ function NewsletterForm() {
       const res = await fetch('/api/mailing-list/subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, source: '/liens' }),
+        body: JSON.stringify({ email, source: '/liens', website, turnstileToken }),
       })
       const contentType = res.headers.get('content-type') || ''
       if (!contentType.includes('application/json')) {
         throw new Error('Le serveur a renvoyé une réponse inattendue.')
       }
       const data = await res.json()
-      if (!res.ok) { setState('error'); setMessage(data.error ?? 'Une erreur est survenue.'); return }
+      if (!res.ok) {
+        setState('error')
+        setMessage(data.error ?? 'Une erreur est survenue.')
+        setTurnstileResetKey((value) => value + 1)
+        return
+      }
       if (data.alreadySubscribed) { setState('existing'); setMessage('Tu es déjà inscrit·e !'); return }
       setState('success')
       setMessage('Tu es inscrit·e à la newsletter.')
     } catch (error) {
       setState('error')
       setMessage(error instanceof Error ? error.message : 'Impossible de contacter le serveur.')
+      setTurnstileResetKey((value) => value + 1)
     }
   }
 
@@ -179,6 +189,17 @@ function NewsletterForm() {
         </div>
       ) : (
         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <div aria-hidden="true" style={{ position: 'absolute', left: '-10000px', width: 1, height: 1, overflow: 'hidden' }}>
+            <label htmlFor="links-newsletter-website">Site internet</label>
+            <input
+              id="links-newsletter-website"
+              type="text"
+              value={website}
+              onChange={(event) => setWebsite(event.target.value)}
+              tabIndex={-1}
+              autoComplete="off"
+            />
+          </div>
           <div style={{ display: 'flex', gap: 8 }}>
             <input
               type="email"
@@ -203,7 +224,7 @@ function NewsletterForm() {
             />
             <button
               type="submit"
-              disabled={state === 'loading'}
+              disabled={state === 'loading' || !turnstileToken}
               className="btn-grad"
               aria-label="S'inscrire à la newsletter"
               style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6, flexShrink: 0, padding: '0 12px', fontSize: 10, letterSpacing: '0.12em' }}
@@ -215,6 +236,11 @@ function NewsletterForm() {
               {state === 'loading' ? 'Envoi…' : "S'inscrire"}
             </button>
           </div>
+          <TurnstileWidget
+            action="newsletter"
+            onToken={setTurnstileToken}
+            resetKey={turnstileResetKey}
+          />
           {state === 'error' && (
             <p style={{ fontSize: 11, color: '#ef4444' }}>{message}</p>
           )}

@@ -4,6 +4,7 @@ import { useEffect, useState, type FormEvent } from 'react'
 import Link from 'next/link'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
+import TurnstileWidget from '@/components/TurnstileWidget'
 
 function BackIcon() {
   return (
@@ -78,6 +79,9 @@ export default function ContactPage() {
   const [name, setName]       = useState('')
   const [email, setEmail]     = useState('')
   const [message, setMessage] = useState('')
+  const [website, setWebsite] = useState('')
+  const [turnstileToken, setTurnstileToken] = useState('')
+  const [turnstileResetKey, setTurnstileResetKey] = useState(0)
   const [state, setState]     = useState<FormState>('idle')
   const [error, setError]     = useState('')
 
@@ -104,13 +108,19 @@ export default function ContactPage() {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ subject, name, email, message }),
+        body: JSON.stringify({ subject, name, email, message, website, turnstileToken }),
       })
-      if (!res.ok) throw new Error(await res.text())
+      const payload = (await res.json()) as { error?: string }
+      if (!res.ok) throw new Error(payload.error || 'Échec de l’envoi.')
       setState('success')
-    } catch {
+    } catch (submitError) {
       setState('error')
-      setError('Impossible d\'envoyer le message. Réessaie ou écris directement à contact@sanstransition.fr')
+      setTurnstileResetKey((value) => value + 1)
+      setError(
+        submitError instanceof Error
+          ? submitError.message
+          : 'Impossible d’envoyer le message. Réessaie ou écris directement à contact@sanstransition.fr'
+      )
     }
   }
 
@@ -217,6 +227,17 @@ export default function ContactPage() {
             </div>
           ) : (
             <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
+              <div aria-hidden="true" style={{ position: 'absolute', left: '-10000px', width: 1, height: 1, overflow: 'hidden' }}>
+                <label htmlFor="contact-website">Site internet</label>
+                <input
+                  id="contact-website"
+                  type="text"
+                  value={website}
+                  onChange={(event) => setWebsite(event.target.value)}
+                  tabIndex={-1}
+                  autoComplete="off"
+                />
+              </div>
 
               {/* Sujet */}
               <div style={{ background: 'var(--border)', borderRadius: 3, overflow: 'hidden' }}>
@@ -317,13 +338,19 @@ export default function ContactPage() {
                 <p style={{ fontSize: 12, color: '#ef4444', padding: '8px 0' }}>{error}</p>
               )}
 
+              <TurnstileWidget
+                action="contact"
+                onToken={setTurnstileToken}
+                resetKey={turnstileResetKey}
+              />
+
               {/* Submit */}
               <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginTop: 4 }}>
                 <button
                   type="submit"
-                  disabled={state === 'loading'}
+                  disabled={state === 'loading' || !turnstileToken}
                   className="btn-grad"
-                  style={{ padding: '13px 28px', fontSize: 12, opacity: state === 'loading' ? 0.6 : 1 }}
+                  style={{ padding: '13px 28px', fontSize: 12, opacity: state === 'loading' || !turnstileToken ? 0.6 : 1 }}
                 >
                   {state === 'loading' ? (
                     <span style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
