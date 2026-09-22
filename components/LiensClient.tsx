@@ -137,7 +137,7 @@ function NewsletterForm() {
       const res = await fetch('/api/mailing-list/subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, source: '/liens' }),
       })
       const contentType = res.headers.get('content-type') || ''
       if (!contentType.includes('application/json')) {
