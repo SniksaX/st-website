@@ -54,3 +54,6 @@ cloudflare-env.d.ts
 
 # listes privees (donateurs, etc.)
 data/private/
+
+# Local Netlify folder
+.netlify
