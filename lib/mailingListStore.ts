@@ -1,6 +1,8 @@
 import { createCipheriv, createHmac, hkdfSync, randomBytes, timingSafeEqual } from 'crypto'
 import { promises as fs } from 'fs'
 import path from 'path'
+import { readMailingListSecrets } from '@/lib/mailingListKeys'
+import { findSanityMailingListSubscriber } from '@/lib/sanity'
 
 const STORE_FILE = path.join(process.cwd(), 'data', 'mailing-list-subscribers.json')
 const STORE_VERSION = 1
@@ -41,11 +43,7 @@ function normalizeEmail(email: string) {
 }
 
 function readSecret() {
-  const secret = process.env.MAILING_LIST_SECRET_KEY?.trim()
-  if (!secret || secret.length < 24) {
-    throw new Error('Missing or weak MAILING_LIST_SECRET_KEY.')
-  }
-  return secret
+  return readMailingListSecrets().signingSecret
 }
 
 function deriveKey(secret: string, context: string): Buffer {
@@ -134,7 +132,10 @@ export async function upsertMailingListSubscriber(input: UpsertInput): Promise<U
 
   const encryptionKey = deriveEncryptionKey(secret)
   const hashKey = deriveHashKey(secret)
-  const emailHash = hashValue(email, hashKey)
+  // Preserve existing document IDs across key rotations. Fail closed if Sanity
+  // cannot be queried, rather than create a second identity for this address.
+  const remote = await findSanityMailingListSubscriber(email)
+  const emailHash = remote?.emailHash ?? hashValue(email, hashKey)
   const encryptedEmail = encryptValue(email, encryptionKey)
   const ipHash = ip ? hashValue(ip, hashKey) : null
 
@@ -143,7 +144,7 @@ export async function upsertMailingListSubscriber(input: UpsertInput): Promise<U
   const existing = store.subscribers.find((item) => item.emailHash === emailHash)
 
   if (existing) {
-    const wasUnsubscribed = Boolean(existing.unsubscribedAt)
+    const wasUnsubscribed = remote ? Boolean(remote.unsubscribedAt) : Boolean(existing.unsubscribedAt)
     existing.lastSubmittedAt = now
     existing.source = input.source
     if (wasUnsubscribed) {
@@ -168,7 +169,7 @@ export async function upsertMailingListSubscriber(input: UpsertInput): Promise<U
   })
 
   await writeStore(store)
-  return { status: 'created', emailHash }
+  return { status: remote ? (remote.unsubscribedAt ? 'reactivated' : 'existing') : 'created', emailHash }
 }
 
 export function createUnsubscribeToken(emailHash: string) {
@@ -188,16 +189,12 @@ export function verifyUnsubscribeToken(token: string) {
   if (!match) return null
 
   const [, emailHash, signature] = match
-  const secret = readSecret()
-  const key = deriveUnsubscribeKey(secret)
-  const expected = hashValue(emailHash, key)
-
   const providedBuffer = Buffer.from(signature, 'hex')
-  const expectedBuffer = Buffer.from(expected, 'hex')
-
-  if (providedBuffer.length !== expectedBuffer.length) return null
-  if (!timingSafeEqual(providedBuffer, expectedBuffer)) return null
-  return emailHash
+  for (const secret of readMailingListSecrets().verificationSecrets) {
+    const expectedBuffer = Buffer.from(hashValue(emailHash, deriveUnsubscribeKey(secret)), 'hex')
+    if (timingSafeEqual(providedBuffer, expectedBuffer)) return emailHash
+  }
+  return null
 }
 
 export async function unsubscribeMailingListSubscriber(emailHash: string): Promise<UnsubscribeResult> {
@@ -235,11 +232,12 @@ export function verifyInviteToken(token: string) {
   const match = token.trim().match(/^([A-Za-z0-9_-]+)\.(\d{9,11})\.([a-f0-9]{64})$/)
   if (!match) return null
   const [, payload, expRaw, signature] = match
-  const expected = hashValue(`${payload}.${expRaw}`, deriveInviteKey(readSecret()))
   const providedBuffer = Buffer.from(signature, 'hex')
-  const expectedBuffer = Buffer.from(expected, 'hex')
-  if (providedBuffer.length !== expectedBuffer.length) return null
-  if (!timingSafeEqual(providedBuffer, expectedBuffer)) return null
+  const valid = readMailingListSecrets().verificationSecrets.some((secret) => {
+    const expectedBuffer = Buffer.from(hashValue(`${payload}.${expRaw}`, deriveInviteKey(secret)), 'hex')
+    return timingSafeEqual(providedBuffer, expectedBuffer)
+  })
+  if (!valid) return null
   if (Number(expRaw) * 1000 < Date.now()) return null
   const email = Buffer.from(payload, 'base64url').toString('utf8')
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) ? email : null

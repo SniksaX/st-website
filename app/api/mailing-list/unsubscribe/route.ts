@@ -46,12 +46,9 @@ export async function GET(request: Request) {
       return htmlPage('Lien invalide', 'Le lien de desinscription est invalide ou expire.', 400)
     }
 
+    // Await the authoritative store before claiming that no more mail is sent.
+    await unsubscribeSanitySubscriber(emailHash)
     const result = await unsubscribeMailingListSubscriber(emailHash)
-
-    // Mirror unsubscribe in Sanity (fire-and-forget — local result is authoritative)
-    unsubscribeSanitySubscriber(emailHash).catch((err: unknown) => {
-      console.error('[Sanity] Failed to unsubscribe:', err)
-    })
 
     if (result === 'not_found') {
       return htmlPage(

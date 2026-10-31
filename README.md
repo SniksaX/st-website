@@ -61,6 +61,14 @@ MAILING_LIST_PUBLIC_BASE_URL=https://sanstransition.fr
 
 `MAILING_LIST_SECRET_KEY` is used to derive encryption and hashing keys for subscriber storage in `data/mailing-list-subscribers.json`.
 
+For a key transition, keep the existing `MAILING_LIST_SECRET_KEY` on Netlify and
+add `MAILING_LIST_ACTIVE_SECRET_KEY` only after deploying the code that accepts
+both keys. Existing Sanity subscriber IDs are preserved. See
+`data/campaigns/KEY-ROTATION.md` for deployment order and verification.
+Run `npm run mailing-list:test-rotation` for isolated tests, and
+`npm run mailing-list:rotate-key -- --backup` for a read-only audit with a private
+local backup. The audit never modifies Sanity or sends email.
+
 Send grouped campaigns from the stored list:
 
 ```bash

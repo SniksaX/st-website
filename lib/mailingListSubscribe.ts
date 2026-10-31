@@ -79,20 +79,15 @@ export async function subscribeEmail(input: {
     userAgent: userAgent === 'unknown' ? null : userAgent,
   })
 
-  // Persist to Sanity (awaited — primary store in serverless environments)
-  try {
-    await upsertSanityMailingListSubscriber({
-      email,
-      emailHash: storageResult.emailHash,
-      source,
-      subscribedAt: new Date().toISOString(),
-      ip: forwardedFor === 'unknown' ? null : forwardedFor,
-      userAgent: userAgent === 'unknown' ? null : userAgent,
-    })
-  } catch (err) {
-    // Log but don't block — local store may have already captured the data
-    console.error('[Sanity] Failed to upsert subscriber:', err)
-  }
+  // A successful subscription must be persisted in the production store.
+  await upsertSanityMailingListSubscriber({
+    email,
+    emailHash: storageResult.emailHash,
+    source,
+    subscribedAt: new Date().toISOString(),
+    ip: forwardedFor === 'unknown' ? null : forwardedFor,
+    userAgent: userAgent === 'unknown' ? null : userAgent,
+  })
 
   if (storageResult.status === 'existing') {
     return 'existing'

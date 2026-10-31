@@ -10,6 +10,8 @@
     "deploy": "opennextjs-cloudflare build && opennextjs-cloudflare deploy",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
     "mailing-list:stats": "node scripts/mailing-list.js stats",
+    "mailing-list:rotate-key": "node scripts/rotate-mailing-list-key.js",
+    "mailing-list:test-rotation": "node --test scripts/mailing-list-rotation.test.js",
     "mailing-list:export": "node scripts/mailing-list.js export",
     "mailing-list:send": "node scripts/mailing-list.js send",
     "mailing-list:send-scheduled": "node scripts/mailing-list.js send-scheduled"

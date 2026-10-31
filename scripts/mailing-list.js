@@ -427,7 +427,7 @@ function renderTemplate(input, variables) {
 }
 
 function createUnsubscribeToken(emailHash) {
-  const secret = readRequiredEnv('MAILING_LIST_SECRET_KEY')
+  const secret = readOptionalEnv('MAILING_LIST_ACTIVE_SECRET_KEY') || readRequiredEnv('MAILING_LIST_SECRET_KEY')
   const key = deriveKey(secret, 'unsubscribe:v1')
   const normalizedHash = emailHash.toLowerCase()
   const signature = hashValue(normalizedHash, key)
@@ -435,7 +435,7 @@ function createUnsubscribeToken(emailHash) {
 }
 
 function buildSubscribeUrl(email) {
-  const secret = readRequiredEnv('MAILING_LIST_SECRET_KEY')
+  const secret = readOptionalEnv('MAILING_LIST_ACTIVE_SECRET_KEY') || readRequiredEnv('MAILING_LIST_SECRET_KEY')
   const key = deriveKey(secret, 'invite:v1')
   const payload = Buffer.from(String(email).trim().toLowerCase(), 'utf8').toString('base64url')
   const exp = Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 90

@@ -35,10 +35,27 @@ export interface SanitySubscriberDoc {
 export interface SanityActiveSubscriber {
   email: string
   emailHash: string
+  unsubscribedAt?: string | null
+}
+
+export async function findSanityMailingListSubscriber(email: string): Promise<SanityActiveSubscriber | null> {
+  const { projectId, dataset, token } = getSanityConfig()
+  if (!projectId || !token) throw new Error('Sanity env vars missing.')
+  const query = '*[_type == "mailingListSubscriber" && email == $email]{email,emailHash,unsubscribedAt}'
+  const params = new URLSearchParams({ query, '$email': JSON.stringify(email.trim().toLowerCase()) })
+  const response = await fetch(`https://${projectId}.api.sanity.io/v${SANITY_API_VERSION}/data/query/${dataset}?${params}`, {
+    headers: { Authorization: `Bearer ${token}` }, cache: 'no-store', signal: AbortSignal.timeout(10000),
+  })
+  if (!response.ok) throw new Error(`Sanity lookup failed (${response.status}).`)
+  const { result } = await response.json() as { result: SanityActiveSubscriber[] }
+  if (!Array.isArray(result) || result.length > 1) throw new Error('Invalid or duplicate subscriber identity in Sanity.')
+  const subscriber = result[0] ?? null
+  if (subscriber && !/^[a-f0-9]{64}$/.test(subscriber.emailHash)) throw new Error('Invalid subscriber hash in Sanity.')
+  return subscriber
 }
 
 /**
- * Creates or replaces a mailingListSubscriber document.
+ * Creates a mailingListSubscriber document or updates an explicit subscription.
  * _id is derived from emailHash — idempotent, no duplicates.
  */
 export async function upsertSanityMailingListSubscriber(
@@ -58,7 +75,7 @@ export async function upsertSanityMailingListSubscriber(
   const body = {
     mutations: [
       {
-        createOrReplace: {
+        createIfNotExists: {
           _id: docId,
           _type: 'mailingListSubscriber',
           email: data.email.toLowerCase().trim(),
@@ -68,6 +85,20 @@ export async function upsertSanityMailingListSubscriber(
           unsubscribedAt: null,
           ip: data.ip ?? null,
           userAgent: data.userAgent ?? null,
+        },
+      },
+      {
+        patch: {
+          id: docId,
+          set: {
+            email: data.email.toLowerCase().trim(),
+            emailHash: data.emailHash,
+            source: data.source ?? '/newsletter',
+            unsubscribedAt: null,
+            ip: data.ip ?? null,
+            userAgent: data.userAgent ?? null,
+          },
+          setIfMissing: { subscribedAt: data.subscribedAt ?? new Date().toISOString() },
         },
       },
     ],
