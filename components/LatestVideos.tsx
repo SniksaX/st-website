@@ -38,6 +38,7 @@ function cleanTitle(raw: string | null) {
 
 export default function LatestVideos() {
   const socialStats = useSocialStats()
+  const [failedUrls, setFailedUrls] = React.useState<ReadonlySet<string>>(() => new Set())
   const [thumbs, setThumbs] = React.useState<Record<string, string | null>>({})
 
   const videos: SocialVideo[] = React.useMemo(() => {
@@ -49,7 +50,7 @@ export default function LatestVideos() {
 
   /* Vignettes manquantes via oEmbed */
   React.useEffect(() => {
-    const ids = videos.filter((v) => !v.cover_url).map((v) => v.video_id)
+    const ids = videos.map((v) => v.video_id)
     if (ids.length === 0) return
     let cancelled = false
     ;(async () => {
@@ -87,7 +88,7 @@ export default function LatestVideos() {
 
         const title = cleanTitle(video.title ?? video.description)
         const badge = formatOf(video.title ?? '')
-        const cover = video.cover_url ?? thumbs[video.video_id] ?? null
+        const cover = [thumbs[video.video_id], video.cover_url].find((url) => url && !failedUrls.has(url))
         const views = video.latest_snapshot?.view_count ?? null
 
         return (
@@ -106,13 +107,17 @@ export default function LatestVideos() {
               border: '1px solid var(--border)',
               background: 'repeating-linear-gradient(135deg,var(--surface2) 0 8px,var(--surface) 8px 16px)',
             }}>
-              {cover && (
+              {cover ? (
                 <img
                   src={cover}
+                  referrerPolicy="no-referrer"
+                  onError={() => setFailedUrls((previous) => new Set(previous).add(cover))}
                   alt=""
                   loading="lazy"
                   style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
                 />
+              ) : (
+                <img src="/logo-flat.png" alt="" style={{ position: 'absolute', inset: '35%', width: '30%', height: '30%', objectFit: 'contain' }} />
               )}
               {badge && (
                 <span style={{
