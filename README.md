@@ -2,7 +2,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Données sociales
 
-Pour afficher les derniers chiffres et les dernières publications TikTok/Instagram collectés par StatsST, renseigner `STATSST_API_URL` dans l'environnement de déploiement. Le site interroge alors StatsST côté serveur et conserve l'affichage existant si le service est momentanément indisponible.
+Les derniers chiffres et publications TikTok/Instagram viennent de StatsST. Le bouton Actualiser de StatsST pousse un instantané vers `POST /api/social-stats` avec le jeton `STATSST_PUSH_TOKEN` (même valeur que `SITE_SYNC_TOKEN` côté StatsST). Le site l'enregistre dans Sanity (document `statsstSnapshot`) et vide son cache. `STATSST_API_URL` reste possible en option pour une lecture directe. Le site affiche toujours la source la plus récente, avec `data/statsst-latest.json` en dernier recours.
 
 ## Getting Started
 

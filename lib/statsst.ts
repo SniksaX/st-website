@@ -1,3 +1,6 @@
+import { createHash, timingSafeEqual } from 'crypto'
+import latestSnapshot from '@/data/statsst-latest.json'
+
 type StatsStAccount = {
   platform: 'tiktok' | 'instagram'
   current_stats: {
@@ -32,7 +35,7 @@ type StatsStHealth = {
   } | null
 }
 
-type SocialStatsData = {
+export type SocialStatsData = {
   accounts: Array<{
     platform: 'tiktok' | 'instagram'
     followers: number | null
@@ -46,7 +49,96 @@ type SocialStatsData = {
   lastCollectionStatus: 'ok' | 'partial' | 'error' | null
 }
 
+export const STATSST_CACHE_TAG = 'statsst'
+
 const staticSnapshot = latestSnapshot as SocialStatsData
+
+/* ── Source 1 : instantané poussé par StatsST (bouton Actualiser) ───────── */
+
+const SANITY_API_VERSION = '2024-01-01'
+const SNAPSHOT_DOC_ID = 'statsstSnapshot'
+
+function sanityConfig() {
+  const projectId = process.env.SANITY_PROJECT_ID?.trim()
+  const dataset = process.env.SANITY_DATASET?.trim() || 'production'
+  const token = process.env.SANITY_API_TOKEN?.trim()
+  if (!projectId || !token) return null
+  return { projectId, dataset, token }
+}
+
+async function readPushedSnapshot(): Promise<SocialStatsData | null> {
+  const config = sanityConfig()
+  if (!config) return null
+
+  const query = encodeURIComponent(`*[_id == "${SNAPSHOT_DOC_ID}"][0]{payload}`)
+  const response = await fetch(
+    `https://${config.projectId}.api.sanity.io/v${SANITY_API_VERSION}/data/query/${config.dataset}?query=${query}`,
+    {
+      headers: { Authorization: `Bearer ${config.token}` },
+      next: { revalidate: 300, tags: [STATSST_CACHE_TAG] },
+      signal: AbortSignal.timeout(8_000),
+    },
+  )
+  if (!response.ok) throw new Error(`Sanity a répondu ${response.status}`)
+  const { result } = await response.json() as { result: { payload?: string } | null }
+  if (!result?.payload) return null
+  const parsed = JSON.parse(result.payload) as unknown
+  return isSocialStatsData(parsed) ? parsed : null
+}
+
+export async function savePushedSnapshot(data: SocialStatsData): Promise<void> {
+  const config = sanityConfig()
+  if (!config) throw new Error('Sanity n’est pas configuré')
+
+  const response = await fetch(
+    `https://${config.projectId}.api.sanity.io/v${SANITY_API_VERSION}/data/mutate/${config.dataset}`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${config.token}` },
+      body: JSON.stringify({
+        mutations: [{
+          createOrReplace: {
+            _id: SNAPSHOT_DOC_ID,
+            _type: 'statsstSnapshot',
+            receivedAt: new Date().toISOString(),
+            lastCollectionAt: data.lastCollectionAt,
+            // Stocké en texte : le site relit l'objet tel quel, sans schéma Sanity.
+            payload: JSON.stringify(data),
+          },
+        }],
+      }),
+      cache: 'no-store',
+      signal: AbortSignal.timeout(15_000),
+    },
+  )
+  if (!response.ok) {
+    const text = await response.text().catch(() => response.statusText)
+    throw new Error(`Enregistrement Sanity refusé (${response.status}) : ${text}`)
+  }
+}
+
+export function isSocialStatsData(value: unknown): value is SocialStatsData {
+  if (!value || typeof value !== 'object') return false
+  const data = value as Partial<SocialStatsData>
+  return (
+    Array.isArray(data.accounts)
+    && data.accounts.every((account) => account && (account.platform === 'tiktok' || account.platform === 'instagram'))
+    && !!data.videos
+    && Array.isArray(data.videos.tiktok)
+    && Array.isArray(data.videos.instagram)
+  )
+}
+
+/** Vérifie le jeton envoyé par StatsST, sans fuite par le temps de réponse. */
+export function isValidPushToken(header: string | null): boolean {
+  const expected = process.env.STATSST_PUSH_TOKEN?.trim()
+  if (!expected || !header?.startsWith('Bearer ')) return false
+  const given = header.slice('Bearer '.length).trim()
+  const digest = (value: string) => createHash('sha256').update(value).digest()
+  return timingSafeEqual(digest(given), digest(expected))
+}
+
+/* ── Source 2 : lecture directe de StatsST (si STATSST_API_URL est en ligne) ── */
 
 function statsBaseUrl() {
   const value = process.env.STATSST_API_URL?.trim()
@@ -59,40 +151,68 @@ async function getJson<T>(path: string): Promise<T> {
   if (!baseUrl) throw new Error('StatsST n’est pas configuré')
 
   const response = await fetch(`${baseUrl}${path}`, {
-    next: { revalidate: 300 },
+    // Évite la page d'avertissement des tunnels ngrok gratuits.
+    headers: { 'ngrok-skip-browser-warning': '1' },
+    next: { revalidate: 300, tags: [STATSST_CACHE_TAG] },
     signal: AbortSignal.timeout(8_000),
   })
   if (!response.ok) throw new Error(`StatsST a répondu ${response.status}`)
   return response.json() as Promise<T>
 }
 
-export async function getStatsStSocialData(): Promise<SocialStatsData> {
-  if (!statsBaseUrl()) return staticSnapshot
+function settled<T>(result: PromiseSettledResult<T>): T | null {
+  return result.status === 'fulfilled' ? result.value : null
+}
 
-  try {
-    const [tiktok, instagram, tiktokVideos, instagramVideos, health] = await Promise.all([
-      getJson<StatsStAccount>('/api/account?platform=tiktok'),
-      getJson<StatsStAccount>('/api/account?platform=instagram'),
-      getJson<{ videos: StatsStVideo[] }>('/api/videos?platform=tiktok&limit=50'),
-      getJson<{ videos: StatsStVideo[] }>('/api/videos?platform=instagram&limit=50'),
-      getJson<StatsStHealth>('/api/health'),
-    ])
+async function readLiveStatsSt(): Promise<SocialStatsData | null> {
+  if (!statsBaseUrl()) return null
 
-    return {
-      accounts: [tiktok, instagram].map((account) => ({
-        platform: account.platform,
-        followers: account.current_stats?.follower_count ?? null,
-        capturedAt: account.current_stats?.captured_at ?? null,
-      })),
-      videos: {
-        tiktok: tiktokVideos.videos,
-        instagram: instagramVideos.videos,
-      },
-      lastCollectionAt: health.last_run?.finished_at ?? null,
-      lastCollectionStatus: health.last_run?.status ?? null,
-    }
-  } catch {
-    return staticSnapshot
+  // Une plateforme en panne ne doit pas faire tomber l'autre.
+  const results = await Promise.allSettled([
+    getJson<StatsStAccount>('/api/account?platform=tiktok'),
+    getJson<StatsStAccount>('/api/account?platform=instagram'),
+    getJson<{ videos: StatsStVideo[] }>('/api/videos?platform=tiktok&limit=50'),
+    getJson<{ videos: StatsStVideo[] }>('/api/videos?platform=instagram&limit=50'),
+    getJson<StatsStHealth>('/api/health'),
+  ])
+  const tiktok = settled(results[0])
+  const instagram = settled(results[1])
+  const tiktokVideos = settled(results[2])
+  const instagramVideos = settled(results[3])
+  const health = settled(results[4])
+
+  const accounts = [tiktok, instagram].filter((account): account is StatsStAccount => !!account)
+  if (accounts.length === 0) return null
+
+  return {
+    accounts: accounts.map((account) => ({
+      platform: account.platform,
+      followers: account.current_stats?.follower_count ?? null,
+      capturedAt: account.current_stats?.captured_at ?? null,
+    })),
+    videos: {
+      tiktok: tiktokVideos?.videos ?? [],
+      instagram: instagramVideos?.videos ?? [],
+    },
+    lastCollectionAt: health?.last_run?.finished_at ?? null,
+    lastCollectionStatus: health?.last_run?.status ?? null,
   }
 }
-import latestSnapshot from '@/data/statsst-latest.json'
+
+/* ── Choix de la source la plus récente ─────────────────────────────────── */
+
+function freshness(data: SocialStatsData): number {
+  const dates = [data.lastCollectionAt, ...data.accounts.map((account) => account.capturedAt)]
+    .map((value) => (value ? Date.parse(value) : NaN))
+    .filter((value) => Number.isFinite(value))
+  return dates.length ? Math.max(...dates) : 0
+}
+
+export async function getStatsStSocialData(): Promise<SocialStatsData> {
+  const [pushedResult, liveResult] = await Promise.allSettled([readPushedSnapshot(), readLiveStatsSt()])
+  const pushed = settled(pushedResult)
+  const live = settled(liveResult)
+
+  const candidates = [pushed, live, staticSnapshot].filter((data): data is SocialStatsData => !!data)
+  return candidates.reduce((best, data) => (freshness(data) > freshness(best) ? data : best))
+}
